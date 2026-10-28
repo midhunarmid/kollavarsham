@@ -3,6 +3,7 @@ import 'astro/sun.dart';
 import 'astro/sunrise.dart';
 import 'astro/time.dart';
 import 'malayalam_date.dart';
+import 'month_table.dart';
 import 'names.dart';
 import 'panchanga.dart';
 
@@ -83,20 +84,41 @@ class KollavarshamCalendar {
   /// [monthStartOverrides] maps a `(year, month)` to the Gregorian date of
   /// its first day, taking precedence over both the computation and
   /// [verifiedMonthStarts]. An override must keep months 29–32 days long.
+  ///
+  /// For the default location, month starts from 1899 to 2101 come from a
+  /// table precomputed with this same engine, which makes conversions fast.
+  /// Set [usePrecomputedTable] to false to always compute them.
   KollavarshamCalendar({
     this.location = ObserverLocation.thiruvananthapuram,
     Map<(int, MalayalamMonth), DateTime> monthStartOverrides = const {},
-  }) : _overrides = {
+    bool usePrecomputedTable = true,
+  })  : _overrides = {
           for (final e
               in {...verifiedMonthStarts, ...monthStartOverrides}.entries)
             _cacheKey(e.key.$1, e.key.$2): _dayNumberOf(e.value),
-        };
+        },
+        _table = usePrecomputedTable && _isDefaultLocation(location)
+            ? MonthStartTable.instance
+            : null;
+
+  static bool _isDefaultLocation(ObserverLocation l) {
+    const d = ObserverLocation.thiruvananthapuram;
+    return l.latitude == d.latitude &&
+        l.longitude == d.longitude &&
+        l.utcOffset == d.utcOffset;
+  }
 
   /// Month starts observed in Kerala almanacs that differ from the
   /// astronomical computation because the sankranti fell within minutes of
   /// the cut-off.
+  ///
+  /// Each entry cites its source in `test/fixtures/borderline_months.csv`.
   static final Map<(int, MalayalamMonth), DateTime> verifiedMonthStarts = {
+    // Vrischika sankranti 2021-11-16 ~13:18 IST, cut-off ~13:17 IST.
+    // Mandala Pooja (41st day) was held on 2021-12-26.
+    (1197, MalayalamMonth.vrischikam): DateTime(2021, 11, 16),
     // Simha sankranti 2023-08-17 ~13:44 IST, cut-off ~13:41 IST.
+    // Kerala New Year (Chingam 1) was observed on 2023-08-17.
     (1199, MalayalamMonth.chingam): DateTime(2023, 8, 17),
   };
 
@@ -111,8 +133,19 @@ class KollavarshamCalendar {
   static const double _keralaCutoff = 0.6;
 
   final Map<int, int> _overrides;
+  final MonthStartTable? _table;
   final Map<int, double> _cutoffCache = {};
   final Map<int, int> _monthStartCache = {};
+
+  /// Entries kept per cache before it is cleared, bounding memory use.
+  static const int _maxCacheEntries = 4096;
+
+  static V _cached<V>(Map<int, V> cache, int key, V Function() compute) {
+    final hit = cache[key];
+    if (hit != null) return hit;
+    if (cache.length >= _maxCacheEntries) cache.clear();
+    return cache[key] = compute();
+  }
 
   double get _offsetDays => location.utcOffset.inSeconds / 86400.0;
 
@@ -142,7 +175,7 @@ class KollavarshamCalendar {
       );
 
   /// The Kerala cut-off instant on day [n]: sunrise + 3/5 of daytime.
-  double _cutoffJd(int n) => _cutoffCache.putIfAbsent(n, () {
+  double _cutoffJd(int n) => _cached(_cutoffCache, n, () {
         final rise = _sunEventJd(n, rising: true);
         final set = _sunEventJd(n, rising: false);
         if (rise == null || set == null) {
@@ -183,8 +216,9 @@ class KollavarshamCalendar {
   int _monthStartDayNumber(int year, MalayalamMonth month) {
     final key = _cacheKey(year, month);
     return _overrides[key] ??
-        _monthStartCache.putIfAbsent(
-            key, () => _monthStartForSankranti(_sankrantiJd(year, month)));
+        _table?.startOf(year, month.index) ??
+        _cached(_monthStartCache, key,
+            () => _monthStartForSankranti(_sankrantiJd(year, month)));
   }
 
   /// How far the sankranti that begins [month] of [year] fell from the
@@ -219,19 +253,7 @@ class KollavarshamCalendar {
   /// of day and time zone are ignored) to a [MalayalamDate].
   MalayalamDate fromGregorian(DateTime date) {
     final n = _dayNumberOf(date);
-    // The month whose sign the Sun occupies at the day's cut-off.
-    final sign = sunSiderealLongitude(_cutoffJd(n)) ~/ 30;
-    var month = MalayalamMonth.fromSignIndex(sign);
-    // Kollavarsham year of that month, from the Gregorian year of the date.
-    var year = month.index <= MalayalamMonth.dhanu.index
-        ? date.year - 824
-        : date.year - 825;
-    // Dhanu straddles the new Gregorian year: early-January days of Dhanu
-    // belong to the month that began the previous December.
-    if (month == MalayalamMonth.dhanu && date.month == 1) year--;
-    // Makaram never begins before January, so a Makaram date in December
-    // (possible only via an override) belongs to the coming year's month.
-    if (month == MalayalamMonth.makaram && date.month == 12) year++;
+    var (year, month) = _approximateMonth(n, date);
 
     // Apply the start-day rule (and any overrides) exactly.
     var start = _monthStartDayNumber(year, month);
@@ -249,6 +271,29 @@ class KollavarshamCalendar {
       }
     }
     return MalayalamDate.internal(year, month, n - start + 1, n, this);
+  }
+
+  /// A month that contains day [n] or is adjacent to it; [fromGregorian]
+  /// then settles the exact month with the start-day rule and overrides.
+  (int, MalayalamMonth) _approximateMonth(int n, DateTime date) {
+    final located = _table?.locate(n);
+    if (located != null) {
+      return (located.$1, MalayalamMonth.values[located.$2]);
+    }
+    // The month whose sign the Sun occupies at the day's cut-off.
+    final sign = sunSiderealLongitude(_cutoffJd(n)) ~/ 30;
+    final month = MalayalamMonth.fromSignIndex(sign);
+    // Kollavarsham year of that month, from the Gregorian year of the date.
+    var year = month.index <= MalayalamMonth.dhanu.index
+        ? date.year - 824
+        : date.year - 825;
+    // Dhanu straddles the new Gregorian year: early-January days of Dhanu
+    // belong to the month that began the previous December.
+    if (month == MalayalamMonth.dhanu && date.month == 1) year--;
+    // Makaram never begins before January, so a Makaram date in December
+    // (possible only via an override) belongs to the coming year's month.
+    if (month == MalayalamMonth.makaram && date.month == 12) year++;
+    return (year, month);
   }
 
   /// Converts a Malayalam date to its Gregorian calendar date.
