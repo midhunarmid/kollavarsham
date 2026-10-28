@@ -1,3 +1,13 @@
+/// Rewrites old-style chillu letters (consonant + virama + ZWJ) as the
+/// atomic chillu code points, so both encodings of e.g. കർക്കടകം compare
+/// equal.
+String normalizeMalayalam(String input) => input
+    .replaceAll('ന്\u200D', 'ൻ')
+    .replaceAll('ണ്\u200D', 'ൺ')
+    .replaceAll('ര്\u200D', 'ർ')
+    .replaceAll('ല്\u200D', 'ൽ')
+    .replaceAll('ള്\u200D', 'ൾ');
+
 /// Script used when rendering names and numbers.
 enum MalayalamScript {
   /// Malayalam script, e.g. ചിങ്ങം.
@@ -13,20 +23,28 @@ enum MalayalamScript {
 /// Each month starts when the Sun enters the corresponding sidereal sign
 /// (rashi); Chingam corresponds to Simha (Leo).
 enum MalayalamMonth {
-  chingam('ചിങ്ങം', 'Chingam', 'Simha'),
-  kanni('കന്നി', 'Kanni', 'Kanya'),
-  thulam('തുലാം', 'Thulam', 'Tula'),
-  vrischikam('വൃശ്ചികം', 'Vrischikam', 'Vrischika'),
-  dhanu('ധനു', 'Dhanu', 'Dhanu'),
-  makaram('മകരം', 'Makaram', 'Makara'),
-  kumbham('കുംഭം', 'Kumbham', 'Kumbha'),
-  meenam('മീനം', 'Meenam', 'Meena'),
-  medam('മേടം', 'Medam', 'Mesha'),
-  edavam('ഇടവം', 'Edavam', 'Vrishabha'),
-  mithunam('മിഥുനം', 'Mithunam', 'Mithuna'),
-  karkidakam('കർക്കടകം', 'Karkidakam', 'Karka');
+  chingam('ചിങ്ങം', 'Chingam', 'Simha', ['Chingom', 'Chingham']),
+  kanni('കന്നി', 'Kanni', 'Kanya', ['Kanny']),
+  thulam('തുലാം', 'Thulam', 'Tula', ['Tulam', 'Thulaam']),
+  vrischikam('വൃശ്ചികം', 'Vrischikam', 'Vrischika',
+      ['Vrishchikam', 'Vrichikam', 'Vruschikam', 'Vrischikom']),
+  dhanu('ധനു', 'Dhanu', 'Dhanu', ['Dhanus']),
+  makaram('മകരം', 'Makaram', 'Makara', ['Makarom']),
+  kumbham('കുംഭം', 'Kumbham', 'Kumbha', ['Kumbam', 'Kumbhom']),
+  meenam('മീനം', 'Meenam', 'Meena', ['Minam', 'Meenom']),
+  medam('മേടം', 'Medam', 'Mesha', ['Metam', 'Medom']),
+  edavam('ഇടവം', 'Edavam', 'Vrishabha', ['Idavam', 'Edavom']),
+  mithunam('മിഥുനം', 'Mithunam', 'Mithuna', ['Midhunam', 'Mithunom']),
+  karkidakam('കർക്കടകം', 'Karkidakam', 'Karka', [
+    'കർക്കിടകം',
+    'Karkkidakam',
+    'Karkadakam',
+    'Karkkadakam',
+    'Karkatakam',
+  ]);
 
-  const MalayalamMonth(this.malayalam, this.english, this.sanskrit);
+  const MalayalamMonth(
+      this.malayalam, this.english, this.sanskrit, this._variants);
 
   /// Name in Malayalam script.
   final String malayalam;
@@ -36,6 +54,41 @@ enum MalayalamMonth {
 
   /// Sanskrit name of the corresponding rashi (zodiac sign).
   final String sanskrit;
+
+  /// Other common spellings, accepted when parsing.
+  final List<String> _variants;
+
+  /// Abbreviated name: the first three letters of the transliteration
+  /// (Chi, Kan, …). Malayalam script has no customary abbreviation, so the
+  /// full name is used there.
+  String shortName(MalayalamScript script) =>
+      script == MalayalamScript.malayalam ? malayalam : english.substring(0, 3);
+
+  /// Every name accepted by [tryParseName], across all months.
+  static Iterable<String> get allNames => [
+        for (final m in values) ...[
+          m.malayalam,
+          m.english,
+          m.english.substring(0, 3),
+          ...m._variants,
+        ],
+      ];
+
+  /// The month named [name] in Malayalam script or transliteration
+  /// (ignoring case, and accepting common spelling variants such as
+  /// Karkkidakam or കർക്കിടകം), or `null` if not recognised.
+  static MalayalamMonth? tryParseName(String name) {
+    final key = normalizeMalayalam(name.trim()).toLowerCase();
+    for (final m in values) {
+      if (m.malayalam == key ||
+          m.english.toLowerCase() == key ||
+          m.english.substring(0, 3).toLowerCase() == key ||
+          m._variants.any((v) => v.toLowerCase() == key)) {
+        return m;
+      }
+    }
+    return null;
+  }
 
   /// Month number, 1 (Chingam) to 12 (Karkidakam).
   int get number => index + 1;
@@ -96,6 +149,18 @@ enum MalayalamWeekday {
       script == MalayalamScript.malayalam
           ? shortMalayalam
           : gregorianName.substring(0, 3);
+
+  /// Every weekday name in Malayalam script, transliteration and English,
+  /// full and abbreviated; accepted when parsing.
+  static Iterable<String> get allNames => [
+        for (final w in values) ...[
+          w.malayalam,
+          w.english,
+          w.gregorianName,
+          w.shortMalayalam,
+          w.gregorianName.substring(0, 3),
+        ],
+      ];
 
   /// Converts a [DateTime.weekday] value (1 = Monday … 7 = Sunday).
   static MalayalamWeekday fromDateTimeWeekday(int weekday) =>

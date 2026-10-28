@@ -4,6 +4,7 @@ import 'calendar.dart';
 import 'format.dart';
 import 'names.dart';
 import 'panchanga.dart';
+import 'parse.dart';
 
 /// A date in the Malayalam calendar (Kollavarsham / Malayalam Era).
 ///
@@ -40,6 +41,44 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   /// Today's date in the calendar's time zone (IST by default).
   factory MalayalamDate.today({KollavarshamCalendar? calendar}) =>
       (calendar ?? KollavarshamCalendar.standard).today();
+
+  /// Parses [input] written in [pattern] (see [format]); the inverse of
+  /// [format] for patterns made of `y`, `M`/`MM`/`MMM`/`MMMM`, `d`/`dd`,
+  /// `E…`, `G…` and literal text.
+  ///
+  /// Month names are matched in either script, ignoring case and accepting
+  /// common spelling variants; Malayalam digits are accepted, and any run of
+  /// whitespace in the pattern matches any run in the input. Weekday and
+  /// era names are matched but not checked against the date.
+  ///
+  /// ```dart
+  /// MalayalamDate.parse('1 ചിങ്ങം 1201'); // 1201 Chingam 1
+  /// MalayalamDate.parse('Karkkidakam 3, 1200', pattern: 'MMMM d, y');
+  /// ```
+  ///
+  /// Throws a [FormatException] if [input] does not match or is not a valid
+  /// date.
+  factory MalayalamDate.parse(
+    String input, {
+    String pattern = 'd MMMM y',
+    KollavarshamCalendar? calendar,
+  }) {
+    final result = parseMalayalamDate(
+        input, pattern, calendar ?? KollavarshamCalendar.standard);
+    if (result is FormatException) throw result;
+    return result as MalayalamDate;
+  }
+
+  /// Like [MalayalamDate.parse], but returns `null` instead of throwing.
+  static MalayalamDate? tryParse(
+    String input, {
+    String pattern = 'd MMMM y',
+    KollavarshamCalendar? calendar,
+  }) {
+    final result = parseMalayalamDate(
+        input, pattern, calendar ?? KollavarshamCalendar.standard);
+    return result is MalayalamDate ? result : null;
+  }
 
   /// Internal constructor; use the public factories instead.
   @internal
@@ -128,10 +167,14 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   /// | `y`    | year                    | 1201         |
   /// | `M`    | month number            | 1            |
   /// | `MM`   | month number, 2 digits  | 01           |
+  /// | `MMM`  | short month name        | Chi          |
   /// | `MMMM` | month name              | ചിങ്ങം       |
   /// | `d`    | day                     | 7            |
   /// | `dd`   | day, 2 digits           | 07           |
+  /// | `E`    | short weekday name      | ഞാ / Sun     |
   /// | `EEEE` | weekday name            | ഞായർ         |
+  /// | `G`    | era, short              | കൊ.വ. / ME   |
+  /// | `GGGG` | era                     | കൊല്ലവർഷം    |
   /// | `NNNN` | nakshatra at sunrise    | അത്തം        |
   /// | `TTTT` | tithi at sunrise        | ഏകാദശി       |
   /// | `PPPP` | paksha (fortnight)      | വെളുത്ത പക്ഷം |

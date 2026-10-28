@@ -1,8 +1,20 @@
 import 'malayalam_date.dart';
 import 'names.dart';
 import 'numerals.dart';
+import 'pattern.dart';
 
-const _patternLetters = {'y', 'M', 'd', 'E', 'N', 'T', 'P'};
+/// Era names: `G` (short) and `GGGG` (long).
+const _eraShort = {
+  MalayalamScript.malayalam: 'കൊ.വ.',
+  MalayalamScript.english: 'ME',
+};
+const _eraLong = {
+  MalayalamScript.malayalam: 'കൊല്ലവർഷം',
+  MalayalamScript.english: 'Kollavarsham',
+};
+
+/// Short (`G`) and long (`GGGG`) era names in every script, for parsing.
+Iterable<String> get eraNames => [..._eraShort.values, ..._eraLong.values];
 
 /// Implements [MalayalamDate.format].
 String formatMalayalamDate(
@@ -17,59 +29,35 @@ String formatMalayalamDate(
     return malayalamDigits ? toMalayalamDigits(s) : s;
   }
 
-  var i = 0;
-  while (i < pattern.length) {
-    final ch = pattern[i];
-    if (ch == "'") {
-      // Quoted literal; '' inside or outside quotes is a single quote.
-      if (i + 1 < pattern.length && pattern[i + 1] == "'") {
-        out.write("'");
-        i += 2;
-        continue;
-      }
-      i++;
-      while (i < pattern.length) {
-        if (pattern[i] == "'") {
-          if (i + 1 < pattern.length && pattern[i + 1] == "'") {
-            out.write("'");
-            i += 2;
-            continue;
-          }
-          break;
-        }
-        out.write(pattern[i]);
-        i++;
-      }
-      i++; // closing quote
+  for (final token in tokenizePattern(pattern)) {
+    if (token.isLiteral) {
+      out.write(token.literal);
       continue;
     }
-    if (!_patternLetters.contains(ch)) {
-      out.write(ch);
-      i++;
-      continue;
-    }
-    var run = 1;
-    while (i + run < pattern.length && pattern[i + run] == ch) {
-      run++;
-    }
-    i += run;
-    switch (ch) {
+    final run = token.count;
+    switch (token.letter) {
       case 'y':
         out.write(number(date.year, run == 2 ? 2 : 1));
       case 'M':
-        out.write(run >= 3
-            ? date.month.name(script)
-            : number(date.month.number, run));
+        out.write(switch (run) {
+          >= 4 => date.month.name(script),
+          3 => date.month.shortName(script),
+          _ => number(date.month.number, run),
+        });
       case 'd':
         out.write(number(date.day, run));
       case 'E':
-        out.write(date.weekday.name(script));
+        out.write(run >= 4
+            ? date.weekday.name(script)
+            : date.weekday.shortName(script));
       case 'N':
         out.write(date.nakshatra.name(script));
       case 'T':
         out.write(date.tithi.name(script));
       case 'P':
         out.write(date.tithi.paksha.name(script));
+      case 'G':
+        out.write((run >= 4 ? _eraLong : _eraShort)[script]);
     }
   }
   return out.toString();
