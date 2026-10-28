@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import 'calendar.dart';
 import 'format.dart';
 import 'names.dart';
@@ -11,7 +13,8 @@ import 'panchanga.dart';
 /// print(date.format('d MMMM yyyy')); // 1 ചിങ്ങം 1201
 /// ```
 ///
-/// Instances are immutable and compare by the day they denote.
+/// Instances are immutable. They are ordered by the day they denote, and
+/// equal when they denote the same day in equal calendars.
 class MalayalamDate implements Comparable<MalayalamDate> {
   /// Creates a date from its Kollavarsham [year], [month] and [day].
   ///
@@ -39,6 +42,7 @@ class MalayalamDate implements Comparable<MalayalamDate> {
       (calendar ?? KollavarshamCalendar.standard).today();
 
   /// Internal constructor; use the public factories instead.
+  @internal
   const MalayalamDate.internal(
       this.year, this.month, this.day, this.dayNumber, this.calendar);
 
@@ -51,7 +55,8 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   /// Day of the month, starting at 1.
   final int day;
 
-  /// Days since 1970-01-01 in local civil time.
+  /// Days since 1970-01-01 in local civil time: a compact, sortable key
+  /// for the day this date denotes.
   final int dayNumber;
 
   /// The calendar (location) this date was computed for.
@@ -98,9 +103,7 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   /// Same day of the month, [months] months later (or earlier). The day is
   /// clamped to the length of the target month.
   MalayalamDate addMonths(int months) {
-    final total = year * 12 + month.index + months;
-    final y = total ~/ 12;
-    final m = MalayalamMonth.values[total % 12];
+    final (y, m) = calendar.shiftMonth(year, month, months);
     final len = calendar.monthLength(y, m);
     return MalayalamDate(y, m, day > len ? len : day, calendar: calendar);
   }
@@ -108,8 +111,14 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   /// Days from this date to [other] (positive if [other] is later).
   int daysUntil(MalayalamDate other) => other.dayNumber - dayNumber;
 
+  /// Whether this date is earlier than [other].
   bool isBefore(MalayalamDate other) => dayNumber < other.dayNumber;
+
+  /// Whether this date is later than [other].
   bool isAfter(MalayalamDate other) => dayNumber > other.dayNumber;
+
+  /// Whether this date denotes the same day as [other], even if the two
+  /// were computed with different calendars.
   bool isAtSameDayAs(MalayalamDate other) => dayNumber == other.dayNumber;
 
   /// Formats this date with a pattern.
@@ -140,19 +149,28 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   @override
   int compareTo(MalayalamDate other) => dayNumber.compareTo(other.dayNumber);
 
+  /// Whether this date is earlier than [other].
   bool operator <(MalayalamDate other) => dayNumber < other.dayNumber;
+
+  /// Whether this date is earlier than, or the same day as, [other].
   bool operator <=(MalayalamDate other) => dayNumber <= other.dayNumber;
+
+  /// Whether this date is later than [other].
   bool operator >(MalayalamDate other) => dayNumber > other.dayNumber;
+
+  /// Whether this date is later than, or the same day as, [other].
   bool operator >=(MalayalamDate other) => dayNumber >= other.dayNumber;
 
+  /// Dates are equal when they denote the same day in equal calendars (see
+  /// [KollavarshamCalendar.==]). Use [isAtSameDayAs] to compare days only.
   @override
   bool operator ==(Object other) =>
       other is MalayalamDate &&
       other.dayNumber == dayNumber &&
-      identical(other.calendar, calendar);
+      other.calendar == calendar;
 
   @override
-  int get hashCode => dayNumber.hashCode;
+  int get hashCode => Object.hash(dayNumber, calendar);
 
   @override
   String toString() => '$year ${month.english} $day';

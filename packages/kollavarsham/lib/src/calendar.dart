@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import 'astro/moon.dart';
 import 'astro/sun.dart';
 import 'astro/sunrise.dart';
@@ -56,8 +58,32 @@ class ObserverLocation {
   /// Optional display name.
   final String? name;
 
+  /// Locations are equal when their coordinates and UTC offset are; the
+  /// [name] is ignored.
+  @override
+  bool operator ==(Object other) =>
+      other is ObserverLocation &&
+      other.latitude == latitude &&
+      other.longitude == longitude &&
+      other.utcOffset == utcOffset;
+
+  @override
+  int get hashCode => Object.hash(latitude, longitude, utcOffset);
+
   @override
   String toString() => name ?? '($latitude, $longitude, UTC$utcOffset)';
+}
+
+/// Which month starts the Kollavarsham year.
+enum YearStart {
+  /// Chingam, as in Travancore and Kochi (south and central Kerala); the
+  /// common convention.
+  chingam,
+
+  /// Kanni, as traditionally in North Malabar. The year number changes a
+  /// month later, so Chingam belongs to the previous year: Chingam 1201
+  /// in the Chingam convention is Chingam 1200 here.
+  kanni,
 }
 
 /// Computes Kollavarsham (Malayalam Era) dates for an [ObserverLocation].
@@ -81,9 +107,13 @@ class ObserverLocation {
 class KollavarshamCalendar {
   /// Creates a calendar for [location].
   ///
-  /// [monthStartOverrides] maps a `(year, month)` to the Gregorian date of
-  /// its first day, taking precedence over both the computation and
+  /// [monthStartOverrides] maps a `(year, month)`, numbered in this
+  /// calendar's [yearStart] convention, to the Gregorian date of its first
+  /// day, taking precedence over both the computation and
   /// [verifiedMonthStarts]. An override must keep months 29–32 days long.
+  ///
+  /// [yearStart] chooses the month that begins the year; it changes only
+  /// how years are numbered, not the day on which a month starts.
   ///
   /// For the default location, month starts from 1899 to 2101 come from a
   /// table precomputed with this same engine, which makes conversions fast.
@@ -91,11 +121,14 @@ class KollavarshamCalendar {
   KollavarshamCalendar({
     this.location = ObserverLocation.thiruvananthapuram,
     Map<(int, MalayalamMonth), DateTime> monthStartOverrides = const {},
+    this.yearStart = YearStart.chingam,
     bool usePrecomputedTable = true,
   })  : _overrides = {
-          for (final e
-              in {...verifiedMonthStarts, ...monthStartOverrides}.entries)
+          for (final e in verifiedMonthStarts.entries)
             _cacheKey(e.key.$1, e.key.$2): _dayNumberOf(e.value),
+          for (final e in monthStartOverrides.entries)
+            _cacheKey(_toChingamYear(yearStart, e.key.$1, e.key.$2), e.key.$2):
+                _dayNumberOf(e.value),
         },
         _table = usePrecomputedTable && _isDefaultLocation(location)
             ? MonthStartTable.instance
@@ -112,7 +145,8 @@ class KollavarshamCalendar {
   /// astronomical computation because the sankranti fell within minutes of
   /// the cut-off.
   ///
-  /// Each entry cites its source in `test/fixtures/borderline_months.csv`.
+  /// Keys use the Chingam year convention. Each entry cites its source in
+  /// `test/fixtures/borderline_months.csv`.
   static final Map<(int, MalayalamMonth), DateTime> verifiedMonthStarts = {
     // Vrischika sankranti 2021-11-16 ~13:18 IST, cut-off ~13:17 IST.
     // Mandala Pooja (41st day) was held on 2021-12-26.
@@ -137,6 +171,30 @@ class KollavarshamCalendar {
 
   /// The observer location used for sunrise/sunset.
   final ObserverLocation location;
+
+  /// Which month begins the year, and so how years are numbered.
+  final YearStart yearStart;
+
+  /// The month that begins the year.
+  MalayalamMonth get firstMonth => yearStart == YearStart.kanni
+      ? MalayalamMonth.kanni
+      : MalayalamMonth.chingam;
+
+  /// Converts a year in [start] numbering to Chingam numbering, which is
+  /// used internally.
+  static int _toChingamYear(YearStart start, int year, MalayalamMonth month) =>
+      start == YearStart.kanni && month == MalayalamMonth.chingam
+          ? year + 1
+          : year;
+
+  int _c(int year, MalayalamMonth month) =>
+      _toChingamYear(yearStart, year, month);
+
+  /// Converts a Chingam-numbered year to this calendar's numbering.
+  int _p(int chingamYear, MalayalamMonth month) =>
+      yearStart == YearStart.kanni && month == MalayalamMonth.chingam
+          ? chingamYear - 1
+          : chingamYear;
 
   /// Fraction of daytime after sunrise by which the sankranti must occur
   /// for the month to begin that same day.
@@ -214,7 +272,7 @@ class KollavarshamCalendar {
 
   /// The sankranti instant (UTC) that begins [month] of Kollavarsham [year].
   DateTime sankranti(int year, MalayalamMonth month) =>
-      dateTimeFromJulianDay(_sankrantiJd(year, month));
+      dateTimeFromJulianDay(_sankrantiJd(_c(year, month), month));
 
   double _sankrantiJd(int year, MalayalamMonth month) {
     final gy = _gregorianYearOfMonthStart(year, month);
@@ -243,26 +301,38 @@ class KollavarshamCalendar {
   /// A margin of only a few minutes means almanacs may disagree about the
   /// first day of the month.
   Duration monthStartMargin(int year, MalayalamMonth month) {
-    final jd = _sankrantiJd(year, month);
+    final jd = _sankrantiJd(_c(year, month), month);
     final cutoff = _cutoffJd(_localDayOfJd(jd));
     return Duration(microseconds: ((cutoff - jd) * 86400e6).round());
   }
 
   /// Gregorian date of day 1 of [month] in Kollavarsham [year].
   DateTime monthStart(int year, MalayalamMonth month) =>
-      _dateOfDayNumber(_monthStartDayNumber(year, month));
+      _dateOfDayNumber(_monthStartDayNumber(_c(year, month), month));
 
   /// Number of days (29–32) in [month] of Kollavarsham [year].
-  int monthLength(int year, MalayalamMonth month) {
-    final nextYear = month == MalayalamMonth.karkidakam ? year + 1 : year;
+  int monthLength(int year, MalayalamMonth month) =>
+      _monthLengthChingam(_c(year, month), month);
+
+  int _monthLengthChingam(int cy, MalayalamMonth month) {
+    final nextYear = month == MalayalamMonth.karkidakam ? cy + 1 : cy;
     return _monthStartDayNumber(nextYear, month.next) -
-        _monthStartDayNumber(year, month);
+        _monthStartDayNumber(cy, month);
   }
 
   /// Number of days (365 or 366) in Kollavarsham [year].
   int yearLength(int year) =>
-      _monthStartDayNumber(year + 1, MalayalamMonth.chingam) -
-      _monthStartDayNumber(year, MalayalamMonth.chingam);
+      _monthStartDayNumber(_c(year + 1, firstMonth), firstMonth) -
+      _monthStartDayNumber(_c(year, firstMonth), firstMonth);
+
+  /// The month [delta] months after [month] of [year], both numbered in
+  /// this calendar's convention.
+  @internal
+  (int, MalayalamMonth) shiftMonth(int year, MalayalamMonth month, int delta) {
+    final total = _c(year, month) * 12 + month.index + delta;
+    final m = MalayalamMonth.values[total % 12];
+    return (_p(total ~/ 12, m), m);
+  }
 
   /// Converts a Gregorian calendar date (its year, month and day; the time
   /// of day and time zone are ignored) to a [MalayalamDate].
@@ -291,7 +361,8 @@ class KollavarshamCalendar {
         start = nextStart;
       }
     }
-    return MalayalamDate.internal(year, month, n - start + 1, n, this);
+    return MalayalamDate.internal(
+        _p(year, month), month, n - start + 1, n, this);
   }
 
   /// A month that contains day [n] or is adjacent to it; [fromGregorian]
@@ -327,20 +398,25 @@ class KollavarshamCalendar {
   ///
   /// Throws a [RangeError] if [day] is outside the month or [year] is
   /// outside [minYear]–[maxYear].
+  @internal
   int dayNumberOf(int year, MalayalamMonth month, int day) {
     RangeError.checkValueInInterval(year, minYear, maxYear, 'year');
-    RangeError.checkValueInInterval(
-        day, 1, monthLength(year, month), 'day', 'Day of ${month.english}');
-    return _monthStartDayNumber(year, month) + day - 1;
+    final cy = _c(year, month);
+    RangeError.checkValueInInterval(day, 1, _monthLengthChingam(cy, month),
+        'day', 'Day of ${month.english}');
+    return _monthStartDayNumber(cy, month) + day - 1;
   }
 
   /// The [MalayalamDate] for civil day number [n] (days since 1970-01-01).
+  @internal
   MalayalamDate fromDayNumber(int n) => fromGregorian(_dateOfDayNumber(n));
 
   /// Gregorian date for civil day number [n].
+  @internal
   DateTime dateOfDayNumber(int n) => _dateOfDayNumber(n);
 
   /// Civil day number of a Gregorian date.
+  @internal
   int dayNumberOfGregorian(DateTime date) => _dayNumberOf(date);
 
   /// Today's date at [location], according to the device clock.
@@ -422,7 +498,7 @@ class KollavarshamCalendar {
   /// one day; occasionally none or two.
   List<MalayalamDate> daysWithNakshatra(
       int year, MalayalamMonth month, Nakshatra nakshatra) {
-    final start = _monthStartDayNumber(year, month);
+    final start = _monthStartDayNumber(_c(year, month), month);
     final length = monthLength(year, month);
     return [
       for (var d = 0; d < length; d++)
@@ -432,4 +508,24 @@ class KollavarshamCalendar {
           MalayalamDate.internal(year, month, d + 1, start + d, this),
     ];
   }
+
+  /// Calendars are equal when they compute the same dates: the same
+  /// location, year convention and month-start overrides.
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! KollavarshamCalendar ||
+        other.location != location ||
+        other.yearStart != yearStart ||
+        other._overrides.length != _overrides.length) {
+      return false;
+    }
+    for (final e in _overrides.entries) {
+      if (other._overrides[e.key] != e.value) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(location, yearStart, _overrides.length);
 }
