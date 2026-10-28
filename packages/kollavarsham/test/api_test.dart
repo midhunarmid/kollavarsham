@@ -41,6 +41,14 @@ void main() {
     });
   });
 
+  test('verified month starts cannot be modified', () {
+    expect(
+        () => KollavarshamCalendar
+                .verifiedMonthStarts[(1201, MalayalamMonth.thulam)] =
+            DateTime(2025, 10, 17),
+        throwsUnsupportedError);
+  });
+
   group('YearStart.kanni (North Malabar)', () {
     final north = KollavarshamCalendar(yearStart: YearStart.kanni);
 

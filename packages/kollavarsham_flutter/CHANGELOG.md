@@ -1,3 +1,8 @@
+## 1.0.0
+
+First stable release, requiring `kollavarsham` 1.0.0. The public API is
+now covered by semantic versioning.
+
 ## 0.4.0
 
 **Breaking**

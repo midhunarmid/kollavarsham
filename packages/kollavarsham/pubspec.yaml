@@ -3,7 +3,7 @@ description: >-
   Malayalam calendar (Kollavarsham / Malayalam Era) for Dart. Convert between
   Gregorian and Malayalam dates, with month names, nakshatra, tithi and
   Malayalam numerals.
-version: 0.3.0
+version: 1.0.0
 repository: https://github.com/midhunarmid/kollavarsham
 topics:
   - calendar

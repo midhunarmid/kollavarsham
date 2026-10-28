@@ -149,14 +149,15 @@ class KollavarshamCalendar {
   ///
   /// Keys use the Chingam year convention. Each entry cites its source in
   /// `test/fixtures/borderline_months.csv`.
-  static final Map<(int, MalayalamMonth), DateTime> verifiedMonthStarts = {
+  static final Map<(int, MalayalamMonth), DateTime> verifiedMonthStarts =
+      Map.unmodifiable({
     // Vrischika sankranti 2021-11-16 ~13:18 IST, cut-off ~13:17 IST.
     // Mandala Pooja (41st day) was held on 2021-12-26.
     (1197, MalayalamMonth.vrischikam): DateTime(2021, 11, 16),
     // Simha sankranti 2023-08-17 ~13:44 IST, cut-off ~13:41 IST.
     // Kerala New Year (Chingam 1) was observed on 2023-08-17.
     (1199, MalayalamMonth.chingam): DateTime(2023, 8, 17),
-  };
+  });
 
   /// Earliest Kollavarsham year supported (825–826 CE).
   ///

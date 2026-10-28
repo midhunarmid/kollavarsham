@@ -1,3 +1,23 @@
+## 1.0.0
+
+First stable release. The public API is now covered by semantic
+versioning.
+
+- `KollavarshamCalendar.verifiedMonthStarts` is unmodifiable.
+- Tests run on the web (Chrome) as well as the VM.
+
+Changes since 0.1.0, in summary:
+
+- Gregorian ↔ Kollavarsham conversion, cross-checked against the Swiss
+  Ephemeris for every month 1900–2100 and backed by a precomputed table.
+- Verified month starts for borderline months, with `monthStartMargin`.
+- `MalayalamDate` formatting and parsing in Malayalam script and
+  transliteration, with Malayalam digits.
+- Nakshatra and tithi, with start and end times.
+- Kerala festivals: Onam, Vishu, Attukal Pongala, Thrissur Pooram,
+  Karkidaka Vavu, Mandala season and more.
+- North Malabar year numbering (`YearStart.kanni`).
+
 ## 0.3.0
 
 **Breaking**
