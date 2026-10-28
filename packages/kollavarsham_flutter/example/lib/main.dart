@@ -100,7 +100,8 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Text('Nakshatra: ${_selected.nakshatra.name(_script)}'),
-              Text('Tithi: ${_selected.format('TTTT (PPPP)', script: _script)}'),
+              Text(
+                  'Tithi: ${_selected.format('TTTT (PPPP)', script: _script)}'),
               const Divider(height: 32),
               Text('Festivals', style: Theme.of(context).textTheme.titleMedium),
               ListTile(

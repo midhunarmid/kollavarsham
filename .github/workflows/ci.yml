@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - name: Format
+        run: dart format --output=none --set-exit-if-changed packages
+      - name: Analyze core
+        working-directory: packages/kollavarsham
+        run: dart analyze --fatal-infos
+      - name: Analyze Flutter widgets
+        working-directory: packages/kollavarsham_flutter
+        run: flutter analyze
+      - name: Test core
+        working-directory: packages/kollavarsham
+        run: dart test
+      - name: Test Flutter widgets
+        working-directory: packages/kollavarsham_flutter
+        run: flutter test
