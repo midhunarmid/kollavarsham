@@ -122,6 +122,16 @@ class KollavarshamCalendar {
     (1199, MalayalamMonth.chingam): DateTime(2023, 8, 17),
   };
 
+  /// Earliest Kollavarsham year supported (825–826 CE).
+  ///
+  /// Dates are most accurate from 1900 to 2100, where they are checked
+  /// against an independent ephemeris; further out they are computed with
+  /// growing uncertainty in ΔT (Earth's rotation).
+  static const int minYear = 1;
+
+  /// Latest Kollavarsham year supported (2824–2825 CE). See [minYear].
+  static const int maxYear = 2000;
+
   /// Shared calendar for Thiruvananthapuram in IST.
   static final KollavarshamCalendar standard = KollavarshamCalendar();
 
@@ -214,6 +224,11 @@ class KollavarshamCalendar {
   }
 
   int _monthStartDayNumber(int year, MalayalamMonth month) {
+    // One year of slack lets neighbouring months be consulted at the edges.
+    if (year < minYear - 1 || year > maxYear + 1) {
+      throw RangeError.range(year, minYear, maxYear, 'year',
+          'Kollavarsham year out of supported range');
+    }
     final key = _cacheKey(year, month);
     return _overrides[key] ??
         _table?.startOf(year, month.index) ??
@@ -251,7 +266,13 @@ class KollavarshamCalendar {
 
   /// Converts a Gregorian calendar date (its year, month and day; the time
   /// of day and time zone are ignored) to a [MalayalamDate].
+  ///
+  /// Throws a [RangeError] for dates outside [minYear]–[maxYear].
   MalayalamDate fromGregorian(DateTime date) {
+    if (date.year < minYear + 824 || date.year > maxYear + 825) {
+      throw RangeError.range(date.year, minYear + 824, maxYear + 825,
+          'date.year', 'Gregorian year out of supported range');
+    }
     final n = _dayNumberOf(date);
     var (year, month) = _approximateMonth(n, date);
 
@@ -304,8 +325,10 @@ class KollavarshamCalendar {
 
   /// Civil day number (days since 1970-01-01) of a Malayalam date.
   ///
-  /// Throws a [RangeError] if [day] is outside the month.
+  /// Throws a [RangeError] if [day] is outside the month or [year] is
+  /// outside [minYear]–[maxYear].
   int dayNumberOf(int year, MalayalamMonth month, int day) {
+    RangeError.checkValueInInterval(year, minYear, maxYear, 'year');
     RangeError.checkValueInInterval(
         day, 1, monthLength(year, month), 'day', 'Day of ${month.english}');
     return _monthStartDayNumber(year, month) + day - 1;

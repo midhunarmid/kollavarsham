@@ -103,6 +103,32 @@ void main() {
     });
   });
 
+  group('supported range', () {
+    test('rejects years outside the supported range', () {
+      expect(
+          () => MalayalamDate(0, MalayalamMonth.chingam, 1), throwsRangeError);
+      expect(() => MalayalamDate(2001, MalayalamMonth.chingam, 1),
+          throwsRangeError);
+      expect(
+          () => MalayalamDate.fromGregorian(DateTime(800)), throwsRangeError);
+      expect(
+          () => MalayalamDate.fromGregorian(DateTime(3000)), throwsRangeError);
+    });
+
+    test('works at the edges of the range', () {
+      final first = MalayalamDate(1, MalayalamMonth.chingam, 1);
+      expect(first.toGregorian().year, 825);
+      expect(MalayalamDate.fromGregorian(first.toGregorian()), first);
+      final last = MalayalamDate(2000, MalayalamMonth.karkidakam, 1);
+      expect(last.toGregorian().year, 2825);
+    });
+
+    test('Mandala Pooja 1197 matches the verified override', () {
+      expect(KollavarshamCalendar.standard.mandalaPooja(1197).toGregorian(),
+          DateTime(2021, 12, 26));
+    });
+  });
+
   group('MalayalamDate', () {
     final date = MalayalamDate(1201, MalayalamMonth.chingam, 1);
 

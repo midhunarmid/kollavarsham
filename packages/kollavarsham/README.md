@@ -66,11 +66,16 @@ As a result, months run 29 to 32 days, and their lengths differ from year to yea
 - **Sun:** the truncated VSOP87 theory (Meeus, *Astronomical Algorithms*, ch. 32), accurate to about 1″.
 - **Moon:** ELP-2000/82 (Meeus ch. 47), accurate to about 10″.
 - **Ayanamsa:** Lahiri, calibrated so that computed sankranti moments match published panchangams to within a minute (checked against all 2024–2025 sankrantis).
+- **ΔT** (Earth's rotation): yearly IERS values, then the Stephenson–Morrison–Hohenkerk (2016) extrapolation, for 1900–2100.
 - **Sunrise and sunset:** apparent upper limb, with refraction.
+
+All 2,412 sankrantis from 1900 to 2100 agree with the Swiss Ephemeris to within one minute (after allowing for the known difference between its Lahiri mode and the panchang convention). Month starts for that range ship as a 3 KB precomputed table, so a conversion takes well under a microsecond.
+
+Supported years are `KollavarshamCalendar.minYear` to `maxYear` (ME 1–2000). Accuracy is best between 1900 and 2100.
 
 ### Borderline months
 
-If a sankranti falls within a few minutes of the cut-off, almanacs can disagree about which day starts the month. `monthStartMargin(year, month)` tells you how close a month came. Month starts already confirmed against Kerala almanacs are listed in `KollavarshamCalendar.verifiedMonthStarts`, and you can add your own:
+If a sankranti falls within a few minutes of the cut-off, almanacs can disagree about which day starts the month. Between 1900 and 2100 there are 31 such months (within 10 minutes), listed in [`test/fixtures/borderline_months.csv`](test/fixtures/borderline_months.csv). `monthStartMargin(year, month)` tells you how close any month came. Month starts already confirmed against Kerala sources are listed in `KollavarshamCalendar.verifiedMonthStarts`, and you can add your own:
 
 ```dart
 final cal = KollavarshamCalendar(monthStartOverrides: {
@@ -81,9 +86,9 @@ final cal = KollavarshamCalendar(monthStartOverrides: {
 ### Conventions and limits
 
 - The nakshatra and tithi of a day are the ones in effect at sunrise.
-- Onam is the day in Chingam whose sunrise nakshatra is Thiruvonam. If that star falls on two days in Chingam, Onam is the later one.
+- Onam is the day in Chingam whose sunrise nakshatra is Thiruvonam. If that star falls on two days in Chingam, Onam is the later one. This matches every year from 2009 to 2025 except 2016, where sources themselves disagree (13 or 14 September); the package gives the 14th.
 - The year starts with Chingam, as in Travancore and Kochi. North Malabar's convention of starting the year in Kanni is not supported yet.
-- Accuracy is best between 1900 and 2100. Outside that range, uncertainty in ΔT grows.
+- In both verified borderline cases so far (2021 and 2023), almanacs started the month on the sankranti day even though it fell a few minutes after the computed cut-off. If you find another, please open an issue with the source.
 
 ## Flutter
 
