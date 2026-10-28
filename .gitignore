@@ -7,3 +7,4 @@ pubspec.lock
 *.iml
 .flutter-plugins
 .flutter-plugins-dependencies
+.claude/

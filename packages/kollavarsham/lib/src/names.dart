@@ -67,15 +67,16 @@ enum MalayalamMonth {
 
 /// Days of the week, starting Sunday (ഞായർ).
 enum MalayalamWeekday {
-  njayar('ഞായർ', 'Njayar', 'Sunday'),
-  thinkal('തിങ്കൾ', 'Thinkal', 'Monday'),
-  chovva('ചൊവ്വ', 'Chovva', 'Tuesday'),
-  budhan('ബുധൻ', 'Budhan', 'Wednesday'),
-  vyazham('വ്യാഴം', 'Vyazham', 'Thursday'),
-  velli('വെള്ളി', 'Velli', 'Friday'),
-  shani('ശനി', 'Shani', 'Saturday');
+  njayar('ഞായർ', 'Njayar', 'Sunday', 'ഞാ'),
+  thinkal('തിങ്കൾ', 'Thinkal', 'Monday', 'തി'),
+  chovva('ചൊവ്വ', 'Chovva', 'Tuesday', 'ചൊ'),
+  budhan('ബുധൻ', 'Budhan', 'Wednesday', 'ബു'),
+  vyazham('വ്യാഴം', 'Vyazham', 'Thursday', 'വ്യാ'),
+  velli('വെള്ളി', 'Velli', 'Friday', 'വെ'),
+  shani('ശനി', 'Shani', 'Saturday', 'ശ');
 
-  const MalayalamWeekday(this.malayalam, this.english, this.gregorianName);
+  const MalayalamWeekday(
+      this.malayalam, this.english, this.gregorianName, this.shortMalayalam);
 
   /// Name in Malayalam script.
   final String malayalam;
@@ -85,6 +86,16 @@ enum MalayalamWeekday {
 
   /// The English weekday name, e.g. "Sunday".
   final String gregorianName;
+
+  /// Abbreviated name in Malayalam script, e.g. ഞാ.
+  final String shortMalayalam;
+
+  /// Abbreviated name for calendar headers: ഞാ in Malayalam script,
+  /// the English abbreviation (Sun) otherwise.
+  String shortName(MalayalamScript script) =>
+      script == MalayalamScript.malayalam
+          ? shortMalayalam
+          : gregorianName.substring(0, 3);
 
   /// Converts a [DateTime.weekday] value (1 = Monday … 7 = Sunday).
   static MalayalamWeekday fromDateTimeWeekday(int weekday) =>

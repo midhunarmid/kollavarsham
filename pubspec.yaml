@@ -1,0 +1,10 @@
+name: kollavarsham_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+
+workspace:
+  - packages/kollavarsham
+  - packages/kollavarsham_flutter
+  - packages/kollavarsham_flutter/example
