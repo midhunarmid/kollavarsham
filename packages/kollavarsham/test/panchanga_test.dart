@@ -88,6 +88,72 @@ void main() {
       });
     }
 
+    // Published dates (news reports and Kerala almanacs).
+    const pongala = {
+      1190: (2015, 3, 5),
+      1191: (2016, 2, 23),
+      1192: (2017, 3, 11),
+      1193: (2018, 3, 2),
+      1194: (2019, 2, 20),
+      1195: (2020, 3, 9),
+      1196: (2021, 2, 27),
+      1197: (2022, 2, 17),
+      1198: (2023, 3, 7),
+      1199: (2024, 2, 25),
+      1200: (2025, 3, 13),
+    };
+    // 2015 is omitted: sources give both 28 and 29 April.
+    const pooram = {
+      1191: (2016, 4, 17),
+      1192: (2017, 5, 5),
+      1193: (2018, 4, 25),
+      1194: (2019, 5, 13),
+      1196: (2021, 4, 23),
+      1197: (2022, 5, 10),
+      1198: (2023, 4, 30),
+      1199: (2024, 4, 19),
+      1200: (2025, 5, 6),
+    };
+    const vavu = {
+      1190: (2015, 8, 14),
+      1191: (2016, 8, 2),
+      1192: (2017, 7, 23),
+      1193: (2018, 8, 11),
+      1194: (2019, 7, 31),
+      1195: (2020, 7, 20),
+      1196: (2021, 8, 8),
+      1197: (2022, 7, 28),
+      1198: (2023, 7, 17),
+      1199: (2024, 8, 3),
+      1200: (2025, 7, 24),
+    };
+    for (final (name, dates, compute) in [
+      ('Attukal Pongala', pongala, cal.attukalPongala),
+      ('Thrissur Pooram', pooram, cal.thrissurPooram),
+      ('Karkidaka Vavu', vavu, cal.karkidakaVavu),
+    ]) {
+      test(name, () {
+        for (final MapEntry(key: year, value: (y, m, d)) in dates.entries) {
+          expect(compute(year).toGregorian(), DateTime(y, m, d),
+              reason: '$name $year');
+        }
+      });
+    }
+
+    test('festivalsIn lists every festival of the year in order', () {
+      final list = cal.festivalsIn(1200);
+      expect(list, hasLength(KeralaFestival.values.length));
+      expect(list.first.$1, KeralaFestival.newYear);
+      expect(list.first.$2.toGregorian(), DateTime(2024, 8, 17));
+      for (var i = 1; i < list.length; i++) {
+        expect(list[i - 1].$2 <= list[i].$2, isTrue);
+      }
+      expect(identical(cal.festivalsIn(1200), list), isTrue); // cached
+      expect(cal.festivalsOn(cal.onam(1200)), [KeralaFestival.onam]);
+      expect(cal.festivalsOn(cal.onam(1200).addDays(1)), isEmpty);
+      expect(KeralaFestival.vishu.name(MalayalamScript.malayalam), 'വിഷു');
+    });
+
     test('Vishu, Mandala and Makaravilakku', () {
       expect(cal.vishu(1200).toGregorian(), DateTime(2025, 4, 14));
       expect(cal.mandalaKalamStart(1200).toGregorian(), DateTime(2024, 11, 16));

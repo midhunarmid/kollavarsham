@@ -3,32 +3,85 @@ import 'names.dart';
 /// The 27 nakshatras (lunar mansions), each spanning 13°20′ of the
 /// sidereal zodiac, starting with Ashwathi (Ashwini) at 0° Mesha.
 enum Nakshatra {
+  /// Ashwathi (അശ്വതി); Sanskrit Ashwini.
   ashwathi('അശ്വതി', 'Ashwathi', 'Ashwini'),
+
+  /// Bharani (ഭരണി); Sanskrit Bharani.
   bharani('ഭരണി', 'Bharani', 'Bharani'),
+
+  /// Karthika (കാർത്തിക); Sanskrit Krittika.
   karthika('കാർത്തിക', 'Karthika', 'Krittika'),
+
+  /// Rohini (രോഹിണി); Sanskrit Rohini.
   rohini('രോഹിണി', 'Rohini', 'Rohini'),
+
+  /// Makayiram (മകയിരം); Sanskrit Mrigashira.
   makayiram('മകയിരം', 'Makayiram', 'Mrigashira'),
+
+  /// Thiruvathira (തിരുവാതിര); Sanskrit Ardra.
   thiruvathira('തിരുവാതിര', 'Thiruvathira', 'Ardra'),
+
+  /// Punartham (പുണർതം); Sanskrit Punarvasu.
   punartham('പുണർതം', 'Punartham', 'Punarvasu'),
+
+  /// Pooyam (പൂയം); Sanskrit Pushya.
   pooyam('പൂയം', 'Pooyam', 'Pushya'),
+
+  /// Ayilyam (ആയില്യം); Sanskrit Ashlesha.
   ayilyam('ആയില്യം', 'Ayilyam', 'Ashlesha'),
+
+  /// Makam (മകം); Sanskrit Magha.
   makam('മകം', 'Makam', 'Magha'),
+
+  /// Pooram (പൂരം); Sanskrit Purva Phalguni.
   pooram('പൂരം', 'Pooram', 'Purva Phalguni'),
+
+  /// Uthram (ഉത്രം); Sanskrit Uttara Phalguni.
   uthram('ഉത്രം', 'Uthram', 'Uttara Phalguni'),
+
+  /// Atham (അത്തം); Sanskrit Hasta.
   atham('അത്തം', 'Atham', 'Hasta'),
+
+  /// Chithira (ചിത്തിര); Sanskrit Chitra.
   chithira('ചിത്തിര', 'Chithira', 'Chitra'),
+
+  /// Chothi (ചോതി); Sanskrit Swati.
   chothi('ചോതി', 'Chothi', 'Swati'),
+
+  /// Vishakham (വിശാഖം); Sanskrit Vishakha.
   vishakham('വിശാഖം', 'Vishakham', 'Vishakha'),
+
+  /// Anizham (അനിഴം); Sanskrit Anuradha.
   anizham('അനിഴം', 'Anizham', 'Anuradha'),
+
+  /// Thrikketta (തൃക്കേട്ട); Sanskrit Jyeshtha.
   thrikketta('തൃക്കേട്ട', 'Thrikketta', 'Jyeshtha'),
+
+  /// Moolam (മൂലം); Sanskrit Mula.
   moolam('മൂലം', 'Moolam', 'Mula'),
+
+  /// Pooradam (പൂരാടം); Sanskrit Purva Ashadha.
   pooradam('പൂരാടം', 'Pooradam', 'Purva Ashadha'),
+
+  /// Uthradam (ഉത്രാടം); Sanskrit Uttara Ashadha.
   uthradam('ഉത്രാടം', 'Uthradam', 'Uttara Ashadha'),
+
+  /// Thiruvonam (തിരുവോണം); Sanskrit Shravana.
   thiruvonam('തിരുവോണം', 'Thiruvonam', 'Shravana'),
+
+  /// Avittam (അവിട്ടം); Sanskrit Dhanishta.
   avittam('അവിട്ടം', 'Avittam', 'Dhanishta'),
+
+  /// Chathayam (ചതയം); Sanskrit Shatabhisha.
   chathayam('ചതയം', 'Chathayam', 'Shatabhisha'),
+
+  /// Pooruruttathi (പൂരുരുട്ടാതി); Sanskrit Purva Bhadrapada.
   pooruruttathi('പൂരുരുട്ടാതി', 'Pooruruttathi', 'Purva Bhadrapada'),
+
+  /// Uthrattathi (ഉത്രട്ടാതി); Sanskrit Uttara Bhadrapada.
   uthrattathi('ഉത്രട്ടാതി', 'Uthrattathi', 'Uttara Bhadrapada'),
+
+  /// Revathi (രേവതി); Sanskrit Revati.
   revathi('രേവതി', 'Revathi', 'Revati');
 
   const Nakshatra(this.malayalam, this.english, this.sanskrit);
@@ -67,9 +120,13 @@ enum Paksha {
 
   const Paksha(this.malayalam, this.english);
 
+  /// Name in Malayalam script.
   final String malayalam;
+
+  /// Name in English.
   final String english;
 
+  /// Name in the requested [script].
   String name(MalayalamScript script) =>
       script == MalayalamScript.malayalam ? malayalam : english;
 }
@@ -137,6 +194,7 @@ class Tithi {
 
 /// A span of time during which a nakshatra or tithi prevails.
 class PanchangaSpan<T> {
+  /// Creates a span during which [value] prevails, from [start] to [end].
   const PanchangaSpan(this.value, this.start, this.end);
 
   /// The nakshatra or tithi.

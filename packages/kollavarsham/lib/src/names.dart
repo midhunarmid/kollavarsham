@@ -23,18 +23,41 @@ enum MalayalamScript {
 /// Each month starts when the Sun enters the corresponding sidereal sign
 /// (rashi); Chingam corresponds to Simha (Leo).
 enum MalayalamMonth {
+  /// Chingam (ചിങ്ങം): the Sun in Simha.
   chingam('ചിങ്ങം', 'Chingam', 'Simha', ['Chingom', 'Chingham']),
+
+  /// Kanni (കന്നി): the Sun in Kanya.
   kanni('കന്നി', 'Kanni', 'Kanya', ['Kanny']),
+
+  /// Thulam (തുലാം): the Sun in Tula.
   thulam('തുലാം', 'Thulam', 'Tula', ['Tulam', 'Thulaam']),
+
+  /// Vrischikam (വൃശ്ചികം): the Sun in Vrischika.
   vrischikam('വൃശ്ചികം', 'Vrischikam', 'Vrischika',
       ['Vrishchikam', 'Vrichikam', 'Vruschikam', 'Vrischikom']),
+
+  /// Dhanu (ധനു): the Sun in Dhanu.
   dhanu('ധനു', 'Dhanu', 'Dhanu', ['Dhanus']),
+
+  /// Makaram (മകരം): the Sun in Makara.
   makaram('മകരം', 'Makaram', 'Makara', ['Makarom']),
+
+  /// Kumbham (കുംഭം): the Sun in Kumbha.
   kumbham('കുംഭം', 'Kumbham', 'Kumbha', ['Kumbam', 'Kumbhom']),
+
+  /// Meenam (മീനം): the Sun in Meena.
   meenam('മീനം', 'Meenam', 'Meena', ['Minam', 'Meenom']),
+
+  /// Medam (മേടം): the Sun in Mesha.
   medam('മേടം', 'Medam', 'Mesha', ['Metam', 'Medom']),
+
+  /// Edavam (ഇടവം): the Sun in Vrishabha.
   edavam('ഇടവം', 'Edavam', 'Vrishabha', ['Idavam', 'Edavom']),
+
+  /// Mithunam (മിഥുനം): the Sun in Mithuna.
   mithunam('മിഥുനം', 'Mithunam', 'Mithuna', ['Midhunam', 'Mithunom']),
+
+  /// Karkidakam (കർക്കടകം): the Sun in Karka.
   karkidakam('കർക്കടകം', 'Karkidakam', 'Karka', [
     'കർക്കിടകം',
     'Karkkidakam',
@@ -120,12 +143,25 @@ enum MalayalamMonth {
 
 /// Days of the week, starting Sunday (ഞായർ).
 enum MalayalamWeekday {
+  /// Sunday: Njayar (ഞായർ).
   njayar('ഞായർ', 'Njayar', 'Sunday', 'ഞാ'),
+
+  /// Monday: Thinkal (തിങ്കൾ).
   thinkal('തിങ്കൾ', 'Thinkal', 'Monday', 'തി'),
+
+  /// Tuesday: Chovva (ചൊവ്വ).
   chovva('ചൊവ്വ', 'Chovva', 'Tuesday', 'ചൊ'),
+
+  /// Wednesday: Budhan (ബുധൻ).
   budhan('ബുധൻ', 'Budhan', 'Wednesday', 'ബു'),
+
+  /// Thursday: Vyazham (വ്യാഴം).
   vyazham('വ്യാഴം', 'Vyazham', 'Thursday', 'വ്യാ'),
+
+  /// Friday: Velli (വെള്ളി).
   velli('വെള്ളി', 'Velli', 'Friday', 'വെ'),
+
+  /// Saturday: Shani (ശനി).
   shani('ശനി', 'Shani', 'Saturday', 'ശ');
 
   const MalayalamWeekday(

@@ -14,7 +14,7 @@ library;
 
 export 'src/calendar.dart'
     show KollavarshamCalendar, ObserverLocation, YearStart;
-export 'src/festivals.dart' show KeralaFestivals;
+export 'src/festivals.dart' show KeralaFestival, KeralaFestivals;
 export 'src/malayalam_date.dart' show MalayalamDate, DateTimeToMalayalam;
 export 'src/names.dart' show MalayalamMonth, MalayalamWeekday, MalayalamScript;
 export 'src/numerals.dart' show toMalayalamDigits, fromMalayalamDigits;

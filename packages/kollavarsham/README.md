@@ -20,10 +20,11 @@ print(vishu); // 2026-04-14
 
 - **Conversion** both ways between Gregorian and Kollavarsham dates, plus date arithmetic (`addDays`, `addMonths`, `daysUntil`) and comparison operators.
 - **Names** of months, weekdays, nakshatras and tithis, in Malayalam script (ചിങ്ങം) or Latin transliteration (Chingam).
-- **Formatting** with patterns, optionally using Malayalam digits (൧൨൦൧).
+- **Formatting and parsing** with patterns, optionally using Malayalam digits (൧൨൦൧). Parsing accepts both scripts and common spelling variants.
 - **Panchanga:** the nakshatra and tithi of any day (taken at sunrise) or any moment, with their start and end times.
-- **Festivals:** Onam (Thiruvonam), Atham, Vishu, the Mandala season, Mandala Pooja and Makaravilakku.
+- **Festivals:** Onam (Thiruvonam), Atham, Vishu, Attukal Pongala, Thrissur Pooram, Karkidaka Vavu, the Mandala season, Mandala Pooja, Makaravilakku and more, individually or as a list for a year.
 - **Birthdays by star:** `daysWithNakshatra` finds the day(s) in a month that carry a given nakshatra.
+- **North Malabar years:** `YearStart.kanni` numbers years from Kanni instead of Chingam.
 - **Configurable location:** sunrise and sunset are computed for Thiruvananthapuram in IST by default. Kochi and Kozhikode are built in, and you can supply any location.
 
 ### Format tokens
@@ -32,14 +33,27 @@ print(vishu); // 2026-04-14
 |---|---|---|
 | `y` | year | 1201 |
 | `M` / `MM` | month number | 1 / 01 |
+| `MMM` | short month name | Chi |
 | `MMMM` | month name | ചിങ്ങം |
 | `d` / `dd` | day | 7 / 07 |
+| `E` | short weekday | ഞാ / Sun |
 | `EEEE` | weekday | ഞായർ |
+| `G` / `GGGG` | era | കൊ.വ. / കൊല്ലവർഷം |
 | `NNNN` | nakshatra | തിരുവോണം |
 | `TTTT` | tithi | ഏകാദശി |
 | `PPPP` | paksha | വെളുത്ത പക്ഷം |
 
 Wrap literal text in single quotes, e.g. `"d MMMM 'ME' y"`.
+
+### Parsing
+
+```dart
+MalayalamDate.parse('1 ചിങ്ങം 1201'); // 1201 Chingam 1
+MalayalamDate.parse('Karkkidakam 3, 1200', pattern: 'MMMM d, y');
+MalayalamDate.tryParse('൧ ചിങ്ങം ൧൨൦൧'); // Malayalam digits work too
+```
+
+Month names match in either script, ignoring case and accepting common variants (Karkkidakam, കർക്കിടകം, Vrishchikam…).
 
 ### Panchanga and festivals
 
@@ -53,7 +67,19 @@ cal.nakshatraSpanAt(DateTime.now()); // start and end of the current star
 
 // Malayalam birthday: the Avittam day in Kanni 1202.
 cal.daysWithNakshatra(1202, MalayalamMonth.kanni, Nakshatra.avittam);
+
+// Every festival of a year, in order.
+for (final (festival, date) in cal.festivalsIn(1201)) {
+  print('${festival.malayalam}: ${date.toGregorian()}');
+}
 ```
+
+| Festival | Rule | Checked against |
+|---|---|---|
+| Onam | Thiruvonam at sunrise in Chingam (the later one if it occurs twice) | 2009–2025 |
+| Attukal Pongala | Pooram at sunset in Kumbham (later occurrence) | 2015–2025 |
+| Thrissur Pooram | Pooram at midnight in Medam (later occurrence) | 2016–2025 |
+| Karkidaka Vavu | Amavasya at the end of the afternoon in Karkidakam, else at sunrise | 2015–2025 |
 
 ## How it works
 
@@ -87,7 +113,8 @@ final cal = KollavarshamCalendar(monthStartOverrides: {
 
 - The nakshatra and tithi of a day are the ones in effect at sunrise.
 - Onam is the day in Chingam whose sunrise nakshatra is Thiruvonam. If that star falls on two days in Chingam, Onam is the later one. This matches every year from 2009 to 2025 except 2016, where sources themselves disagree (13 or 14 September); the package gives the 14th.
-- The year starts with Chingam, as in Travancore and Kochi. North Malabar's convention of starting the year in Kanni is not supported yet.
+- The year starts with Chingam, as in Travancore and Kochi, unless you pass `yearStart: YearStart.kanni`.
+- Two `MalayalamDate`s are equal when they denote the same day in equivalent calendars (same location, year convention and overrides). `isAtSameDayAs` compares days only.
 - In both verified borderline cases so far (2021 and 2023), almanacs started the month on the sankranti day even though it fell a few minutes after the computed cut-off. If you find another, please open an issue with the source.
 
 ## Flutter

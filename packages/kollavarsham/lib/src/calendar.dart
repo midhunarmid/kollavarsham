@@ -15,6 +15,8 @@ import 'panchanga.dart';
 /// sunset, so the result can differ by a day between distant places. Kerala
 /// almanacs use a Kerala location and Indian Standard Time.
 class ObserverLocation {
+  /// Creates a location at [latitude]/[longitude] (degrees, north and east
+  /// positive) whose civil time is [utcOffset] ahead of UTC.
   const ObserverLocation({
     required this.latitude,
     required this.longitude,

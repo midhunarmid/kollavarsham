@@ -1,3 +1,23 @@
+## 0.3.0
+
+**Breaking**
+
+- `MalayalamDate.internal` and `KollavarshamCalendar.dayNumberOf`,
+  `fromDayNumber`, `dateOfDayNumber` and `dayNumberOfGregorian` are now
+  `@internal`.
+- `MalayalamDate ==` compares calendars by value (location, year
+  convention, overrides) instead of identity.
+
+**Added**
+
+- `MalayalamDate.parse` / `tryParse`, `MalayalamMonth.tryParseName`.
+- Format tokens `MMM`, `E`, `G` and `GGGG`.
+- `YearStart.kanni` for North Malabar year numbering.
+- `ObserverLocation` and `KollavarshamCalendar` value equality.
+- Festivals: Attukal Pongala, Thrissur Pooram, Karkidaka Vavu;
+  `KeralaFestival`, `festivalsIn(year)` and `festivalsOn(date)`.
+- Every public member is documented.
+
 ## 0.2.0
 
 - Solar theory cross-checked against the Swiss Ephemeris for every

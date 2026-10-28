@@ -1,15 +1,24 @@
 /// A piece of a date pattern: either a run of one pattern letter
 /// ([letter] repeated [count] times) or literal text.
 class PatternToken {
+  /// A run of [count] copies of the pattern [letter].
   const PatternToken.field(this.letter, this.count) : literal = null;
+
+  /// Literal text.
   const PatternToken.literal(String this.literal)
       : letter = '',
         count = 0;
 
+  /// The pattern letter, or '' for literal text.
   final String letter;
+
+  /// How many times [letter] is repeated.
   final int count;
+
+  /// The literal text, or `null` for a field.
   final String? literal;
 
+  /// Whether this token is literal text.
   bool get isLiteral => literal != null;
 }
 
