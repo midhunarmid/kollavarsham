@@ -71,6 +71,9 @@ jobs:
       fail-fast: false
       matrix:
         package: [kollavarsham, kollavarsham_flutter]
+    # kollavarsham_flutter can only be scored once kollavarsham is on
+    # pub.dev; make this blocking for it after the first publish.
+    continue-on-error: ${{ matrix.package == 'kollavarsham_flutter' }}
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
