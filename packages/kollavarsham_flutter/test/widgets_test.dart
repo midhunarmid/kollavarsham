@@ -37,7 +37,7 @@ void main() {
     MalayalamDate? month;
     await tester.pumpWidget(_app(MalayalamMonthView(
       initialMonth: chingam1,
-      showGregorian: false,
+      showSecondaryDate: false,
       onDateSelected: (d) => picked = d,
       onMonthChanged: (m) => month = m,
     )));
@@ -61,7 +61,7 @@ void main() {
       initialMonth: chingam1,
       firstDate: chingam1.addDays(4),
       lastDate: chingam1.addDays(20),
-      showGregorian: false,
+      showSecondaryDate: false,
       onDateSelected: (d) => picked = d,
     )));
     await tester.tap(find.text('2'));

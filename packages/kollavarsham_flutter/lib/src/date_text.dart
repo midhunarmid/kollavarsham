@@ -10,6 +10,7 @@ import 'script.dart';
 /// MalayalamDateText(pattern: 'd MMMM y, NNNN')
 /// ```
 class MalayalamDateText extends StatelessWidget {
+  /// Creates a text widget showing [date] (today if null).
   const MalayalamDateText({
     super.key,
     this.date,
@@ -20,11 +21,22 @@ class MalayalamDateText extends StatelessWidget {
     this.textAlign,
   });
 
+  /// The date to show; today (in IST) if null.
   final MalayalamDate? date;
+
+  /// Format pattern; see [MalayalamDate.format].
   final String pattern;
+
+  /// Script for names. Defaults to the ambient locale.
   final MalayalamScript? script;
+
+  /// Render numbers with Malayalam digits (൧൨൩).
   final bool malayalamDigits;
+
+  /// Text style.
   final TextStyle? style;
+
+  /// Text alignment.
   final TextAlign? textAlign;
 
   @override

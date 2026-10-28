@@ -2,8 +2,14 @@ name: kollavarsham_flutter
 description: >-
   Flutter widgets for the Malayalam calendar (Kollavarsham): a month view
   with Gregorian and Malayalam dates, nakshatra, and a date picker.
-version: 0.3.0
+version: 0.4.0
 repository: https://github.com/midhunarmid/kollavarsham
+screenshots:
+  - description: Malayalam month view with nakshatras
+    path: doc/screenshots/malayalam_mode.png
+  - description: Gregorian month view with Malayalam dates and festival markers
+    path: doc/screenshots/gregorian_mode.png
+
 topics:
   - calendar
   - malayalam

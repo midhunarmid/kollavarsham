@@ -6,7 +6,8 @@ import 'script.dart';
 
 /// Shows a dialog for picking a date on the Malayalam calendar.
 ///
-/// Returns the chosen date, or `null` if the dialog was dismissed.
+/// Returns the chosen date, or `null` if the dialog was dismissed. [mode]
+/// chooses whether the picker pages through Malayalam or Gregorian months.
 ///
 /// ```dart
 /// final date = await showMalayalamDatePicker(context: context);
@@ -19,6 +20,7 @@ Future<MalayalamDate?> showMalayalamDatePicker({
   MalayalamScript? script,
   bool malayalamDigits = false,
   bool showNakshatra = false,
+  CalendarMode mode = CalendarMode.malayalam,
   KollavarshamCalendar? calendar,
   String? confirmText,
   String? cancelText,
@@ -34,6 +36,7 @@ Future<MalayalamDate?> showMalayalamDatePicker({
         script: script,
         malayalamDigits: malayalamDigits,
         showNakshatra: showNakshatra,
+        mode: mode,
         calendar: calendar,
         confirmText: confirmText,
         cancelText: cancelText,
@@ -48,6 +51,7 @@ class _MalayalamDatePickerDialog extends StatefulWidget {
     required this.script,
     required this.malayalamDigits,
     required this.showNakshatra,
+    required this.mode,
     required this.calendar,
     required this.confirmText,
     required this.cancelText,
@@ -59,6 +63,7 @@ class _MalayalamDatePickerDialog extends StatefulWidget {
   final MalayalamScript? script;
   final bool malayalamDigits;
   final bool showNakshatra;
+  final CalendarMode mode;
   final KollavarshamCalendar? calendar;
   final String? confirmText;
   final String? cancelText;
@@ -75,7 +80,7 @@ class _MalayalamDatePickerDialogState
   @override
   Widget build(BuildContext context) {
     final script = resolveScript(context, widget.script);
-    final ml = script == MalayalamScript.malayalam;
+    final strings = CalendarStrings.of(script);
     final theme = Theme.of(context);
     return Dialog(
       child: ConstrainedBox(
@@ -103,6 +108,7 @@ class _MalayalamDatePickerDialogState
                 script: script,
                 malayalamDigits: widget.malayalamDigits,
                 showNakshatra: widget.showNakshatra,
+                mode: widget.mode,
                 calendar: widget.calendar,
                 onDateSelected: (d) => setState(() => _selected = d),
               ),
@@ -111,12 +117,11 @@ class _MalayalamDatePickerDialogState
                 children: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text(
-                        widget.cancelText ?? (ml ? 'റദ്ദാക്കുക' : 'Cancel')),
+                    child: Text(widget.cancelText ?? strings.cancel),
                   ),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(_selected),
-                    child: Text(widget.confirmText ?? (ml ? 'ശരി' : 'OK')),
+                    child: Text(widget.confirmText ?? strings.ok),
                   ),
                 ],
               ),
