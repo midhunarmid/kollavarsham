@@ -1,6 +1,8 @@
 /// Time-scale helpers: Julian Day numbers and ΔT (TT − UT).
 library;
 
+import 'delta_t_table.dart';
+
 /// Julian Day of the Unix epoch (1970-01-01T00:00:00Z).
 const double unixEpochJd = 2440587.5;
 
@@ -22,12 +24,26 @@ DateTime dateTimeFromJulianDay(double jd) =>
 double julianCenturiesTT(double jdUT) =>
     (jdUT + deltaTSeconds(jdUT) / 86400.0 - j2000) / 36525.0;
 
-/// Approximate ΔT = TT − UT in seconds, using the Espenak–Meeus polynomials.
+/// ΔT = TT − UT in seconds.
 ///
-/// Accurate to a few seconds for 1900–2050, which is far below the precision
-/// that matters for calendar work (the Sun moves ~1° per day).
+/// Interpolated from [deltaTTable] (observed values and their modern
+/// extrapolation) for 1900 through 2100; outside that range the
+/// Espenak–Meeus polynomials are used.
 double deltaTSeconds(double jdUT) {
   final y = 2000.0 + (jdUT - j2000) / 365.25;
+  final offset = y - deltaTTableStartYear;
+  if (offset >= 0 && offset < deltaTTable.length) {
+    // Linear interpolation; the year after the last entry extends the final
+    // segment.
+    final i = offset.floor().clamp(0, deltaTTable.length - 2);
+    final f = offset - i;
+    return deltaTTable[i] + f * (deltaTTable[i + 1] - deltaTTable[i]);
+  }
+  return _deltaTPolynomial(y);
+}
+
+/// Espenak–Meeus polynomial approximation of ΔT for decimal year [y].
+double _deltaTPolynomial(double y) {
   double t;
   if (y < 1900) {
     final u = (y - 1820) / 100;
