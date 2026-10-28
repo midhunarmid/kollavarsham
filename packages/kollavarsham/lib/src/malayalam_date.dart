@@ -1,6 +1,7 @@
 import 'calendar.dart';
 import 'format.dart';
 import 'names.dart';
+import 'panchanga.dart';
 
 /// A date in the Malayalam calendar (Kollavarsham / Malayalam Era).
 ///
@@ -63,6 +64,12 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   MalayalamWeekday get weekday =>
       MalayalamWeekday.fromDateTimeWeekday(toGregorian().weekday);
 
+  /// The nakshatra (birth star) of this day, taken at sunrise.
+  Nakshatra get nakshatra => calendar.nakshatraOn(toGregorian());
+
+  /// The tithi (lunar day) of this day, taken at sunrise.
+  Tithi get tithi => calendar.tithiOn(toGregorian());
+
   /// Number of days in this date's month (29–32).
   int get monthLength => calendar.monthLength(year, month);
 
@@ -116,6 +123,9 @@ class MalayalamDate implements Comparable<MalayalamDate> {
   /// | `d`    | day                     | 7            |
   /// | `dd`   | day, 2 digits           | 07           |
   /// | `EEEE` | weekday name            | ഞായർ         |
+  /// | `NNNN` | nakshatra at sunrise    | അത്തം        |
+  /// | `TTTT` | tithi at sunrise        | ഏകാദശി       |
+  /// | `PPPP` | paksha (fortnight)      | വെളുത്ത പക്ഷം |
   ///
   /// Text in single quotes is copied as-is (`''` is a literal quote).
   /// Names use [script]; set [malayalamDigits] to render numbers as ൧൨൩.

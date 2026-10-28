@@ -2,7 +2,7 @@ import 'malayalam_date.dart';
 import 'names.dart';
 import 'numerals.dart';
 
-const _patternLetters = {'y', 'M', 'd', 'E'};
+const _patternLetters = {'y', 'M', 'd', 'E', 'N', 'T', 'P'};
 
 /// Implements [MalayalamDate.format].
 String formatMalayalamDate(
@@ -64,6 +64,12 @@ String formatMalayalamDate(
         out.write(number(date.day, run));
       case 'E':
         out.write(date.weekday.name(script));
+      case 'N':
+        out.write(date.nakshatra.name(script));
+      case 'T':
+        out.write(date.tithi.name(script));
+      case 'P':
+        out.write(date.tithi.paksha.name(script));
     }
   }
   return out.toString();

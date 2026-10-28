@@ -1,8 +1,10 @@
+import 'astro/moon.dart';
 import 'astro/sun.dart';
 import 'astro/sunrise.dart';
 import 'astro/time.dart';
 import 'malayalam_date.dart';
 import 'names.dart';
+import 'panchanga.dart';
 
 /// Where (and in which time zone) the calendar is reckoned.
 ///
@@ -291,5 +293,75 @@ class KollavarshamCalendar {
   DateTime? sunset(DateTime date) {
     final jd = _sunEventJd(_dayNumberOf(date), rising: false);
     return jd == null ? null : dateTimeFromJulianDay(jd);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Panchanga: nakshatra and tithi.
+
+  /// Sunrise on day [n], or 06:00 local time if the Sun does not rise.
+  double _sunriseJd(int n) =>
+      _sunEventJd(n, rising: true) ?? _jdLocalMidnight(n) + 0.25;
+
+  /// The nakshatra (Moon's sidereal mansion) at [instant].
+  Nakshatra nakshatraAt(DateTime instant) => Nakshatra.fromSiderealLongitude(
+      moonSiderealLongitude(julianDayFromDateTime(instant)));
+
+  /// The nakshatra of a Gregorian [date]: the one prevailing at sunrise,
+  /// as in Kerala almanacs.
+  Nakshatra nakshatraOn(DateTime date) => Nakshatra.fromSiderealLongitude(
+      moonSiderealLongitude(_sunriseJd(_dayNumberOf(date))));
+
+  /// The tithi at [instant].
+  Tithi tithiAt(DateTime instant) =>
+      Tithi.fromElongation(lunarElongation(julianDayFromDateTime(instant)));
+
+  /// The tithi of a Gregorian [date]: the one prevailing at sunrise.
+  Tithi tithiOn(DateTime date) =>
+      Tithi.fromElongation(lunarElongation(_sunriseJd(_dayNumberOf(date))));
+
+  /// When the nakshatra prevailing at [instant] began and ends.
+  PanchangaSpan<Nakshatra> nakshatraSpanAt(DateTime instant) {
+    final jd = julianDayFromDateTime(instant);
+    final lon = moonSiderealLongitude(jd);
+    final i = (lon / Nakshatra.span).floor() % 27;
+    final start = solveAngle(moonSiderealLongitude, i * Nakshatra.span,
+        jd - (lon - i * Nakshatra.span) / 13.176,
+        degreesPerDay: 13.176);
+    final end = solveAngle(moonSiderealLongitude, (i + 1) * Nakshatra.span,
+        jd + ((i + 1) * Nakshatra.span - lon) / 13.176,
+        degreesPerDay: 13.176);
+    return PanchangaSpan(Nakshatra.values[i], dateTimeFromJulianDay(start),
+        dateTimeFromJulianDay(end));
+  }
+
+  /// When the tithi prevailing at [instant] began and ends.
+  PanchangaSpan<Tithi> tithiSpanAt(DateTime instant) {
+    final jd = julianDayFromDateTime(instant);
+    final e = lunarElongation(jd);
+    final i = (e / 12).floor() % 30;
+    final start = solveAngle(
+        lunarElongation, i * 12.0, jd - (e - i * 12) / 12.19,
+        degreesPerDay: 12.19);
+    final end = solveAngle(
+        lunarElongation, (i + 1) * 12.0, jd + ((i + 1) * 12 - e) / 12.19,
+        degreesPerDay: 12.19);
+    return PanchangaSpan(
+        Tithi(i + 1), dateTimeFromJulianDay(start), dateTimeFromJulianDay(end));
+  }
+
+  /// Days of [month] in Kollavarsham [year] whose nakshatra (at sunrise) is
+  /// [nakshatra] — e.g. to find a Malayalam birthday (pirannal). Usually
+  /// one day; occasionally none or two.
+  List<MalayalamDate> daysWithNakshatra(
+      int year, MalayalamMonth month, Nakshatra nakshatra) {
+    final start = _monthStartDayNumber(year, month);
+    final length = monthLength(year, month);
+    return [
+      for (var d = 0; d < length; d++)
+        if (Nakshatra.fromSiderealLongitude(
+                moonSiderealLongitude(_sunriseJd(start + d))) ==
+            nakshatra)
+          MalayalamDate.internal(year, month, d + 1, start + d, this),
+    ];
   }
 }
