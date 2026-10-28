@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: How dates are computed
+    url: https://github.com/midhunarmid/kollavarsham/blob/main/docs/accuracy.md
+    about: Read this before reporting a date near a month boundary.

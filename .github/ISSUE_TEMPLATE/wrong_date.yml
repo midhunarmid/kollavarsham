@@ -1,0 +1,47 @@
+name: Wrong date
+description: A Malayalam date, month start, nakshatra or festival differs from an almanac.
+title: "[Wrong date] "
+labels: [accuracy]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! Dates near a month boundary can legitimately differ between almanacs, so a **source** is essential.
+  - type: input
+    id: gregorian
+    attributes:
+      label: Gregorian date
+      placeholder: 2025-08-17
+    validations:
+      required: true
+  - type: input
+    id: actual
+    attributes:
+      label: What the package returns
+      placeholder: "1200 Karkidakam 32 / Onam on 2025-09-04"
+    validations:
+      required: true
+  - type: input
+    id: expected
+    attributes:
+      label: What you expected
+      placeholder: "1201 Chingam 1 / Onam on 2025-09-05"
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: Almanac or calendar name and year (e.g. Mathrubhumi 2025, Kerala Government calendar 2025), or a link to a news report.
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Location / calendar settings
+      description: Leave blank if you used the default (Thiruvananthapuram, IST, Chingam year start).
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: kollavarsham 0.3.0

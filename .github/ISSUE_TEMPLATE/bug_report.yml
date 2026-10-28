@@ -1,0 +1,25 @@
+name: Bug report
+description: Something crashes or behaves unexpectedly (not a wrong date).
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the code you ran and the error or output.
+      render: dart
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: kollavarsham 0.3.0, kollavarsham_flutter 0.4.0, Flutter 3.32, Android
+    validations:
+      required: true

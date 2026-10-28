@@ -7,14 +7,22 @@ on:
 
 jobs:
   test:
+    name: Test (Flutter ${{ matrix.flutter }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Oldest supported (Dart 3.6) and current stable.
+        flutter: ['3.27.4', 'stable']
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: ${{ matrix.flutter != 'stable' && matrix.flutter || '' }}
           channel: stable
       - run: flutter pub get
       - name: Format
+        if: matrix.flutter == 'stable'
         run: dart format --output=none --set-exit-if-changed packages
       - name: Analyze core
         working-directory: packages/kollavarsham
@@ -22,9 +30,55 @@ jobs:
       - name: Analyze Flutter widgets
         working-directory: packages/kollavarsham_flutter
         run: flutter analyze
-      - name: Test core
+      - name: Test core (VM)
         working-directory: packages/kollavarsham
         run: dart test
+      - name: Test core (Chrome)
+        if: matrix.flutter == 'stable'
+        working-directory: packages/kollavarsham
+        run: dart test -p chrome
       - name: Test Flutter widgets
         working-directory: packages/kollavarsham_flutter
         run: flutter test
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - name: Core coverage
+        working-directory: packages/kollavarsham
+        run: |
+          dart pub global activate coverage
+          dart pub global run coverage:test_with_coverage
+      - name: Flutter coverage
+        working-directory: packages/kollavarsham_flutter
+        run: flutter test --coverage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            packages/kollavarsham/coverage/lcov.info
+            packages/kollavarsham_flutter/coverage/lcov.info
+
+  pana:
+    name: pana (${{ matrix.package }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [kollavarsham, kollavarsham_flutter]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: dart pub global activate pana
+      - name: Score
+        working-directory: packages/${{ matrix.package }}
+        # Fails when the score is more than 10 points below the maximum.
+        run: dart pub global run pana --no-warning --exit-code-threshold 10 .

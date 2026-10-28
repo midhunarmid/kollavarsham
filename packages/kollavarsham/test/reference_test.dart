@@ -1,3 +1,6 @@
+@TestOn('vm') // Reads a fixture file.
+library;
+
 import 'dart:io';
 
 import 'package:kollavarsham/src/astro/sun.dart';

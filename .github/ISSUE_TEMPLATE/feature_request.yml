@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest a feature, festival or widget option.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you need?
+      description: Describe the problem or use case.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Suggested API or behaviour
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources (for festivals or rules)
+      description: For a new festival, please list published dates for at least five years.

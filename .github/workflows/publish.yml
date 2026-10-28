@@ -1,0 +1,43 @@
+# Publishes to pub.dev when a release tag is pushed, using GitHub OIDC
+# (no stored credentials). Tags:
+#   kollavarsham-v1.2.3          -> packages/kollavarsham
+#   kollavarsham_flutter-v1.2.3  -> packages/kollavarsham_flutter
+#
+# Before this works, each package must be published once by hand and then
+# have "Automated publishing" enabled on pub.dev (Admin tab) for this
+# repository with the matching tag pattern:
+#   kollavarsham-v{{version}}  and  kollavarsham_flutter-v{{version}}
+# Always release kollavarsham before kollavarsham_flutter.
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - 'kollavarsham-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'kollavarsham_flutter-v[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+  publish-core:
+    if: startsWith(github.ref_name, 'kollavarsham-v')
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: packages/kollavarsham
+
+  publish-flutter:
+    if: startsWith(github.ref_name, 'kollavarsham_flutter-v')
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Publish
+        working-directory: packages/kollavarsham_flutter
+        run: |
+          flutter pub get
+          dart pub publish --force

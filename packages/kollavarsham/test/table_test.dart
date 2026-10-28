@@ -10,7 +10,7 @@ void main() {
     expect(File('lib/src/data/month_starts.dart').readAsStringSync(),
         generateMonthStartTable(),
         reason: 'Run `dart run tool/generate_table.dart` to regenerate.');
-  });
+  }, testOn: 'vm');
 
   test('table and engine agree on every day 1900–2100', () {
     final fast = KollavarshamCalendar();
