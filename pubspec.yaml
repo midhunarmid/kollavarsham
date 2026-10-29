@@ -8,3 +8,4 @@ workspace:
   - packages/kollavarsham
   - packages/kollavarsham_flutter
   - packages/kollavarsham_flutter/example
+  - apps/calendar
