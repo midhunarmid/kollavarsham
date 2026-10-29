@@ -36,12 +36,13 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 
 ## Days
 
-### Day 1: Sprint 0a, app scaffold (status: todo)
-- [ ] Create `apps/calendar` with `flutter create --platforms=android,web --org in.armid --project-name calendar`; set the SDK constraint to `^3.6.0`, `resolution: workspace`, and add it to the root `pubspec.yaml` workspace. The Android `applicationId` must be `in.armid.calendar`.
-- [ ] Dependencies: `kollavarsham_flutter`, `flutter_riverpod`, `go_router`, `flutter_localizations` + `intl` (gen-l10n with `app_en.arb` / `app_ml.arb`).
-- [ ] Bundle the Noto Sans Malayalam font (OFL licence file included) and use it as the app font.
-- [ ] Minimal app: a Material 3 theme (light/dark), a home screen showing today's Malayalam date via `MalayalamDateText` and a `MalayalamMonthView`, and a widget test.
-- [ ] CI (`.github/workflows/ci.yml`): analyze and test `apps/calendar`; build the web app and a debug APK; upload them as artifacts.
+### Day 1: Sprint 0a, app scaffold (status: done)
+- [x] Create `apps/calendar` with `flutter create --platforms=android,web --org in.armid --project-name calendar`; set the SDK constraint to `^3.6.0`, `resolution: workspace`, and add it to the root `pubspec.yaml` workspace. The Android `applicationId` must be `in.armid.calendar`.
+- [x] Dependencies: `kollavarsham_flutter`, `flutter_riverpod`, `go_router`, `flutter_localizations` + `intl` (gen-l10n with `app_en.arb` / `app_ml.arb`).
+- [x] Bundle the Noto Sans Malayalam font (OFL licence file included) and use it as the app font.
+- [x] Minimal app: a Material 3 theme (light/dark), a home screen showing today's Malayalam date via `MalayalamDateText` and a `MalayalamMonthView`, and a widget test.
+- [x] CI (`.github/workflows/ci.yml`): analyze and test `apps/calendar`; build the web app and a debug APK; upload them as artifacts.
+  - Note: `flutter_riverpod` ^2.6.1 and `go_router` ^14.8.1, the newest releases that resolve on the workspace Dart 3.6 floor (riverpod 3 / go_router 18 need Dart 3.12).
 
 ### Day 2: Sprint 0b, research and design docs (status: todo)
 - [ ] `docs/pirannal-rules.md`: rules for star birthdays when the star falls twice or not at all in the birth month, the "6 nazhika after sunrise" convention, monthly nakshatram, and shraddham by tithi or nakshatra. Use web research with **cited sources** and worked examples; pick defaults; list open questions for the owner.
@@ -157,3 +158,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 
 | Date | Day | Result |
 |---|---|---|
+| 2026-10-29 | Day 1 | apps/calendar scaffold (in.armid.calendar), Riverpod/go_router/gen-l10n, Noto Sans Malayalam, M3 home screen with tests, CI app job (web + debug APK artifacts) green |
