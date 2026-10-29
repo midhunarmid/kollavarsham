@@ -42,6 +42,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Bundle the Noto Sans Malayalam font (OFL licence file included) and use it as the app font.
 - [x] Minimal app: a Material 3 theme (light/dark), a home screen showing today's Malayalam date via `MalayalamDateText` and a `MalayalamMonthView`, and a widget test.
 - [x] CI (`.github/workflows/ci.yml`): analyze and test `apps/calendar`; build the web app and a debug APK; upload them as artifacts.
+  - The web app deploys to GitHub Pages on every push to `main` (`.github/workflows/deploy-web.yml`), at `https://midhunarmid.github.io/kollavarsham/`.
   - Note: `flutter_riverpod` ^2.6.1 and `go_router` ^14.8.1, the newest releases that resolve on the workspace Dart 3.6 floor (riverpod 3 / go_router 18 need Dart 3.12).
 
 ### Day 2: Sprint 0b, research and design docs (status: todo)

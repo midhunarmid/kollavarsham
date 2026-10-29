@@ -1,0 +1,64 @@
+# Deploys the calendar web app (apps/calendar) to GitHub Pages on every
+# push to main: https://midhunarmid.github.io/kollavarsham/
+#
+# One-time setup: repository Settings > Pages > Build and deployment >
+# Source: "GitHub Actions".
+#
+# The app is served from the /kollavarsham/ project path. Change
+# --base-href to / (and add web/CNAME) once a custom domain is chosen, or
+# to /app/ when the Astro site takes over the root.
+name: Deploy web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; never cancel one that is already running.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build calendar web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Test
+        working-directory: apps/calendar
+        run: flutter test
+      - name: Build web
+        working-directory: apps/calendar
+        run: flutter build web --release --base-href /kollavarsham/
+      - name: Prepare for Pages
+        working-directory: apps/calendar/build/web
+        # 404.html lets go_router deep links survive a page refresh.
+        run: |
+          cp index.html 404.html
+          touch .nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/calendar/build/web
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
