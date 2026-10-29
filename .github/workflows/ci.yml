@@ -41,6 +41,42 @@ jobs:
         working-directory: packages/kollavarsham_flutter
         run: flutter test
 
+  app:
+    name: Calendar app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - name: Format
+        run: dart format --output=none --set-exit-if-changed apps/calendar/lib apps/calendar/test
+      - name: Analyze
+        working-directory: apps/calendar
+        run: flutter analyze
+      - name: Test
+        working-directory: apps/calendar
+        run: flutter test
+      - name: Build web
+        working-directory: apps/calendar
+        run: flutter build web
+      - name: Build debug APK
+        working-directory: apps/calendar
+        run: flutter build apk --debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: calendar-web
+          path: apps/calendar/build/web
+      - uses: actions/upload-artifact@v4
+        with:
+          name: calendar-debug-apk
+          path: apps/calendar/build/app/outputs/flutter-apk/app-debug.apk
+
   coverage:
     runs-on: ubuntu-latest
     steps:
