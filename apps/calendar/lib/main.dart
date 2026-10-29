@@ -3,9 +3,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'app/fonts.dart';
 import 'l10n/app_localizations.dart';
 
-void main() => runApp(const ProviderScope(child: CalendarApp()));
+void main() {
+  registerFontLicenses();
+  runApp(const ProviderScope(child: CalendarApp()));
+}
 
 final _router = GoRouter(
   routes: [
@@ -33,6 +37,7 @@ class CalendarApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
+        theme: ThemeData(fontFamily: appFontFamily),
         routerConfig: _router,
       );
 }
