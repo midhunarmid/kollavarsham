@@ -30,7 +30,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [ ] Review `docs/pirannal-rules.md` (Day 2) and confirm the default rules.
 - [ ] Create the Google Play developer account; recruit 12 closed testers (needed by Day 18).
 - [ ] Create a release keystore and add it as described in `docs/release.md` (Day 18).
-- [ ] Choose the website domain and DNS (Day 20).
+- [x] Choose the website domain and DNS (Day 20): `calendar.armid.in`, a CNAME to `midhunarmid.github.io`.
 - [ ] Check 2026–2027 dates against printed almanacs (Day 23).
 - [ ] Malayalam copy review by a native editor (Day 24).
 
@@ -42,7 +42,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Bundle the Noto Sans Malayalam font (OFL licence file included) and use it as the app font.
 - [x] Minimal app: a Material 3 theme (light/dark), a home screen showing today's Malayalam date via `MalayalamDateText` and a `MalayalamMonthView`, and a widget test.
 - [x] CI (`.github/workflows/ci.yml`): analyze and test `apps/calendar`; build the web app and a debug APK; upload them as artifacts.
-  - The web app deploys to GitHub Pages on every push to `main` (`.github/workflows/deploy-web.yml`), at `https://midhunarmid.github.io/kollavarsham/`.
+  - The web app deploys to GitHub Pages on every push to `main` (`.github/workflows/deploy-web.yml`), at `https://calendar.armid.in/`.
   - Note: `flutter_riverpod` ^2.6.1 and `go_router` ^14.8.1, the newest releases that resolve on the workspace Dart 3.6 floor (riverpod 3 / go_router 18 need Dart 3.12).
 
 ### Day 2: Sprint 0b, research and design docs (status: todo)
@@ -138,7 +138,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 
 ### Day 20: Sprint 9b, static site (status: todo)
 - [ ] `apps/site` (Astro): home/today, day pages, month pages, festival-per-year pages, "nakshatra today", "Malayalam calendar YYYY"; ml/en with `hreflang`; structured data; sitemap; OG images.
-- [ ] GitHub Pages deployment workflow (domain is **Needs you**).
+- [x] GitHub Pages deployment workflow (`.github/workflows/deploy-web.yml`, domain `calendar.armid.in`).
 
 ### Day 21: Sprint 10a, Flutter web app (status: todo)
 - [ ] Web build of `apps/calendar` served at `/app` of the site; drift on IndexedDB; web-specific reminder UI (upcoming list + .ics instead of notifications).

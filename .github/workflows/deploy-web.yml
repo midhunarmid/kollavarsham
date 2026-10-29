@@ -1,12 +1,12 @@
 # Deploys the calendar web app (apps/calendar) to GitHub Pages on every
-# push to main: https://midhunarmid.github.io/kollavarsham/
+# push to main: https://calendar.armid.in/
 #
 # One-time setup: repository Settings > Pages > Build and deployment >
-# Source: "GitHub Actions".
+# Source: "GitHub Actions", and Custom domain: calendar.armid.in (DNS: a
+# CNAME record pointing to midhunarmid.github.io).
 #
-# The app is served from the /kollavarsham/ project path. Change
-# --base-href to / (and add web/CNAME) once a custom domain is chosen, or
-# to /app/ when the Astro site takes over the root.
+# The custom domain serves the app from the root, so --base-href is /.
+# Change it to /app/ when the Astro site takes over the root.
 name: Deploy web
 
 on:
@@ -40,7 +40,7 @@ jobs:
         run: flutter test
       - name: Build web
         working-directory: apps/calendar
-        run: flutter build web --release --base-href /kollavarsham/
+        run: flutter build web --release --base-href /
       - name: Prepare for Pages
         working-directory: apps/calendar/build/web
         # 404.html lets go_router deep links survive a page refresh.
