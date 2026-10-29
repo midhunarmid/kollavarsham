@@ -1,0 +1,23 @@
+{
+  "@@locale": "en",
+  "appTitle": "Malayalam Calendar",
+  "@appTitle": {
+    "description": "App name shown in the title bar and task switcher."
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Button that jumps back to today's date."
+  },
+  "todayHeading": "Today",
+  "@todayHeading": {
+    "description": "Heading above today's date card."
+  },
+  "festivals": "Festivals",
+  "@festivals": {
+    "description": "Heading for the selected day's festivals."
+  },
+  "noFestivals": "No festivals on this day",
+  "@noFestivals": {
+    "description": "Shown when the selected day has no festivals."
+  }
+}
