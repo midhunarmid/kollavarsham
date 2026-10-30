@@ -12,13 +12,14 @@
 /// ```
 library;
 
+export 'src/birth_details.dart' show BirthDetails;
 export 'src/calendar.dart'
     show KollavarshamCalendar, ObserverLocation, YearStart;
 export 'src/festivals.dart' show KeralaFestival, KeralaFestivals;
 export 'src/malayalam_date.dart' show MalayalamDate, DateTimeToMalayalam;
 export 'src/names.dart' show MalayalamMonth, MalayalamWeekday, MalayalamScript;
 export 'src/numerals.dart' show toMalayalamDigits, fromMalayalamDigits;
-export 'src/panchanga.dart' show Nakshatra, Paksha, PanchangaSpan, Tithi;
+export 'src/panchanga.dart' show Nakshatra, Paksha, PanchangaSpan, Rashi, Tithi;
 export 'src/recurrence.dart'
     show
         AbsentRule,

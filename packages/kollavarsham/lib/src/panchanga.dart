@@ -110,6 +110,61 @@ enum Nakshatra {
   Nakshatra get next => values[(index + 1) % 27];
 }
 
+/// The twelve sidereal signs (rashis), starting with Mesha at 0°. Malayalam
+/// names them after the months that begin when the Sun enters them.
+enum Rashi {
+  /// Mesha (മേടം).
+  mesha,
+
+  /// Vrishabha (ഇടവം).
+  vrishabha,
+
+  /// Mithuna (മിഥുനം).
+  mithuna,
+
+  /// Karka (കർക്കടകം).
+  karka,
+
+  /// Simha (ചിങ്ങം).
+  simha,
+
+  /// Kanya (കന്നി).
+  kanya,
+
+  /// Tula (തുലാം).
+  tula,
+
+  /// Vrischika (വൃശ്ചികം).
+  vrischika,
+
+  /// Dhanu (ധനു).
+  dhanu,
+
+  /// Makara (മകരം).
+  makara,
+
+  /// Kumbha (കുംഭം).
+  kumbha,
+
+  /// Meena (മീനം).
+  meena;
+
+  /// The Malayalam month that begins when the Sun enters this sign.
+  MalayalamMonth get month => MalayalamMonth.fromSignIndex(index);
+
+  /// Name in Malayalam script.
+  String get malayalam => month.malayalam;
+
+  /// Malayalam name in Latin transliteration.
+  String get english => month.english;
+
+  /// Sanskrit name.
+  String get sanskrit => month.sanskrit;
+
+  /// Name in the requested [script].
+  String name(MalayalamScript script) => month.name(script);
+}
+
 /// Lunar fortnight.
 enum Paksha {
   /// Waxing fortnight (വെളുത്ത പക്ഷം), new moon to full moon.
