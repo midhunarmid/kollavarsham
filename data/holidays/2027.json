@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "year": 2027,
+  "region": "Kerala, India",
+  "status": "partial",
+  "scope": "Holidays under the Negotiable Instruments Act, 1881, for Kerala for 2027, as summarised by TeamLease RegTech. Not the full state government holiday list.",
+  "generatedFrom": [
+    "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/"
+  ],
+  "notes": [
+    "Partial. This is the Negotiable Instruments Act list, which the source says is not the standalone holiday list for establishments under labour laws (those follow the Kerala Industrial Establishments (National and Festival Holidays) Act, 1958).",
+    "Missing, to be added from the state government order: Onam days (Atham, Thiruvonam, Third and Fourth Onam), Mahanavami, Vijayadasami, Karkidaka Vavu, Easter, Milad-i-Sherif, Independence Day, Kerala Piravi, and Vishwakarma and other restricted holidays. The source gives some of these only as second-Saturday or second-Sunday bank closures, without exact dates.",
+    "Id-ul-Fitr and Id-ul-Ad'ha are estimates in the source and are tentative.",
+    "Second-Saturday and second-Sunday closures are not dated in this source and are not added."
+  ],
+  "holidays": [
+    {
+      "date": "2027-01-02",
+      "name": "Mannam Jayanthi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-01-26",
+      "name": "Republic Day",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-03-06",
+      "name": "Maha Sivarathri",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-03-10",
+      "name": "Id-ul-Fitr",
+      "category": "muslim",
+      "kind": "public",
+      "tentative": true,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "estimate in the source; depends on the moon"
+    },
+    {
+      "date": "2027-03-25",
+      "name": "Maundy Thursday",
+      "category": "christian",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-03-26",
+      "name": "Good Friday",
+      "category": "christian",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-04-01",
+      "name": "Annual closing of accounts (banks)",
+      "category": "bank",
+      "kind": "bank",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "bank closure under the Negotiable Instruments Act; not a government holiday"
+    },
+    {
+      "date": "2027-04-14",
+      "name": "Dr BR Ambedkar Jayanthi",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-04-15",
+      "name": "Vishu",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-05-01",
+      "name": "May Day",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-05-17",
+      "name": "Id-ul-Ad'ha (Bakrid)",
+      "category": "muslim",
+      "kind": "public",
+      "tentative": true,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "estimate in the source; depends on the moon"
+    },
+    {
+      "date": "2027-08-24",
+      "name": "Sreekrishna Jayanthi",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-08-28",
+      "name": "Ayyan Kali Jayanthi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-09-15",
+      "name": "Sree Narayana Guru Jayanthi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-09-22",
+      "name": "Sree Narayana Guru Samadhi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-10-02",
+      "name": "Gandhi Jayanthi",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-10-28",
+      "name": "Deepavali",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    },
+    {
+      "date": "2027-12-25",
+      "name": "Christmas",
+      "category": "christian",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://teamleaseregtech.com/updates/article/60696/government-of-kerala-public-holidays-under-the-negotiable-instruments-/",
+      "sourceNote": "G.O. (P) No. 20/2026/GAD, dated 18 Sep 2026; Kerala Gazette Extraordinary, 18 Oct 2026"
+    }
+  ]
+}
