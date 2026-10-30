@@ -60,9 +60,15 @@ Two methods are used. The app supports both, and the default is **tithi**.
 
 ## R5. Other recurrences
 
-- **Monthly nakshatram:** every day the birth star is present at sunrise + 6 nazhika (R3). It does not use R1 or R2.
+- **Monthly nakshatram:** every day the birth star is present at sunrise + 6 nazhika (R3). It does not use R1 or R2. Sometimes the Moon passes the whole star between one day's reading and the next, so no day has it. The engine then uses the earlier of the two days, following S3 (a short star moves to the previous day). Without this, about one cycle in a few dozen would have no nakshatram (gaps of up to 55 days in 1950–2100).
 - **Gregorian birthday:** the Gregorian date. Age is computed from the birth date.
 - **Malayalam-date anniversaries:** the same Malayalam day and month each year. If the day is missing in a shorter month, the last day of that month is used (proposed, unsourced; Needs you).
+
+## Implementation (Day 3)
+
+`packages/kollavarsham/lib/src/recurrence.dart` implements R1 (`DuplicateRule.second` / `first`), R2 (`AbsentRule.previousMonth` / `nextMonth` / `skip`) and the R3 default anchor (sunrise + 6 nazhika). The other R3 options (`firstOccurrence`, `dharmaSindhu`) are not implemented yet; they wait for the owner's answer to question 3.
+
+Cross-check: `NakshatraInMonth(thiruvonam, chingam)` with the default rules gives the published Onam date for all 16 years in the festival tests (2009–2025 except 2016). That includes 2013 and 2024, when Thiruvonam falls twice in Chingam and the later day is Onam. This supports R1 `second` and the 6-nazhika anchor for one festival. It does not verify a personal pirannal.
 
 ## Worked examples
 

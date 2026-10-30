@@ -19,3 +19,13 @@ export 'src/malayalam_date.dart' show MalayalamDate, DateTimeToMalayalam;
 export 'src/names.dart' show MalayalamMonth, MalayalamWeekday, MalayalamScript;
 export 'src/numerals.dart' show toMalayalamDigits, fromMalayalamDigits;
 export 'src/panchanga.dart' show Nakshatra, Paksha, PanchangaSpan, Tithi;
+export 'src/recurrence.dart'
+    show
+        AbsentRule,
+        DuplicateRule,
+        GregorianYearly,
+        MalayalamDateMonthly,
+        MalayalamDateYearly,
+        NakshatraInMonth,
+        NakshatraMonthly,
+        Recurrence;
