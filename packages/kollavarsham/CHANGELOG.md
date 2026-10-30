@@ -1,3 +1,16 @@
+## 1.1.0
+
+**Added**
+
+- `BirthDetails.fromInstant` and `BirthDetails.fromLocalTime`: nakshatra
+  with pada, rashi, tithi and Malayalam date of a moment of birth.
+- `Rashi`, the twelve sidereal signs.
+- `Recurrence`, with `occurrencesBetween`, `next` and JSON conversion:
+  `NakshatraInMonth` (pirannal), `NakshatraMonthly`, `TithiInMonth`
+  (shraddham), `TithiEveryPaksha` (every Ekadashi and the like),
+  `MalayalamDateYearly`, `MalayalamDateMonthly` and `GregorianYearly`.
+- `DuplicateRule` and `AbsentRule`, for days that are doubled or missing.
+
 ## 1.0.0
 
 First stable release. The public API is now covered by semantic

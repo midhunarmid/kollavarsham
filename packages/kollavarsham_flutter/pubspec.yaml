@@ -24,7 +24,7 @@ resolution: workspace
 dependencies:
   flutter:
     sdk: flutter
-  kollavarsham: ^1.0.0
+  kollavarsham: ^1.1.0
 
 dev_dependencies:
   flutter_test:

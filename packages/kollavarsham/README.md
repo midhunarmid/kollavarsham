@@ -23,7 +23,8 @@ print(vishu); // 2026-04-14
 - **Formatting and parsing** with patterns, optionally using Malayalam digits (൧൨൦൧). Parsing accepts both scripts and common spelling variants.
 - **Panchanga:** the nakshatra and tithi of any day (taken at sunrise) or any moment, with their start and end times.
 - **Festivals:** Onam (Thiruvonam), Atham, Vishu, Attukal Pongala, Thrissur Pooram, Karkidaka Vavu, the Mandala season, Mandala Pooja, Makaravilakku and more, individually or as a list for a year.
-- **Birthdays by star:** `daysWithNakshatra` finds the day(s) in a month that carry a given nakshatra.
+- **Birth details:** the nakshatra with pada, rashi, tithi and Malayalam date of any moment of birth.
+- **Recurring dates:** star birthdays (pirannal), monthly nakshatram, shraddham by tithi, every Ekadashi and other vrat-style days, Malayalam and Gregorian anniversaries, with rules for doubled and missing days.
 - **North Malabar years:** `YearStart.kanni` numbers years from Kanni instead of Chingam.
 - **Configurable location:** sunrise and sunset are computed for Thiruvananthapuram in IST by default. Kochi and Kozhikode are built in, and you can supply any location.
 
@@ -80,6 +81,60 @@ for (final (festival, date) in cal.festivalsIn(1201)) {
 | Attukal Pongala | Pooram at sunset in Kumbham (later occurrence) | 2015–2025 |
 | Thrissur Pooram | Pooram at midnight in Medam (later occurrence) | 2016–2025 |
 | Karkidaka Vavu | Amavasya at the end of the afternoon in Karkidakam, else at sunrise | 2015–2025 |
+
+### Birth details
+
+```dart
+// A clock time at the calendar's location, whatever the device's time zone.
+final birth = BirthDetails.fromLocalTime(DateTime(1950, 9, 17, 11));
+birth.nakshatra; // Nakshatra.anizham
+birth.pada; // 2
+birth.rashi; // Rashi.vrischika
+birth.date; // 1126 Kanni 1
+
+// An exact moment.
+BirthDetails.fromInstant(DateTime.utc(2025, 9, 4, 19));
+```
+
+`date` is the civil day at the calendar's location, so a birth after midnight and before sunrise has the new day's date.
+
+### Recurring dates
+
+A `Recurrence` gives the occurrences in a range and the next one. Recurrences compare by value and convert to and from JSON.
+
+```dart
+// A pirannal: Pooradam in Dhanu each year.
+const pirannal = NakshatraInMonth(Nakshatra.pooradam, MalayalamMonth.dhanu);
+pirannal.next(DateTime.now());
+
+// A nakshatram: every Pooradam, about every 27 days.
+const NakshatraMonthly(Nakshatra.pooradam)
+    .occurrencesBetween(DateTime(2027), DateTime(2027, 12, 31));
+
+// A shraddham: waning Ekadashi in Karkidakam each year.
+TithiInMonth(Tithi(26), MalayalamMonth.karkidakam);
+
+// Every Ekadashi, or every waxing Shashti.
+const TithiEveryPaksha(11);
+const TithiEveryPaksha(6, paksha: Paksha.shukla);
+
+// Anniversaries.
+const MalayalamDateYearly(MalayalamMonth.thulam, 12);
+const MalayalamDateMonthly(1);
+const GregorianYearly(2, 29);
+
+final json = pirannal.toJson();
+Recurrence.fromJson(json); // == pirannal
+```
+
+| Recurrence | A day counts when | Doubled | Missing |
+|---|---|---|---|
+| `NakshatraInMonth` | the star is present 6 nazhika after sunrise | later day (`DuplicateRule`) | last such day of the previous month (`AbsentRule`) |
+| `NakshatraMonthly` | as above | every such day | the earlier of the two days around it |
+| `TithiInMonth` | the tithi covers more of that day's afternoon | later day (`DuplicateRule`) | last such day of the previous month (`AbsentRule`) |
+| `TithiEveryPaksha` | the tithi is present at sunrise | the first day | the earlier of the two days around it |
+
+These rules differ between families and almanacs. They are drafts, explained with their sources in [`docs/pirannal-rules.md`](https://github.com/midhunarmid/kollavarsham/blob/main/docs/pirannal-rules.md), and pirannal dates haven't been checked against a printed almanac yet.
 
 ## How it works
 
