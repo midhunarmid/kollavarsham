@@ -29,4 +29,6 @@ export 'src/recurrence.dart'
         MalayalamDateYearly,
         NakshatraInMonth,
         NakshatraMonthly,
-        Recurrence;
+        Recurrence,
+        TithiEveryPaksha,
+        TithiInMonth;

@@ -57,6 +57,19 @@ sealed class Recurrence {
       'nakshatraMonthly' => NakshatraMonthly(
           _enumField(json, 'nakshatra', Nakshatra.values),
         ),
+      'tithiInMonth' => TithiInMonth(
+          Tithi(_intField(json, 'tithi', min: 1, max: 30)),
+          _enumField(json, 'month', MalayalamMonth.values),
+          duplicateRule:
+              _enumField(json, 'duplicateRule', DuplicateRule.values),
+          absentRule: _enumField(json, 'absentRule', AbsentRule.values),
+        ),
+      'tithiEveryPaksha' => TithiEveryPaksha(
+          _intField(json, 'dayOfPaksha', min: 1, max: 15),
+          paksha: json['paksha'] == null
+              ? null
+              : _enumField(json, 'paksha', Paksha.values),
+        ),
       'malayalamDateYearly' => MalayalamDateYearly(
           _enumField(json, 'month', MalayalamMonth.values),
           _intField(json, 'day'),
@@ -157,17 +170,15 @@ final class NakshatraInMonth extends Recurrence {
 
   @override
   Iterable<int> _dayNumbersIn(KollavarshamCalendar cal, int year) {
-    final test = _starTest(cal, nakshatra);
-    final start = cal.dayNumberOf(year, month, 1);
-    final days = _passingDays(cal, start, cal.monthLength(year, month), test);
-    if (days.isNotEmpty) {
-      return [duplicateRule == DuplicateRule.second ? days.last : days.first];
-    }
-    return switch (absentRule) {
-      AbsentRule.previousMonth => _lastPassingInPreviousMonth(cal, start, test),
-      AbsentRule.nextMonth => _firstPassingInNextMonth(cal, start, test),
-      AbsentRule.skip => const [],
-    };
+    return _dayInMonth(
+      cal,
+      year,
+      month,
+      duplicateRule,
+      absentRule,
+      (start, length) =>
+          _passingDays(cal, start, length, _starTest(cal, nakshatra)),
+    );
   }
 
   @override
@@ -239,6 +250,139 @@ final class NakshatraMonthly extends Recurrence {
 
   @override
   int get hashCode => Object.hash(NakshatraMonthly, nakshatra);
+}
+
+/// A yearly observance by lunar day, such as a shraddham (rule R4 in
+/// `docs/pirannal-rules.md`): the day of [month] on which [tithi] falls, with
+/// the rules for days that are doubled or missing.
+///
+/// A tithi belongs to the day on which it covers more of the afternoon
+/// (aparahna, the fourth of the five equal parts of the daytime), the first
+/// day on a tie. A tithi that misses the afternoon of both days belongs to
+/// the later day, the one it covers at sunrise. Every tithi therefore has
+/// exactly one day.
+///
+/// With the default rules a tithi that falls twice in the month uses the
+/// later day (R1); when there is none, it falls on the last such day of the
+/// previous month (R2).
+final class TithiInMonth extends Recurrence {
+  /// Creates a yearly occurrence of [tithi] in [month].
+  TithiInMonth(
+    this.tithi,
+    this.month, {
+    this.duplicateRule = DuplicateRule.second,
+    this.absentRule = AbsentRule.previousMonth,
+  });
+
+  /// The lunar day, which includes its fortnight: `Tithi(26)` is Ekadashi of
+  /// the waning fortnight.
+  final Tithi tithi;
+
+  /// The Malayalam (solar) month.
+  final MalayalamMonth month;
+
+  /// Which day counts when [tithi] falls on two days of [month].
+  final DuplicateRule duplicateRule;
+
+  /// Where the occurrence falls when [tithi] falls on no day of [month].
+  final AbsentRule absentRule;
+
+  @override
+  Iterable<int> _dayNumbersIn(KollavarshamCalendar cal, int year) {
+    return _dayInMonth(
+      cal,
+      year,
+      month,
+      duplicateRule,
+      absentRule,
+      (start, length) => _tithiDays(cal, tithi, start, length),
+    );
+  }
+
+  @override
+  Map<String, Object?> toJson() => {
+        'type': 'tithiInMonth',
+        'tithi': tithi.number,
+        'month': _enumName(month),
+        'duplicateRule': duplicateRule.name,
+        'absentRule': absentRule.name,
+      };
+
+  @override
+  bool operator ==(Object other) =>
+      other is TithiInMonth &&
+      other.tithi == tithi &&
+      other.month == month &&
+      other.duplicateRule == duplicateRule &&
+      other.absentRule == absentRule;
+
+  @override
+  int get hashCode =>
+      Object.hash(TithiInMonth, tithi, month, duplicateRule, absentRule);
+}
+
+/// The same lunar day in every fortnight, such as every Ekadashi, or in one
+/// fortnight only, such as every waxing Shashti.
+///
+/// This uses the tithi at sunrise, as a day's tithi does in an almanac. One
+/// tithi gives one day: a tithi present at two sunrises counts on the first,
+/// and a tithi that falls wholly between two sunrises counts on the earlier
+/// day.
+final class TithiEveryPaksha extends Recurrence {
+  /// Creates an occurrence on [dayOfPaksha] of each fortnight, or of [paksha]
+  /// only if given.
+  const TithiEveryPaksha(this.dayOfPaksha, {this.paksha})
+      : assert(dayOfPaksha >= 1 && dayOfPaksha <= 15);
+
+  /// The day of the fortnight, from 1 to 15. 11 is Ekadashi, and 15 is
+  /// Pournami in the waxing fortnight and Amavasya in the waning one.
+  final int dayOfPaksha;
+
+  /// The only fortnight that counts, or `null` for both.
+  final Paksha? paksha;
+
+  bool _matches(int tithiNumber) {
+    final tithi = Tithi(tithiNumber);
+    return tithi.dayOfPaksha == dayOfPaksha &&
+        (paksha == null || tithi.paksha == paksha);
+  }
+
+  @override
+  Iterable<int> _dayNumbersIn(KollavarshamCalendar cal, int year) {
+    final start = cal.dayNumberOf(year, cal.firstMonth, 1);
+    final end = start + cal.yearLength(year);
+    final days = <int>[];
+    int tithiOn(int n) => cal.tithiOn(cal.dateOfDayNumber(n)).number;
+    var previous = tithiOn(start - 1);
+    var current = tithiOn(start);
+    for (var n = start; n < end; n++) {
+      final following = tithiOn(n + 1);
+      final skipped = (following - current) % 30 == 2 ? current % 30 + 1 : null;
+      if ((current != previous && _matches(current)) ||
+          (skipped != null && _matches(skipped))) {
+        days.add(n);
+      }
+      previous = current;
+      current = following;
+    }
+    return days;
+  }
+
+  @override
+  Map<String, Object?> toJson() => {
+        'type': 'tithiEveryPaksha',
+        'dayOfPaksha': dayOfPaksha,
+        if (paksha case final paksha?) 'paksha': _enumName(paksha),
+      };
+
+  @override
+  bool operator ==(Object other) =>
+      other is TithiEveryPaksha &&
+      other.dayOfPaksha == dayOfPaksha &&
+      other.paksha == paksha;
+
+  @override
+  int get hashCode => Object.hash(TithiEveryPaksha, dayOfPaksha, paksha);
 }
 
 /// The same Malayalam [day] of [month] every year, such as an anniversary
@@ -384,29 +528,119 @@ bool _passesAtSunrise(
   return sunrise != null && test(sunrise.add(_sixNazhika));
 }
 
-/// The last day of the month before the one starting at [start] that passes
-/// [test], as a one-element list, or an empty list.
-List<int> _lastPassingInPreviousMonth(
+/// The day numbers in a month that qualify, given its first day and length.
+typedef _DaysInMonth = List<int> Function(int start, int length);
+
+/// The day of [month] in [year] picked from [daysIn] by [duplicateRule], or
+/// by [absentRule] when the month has none.
+List<int> _dayInMonth(
+  KollavarshamCalendar cal,
+  int year,
+  MalayalamMonth month,
+  DuplicateRule duplicateRule,
+  AbsentRule absentRule,
+  _DaysInMonth daysIn,
+) {
+  final start = cal.dayNumberOf(year, month, 1);
+  final days = daysIn(start, cal.monthLength(year, month));
+  if (days.isNotEmpty) {
+    return [duplicateRule == DuplicateRule.second ? days.last : days.first];
+  }
+  return switch (absentRule) {
+    AbsentRule.previousMonth => _lastInPreviousMonth(cal, start, daysIn),
+    AbsentRule.nextMonth => _firstInNextMonth(cal, start, daysIn),
+    AbsentRule.skip => const [],
+  };
+}
+
+/// The last qualifying day of the month before the one starting at [start],
+/// as a one-element list, or an empty list.
+List<int> _lastInPreviousMonth(
   KollavarshamCalendar cal,
   int start,
-  _InstantTest test,
+  _DaysInMonth daysIn,
 ) {
   final length = cal.fromDayNumber(start - 1).monthLength;
-  final days = _passingDays(cal, start - length, length, test);
+  final days = daysIn(start - length, length);
   return days.isEmpty ? const [] : [days.last];
 }
 
-/// The first day of the month after the one starting at [start] that passes
-/// [test], as a one-element list, or an empty list.
-List<int> _firstPassingInNextMonth(
+/// The first qualifying day of the month after the one starting at [start],
+/// as a one-element list, or an empty list.
+List<int> _firstInNextMonth(
   KollavarshamCalendar cal,
   int start,
-  _InstantTest test,
+  _DaysInMonth daysIn,
 ) {
   final nextStart = start + cal.fromDayNumber(start).monthLength;
   final length = cal.fromDayNumber(nextStart).monthLength;
-  final days = _passingDays(cal, nextStart, length, test);
+  final days = daysIn(nextStart, length);
   return days.isEmpty ? const [] : [days.first];
+}
+
+/// Fewer hours than the shortest tithi, so stepping by this many hours per
+/// tithi never passes the one being looked for.
+const _shortestTithiHours = 19;
+
+/// The day numbers in `[start, start + length)` that [tithi] belongs to.
+List<int> _tithiDays(
+  KollavarshamCalendar cal,
+  Tithi tithi,
+  int start,
+  int length,
+) {
+  final days = <int>[];
+  // A tithi's day is at most a day after it begins, so start one day early.
+  final first = cal.dateOfDayNumber(start - 1);
+  final last = cal.dateOfDayNumber(start + length);
+  var instant = DateTime.utc(first.year, first.month, first.day);
+  final end = DateTime.utc(last.year, last.month, last.day);
+  while (instant.isBefore(end)) {
+    final gap = (tithi.number - cal.tithiAt(instant).number) % 30;
+    if (gap > 1) {
+      instant = instant.add(
+        Duration(hours: (gap - 1) * _shortestTithiHours),
+      );
+      continue;
+    }
+    final span = cal.tithiSpanAt(instant);
+    if (gap == 0) {
+      final day = _afternoonDay(cal, span);
+      if (day >= start && day < start + length) days.add(day);
+    }
+    instant = span.end.add(const Duration(minutes: 1));
+  }
+  return days;
+}
+
+/// The day [span] belongs to by its share of the afternoon.
+int _afternoonDay(KollavarshamCalendar cal, PanchangaSpan<Tithi> span) {
+  final first =
+      cal.dayNumberOfGregorian(span.start.add(cal.location.utcOffset));
+  final share = _afternoonShare(cal, first, span);
+  final nextShare = _afternoonShare(cal, first + 1, span);
+  if (share == Duration.zero && nextShare == Duration.zero) return first + 1;
+  return nextShare > share ? first + 1 : first;
+}
+
+/// How much of the afternoon of [dayNumber] lies within [span].
+Duration _afternoonShare(
+  KollavarshamCalendar cal,
+  int dayNumber,
+  PanchangaSpan<Tithi> span,
+) {
+  final date = cal.dateOfDayNumber(dayNumber);
+  final sunrise = cal.sunrise(date);
+  final sunset = cal.sunset(date);
+  if (sunrise == null || sunset == null) return Duration.zero;
+  final daytime = sunset.difference(sunrise);
+  final from = sunrise.add(daytime * (3 / 5));
+  final to = sunrise.add(daytime * (4 / 5));
+  final overlapStart = span.start.isAfter(from) ? span.start : from;
+  final overlapEnd = span.end.isBefore(to) ? span.end : to;
+  return overlapEnd.isAfter(overlapStart)
+      ? overlapEnd.difference(overlapStart)
+      : Duration.zero;
 }
 
 /// The declared name of [value]. [Nakshatra] and [MalayalamMonth] hide
@@ -431,8 +665,13 @@ T _enumField<T extends Enum>(
   throw FormatException('Invalid $key in recurrence: $name');
 }
 
-int _intField(Map<String, Object?> json, String key) {
+int _intField(Map<String, Object?> json, String key, {int? min, int? max}) {
   final value = json[key];
-  if (value is int) return value;
-  throw FormatException('$key must be an integer in recurrence: $value');
+  if (value is! int) {
+    throw FormatException('$key must be an integer in recurrence: $value');
+  }
+  if ((min != null && value < min) || (max != null && value > max)) {
+    throw FormatException('$key is out of range in recurrence: $value');
+  }
+  return value;
 }

@@ -20,7 +20,10 @@ Most sources below are blogs, almanac sites and news pages. None is a primary Sa
 | S4 | Vedadhara, [vedadhara.com/one-nakshatra-two-days-which-one-is-right-for-your-birthday](https://www.vedadhara.com/one-nakshatra-two-days-which-one-is-right-for-your-birthday) | Dharma Sindhu rule for a star on two days: prefer the day when the star is present at sunrise and lasts about 96 minutes; otherwise the earlier day |
 | S5 | Malayalam Panchangam glossary, [malayalam-calendar.pages.dev/glossary](https://malayalam-calendar.pages.dev/glossary) | Terms only |
 | S6 | Onmanorama, [pithru sradham bali karkidaka vavu](https://www.onmanorama.com/lifestyle/astro/2019/07/31/pithru-sradham-bali-karkidaka-vavu.html) | Karkidaka Vavu is a separate fixed observance (Amavasya of Karkidakam) |
-| S7 | Advaita-l mailing list, [2019-October/053381](https://advaita-vedanta.org/archives/advaita-l/2019-October/053381.html) | Shraddham by tithi is the common default; Kerala practice on nakshatra is mixed; Kerala's solar or lunar month convention is unresolved |
+| S7 | Advaita-l mailing list, [2019-October/053381](https://advaita-vedanta.org/archives/advaita-l/2019-October/053381.html) | Tamil annual shraddham uses the solar month, then the same paksha and tithi; one writer says "the procedure is same in kerala also", and that some communities use the nakshatra of death; "no universal pattern" |
+| S8 | HinduPad, [Shraddha Vidhi](https://hindupad.com/shraddha-vidhi/) | Shraddham is in the afternoon, after 18 nazhika; a tithi on two days uses the day with more of the afternoon, the first on a tie; a tithi twice in a solar month uses the second; a month without it falls back to an earlier or later month |
+| S9 | Hindu Blog, [how to find shradh tithi](https://www.hindu-blog.com/2012/09/how-to-find-shradh-tithi.html) | Shraddham by nakshatra uses the first of two nakshatras in a month; a tithi should hold for most of the day |
+| S10 | Drik Panchang, [shraddha tithi pages](https://www.drikpanchang.com/shraddha/tithi/shashthi-shraddha-date-time.html?year=2022) | Published shraddha days and afternoon (aparahna) times for New Delhi |
 
 ## R1. Star occurs twice in the Malayalam month
 
@@ -53,10 +56,13 @@ Combined default for R1 + R3: take the candidate days in the month where the sta
 
 Two methods are used. The app supports both, and the default is **tithi**.
 
-- **`TithiInMonth` (default):** the same lunar tithi as the day of death, in the same Malayalam month. Support: S7 says this is the common default across regions.
-- **`NakshatraInMonth`:** the same nakshatra of death in the month. S5 and S7 say some Kerala families use it, and where two dates occur in one month the first is chosen (S7). This is the opposite of R1, so it needs its own setting.
-- Open question (Needs you): whether a Kerala family's month is solar (Malayalam) or lunar for a tithi observance. S7 leaves this unresolved. The default uses the Malayalam (solar) month for the window and the tithi inside it.
-- Karkidaka Vavu is a fixed festival (Amavasya of Karkidakam, S6). It is not a shraddham recurrence and is handled as a festival.
+- **`TithiInMonth` (default):** the same lunar tithi as the day of death, in the same Malayalam month. Support: S7 and S8 use the solar month, the same paksha and the tithi.
+- **`NakshatraInMonth`:** the same nakshatra of death in the month. S7 says some communities use it, and where two dates occur in one month the first is chosen (S9). This is the opposite of R1, so an app should store `DuplicateRule.first` for it.
+- **Which day a tithi belongs to:** the day on which it covers more of the afternoon (aparahna, the fourth of five equal parts of the daytime), the first day on a tie (S8). A tithi that misses both afternoons belongs to the later day, the one it covers at sunrise; this last step is ours, unsourced, and every tithi then has one day. The rule reproduces three published days for New Delhi (S10), including Ashtami 2022, which is on both afternoons. S9 instead says a tithi should hold for most of the day; the app follows the more specific S8.
+- **A tithi twice in the month:** the later day (`DuplicateRule.second`, S8). S8 adds an exception when a day coincides with the sankranti; the engine doesn't implement it.
+- **A tithi absent from the month:** the last such day of the previous month (`AbsentRule.previousMonth`). S8 falls back to the previous lunar month and then the next solar month, so this is close to S8 but not the same.
+- Open question (Needs you): whether a Kerala family's month is solar (Malayalam) or lunar for a tithi observance. S7 suggests solar but is one brief remark. The default uses the Malayalam (solar) month for the window and the tithi inside it.
+- Karkidaka Vavu is a fixed festival (Amavasya of Karkidakam, S6). It is not a shraddham recurrence and is handled as a festival. Its published dates follow a different reading (Amavasya at the end of the afternoon, the first such day; see [accuracy.md](accuracy.md)). `TithiInMonth(Tithi(30), karkidakam)` with `DuplicateRule.first` agrees with the published Vavu in 10 of 11 years, 2015–2025. In 2024 Amavasya covered only the last minutes of the 3 August afternoon: the festival was on 3 August, and this rule gives 4 August. Owner to confirm that a Kerala shraddham follows S8 rather than the Vavu reading.
 
 ## R5. Other recurrences
 
@@ -67,6 +73,8 @@ Two methods are used. The app supports both, and the default is **tithi**.
 ## Implementation (Day 3)
 
 `packages/kollavarsham/lib/src/recurrence.dart` implements R1 (`DuplicateRule.second` / `first`), R2 (`AbsentRule.previousMonth` / `nextMonth` / `skip`) and the R3 default anchor (sunrise + 6 nazhika). The other R3 options (`firstOccurrence`, `dharmaSindhu`) are not implemented yet; they wait for the owner's answer to question 3.
+
+`TithiInMonth` (Day 4) implements R4. `TithiEveryPaksha` covers vrat-style days such as every Ekadashi. It reads the tithi at sunrise, as an almanac's daily tithi does: one day per tithi, the first if the tithi is at two sunrises, and the earlier day if it falls between two sunrises.
 
 Cross-check: `NakshatraInMonth(thiruvonam, chingam)` with the default rules gives the published Onam date for all 16 years in the festival tests (2009–2025 except 2016). That includes 2013 and 2024, when Thiruvonam falls twice in Chingam and the later day is Onam. This supports R1 `second` and the 6-nazhika anchor for one festival. It does not verify a personal pirannal.
 
@@ -87,6 +95,7 @@ These examples use the rules above. The dates are placeholders until the engine 
 3. R3: confirm the sunrise anchor and the 6 nazhika reading (S3 vs S4).
 4. R4: is a Kerala shraddham by tithi computed in the Malayalam (solar) month or the lunar month?
 5. Malayalam-date anniversaries on day 31 or 30 in a short month: confirm the last-day rule.
+6. R4: does a Kerala shraddham use the day with more of the afternoon (S8, the default), or the Karkidaka Vavu reading (the tithi at the end of the afternoon, first such day)? They differ when a tithi touches two afternoons, as Amavasya did on 3–4 August 2024.
 
 ## Next steps
 
