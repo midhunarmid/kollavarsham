@@ -131,6 +131,11 @@ double moonSiderealLongitude(double jdUT) {
 double lunarElongation(double jdUT) =>
     norm360(moonApparentLongitude(jdUT) - sunApparentLongitude(jdUT));
 
+/// Sum of the Sun's and Moon's sidereal longitudes, 0–360°, for a Julian Day
+/// (UT). Each 13°20′ is one yoga.
+double yogaLongitude(double jdUT) =>
+    norm360(moonSiderealLongitude(jdUT) + sunSiderealLongitude(jdUT));
+
 /// Finds the instant (JD, UT) near [guessJd] at which [f] (an angle in
 /// degrees that increases roughly linearly) equals [target].
 double solveAngle(

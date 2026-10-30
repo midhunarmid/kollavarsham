@@ -496,6 +496,51 @@ class KollavarshamCalendar {
         Tithi(i + 1), dateTimeFromJulianDay(start), dateTimeFromJulianDay(end));
   }
 
+  /// The yoga at [instant].
+  Yoga yogaAt(DateTime instant) =>
+      Yoga.fromLongitudeSum(yogaLongitude(julianDayFromDateTime(instant)));
+
+  /// The yoga of a Gregorian [date]: the one prevailing at sunrise.
+  Yoga yogaOn(DateTime date) =>
+      Yoga.fromLongitudeSum(yogaLongitude(_sunriseJd(_dayNumberOf(date))));
+
+  /// When the yoga prevailing at [instant] began and ends.
+  PanchangaSpan<Yoga> yogaSpanAt(DateTime instant) {
+    final jd = julianDayFromDateTime(instant);
+    final sum = yogaLongitude(jd);
+    final i = (sum / Yoga.span).floor() % 27;
+    final start = solveAngle(
+        yogaLongitude, i * Yoga.span, jd - (sum - i * Yoga.span) / 14.16,
+        degreesPerDay: 14.16);
+    final end = solveAngle(yogaLongitude, (i + 1) * Yoga.span,
+        jd + ((i + 1) * Yoga.span - sum) / 14.16,
+        degreesPerDay: 14.16);
+    return PanchangaSpan(Yoga.values[i], dateTimeFromJulianDay(start),
+        dateTimeFromJulianDay(end));
+  }
+
+  /// The karana at [instant].
+  Karana karanaAt(DateTime instant) =>
+      Karana.fromElongation(lunarElongation(julianDayFromDateTime(instant)));
+
+  /// The karana of a Gregorian [date]: the one prevailing at sunrise.
+  Karana karanaOn(DateTime date) =>
+      Karana.fromElongation(lunarElongation(_sunriseJd(_dayNumberOf(date))));
+
+  /// When the karana prevailing at [instant] began and ends.
+  PanchangaSpan<Karana> karanaSpanAt(DateTime instant) {
+    final jd = julianDayFromDateTime(instant);
+    final e = lunarElongation(jd);
+    final i = (e / 6).floor() % 60;
+    final start = solveAngle(lunarElongation, i * 6.0, jd - (e - i * 6) / 12.19,
+        degreesPerDay: 12.19);
+    final end = solveAngle(
+        lunarElongation, (i + 1) * 6.0, jd + ((i + 1) * 6 - e) / 12.19,
+        degreesPerDay: 12.19);
+    return PanchangaSpan(Karana.ofSlot(i), dateTimeFromJulianDay(start),
+        dateTimeFromJulianDay(end));
+  }
+
   /// Days of [month] in Kollavarsham [year] whose nakshatra (at sunrise) is
   /// [nakshatra] — e.g. to find a Malayalam birthday (pirannal). Usually
   /// one day; occasionally none or two.

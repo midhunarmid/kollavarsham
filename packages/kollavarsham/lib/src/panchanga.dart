@@ -247,12 +247,182 @@ class Tithi {
   String toString() => 'Tithi($number, ${name(MalayalamScript.english)})';
 }
 
-/// A span of time during which a nakshatra or tithi prevails.
+/// The 27 yogas, each 13°20′ of the sum of the Sun's and Moon's sidereal
+/// longitudes, starting with Vishkambha at 0°.
+enum Yoga {
+  /// Vishkambha (വിഷ്കംഭം).
+  vishkambha('വിഷ്കംഭം', 'Vishkambha'),
+
+  /// Priti (പ്രീതി).
+  priti('പ്രീതി', 'Priti'),
+
+  /// Ayushman (ആയുഷ്മാൻ).
+  ayushman('ആയുഷ്മാൻ', 'Ayushman'),
+
+  /// Saubhagya (സൗഭാഗ്യം).
+  saubhagya('സൗഭാഗ്യം', 'Saubhagya'),
+
+  /// Shobhana (ശോഭനം).
+  shobhana('ശോഭനം', 'Shobhana'),
+
+  /// Atiganda (അതിഗണ്ഡം).
+  atiganda('അതിഗണ്ഡം', 'Atiganda'),
+
+  /// Sukarma (സുകർമ്മം).
+  sukarma('സുകർമ്മം', 'Sukarma'),
+
+  /// Dhriti (ധൃതി).
+  dhriti('ധൃതി', 'Dhriti'),
+
+  /// Shula (ശൂലം).
+  shula('ശൂലം', 'Shula'),
+
+  /// Ganda (ഗണ്ഡം).
+  ganda('ഗണ്ഡം', 'Ganda'),
+
+  /// Vriddhi (വൃദ്ധി).
+  vriddhi('വൃദ്ധി', 'Vriddhi'),
+
+  /// Dhruva (ധ്രുവം).
+  dhruva('ധ്രുവം', 'Dhruva'),
+
+  /// Vyaghata (വ്യാഘാതം).
+  vyaghata('വ്യാഘാതം', 'Vyaghata'),
+
+  /// Harshana (ഹർഷണം).
+  harshana('ഹർഷണം', 'Harshana'),
+
+  /// Vajra (വജ്രം).
+  vajra('വജ്രം', 'Vajra'),
+
+  /// Siddhi (സിദ്ധി).
+  siddhi('സിദ്ധി', 'Siddhi'),
+
+  /// Vyatipata (വ്യതീപാതം).
+  vyatipata('വ്യതീപാതം', 'Vyatipata'),
+
+  /// Variyana (വരീയാൻ).
+  variyana('വരീയാൻ', 'Variyana'),
+
+  /// Parigha (പരിഘം).
+  parigha('പരിഘം', 'Parigha'),
+
+  /// Shiva (ശിവം).
+  shiva('ശിവം', 'Shiva'),
+
+  /// Siddha (സിദ്ധം).
+  siddha('സിദ്ധം', 'Siddha'),
+
+  /// Sadhya (സാധ്യം).
+  sadhya('സാധ്യം', 'Sadhya'),
+
+  /// Shubha (ശുഭം).
+  shubha('ശുഭം', 'Shubha'),
+
+  /// Shukla (ശുക്ലം).
+  shukla('ശുക്ലം', 'Shukla'),
+
+  /// Brahma (ബ്രഹ്മം).
+  brahma('ബ്രഹ്മം', 'Brahma'),
+
+  /// Indra (ഐന്ദ്രം).
+  indra('ഐന്ദ്രം', 'Indra'),
+
+  /// Vaidhriti (വൈധൃതി).
+  vaidhriti('വൈധൃതി', 'Vaidhriti');
+
+  const Yoga(this.malayalam, this.english);
+
+  /// Name in Malayalam script.
+  final String malayalam;
+
+  /// Name in Latin transliteration.
+  final String english;
+
+  /// Arc of the longitude sum covered by one yoga, in degrees.
+  static const double span = 360 / 27;
+
+  /// The yoga for the sum of the Sun's and Moon's sidereal longitudes.
+  static Yoga fromLongitudeSum(double degrees) =>
+      values[((degrees % 360) / span).floor() % 27];
+
+  /// Name in the requested [script].
+  String name(MalayalamScript script) =>
+      script == MalayalamScript.malayalam ? malayalam : english;
+
+  /// The following yoga, wrapping from Vaidhriti to Vishkambha.
+  Yoga get next => values[(index + 1) % 27];
+}
+
+/// The 11 karanas. A karana is half a tithi, so a lunar month has 60: the
+/// seven movable karanas repeat eight times, and the four fixed ones fall
+/// around the new moon.
+enum Karana {
+  /// Bava (ബവം), movable.
+  bava('ബവം', 'Bava'),
+
+  /// Balava (ബാലവം), movable.
+  balava('ബാലവം', 'Balava'),
+
+  /// Kaulava (കൗലവം), movable.
+  kaulava('കൗലവം', 'Kaulava'),
+
+  /// Taitila (തൈതിലം), movable.
+  taitila('തൈതിലം', 'Taitila'),
+
+  /// Garaja (ഗരജം), movable.
+  garaja('ഗരജം', 'Garaja'),
+
+  /// Vanija (വണിജം), movable.
+  vanija('വണിജം', 'Vanija'),
+
+  /// Vishti (വിഷ്ടി), movable; also called Bhadra.
+  vishti('വിഷ്ടി', 'Vishti'),
+
+  /// Shakuni (ശകുനി), fixed: the second half of Krishna Chathurdashi.
+  shakuni('ശകുനി', 'Shakuni'),
+
+  /// Chatushpada (ചതുഷ്പാദം), fixed: the first half of Amavasi.
+  chatushpada('ചതുഷ്പാദം', 'Chatushpada'),
+
+  /// Naga (നാഗവം), fixed: the second half of Amavasi.
+  naga('നാഗവം', 'Naga'),
+
+  /// Kimstughna (കിംസ്തുഘ്നം), fixed: the first half of Shukla Prathama.
+  kimstughna('കിംസ്തുഘ്നം', 'Kimstughna');
+
+  const Karana(this.malayalam, this.english);
+
+  /// Name in Malayalam script.
+  final String malayalam;
+
+  /// Name in Latin transliteration.
+  final String english;
+
+  /// The karana in half-tithi [slot] of the lunar month, 0–59.
+  static Karana ofSlot(int slot) => switch (slot % 60) {
+        0 => kimstughna,
+        57 => shakuni,
+        58 => chatushpada,
+        59 => naga,
+        final s => values[(s - 1) % 7],
+      };
+
+  /// The karana for a Moon–Sun elongation in degrees.
+  static Karana fromElongation(double degrees) =>
+      ofSlot(((degrees % 360) / 6).floor());
+
+  /// Name in the requested [script].
+  String name(MalayalamScript script) =>
+      script == MalayalamScript.malayalam ? malayalam : english;
+}
+
+/// A span of time during which a panchanga element prevails.
 class PanchangaSpan<T> {
   /// Creates a span during which [value] prevails, from [start] to [end].
   const PanchangaSpan(this.value, this.start, this.end);
 
-  /// The nakshatra or tithi.
+  /// The nakshatra, tithi or other element.
   final T value;
 
   /// When it began (UTC).

@@ -19,7 +19,8 @@ export 'src/festivals.dart' show KeralaFestival, KeralaFestivals;
 export 'src/malayalam_date.dart' show MalayalamDate, DateTimeToMalayalam;
 export 'src/names.dart' show MalayalamMonth, MalayalamWeekday, MalayalamScript;
 export 'src/numerals.dart' show toMalayalamDigits, fromMalayalamDigits;
-export 'src/panchanga.dart' show Nakshatra, Paksha, PanchangaSpan, Rashi, Tithi;
+export 'src/panchanga.dart'
+    show Karana, Nakshatra, Paksha, PanchangaSpan, Rashi, Tithi, Yoga;
 export 'src/recurrence.dart'
     show
         AbsentRule,
