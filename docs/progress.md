@@ -54,10 +54,13 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] `data/holidays/` format (`schema.md`) plus `2026.json` and `2027.json` for Kerala Government public holidays and national days, each entry with a source URL. Mark Muslim festivals `tentative` until confirmed. (2027 is partial, see Needs you.)
 - [x] `docs/privacy.md`: privacy policy (no data collected, everything stays on the device).
 
-### Day 3: Sprint 1a, recurrence engine (status: todo)
-- [ ] `packages/kollavarsham/lib/src/recurrence.dart`: `Recurrence` with `occurrencesBetween(from, to)` and `next(after)`; implementations `NakshatraInMonth` (yearly pirannal), `NakshatraMonthly`, `MalayalamDateYearly`, `MalayalamDateMonthly`, `GregorianYearly`; a `DuplicateRule` per `docs/pirannal-rules.md`. Reuse `daysWithNakshatra` and `MalayalamDate`.
-- [ ] Tests with the sourced examples from the rules doc, plus property tests (sorted, no duplicates, no gaps over 1950–2100).
-- [ ] JSON (de)serialisation of recurrences, used later by the app database.
+### Day 3: Sprint 1a, recurrence engine (status: done)
+- [x] `packages/kollavarsham/lib/src/recurrence.dart`: `Recurrence` with `occurrencesBetween(from, to)` and `next(after)`; implementations `NakshatraInMonth` (yearly pirannal), `NakshatraMonthly`, `MalayalamDateYearly`, `MalayalamDateMonthly`, `GregorianYearly`; a `DuplicateRule` per `docs/pirannal-rules.md`. Reuse `daysWithNakshatra` and `MalayalamDate`.
+  - Stars are read at sunrise + 6 nazhika (R3 default), so the code uses `nakshatraAt` and `sunrise` rather than `daysWithNakshatra` (which reads at sunrise). R2 is `AbsentRule`. The other R3 options (`firstOccurrence`, `dharmaSindhu`) wait for the owner's review.
+  - Monthly nakshatram: when the star falls wholly between two days' readings, the earlier day counts (S3), so every lunar cycle has a day.
+- [x] Tests with the sourced examples from the rules doc, plus property tests (sorted, no duplicates, no gaps over 1950–2100).
+  - The rules doc has no almanac-verified pirannal dates yet (Day 23). As a sourced stand-in, the default pirannal rule reproduces the published Onam dates for 2009–2025 (16 years, two with Thiruvonam twice).
+- [x] JSON (de)serialisation of recurrences, used later by the app database.
 
 ### Day 4: Sprint 1b, birth details and shraddham (status: todo)
 - [ ] `BirthDetails.fromInstant(DateTime, {calendar})`: nakshatra with pada, rashi, Malayalam date, tithi; tests against known values.
@@ -164,3 +167,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 |---|---|---|
 | 2026-10-29 | Day 1 | apps/calendar scaffold (in.armid.calendar), Riverpod/go_router/gen-l10n, Noto Sans Malayalam, M3 home screen with tests, CI app job (web + debug APK artifacts) green |
 | 2026-10-30 | Day 2 | docs/pirannal-rules.md (draft defaults, sourced where possible, open questions), docs/design.md (IA, wireframes, colour/type), data/holidays schema plus 2026.json (complete per source) and 2027.json (partial: NI Act list only), docs/privacy.md draft; no code changes, so no test run |
+| 2026-10-30 | Day 3 | Recurrence engine (NakshatraInMonth, NakshatraMonthly, MalayalamDateYearly/Monthly, GregorianYearly), DuplicateRule/AbsentRule, JSON; 39 new tests incl. Onam 2009–2025 cross-check and 1950–2100 property tests; all 146 core tests pass |
