@@ -1,0 +1,88 @@
+# Pirannal and shraddham rules
+
+Status: **draft for owner review** (Needs you, see [progress.md](progress.md)). This document picks a default for each rare case, explains why, and lists what the owner must confirm. The defaults are what `DuplicateRule` (Day 3) will use until the owner changes them.
+
+Terms used below:
+
+- **Pirannal (star birthday):** the Malayalam month and birth nakshatra (star) of a person. The app's yearly event is the day in the birth Malayalam month when that star falls.
+- **Nakshatram:** each day the birth star recurs (about every 27.3 days). This is the monthly event.
+- **Nazhika:** a Kerala time unit, about 24 minutes ([sourcelibrary.org](https://sourcelibrary.org/book/699069002f82e0fda480401e/page-number/28)). 6 nazhika is about 2 hours 24 minutes.
+
+## Sources
+
+Most sources below are blogs, almanac sites and news pages. None is a primary Sanskrit or Kerala text. Each rule is marked with how strong its support is.
+
+| Ref | Source | Used for |
+|---|---|---|
+| S1 | Janma Nakshatra blog, [tuningmymelody.blogspot.com](https://tuningmymelody.blogspot.com/2019/04/the-reasoning-behind-janma-nakshatra.html) | Second occurrence in a solar month counts (example: Revathi on 15 April and 12 May, the 12 May one is used) |
+| S2 | On Being essay, [onbeing.org/?p=1337341](https://onbeing.org/?p=1337341) | Second occurrence celebrates the star birthday; no fixed doctrine on its significance |
+| S3 | Obidos Tech Malayalam calendar, [obidostech.com/malayalam-calendar](https://obidostech.com/malayalam-calendar) | 6 nazhika test; if the star is shorter, the pooja moves to the previous day |
+| S4 | Vedadhara, [vedadhara.com/one-nakshatra-two-days-which-one-is-right-for-your-birthday](https://www.vedadhara.com/one-nakshatra-two-days-which-one-is-right-for-your-birthday) | Dharma Sindhu rule for a star on two days: prefer the day when the star is present at sunrise and lasts about 96 minutes; otherwise the earlier day |
+| S5 | Malayalam Panchangam glossary, [malayalam-calendar.pages.dev/glossary](https://malayalam-calendar.pages.dev/glossary) | Terms only |
+| S6 | Onmanorama, [pithru sradham bali karkidaka vavu](https://www.onmanorama.com/lifestyle/astro/2019/07/31/pithru-sradham-bali-karkidaka-vavu.html) | Karkidaka Vavu is a separate fixed observance (Amavasya of Karkidakam) |
+| S7 | Advaita-l mailing list, [2019-October/053381](https://advaita-vedanta.org/archives/advaita-l/2019-October/053381.html) | Shraddham by tithi is the common default; Kerala practice on nakshatra is mixed; Kerala's solar or lunar month convention is unresolved |
+
+## R1. Star occurs twice in the Malayalam month
+
+**Default: the second occurrence** in the birth Malayalam month.
+
+- Support: S1 and S2 agree. S4 gives the Dharma Sindhu alternative for the same case (see R3).
+- Options in the app: `second` (default) or `first`.
+- Example to check against an almanac (not yet verified, Needs you): a star that falls on two dates in one Malayalam month uses the later date, after R3 is applied to both.
+
+## R2. Star does not occur in the Malayalam month
+
+The Moon moves about 11° to 15° a day, and a nakshatra spans 13.33°. So a nakshatra can be skipped in a month. Then there is no candidate day in the month.
+
+**Default (unsourced, owner to confirm):** use the **last day of the previous Malayalam month** on which the star is present (after R3 is applied), which is the closest day before the birth month.
+
+- No source in this research covers this case. The default is a proposal, not a cited rule. Two alternatives: the first day of the next month, or no pirannal that year (with a note in the app).
+- Options in the app: `previousMonth` (default), `nextMonth`, `skip`.
+
+## R3. Which day counts (sunrise and 6 nazhika)
+
+**Default: the star must be present at sunrise + 6 nazhika (about 2 h 24 min after sunrise) on that day.** This matches the "sunrise + 6 nazhika" option in [app-roadmap.md](app-roadmap.md) and the 6 nazhika rule in S3.
+
+- A day that fails the test is skipped. The pooja then falls on the previous day, which is the rule in S3.
+- S3 says "at least 6 nazhika on that day" and does not say whether the count starts at sunrise. S4 uses "present at sunrise and lasts about 96 minutes". The app's default is closest to S3 with the sunrise anchor from the roadmap. Owner to confirm the anchor.
+- Options in the app: `firstOccurrence`, `sunrisePlusSixNazhika` (default), `dharmaSindhu` (present at sunrise and at least 96 minutes; otherwise the earlier day).
+
+Combined default for R1 + R3: take the candidate days in the month where the star is present at sunrise + 6 nazhika; if there are two, use the later one (R1 second).
+
+## R4. Shraddham (death anniversary, aandu)
+
+Two methods are used. The app supports both, and the default is **tithi**.
+
+- **`TithiInMonth` (default):** the same lunar tithi as the day of death, in the same Malayalam month. Support: S7 says this is the common default across regions.
+- **`NakshatraInMonth`:** the same nakshatra of death in the month. S5 and S7 say some Kerala families use it, and where two dates occur in one month the first is chosen (S7). This is the opposite of R1, so it needs its own setting.
+- Open question (Needs you): whether a Kerala family's month is solar (Malayalam) or lunar for a tithi observance. S7 leaves this unresolved. The default uses the Malayalam (solar) month for the window and the tithi inside it.
+- Karkidaka Vavu is a fixed festival (Amavasya of Karkidakam, S6). It is not a shraddham recurrence and is handled as a festival.
+
+## R5. Other recurrences
+
+- **Monthly nakshatram:** every day the birth star is present at sunrise + 6 nazhika (R3). It does not use R1 or R2.
+- **Gregorian birthday:** the Gregorian date. Age is computed from the birth date.
+- **Malayalam-date anniversaries:** the same Malayalam day and month each year. If the day is missing in a shorter month, the last day of that month is used (proposed, unsourced; Needs you).
+
+## Worked examples
+
+These examples use the rules above. The dates are placeholders until the engine (Day 3) computes them. Each one must be checked against a printed almanac before it is used in tests (Day 23).
+
+1. **Pirannal, normal case.** Birth star Pooradam, birth month Dhanu. The star is present at sunrise + 6 nazhika on one day of Dhanu. The pirannal is that day each year. Check: the engine returns one date per year, and that date is the same Malayalam day as the almanac's Pooradam day in Dhanu.
+2. **Pirannal, star twice in month (R1).** The star occurs on day A and day B of the month, both passing R3. Default: day B.
+3. **Pirannal, 6 nazhika fails (R3).** The star starts at 14:00 on day C and is present at sunrise on day D only briefly, so it is not present at sunrise + 6 nazhika on D. Default: the pirannal falls on the earlier day that passes R3.
+4. **Pirannal, no occurrence (R2).** No day in the month passes R3. Default: the last passing day of the previous month.
+5. **Shraddham by tithi (R4).** Death on Ekadashi, Karkidakam. Default: the Ekadashi tithi in the same Malayalam month each year.
+
+## Open questions for the owner
+
+1. Is "second occurrence" (R1) the default you want for the app, or should `first` be the default?
+2. R2: the previous-month default has no source. Confirm, or choose `nextMonth` or `skip`.
+3. R3: confirm the sunrise anchor and the 6 nazhika reading (S3 vs S4).
+4. R4: is a Kerala shraddham by tithi computed in the Malayalam (solar) month or the lunar month?
+5. Malayalam-date anniversaries on day 31 or 30 in a short month: confirm the last-day rule.
+
+## Next steps
+
+- Verify R1 and R3 against two printed almanacs (Malayalam panchangam) for at least three stars and a year of data. Record the results in `packages/kollavarsham/test/fixtures/`.
+- Ask a native Kerala Jyotishi to review R2 and R4.
