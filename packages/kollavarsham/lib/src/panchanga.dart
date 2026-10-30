@@ -108,6 +108,14 @@ enum Nakshatra {
 
   /// The following nakshatra, wrapping from Revathi to Ashwathi.
   Nakshatra get next => values[(index + 1) % 27];
+
+  /// The rashi holding [pada] (1–4) of this nakshatra. Some nakshatras
+  /// straddle two rashis (Karthika has pada 1 in Mesha and the rest in
+  /// Vrishabha), so the nakshatra alone doesn't always give the rashi.
+  Rashi rashiOf(int pada) {
+    RangeError.checkValueInInterval(pada, 1, 4, 'pada');
+    return Rashi.values[(index * 4 + pada - 1) ~/ 9];
+  }
 }
 
 /// The twelve sidereal signs (rashis), starting with Mesha at 0°. Malayalam
@@ -149,8 +157,16 @@ enum Rashi {
   /// Meena (മീനം).
   meena;
 
+  /// The rashi containing sidereal longitude [degrees].
+  static Rashi fromSiderealLongitude(double degrees) =>
+      values[((degrees % 360) / 30).floor() % 12];
+
   /// The Malayalam month that begins when the Sun enters this sign.
   MalayalamMonth get month => MalayalamMonth.fromSignIndex(index);
+
+  /// The eighth rashi counting this one as the first. The Moon's stay there
+  /// is Chandrashtamam for those born with this rashi.
+  Rashi get eighth => values[(index + 7) % 12];
 
   /// Name in Malayalam script.
   String get malayalam => month.malayalam;

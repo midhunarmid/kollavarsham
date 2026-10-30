@@ -1,3 +1,15 @@
+## Unreleased
+
+**Added**
+
+- `Yoga` and `Karana`, with `yogaAt`, `yogaOn`, `yogaSpanAt`, `karanaAt`,
+  `karanaOn` and `karanaSpanAt`.
+- `Kalam` and `KollavarshamCalendar.kalamOn`: Rahu kalam, Gulika kalam and
+  Yamagandam.
+- `KollavarshamCalendar.moonrise` and `moonset`.
+- `KollavarshamCalendar.chandrashtamam`, with `Rashi.eighth`,
+  `Rashi.fromSiderealLongitude` and `Nakshatra.rashiOf`.
+
 ## 1.1.0
 
 **Added**

@@ -1,4 +1,5 @@
 import 'package:kollavarsham/kollavarsham.dart';
+import 'package:kollavarsham/src/astro/moon.dart';
 import 'package:test/test.dart';
 
 /// A day of the panchangam published at drikpanchang.com for
@@ -229,8 +230,8 @@ const List<_Day> _days = [
 
 /// The same 30 days, in IST: date, sunrise, sunset, then the start and end
 /// of Rahu kalam, Gulika kalam and Yamagandam, then moonrise and moonset. A
-/// `+` marks a moon event on the next civil day; drikpanchang lists that one
-/// because the day itself has none.
+/// `+` marks a moon event on the next civil day: drikpanchang's day runs from
+/// sunrise to sunrise.
 const _times = '''
 2025-01-15 06:41 18:22 12:32 13:59 11:04 12:32 08:09 09:36 19:51 07:44
 2025-02-01 06:43 18:29 09:39 11:08 06:43 08:11 14:04 15:32 08:57 21:08
@@ -411,6 +412,113 @@ void main() {
     test('names', () {
       expect(Kalam.rahu.name(MalayalamScript.malayalam), 'രാഹുകാലം');
       expect(Kalam.yamagandam.name(MalayalamScript.english), 'Yamagandam');
+    });
+  });
+
+  group('moon rise and set', () {
+    for (final row in _rows) {
+      final date = DateTime.parse(row[0]);
+      test('${row[0]}: moonrise ${row[9]}, moonset ${row[10]}', () {
+        DateTime? event(String time, DateTime? Function(DateTime) find) => find(
+            time.startsWith('+') ? date.add(const Duration(days: 1)) : date);
+
+        expect(event(row[9], cal.moonrise), _within(_at(row[0], row[9]), 2));
+        expect(event(row[10], cal.moonset), _within(_at(row[0], row[10]), 2));
+      });
+    }
+
+    test('rises on all but about one day a month', () {
+      var missing = 0;
+      for (var d = 0; d < 365; d++) {
+        final date = DateTime.utc(2026).add(Duration(days: d));
+        if (cal.moonrise(date) == null) missing++;
+      }
+      expect(missing, inInclusiveRange(10, 14));
+    });
+
+    test('no moonset through a polar day of the Moon', () {
+      final arctic = KollavarshamCalendar(
+        location: const ObserverLocation(
+          latitude: 78.2,
+          longitude: 15.6,
+          utcOffset: Duration(hours: 1),
+        ),
+      );
+      final missing = [
+        for (var d = 0; d < 30; d++)
+          if (arctic.moonset(DateTime.utc(2026, 1, 1 + d)) == null) d,
+      ];
+      expect(missing.length, greaterThan(5));
+    });
+
+    test('moon latitude and distance match Meeus example 47.a', () {
+      const t = -0.077221081451;
+      expect(moonLatitude(t), closeTo(-3.229126, 0.005));
+      // The series is shortened: 25 km is 0.0004° of parallax.
+      expect(moonDistance(t), closeTo(368409.7, 25));
+    });
+  });
+
+  group('chandrashtamam', () {
+    // Mesha rashi, 2026, in IST, from hindupad.com/chandrashtama-mesha and
+    // panchangbodh.com/mesha-chandrashtama (which agree within a minute).
+    const mesha2026 = [
+      ('2026-01-13 17:21', '2026-01-16 05:48'),
+      ('2026-02-10 01:11', '2026-02-12 13:42'),
+      ('2026-03-09 09:30', '2026-03-11 22:00'),
+      ('2026-04-05 17:28', '2026-04-08 05:54'),
+      ('2026-05-03 00:30', '2026-05-05 12:54'),
+      ('2026-05-30 06:39', '2026-06-01 19:08'),
+      ('2026-06-26 12:33', '2026-06-29 01:09'),
+      ('2026-07-23 19:01', '2026-07-26 07:35'),
+      ('2026-08-20 02:30', '2026-08-22 14:49'),
+      ('2026-09-16 10:49', '2026-09-18 22:45'),
+      ('2026-10-13 19:12', '2026-10-16 06:47'),
+      ('2026-11-10 02:48', '2026-11-12 14:19'),
+      ('2026-12-07 09:14', '2026-12-09 21:00'),
+    ];
+
+    test('matches the published 2026 dates for Mesha', () {
+      final spans = cal.chandrashtamam(
+          Rashi.mesha, DateTime.utc(2026), DateTime.utc(2027));
+      expect(spans.length, mesha2026.length);
+      for (final (i, span) in spans.indexed) {
+        expect(span.value, Rashi.vrischika);
+        expect(span.start, _within(_instant(mesha2026[i].$1), 2));
+        expect(span.end, _within(_instant(mesha2026[i].$2), 2));
+      }
+    });
+
+    test('spans overlapping the edges are included', () {
+      final inside = _instant('2026-01-14 12:00');
+      final spans = cal.chandrashtamam(
+          Rashi.mesha, inside, inside.add(const Duration(hours: 1)));
+      expect(spans.length, 1);
+      expect(spans.single.contains(inside), isTrue);
+      expect(
+          cal.chandrashtamam(Rashi.mesha, _instant('2026-01-20 00:00'),
+              _instant('2026-01-25 00:00')),
+          isEmpty);
+    });
+
+    test('is the sixth rashi back', () {
+      for (final rashi in Rashi.values) {
+        expect(rashi.eighth.index, (rashi.index + 7) % 12);
+      }
+      expect(Rashi.mesha.eighth, Rashi.vrischika);
+      expect(Rashi.meena.eighth, Rashi.tula);
+      expect(Rashi.fromSiderealLongitude(359.9), Rashi.meena);
+    });
+
+    test('rashiOf follows the 108 padas', () {
+      for (var i = 0; i < 108; i++) {
+        final star = Nakshatra.values[i ~/ 4];
+        expect(star.rashiOf(i % 4 + 1), Rashi.values[i ~/ 9]);
+      }
+      expect(Nakshatra.karthika.rashiOf(1), Rashi.mesha);
+      expect(Nakshatra.karthika.rashiOf(2), Rashi.vrishabha);
+      expect(Nakshatra.pooradam.rashiOf(4), Rashi.dhanu);
+      expect(() => Nakshatra.rohini.rashiOf(5), throwsRangeError);
     });
   });
 }

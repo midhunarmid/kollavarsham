@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
+import 'astro/math.dart';
 import 'astro/moon.dart';
+import 'astro/moonrise.dart';
 import 'astro/sun.dart';
 import 'astro/sunrise.dart';
 import 'astro/time.dart';
@@ -442,6 +444,27 @@ class KollavarshamCalendar {
     return jd == null ? null : dateTimeFromJulianDay(jd);
   }
 
+  /// Moonrise (UTC) at [location] on a Gregorian [date], or `null` if the
+  /// Moon does not rise that civil day, as happens about once a month.
+  DateTime? moonrise(DateTime date) {
+    final jd = _moonEventJd(_dayNumberOf(date), rising: true);
+    return jd == null ? null : dateTimeFromJulianDay(jd);
+  }
+
+  /// Moonset (UTC) at [location] on a Gregorian [date], or `null` if the
+  /// Moon does not set that civil day, as happens about once a month.
+  DateTime? moonset(DateTime date) {
+    final jd = _moonEventJd(_dayNumberOf(date), rising: false);
+    return jd == null ? null : dateTimeFromJulianDay(jd);
+  }
+
+  double? _moonEventJd(int n, {required bool rising}) => moonEvent(
+        _jdLocalMidnight(n),
+        latitude: location.latitude,
+        longitude: location.longitude,
+        rising: rising,
+      );
+
   // ---------------------------------------------------------------------------
   // Panchanga: nakshatra and tithi.
 
@@ -552,6 +575,38 @@ class KollavarshamCalendar {
     final start = rise + kalam.partOn(date.weekday) * part;
     return PanchangaSpan(kalam, dateTimeFromJulianDay(start),
         dateTimeFromJulianDay(start + part));
+  }
+
+  /// Chandrashtamam for those born with [birthRashi]: the Moon's stays in the
+  /// [Rashi.eighth] rashi that overlap the time from [from] to [to], in
+  /// order. Each lasts about two and a quarter days and returns every 27.3.
+  ///
+  /// From a birth star, get the rashi with [Nakshatra.rashiOf].
+  List<PanchangaSpan<Rashi>> chandrashtamam(
+    Rashi birthRashi,
+    DateTime from,
+    DateTime to,
+  ) {
+    final rashi = birthRashi.eighth;
+    final entry = rashi.index * 30.0;
+    final fromJd = julianDayFromDateTime(from);
+    final toJd = julianDayFromDateTime(to);
+    final spans = <PanchangaSpan<Rashi>>[];
+    // Start with the Moon's latest entry into the rashi before [from].
+    var guess =
+        fromJd - norm360(moonSiderealLongitude(fromJd) - entry) / 13.176;
+    while (true) {
+      final start = solveAngle(moonSiderealLongitude, entry, guess,
+          degreesPerDay: 13.176);
+      if (start >= toJd) return spans;
+      final end = solveAngle(moonSiderealLongitude, entry + 30, start + 2.3,
+          degreesPerDay: 13.176);
+      if (end > fromJd) {
+        spans.add(PanchangaSpan(
+            rashi, dateTimeFromJulianDay(start), dateTimeFromJulianDay(end)));
+      }
+      guess = start + 27.32;
+    }
   }
 
   /// Days of [month] in Kollavarsham [year] whose nakshatra (at sunrise) is

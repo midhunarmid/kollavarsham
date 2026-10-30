@@ -14,7 +14,8 @@ The year begins at Chingam 1 (Simha sankranti), or at Kanni 1 with `YearStart.ka
 | Ayanamsa | Lahiri, calibrated to published Kerala panchangams | see below |
 | ΔT (Earth's rotation) | Yearly table 1900–2100: IERS observed values, then the Stephenson–Morrison–Hohenkerk (2016) extrapolation; polynomials outside that range | a few seconds today, ~1 min by 2100 |
 | Sunrise and sunset | Upper limb on the horizon, standard refraction (−0.833°) | ≈ 1 min |
-| Moon (nakshatra, tithi) | ELP-2000/82 abridgement (Meeus ch. 47) | ≈ 10″ (about 20 s for a nakshatra change) |
+| Moon (nakshatra, tithi, yoga, karana) | ELP-2000/82 abridgement (Meeus ch. 47) | ≈ 10″ (about 20 s for a nakshatra change) |
+| Moonrise and moonset | Moon's centre on the true horizon, no refraction, from shortened latitude and distance series | ≈ 30 s against drikpanchang |
 
 ### Calibration and cross-checks
 
@@ -37,6 +38,22 @@ When a sankranti falls within a few minutes of the cut-off, almanacs can disagre
 In both verified cases the almanac started the month on the sankranti day although the sankranti fell a few minutes *after* the computed cut-off. With more examples this may turn out to be a systematic offset (for instance a different sunrise definition), at which point the rule itself could be adjusted. Please report any borderline month you can source.
 
 You can add your own overrides with `KollavarshamCalendar(monthStartOverrides: {...})`.
+
+## Daily panchangam
+
+| Element | Rule | Verified against drikpanchang.com, Thiruvananthapuram, 30 days of 2025–2026 |
+|---|---|---|
+| Yoga | Sun's plus Moon's sidereal longitude, in 13°20′ steps | All 30 names; end times 30–89 s later than published |
+| Karana | Half a tithi, 6° of elongation | All 30 names; end times 38–96 s later than published |
+| Rahu kalam, Gulika kalam, Yamagandam | One eighth of sunrise to sunset, by weekday | Starts and ends within 2 minutes |
+| Moonrise, moonset | See the table above | Within 30 s |
+| Chandrashtamam | The Moon in the eighth rashi from the birth rashi | The 13 Mesha periods of 2026 (hindupad.com, panchangbodh.com), within 2 minutes |
+
+Rounding of the published minutes explains part of the yoga and karana offset. The rest would equal about 15″ of the Moon's longitude; its cause isn't known, and it isn't corrected. The offset stays under 2 minutes.
+
+Moonrise doesn't use the Sun's convention. The upper limb with refraction gives times 3.7 minutes wider than drikpanchang; the Moon's centre on the true horizon matches it. Printed Kerala almanacs haven't been compared.
+
+Chandrashtamam is defined by rashi in every source found. Some sources also name a star, but disagree on whether it is the 16th or 17th from the birth star, so the package doesn't offer one. A birth star that straddles two rashis needs its pada (`Nakshatra.rashiOf`).
 
 ## Festivals
 

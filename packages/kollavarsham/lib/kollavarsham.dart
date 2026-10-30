@@ -1,8 +1,9 @@
 /// Malayalam calendar (Kollavarsham / Malayalam Era) for Dart.
 ///
 /// Convert between Gregorian and Malayalam dates, get month and weekday
-/// names in Malayalam script or transliteration, nakshatra and tithi,
-/// festival dates, and format dates.
+/// names in Malayalam script or transliteration, the panchangam (nakshatra,
+/// tithi, yoga, karana, Rahu kalam, moonrise), festival dates, and format
+/// dates.
 ///
 /// ```dart
 /// import 'package:kollavarsham/kollavarsham.dart';

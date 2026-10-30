@@ -21,7 +21,7 @@ print(vishu); // 2026-04-14
 - **Conversion** both ways between Gregorian and Kollavarsham dates, plus date arithmetic (`addDays`, `addMonths`, `daysUntil`) and comparison operators.
 - **Names** of months, weekdays, nakshatras and tithis, in Malayalam script (ചിങ്ങം) or Latin transliteration (Chingam).
 - **Formatting and parsing** with patterns, optionally using Malayalam digits (൧൨൦൧). Parsing accepts both scripts and common spelling variants.
-- **Panchanga:** the nakshatra and tithi of any day (taken at sunrise) or any moment, with their start and end times.
+- **Panchanga:** the nakshatra, tithi, yoga and karana of any day (taken at sunrise) or any moment, with their start and end times; Rahu kalam, Gulika kalam and Yamagandam; moonrise and moonset; Chandrashtamam.
 - **Festivals:** Onam (Thiruvonam), Atham, Vishu, Attukal Pongala, Thrissur Pooram, Karkidaka Vavu, the Mandala season, Mandala Pooja, Makaravilakku and more, individually or as a list for a year.
 - **Birth details:** the nakshatra with pada, rashi, tithi and Malayalam date of any moment of birth.
 - **Recurring dates:** star birthdays (pirannal), monthly nakshatram, shraddham by tithi, every Ekadashi and other vrat-style days, Malayalam and Gregorian anniversaries, with rules for doubled and missing days.
@@ -81,6 +81,29 @@ for (final (festival, date) in cal.festivalsIn(1201)) {
 | Attukal Pongala | Pooram at sunset in Kumbham (later occurrence) | 2015–2025 |
 | Thrissur Pooram | Pooram at midnight in Medam (later occurrence) | 2016–2025 |
 | Karkidaka Vavu | Amavasya at the end of the afternoon in Karkidakam, else at sunrise | 2015–2025 |
+
+### Daily panchangam
+
+```dart
+final cal = KollavarshamCalendar.standard;
+final day = DateTime(2025, 1, 15);
+
+cal.yogaOn(day); // Yoga.priti
+cal.karanaOn(day); // Karana.taitila
+cal.yogaSpanAt(cal.sunrise(day)!).end; // when that yoga ends (UTC)
+
+cal.kalamOn(day, Kalam.rahu); // 12:32–13:59 IST, as a span in UTC
+cal.moonrise(day); // 14:21 UTC, or null if the Moon doesn't rise that day
+
+// Chandrashtamam: the Moon in the eighth rashi from the birth rashi.
+cal.chandrashtamam(
+  Nakshatra.karthika.rashiOf(1), // Mesha; padas 2-4 are in Vrishabha
+  DateTime.utc(2026),
+  DateTime.utc(2027),
+);
+```
+
+The kalams are eighths of the daytime, so they need a sunrise and sunset; `kalamOn` returns `null` where there are none. Times follow the published convention: the Moon rises when its centre reaches the true horizon, without refraction.
 
 ### Birth details
 

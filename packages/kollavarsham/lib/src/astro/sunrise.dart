@@ -11,7 +11,8 @@ import 'time.dart';
 /// semi-diameter (upper limb on the horizon).
 const double _riseAltitude = -0.8333;
 
-double _gmst(double jdUT) {
+/// Greenwich mean sidereal time (degrees) for a Julian Day (UT).
+double greenwichSiderealTime(double jdUT) {
   final t = (jdUT - j2000) / 36525.0;
   return norm360(280.46061837 +
       360.98564736629 * (jdUT - j2000) +
@@ -49,7 +50,7 @@ double? sunEvent(
     if (cosH0 < -1 || cosH0 > 1) return null;
     final h0 = math.acos(cosH0) / deg;
     final targetH = rising ? -h0 : h0;
-    final h = norm180(_gmst(jd) + longitude - ra);
+    final h = norm180(greenwichSiderealTime(jd) + longitude - ra);
     final step = norm180(targetH - h) / 360.98564736;
     jd += step;
     if (step.abs() < 1e-6) break;
