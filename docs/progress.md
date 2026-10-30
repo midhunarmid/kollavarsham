@@ -167,4 +167,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 |---|---|---|
 | 2026-10-29 | Day 1 | apps/calendar scaffold (in.armid.calendar), Riverpod/go_router/gen-l10n, Noto Sans Malayalam, M3 home screen with tests, CI app job (web + debug APK artifacts) green |
 | 2026-10-30 | Day 2 | docs/pirannal-rules.md (draft defaults, sourced where possible, open questions), docs/design.md (IA, wireframes, colour/type), data/holidays schema plus 2026.json (complete per source) and 2027.json (partial: NI Act list only), docs/privacy.md draft; no code changes, so no test run |
-| 2026-10-30 | Day 3 | Recurrence engine (NakshatraInMonth, NakshatraMonthly, MalayalamDateYearly/Monthly, GregorianYearly), DuplicateRule/AbsentRule, JSON; 39 new tests incl. Onam 2009–2025 cross-check and 1950–2100 property tests; all 146 core tests pass |
+| 2026-10-30 | Day 3 | Recurrence engine (NakshatraInMonth, NakshatraMonthly, MalayalamDateYearly/Monthly, GregorianYearly), DuplicateRule/AbsentRule, JSON; 37 new tests incl. Onam 2009–2025 cross-check and 1950–2100 property tests; all 146 core tests pass |
