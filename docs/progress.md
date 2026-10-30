@@ -71,10 +71,15 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - `TithiEveryPaksha` has property tests only (1950–2100); no published Ekadashi dates were checked.
 - [x] Export the new APIs; README section; CHANGELOG `1.1.0`; bump to 1.1.0 (no tag); update the dependents' constraints.
 
-### Day 5: Sprint 2a, panchangam extras (status: todo)
-- [ ] Yoga and karana (enums with Malayalam/English names, values at an instant and at sunrise, spans).
-- [ ] Rahu kalam, Gulika kalam and Yamagandam from sunrise/sunset and the weekday; tests against published values.
-- [ ] Moonrise/moonset; Chandrashtamam for a birth star.
+### Day 5: Sprint 2a, panchangam extras (status: done)
+- [x] Yoga and karana (enums with Malayalam/English names, values at an instant and at sunrise, spans).
+  - All 30 sampled days of drikpanchang (Thiruvananthapuram, 2025–2026) match by name. End times run 30–96 s later than published, within the 2-minute tolerance; see `docs/accuracy.md`.
+- [x] Rahu kalam, Gulika kalam and Yamagandam from sunrise/sunset and the weekday; tests against published values.
+  - `Kalam` and `kalamOn`, within 2 minutes on the same 30 days, which meets the sprint's check.
+- [x] Moonrise/moonset; Chandrashtamam for a birth star.
+  - Moonrise uses the Moon's centre on the true horizon without refraction, found by fitting drikpanchang (within 30 s on 30 days). No printed almanac was compared.
+  - `chandrashtamam` takes a `Rashi`, because 9 stars straddle two rashis; `Nakshatra.rashiOf(pada)` gives it. The app must ask for the pada for those stars (Day 8/10). It matches the 13 published Mesha periods of 2026. The star-level window is left out: sources disagree (16th or 17th star).
+  - The CHANGELOG has an `Unreleased` section for Day 6's 1.2.0. Malayalam yoga and karana names await the Day 24 copy review.
 
 ### Day 6: Sprint 2b, festivals (status: todo)
 - [ ] New festivals, each with ≥5 years of sourced dates (follow the existing rule in `festivals.dart`): Sivaratri, Ashtami Rohini, Vinayaka Chathurthi, Navaratri (Durgashtami, Mahanavami, Vijayadasami), Deepavali, Thaipooyam, Guruvayur Ekadashi, and Thiruvathira if the sources agree. Leave out any whose rule can't be verified, and note why.
@@ -173,3 +178,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-10-30 | Day 2 | docs/pirannal-rules.md (draft defaults, sourced where possible, open questions), docs/design.md (IA, wireframes, colour/type), data/holidays schema plus 2026.json (complete per source) and 2027.json (partial: NI Act list only), docs/privacy.md draft; no code changes, so no test run |
 | 2026-10-30 | Day 3 | Recurrence engine (NakshatraInMonth, NakshatraMonthly, MalayalamDateYearly/Monthly, GregorianYearly), DuplicateRule/AbsentRule, JSON; 37 new tests incl. Onam 2009–2025 cross-check and 1950–2100 property tests; all 146 core tests pass |
 | 2026-10-30 | Day 4 | BirthDetails (pada, rashi, tithi, Malayalam date), Rashi, TithiInMonth (shraddham, afternoon rule) and TithiEveryPaksha, kollavarsham 1.1.0 (no tag); 171 core, 21 widget and 4 app tests pass; R4 differs from Karkidaka Vavu in 2024, sent to owner review |
+| 2026-10-30 | Day 5 | Yoga, Karana, Kalam (Rahu, Gulika, Yamagandam), moonrise/moonset and Chandrashtamam, checked against 30 days of drikpanchang for Thiruvananthapuram and 13 published Mesha periods; 397 core, 21 widget and 4 app tests pass |
