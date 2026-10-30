@@ -417,6 +417,38 @@ enum Karana {
       script == MalayalamScript.malayalam ? malayalam : english;
 }
 
+/// The inauspicious periods of the day. Each is one of the eight equal parts
+/// of the daytime (sunrise to sunset), chosen by the weekday.
+enum Kalam {
+  /// Rahu kalam (രാഹുകാലം).
+  rahu('രാഹുകാലം', 'Rahu Kalam', [7, 1, 6, 4, 5, 3, 2]),
+
+  /// Gulika kalam (ഗുളികകാലം).
+  gulika('ഗുളികകാലം', 'Gulika Kalam', [6, 5, 4, 3, 2, 1, 0]),
+
+  /// Yamagandam (യമകണ്ടം).
+  yamagandam('യമകണ്ടം', 'Yamagandam', [4, 3, 2, 1, 0, 6, 5]);
+
+  const Kalam(this.malayalam, this.english, this._parts);
+
+  /// Name in Malayalam script.
+  final String malayalam;
+
+  /// Name in English.
+  final String english;
+
+  /// The 0-based part of the daytime, indexed from Sunday.
+  final List<int> _parts;
+
+  /// The 0-based part of the daytime (0–7) on [weekday], a
+  /// [DateTime.monday]-style constant.
+  int partOn(int weekday) => _parts[weekday % 7];
+
+  /// Name in the requested [script].
+  String name(MalayalamScript script) =>
+      script == MalayalamScript.malayalam ? malayalam : english;
+}
+
 /// A span of time during which a panchanga element prevails.
 class PanchangaSpan<T> {
   /// Creates a span during which [value] prevails, from [start] to [end].

@@ -227,7 +227,57 @@ const List<_Day> _days = [
   ),
 ];
 
+/// The same 30 days, in IST: date, sunrise, sunset, then the start and end
+/// of Rahu kalam, Gulika kalam and Yamagandam, then moonrise and moonset. A
+/// `+` marks a moon event on the next civil day; drikpanchang lists that one
+/// because the day itself has none.
+const _times = '''
+2025-01-15 06:41 18:22 12:32 13:59 11:04 12:32 08:09 09:36 19:51 07:44
+2025-02-01 06:43 18:29 09:39 11:08 06:43 08:11 14:04 15:32 08:57 21:08
+2025-02-16 06:40 18:32 17:03 18:32 15:34 17:03 12:36 14:05 21:32 08:58
+2025-03-03 06:35 18:33 08:05 09:34 14:04 15:34 11:04 12:34 09:06 21:41
+2025-03-18 06:27 18:33 15:32 17:02 12:30 14:01 09:29 11:00 21:43 08:48
+2025-04-03 06:19 18:32 13:57 15:29 09:22 10:54 06:19 07:51 10:34 23:35
+2025-04-18 06:12 18:32 10:49 12:22 07:44 09:17 15:27 16:59 23:05 09:50
+2025-05-03 06:06 18:32 09:13 10:46 06:06 07:39 13:52 15:26 11:24 +00:15
+2025-05-18 06:03 18:34 17:01 18:34 15:27 17:01 12:19 13:53 23:34 10:30
+2025-06-02 06:03 18:38 07:37 09:11 13:55 15:29 10:46 12:20 11:52 +00:20
+2025-06-17 06:05 18:42 15:32 17:07 12:23 13:58 09:14 10:49 23:46 11:04
+2025-07-02 06:08 18:45 12:26 14:01 10:52 12:26 07:43 09:17 12:01 +00:08
+2025-07-17 06:12 18:45 14:03 15:37 09:20 10:54 06:12 07:46 23:54 11:33
+2025-08-01 06:14 18:43 10:55 12:29 07:48 09:21 15:36 17:09 12:08 23:58
+2025-08-16 06:15 18:38 09:21 10:53 06:15 07:48 13:59 15:32 +00:23 12:17
+2025-08-31 06:14 18:31 16:59 18:31 15:27 16:59 12:22 13:55 12:28 +00:08
+2025-09-15 06:12 18:22 07:44 09:15 13:49 15:20 10:46 12:17 +01:19 13:17
+2025-09-30 06:11 18:14 15:13 16:43 12:12 13:42 09:11 10:42 12:57 +00:38
+2025-10-15 06:10 18:06 12:08 13:37 10:38 12:08 07:39 09:09 +02:04 13:55
+2025-10-30 06:11 18:01 13:35 15:03 09:08 10:37 06:11 07:39 13:15 +01:08
+2025-11-14 06:14 17:59 10:39 12:07 07:42 09:10 15:03 16:31 +02:23 13:59
+2025-11-29 06:20 18:01 09:15 10:43 06:20 07:48 13:38 15:06 13:17 +01:30
+2025-12-14 06:28 18:06 16:39 18:06 15:12 16:39 12:17 13:44 +02:33 13:49
+2025-12-29 06:35 18:13 08:03 09:30 13:52 15:19 10:57 12:24 13:23 +02:00
+2026-01-13 06:41 18:21 15:26 16:54 12:31 13:58 09:36 11:03 +02:51 13:47
+2026-01-28 06:43 18:28 12:35 14:03 11:07 12:35 08:11 09:39 13:56 +02:54
+2026-02-12 06:41 18:32 14:05 15:34 09:39 11:08 06:41 08:10 +03:18 14:05
+2026-02-27 06:37 18:33 11:05 12:35 08:06 09:36 15:34 17:04 14:55 +03:50
+2026-03-14 06:30 18:33 09:31 11:01 06:30 08:00 14:02 15:32 +03:37 14:33
+2026-03-29 06:22 18:32 17:01 18:32 15:30 17:01 12:27 13:58 15:40 +04:12
+''';
+
 const _ist = Duration(hours: 5, minutes: 30);
+
+/// One row of [_times] split into columns.
+final _rows = [
+  for (final line in _times.trim().split('\n')) line.split(' '),
+];
+
+/// The instant of a [_times] column on [date]; a leading `+` is the next day.
+DateTime _at(String date, String time) {
+  final next = time.startsWith('+');
+  final clock = next ? time.substring(1) : time;
+  final day = DateTime.parse('${date}T$clock:00Z').subtract(_ist);
+  return next ? day.add(const Duration(days: 1)) : day;
+}
 
 /// The instant of `YYYY-MM-DD HH:MM` in IST.
 DateTime _instant(String text) =>
@@ -319,6 +369,48 @@ void main() {
       expect(Karana.values.length, 11);
       expect(Karana.vishti.name(MalayalamScript.malayalam), 'വിഷ്ടി');
       expect(Karana.vishti.name(MalayalamScript.english), 'Vishti');
+    });
+  });
+
+  group('sun and kalams', () {
+    for (final row in _rows) {
+      final date = DateTime.parse(row[0]);
+      test('${row[0]}: sunrise and sunset', () {
+        expect(cal.sunrise(date), _within(_at(row[0], row[1]), 1));
+        expect(cal.sunset(date), _within(_at(row[0], row[2]), 1));
+      });
+
+      for (final (i, kalam) in Kalam.values.indexed) {
+        test('${row[0]}: ${kalam.english}', () {
+          final span = cal.kalamOn(date, kalam)!;
+          expect(span.value, kalam);
+          expect(span.start, _within(_at(row[0], row[3 + 2 * i]), 2));
+          expect(span.end, _within(_at(row[0], row[4 + 2 * i]), 2));
+        });
+      }
+    }
+
+    test('the kalams take different parts of every weekday', () {
+      for (var weekday = 1; weekday <= 7; weekday++) {
+        final parts = {for (final k in Kalam.values) k.partOn(weekday)};
+        expect(parts.length, 3);
+      }
+    });
+
+    test('no sunrise, no kalam', () {
+      final arctic = KollavarshamCalendar(
+        location: const ObserverLocation(
+          latitude: 78.2,
+          longitude: 15.6,
+          utcOffset: Duration(hours: 1),
+        ),
+      );
+      expect(arctic.kalamOn(DateTime(2025, 6, 21), Kalam.rahu), isNull);
+    });
+
+    test('names', () {
+      expect(Kalam.rahu.name(MalayalamScript.malayalam), 'രാഹുകാലം');
+      expect(Kalam.yamagandam.name(MalayalamScript.english), 'Yamagandam');
     });
   });
 }

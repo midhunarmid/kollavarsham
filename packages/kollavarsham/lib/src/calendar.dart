@@ -541,6 +541,19 @@ class KollavarshamCalendar {
         dateTimeFromJulianDay(end));
   }
 
+  /// The [kalam] of a Gregorian [date] at [location], or `null` if the Sun
+  /// does not both rise and set that day.
+  PanchangaSpan<Kalam>? kalamOn(DateTime date, Kalam kalam) {
+    final n = _dayNumberOf(date);
+    final rise = _sunEventJd(n, rising: true);
+    final set = _sunEventJd(n, rising: false);
+    if (rise == null || set == null) return null;
+    final part = (set - rise) / 8;
+    final start = rise + kalam.partOn(date.weekday) * part;
+    return PanchangaSpan(kalam, dateTimeFromJulianDay(start),
+        dateTimeFromJulianDay(start + part));
+  }
+
   /// Days of [month] in Kollavarsham [year] whose nakshatra (at sunrise) is
   /// [nakshatra] — e.g. to find a Malayalam birthday (pirannal). Usually
   /// one day; occasionally none or two.

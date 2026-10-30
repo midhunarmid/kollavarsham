@@ -20,7 +20,7 @@ export 'src/malayalam_date.dart' show MalayalamDate, DateTimeToMalayalam;
 export 'src/names.dart' show MalayalamMonth, MalayalamWeekday, MalayalamScript;
 export 'src/numerals.dart' show toMalayalamDigits, fromMalayalamDigits;
 export 'src/panchanga.dart'
-    show Karana, Nakshatra, Paksha, PanchangaSpan, Rashi, Tithi, Yoga;
+    show Kalam, Karana, Nakshatra, Paksha, PanchangaSpan, Rashi, Tithi, Yoga;
 export 'src/recurrence.dart'
     show
         AbsentRule,
