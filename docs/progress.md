@@ -27,7 +27,10 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 
 ## Needs you (owner actions)
 
-- [ ] Review `docs/pirannal-rules.md` (Day 2) and confirm the default rules.
+- [ ] Review `docs/pirannal-rules.md` (Day 2) and confirm the default rules, including the unsourced R2 (star absent in the month) default and the sunrise anchor for R3.
+- [ ] Complete `data/holidays/2027.json`: it currently holds only the Negotiable Instruments Act list (G.O. (P) No. 20/2026/GAD). Add the state government list (Onam, Mahanavami, Vijayadasami, Karkidaka Vavu, Easter, Milad-i-Sherif, Independence Day, Kerala Piravi, restricted holidays) from the gazette.
+- [ ] Settle the 2026 holiday conflicts noted in `data/holidays/2026.json`: the G.O. number (14 or 15/2025/GAD), Navaratri (20 Oct in the source vs a 19 Oct order reported by an aggregator), and whether Kerala Piravi (1 Nov) is a 2026 holiday.
+- [ ] Review `docs/privacy.md` and `docs/design.md` open questions, and set the contact email in the privacy policy.
 - [ ] Create the Google Play developer account; recruit 12 closed testers (needed by Day 18).
 - [ ] Create a release keystore and add it as described in `docs/release.md` (Day 18).
 - [x] Choose the website domain and DNS (Day 20): `calendar.armid.in`, a CNAME to `midhunarmid.github.io`.
@@ -45,11 +48,11 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - The web app deploys to GitHub Pages on every push to `main` (`.github/workflows/deploy-web.yml`), at `https://calendar.armid.in/`.
   - Note: `flutter_riverpod` ^2.6.1 and `go_router` ^14.8.1, the newest releases that resolve on the workspace Dart 3.6 floor (riverpod 3 / go_router 18 need Dart 3.12).
 
-### Day 2: Sprint 0b, research and design docs (status: todo)
-- [ ] `docs/pirannal-rules.md`: rules for star birthdays when the star falls twice or not at all in the birth month, the "6 nazhika after sunrise" convention, monthly nakshatram, and shraddham by tithi or nakshatra. Use web research with **cited sources** and worked examples; pick defaults; list open questions for the owner.
-- [ ] `docs/design.md`: information architecture, navigation, and text wireframes for Today, Month, Day, People, Event editor, Reminders, Tools and Settings; colour and type system.
-- [ ] `data/holidays/` format (`schema.md`) plus `2026.json` and `2027.json` for Kerala Government public holidays and national days, each entry with a source URL. Mark Muslim festivals `tentative` until confirmed.
-- [ ] `docs/privacy.md`: privacy policy (no data collected, everything stays on the device).
+### Day 2: Sprint 0b, research and design docs (status: done)
+- [x] `docs/pirannal-rules.md`: rules for star birthdays when the star falls twice or not at all in the birth month, the "6 nazhika after sunrise" convention, monthly nakshatram, and shraddham by tithi or nakshatra. Use web research with **cited sources** and worked examples; pick defaults; list open questions for the owner.
+- [x] `docs/design.md`: information architecture, navigation, and text wireframes for Today, Month, Day, People, Event editor, Reminders, Tools and Settings; colour and type system.
+- [x] `data/holidays/` format (`schema.md`) plus `2026.json` and `2027.json` for Kerala Government public holidays and national days, each entry with a source URL. Mark Muslim festivals `tentative` until confirmed. (2027 is partial, see Needs you.)
+- [x] `docs/privacy.md`: privacy policy (no data collected, everything stays on the device).
 
 ### Day 3: Sprint 1a, recurrence engine (status: todo)
 - [ ] `packages/kollavarsham/lib/src/recurrence.dart`: `Recurrence` with `occurrencesBetween(from, to)` and `next(after)`; implementations `NakshatraInMonth` (yearly pirannal), `NakshatraMonthly`, `MalayalamDateYearly`, `MalayalamDateMonthly`, `GregorianYearly`; a `DuplicateRule` per `docs/pirannal-rules.md`. Reuse `daysWithNakshatra` and `MalayalamDate`.
@@ -160,3 +163,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | Date | Day | Result |
 |---|---|---|
 | 2026-10-29 | Day 1 | apps/calendar scaffold (in.armid.calendar), Riverpod/go_router/gen-l10n, Noto Sans Malayalam, M3 home screen with tests, CI app job (web + debug APK artifacts) green |
+| 2026-10-30 | Day 2 | docs/pirannal-rules.md (draft defaults, sourced where possible, open questions), docs/design.md (IA, wireframes, colour/type), data/holidays schema plus 2026.json (complete per source) and 2027.json (partial: NI Act list only), docs/privacy.md draft; no code changes, so no test run |
