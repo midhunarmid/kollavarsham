@@ -27,7 +27,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 
 ## Needs you (owner actions)
 
-- [ ] Review `docs/pirannal-rules.md` (Day 2) and confirm the default rules, including the unsourced R2 (star absent in the month) default and the sunrise anchor for R3.
+- [ ] Review `docs/pirannal-rules.md` (Day 2) and confirm the default rules, including the unsourced R2 (star absent in the month) default, the sunrise anchor for R3, and the R4 shraddham day (question 6: the rule follows the larger share of the afternoon and gives 4 August 2024 where Karkidaka Vavu was observed on 3 August).
 - [ ] Complete `data/holidays/2027.json`: it currently holds only the Negotiable Instruments Act list (G.O. (P) No. 20/2026/GAD). Add the state government list (Onam, Mahanavami, Vijayadasami, Karkidaka Vavu, Easter, Milad-i-Sherif, Independence Day, Kerala Piravi, restricted holidays) from the gazette.
 - [ ] Settle the 2026 holiday conflicts noted in `data/holidays/2026.json`: the G.O. number (14 or 15/2025/GAD), Navaratri (20 Oct in the source vs a 19 Oct order reported by an aggregator), and whether Kerala Piravi (1 Nov) is a 2026 holiday.
 - [ ] Review `docs/privacy.md` and `docs/design.md` open questions, and set the contact email in the privacy policy.
@@ -62,10 +62,14 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - The rules doc has no almanac-verified pirannal dates yet (Day 23). As a sourced stand-in, the default pirannal rule reproduces the published Onam dates for 2009–2025 (16 years, two with Thiruvonam twice).
 - [x] JSON (de)serialisation of recurrences, used later by the app database.
 
-### Day 4: Sprint 1b, birth details and shraddham (status: todo)
-- [ ] `BirthDetails.fromInstant(DateTime, {calendar})`: nakshatra with pada, rashi, Malayalam date, tithi; tests against known values.
-- [ ] `TithiInMonth` (shraddham by tithi) and `TithiEveryPaksha` (e.g. every Ekadashi) recurrences, with tests.
-- [ ] Export the new APIs; README section; CHANGELOG `1.1.0`; bump to 1.1.0 (no tag); update the dependents' constraints.
+### Day 4: Sprint 1b, birth details and shraddham (status: done)
+- [x] `BirthDetails.fromInstant(DateTime, {calendar})`: nakshatra with pada, rashi, Malayalam date, tithi; tests against known values.
+  - Also added `BirthDetails.fromLocalTime` (a clock time at the calendar's location, for "Find my star" on Day 10) and a `Rashi` enum.
+  - Known values: two published charts with a birth time, plus a Chithira/Deepavali birth date. All come from web sources, not almanacs.
+- [x] `TithiInMonth` (shraddham by tithi) and `TithiEveryPaksha` (e.g. every Ekadashi) recurrences, with tests.
+  - `TithiInMonth` uses the larger share of the afternoon (R4, sourced). It matches 3 published New Delhi shraddha days and 10 of 11 Karkidaka Vavu years; the 2024 difference is pinned in a test and listed under Needs you. Only 3 of the planned drikpanchang pages could be read (the others returned a CAPTCHA).
+  - `TithiEveryPaksha` has property tests only (1950–2100); no published Ekadashi dates were checked.
+- [x] Export the new APIs; README section; CHANGELOG `1.1.0`; bump to 1.1.0 (no tag); update the dependents' constraints.
 
 ### Day 5: Sprint 2a, panchangam extras (status: todo)
 - [ ] Yoga and karana (enums with Malayalam/English names, values at an instant and at sunrise, spans).
@@ -168,3 +172,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-10-29 | Day 1 | apps/calendar scaffold (in.armid.calendar), Riverpod/go_router/gen-l10n, Noto Sans Malayalam, M3 home screen with tests, CI app job (web + debug APK artifacts) green |
 | 2026-10-30 | Day 2 | docs/pirannal-rules.md (draft defaults, sourced where possible, open questions), docs/design.md (IA, wireframes, colour/type), data/holidays schema plus 2026.json (complete per source) and 2027.json (partial: NI Act list only), docs/privacy.md draft; no code changes, so no test run |
 | 2026-10-30 | Day 3 | Recurrence engine (NakshatraInMonth, NakshatraMonthly, MalayalamDateYearly/Monthly, GregorianYearly), DuplicateRule/AbsentRule, JSON; 37 new tests incl. Onam 2009–2025 cross-check and 1950–2100 property tests; all 146 core tests pass |
+| 2026-10-30 | Day 4 | BirthDetails (pada, rashi, tithi, Malayalam date), Rashi, TithiInMonth (shraddham, afternoon rule) and TithiEveryPaksha, kollavarsham 1.1.0 (no tag); 171 core, 21 widget and 4 app tests pass; R4 differs from Karkidaka Vavu in 2024, sent to owner review |
