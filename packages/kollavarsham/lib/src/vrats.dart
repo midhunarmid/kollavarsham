@@ -1,7 +1,6 @@
 import 'calendar.dart';
 import 'malayalam_date.dart';
 import 'names.dart';
-import 'panchanga.dart';
 
 /// Regular fasting days, each set by a lunar day read at a fixed time of day.
 enum Vrat {
