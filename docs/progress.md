@@ -29,12 +29,12 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 
 - [ ] Review `docs/pirannal-rules.md` (Day 2) and confirm the default rules, including the unsourced R2 (star absent in the month) default, the sunrise anchor for R3, and the R4 shraddham day (question 6: the rule follows the larger share of the afternoon and gives 4 August 2024 where Karkidaka Vavu was observed on 3 August).
 - [ ] Complete `data/holidays/2027.json`: it currently holds only the Negotiable Instruments Act list (G.O. (P) No. 20/2026/GAD). Add the state government list (Onam, Mahanavami, Vijayadasami, Karkidaka Vavu, Easter, Milad-i-Sherif, Independence Day, Kerala Piravi, restricted holidays) from the gazette.
-- [ ] Settle the 2026 holiday conflicts noted in `data/holidays/2026.json`: the G.O. number (14 or 15/2025/GAD), Navaratri (20 Oct in the source vs a 19 Oct order reported by an aggregator), and whether Kerala Piravi (1 Nov) is a 2026 holiday.
+- [ ] Settle the 2026 holiday conflicts noted in `data/holidays/2026.json`: the G.O. number (14 or 15/2025/GAD), and whether Kerala Piravi (1 Nov) is a 2026 holiday. For Navaratri, Onmanorama (16 Oct 2026) says the 19 Oct order is for Durgashtami, so Mahanavami stays on 20 Oct; add the 19 Oct holiday if the gazette confirms it.
 - [ ] Review `docs/privacy.md` and `docs/design.md` open questions, and set the contact email in the privacy policy.
 - [ ] Create the Google Play developer account; recruit 12 closed testers (needed by Day 18).
 - [ ] Create a release keystore and add it as described in `docs/release.md` (Day 18).
 - [x] Choose the website domain and DNS (Day 20): `calendar.armid.in`, a CNAME to `midhunarmid.github.io`.
-- [ ] Check 2026–2027 dates against printed almanacs (Day 23).
+- [ ] Check 2026–2027 dates against printed almanacs (Day 23). Include the Day 6 rules with the weakest evidence: Ashtami Rohini, Thaipooyam, Vinayaka Chathurthi and the vrat reading times, none of which has a Kerala almanac behind it.
 - [ ] Malayalam copy review by a native editor (Day 24).
 
 ## Days
@@ -81,11 +81,17 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - `chandrashtamam` takes a `Rashi`, because 9 stars straddle two rashis; `Nakshatra.rashiOf(pada)` gives it. The app must ask for the pada for those stars (Day 8/10). It matches the 13 published Mesha periods of 2026. The star-level window is left out: sources disagree (16th or 17th star).
   - The CHANGELOG has an `Unreleased` section for Day 6's 1.2.0. Malayalam yoga and karana names await the Day 24 copy review.
 
-### Day 6: Sprint 2b, festivals (status: todo)
-- [ ] New festivals, each with ≥5 years of sourced dates (follow the existing rule in `festivals.dart`): Sivaratri, Ashtami Rohini, Vinayaka Chathurthi, Navaratri (Durgashtami, Mahanavami, Vijayadasami), Deepavali, Thaipooyam, Guruvayur Ekadashi, and Thiruvathira if the sources agree. Leave out any whose rule can't be verified, and note why.
-- [ ] Vrat lists: Ekadashi, Pradosham, Shashti, Pournami, Amavasya for a year.
-- [ ] Christian movable feasts (Easter computus) and fixed days; tentative Hijri festivals (tabular calendar).
-- [ ] CHANGELOG `1.2.0`; bump the version (no tag).
+### Day 6: Sprint 2b, festivals (status: done)
+- [x] New festivals, each with ≥5 years of sourced dates (follow the existing rule in `festivals.dart`): Sivaratri, Ashtami Rohini, Vinayaka Chathurthi, Navaratri (Durgashtami, Mahanavami, Vijayadasami), Deepavali, Thaipooyam, Guruvayur Ekadashi, and Thiruvathira if the sources agree. Leave out any whose rule can't be verified, and note why.
+  - Dhanu Thiruvathira is left out: sources disagree for 2021, 2023 and 2026, and only three years have a Kerala date.
+  - Vinayaka Chathurthi and Thaipooyam rest on non-Kerala lists. Thaipooyam misses 2017 (pinned in a test), and Mahanavami and Durgashtami leave out 2020, where the Kerala list and the tithi differ. See `docs/accuracy.md`.
+  - A 1900–2100 sweep showed `festivalsIn` threw for some years (a star between two readings), so Onam, Attukal Pongala and Thrissur Pooram gained fallbacks. Those fallback days aren't checked against published dates.
+- [x] Vrat lists: Ekadashi, Pradosham, Shashti, Pournami, Amavasya for a year.
+  - `Vrat` and `vratDays`. Reading times were fitted to drikpanchang's 2025 New Delhi lists, which all match except one Ekadashi. A 2026 Tamil Nadu Pradosham list matches 23 of 25 at Thiruvananthapuram. No Kerala vrat list was found.
+- [x] Christian movable feasts (Easter computus) and fixed days; tentative Hijri festivals (tabular calendar).
+  - Hijri dates are within two days of Kerala's lists. They take a Gregorian year and return `DateTime`, so the Day 13 loader merges them with the announced dates.
+- [x] CHANGELOG `1.2.0`; bump the version (no tag).
+  - The new Malayalam festival, vrat, feast and Hijri names await the Day 24 copy review.
 
 ### Day 7: Sprint 3a, app shell (status: todo)
 - [ ] go_router navigation (bottom bar: Today, Calendar, People, Tools, Settings), theme with light/dark/system, ml/en l10n for every UI string.
@@ -179,3 +185,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-10-30 | Day 3 | Recurrence engine (NakshatraInMonth, NakshatraMonthly, MalayalamDateYearly/Monthly, GregorianYearly), DuplicateRule/AbsentRule, JSON; 37 new tests incl. Onam 2009–2025 cross-check and 1950–2100 property tests; all 146 core tests pass |
 | 2026-10-30 | Day 4 | BirthDetails (pada, rashi, tithi, Malayalam date), Rashi, TithiInMonth (shraddham, afternoon rule) and TithiEveryPaksha, kollavarsham 1.1.0 (no tag); 171 core, 21 widget and 4 app tests pass; R4 differs from Karkidaka Vavu in 2024, sent to owner review |
 | 2026-10-30 | Day 5 | Yoga, Karana, Kalam (Rahu, Gulika, Yamagandam), moonrise/moonset and Chandrashtamam, checked against 30 days of drikpanchang for Thiruvananthapuram and 13 published Mesha periods; 397 core, 21 widget and 4 app tests pass |
+| 2026-11-01 | Day 6 | Nine festivals (Dhanu Thiruvathira left out: sources disagree), vrat lists, Easter and Christian feasts, tentative Hijri festivals, festivalsIn crash fixed, kollavarsham 1.2.0 (no tag); 436 core, 21 widget and 4 app tests pass |
