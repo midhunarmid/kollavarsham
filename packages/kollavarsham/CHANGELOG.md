@@ -9,6 +9,16 @@
 - `KollavarshamCalendar.moonrise` and `moonset`.
 - `KollavarshamCalendar.chandrashtamam`, with `Rashi.eighth`,
   `Rashi.fromSiderealLongitude` and `Nakshatra.rashiOf`.
+- Festivals: Sivaratri, Ashtami Rohini, Vinayaka Chathurthi, Durgashtami,
+  Mahanavami, Vijayadasami, Deepavali, Guruvayur Ekadashi and Thaipooyam.
+
+**Fixed**
+
+- `onam`, `attukalPongala`, `thrissurPooram` and so `festivalsIn` threw for
+  years in which the star fell between two sunrises, sunsets or midnights
+  (for example Kollavarsham 1096).
+- `festivalsOn` missed a festival listed under the next year, such as an
+  Atham that falls in Karkidakam.
 
 ## 1.1.0
 

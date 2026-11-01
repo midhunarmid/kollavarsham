@@ -22,7 +22,7 @@ print(vishu); // 2026-04-14
 - **Names** of months, weekdays, nakshatras and tithis, in Malayalam script (ചിങ്ങം) or Latin transliteration (Chingam).
 - **Formatting and parsing** with patterns, optionally using Malayalam digits (൧൨൦൧). Parsing accepts both scripts and common spelling variants.
 - **Panchanga:** the nakshatra, tithi, yoga and karana of any day (taken at sunrise) or any moment, with their start and end times; Rahu kalam, Gulika kalam and Yamagandam; moonrise and moonset; Chandrashtamam.
-- **Festivals:** Onam (Thiruvonam), Atham, Vishu, Attukal Pongala, Thrissur Pooram, Karkidaka Vavu, the Mandala season, Mandala Pooja, Makaravilakku and more, individually or as a list for a year.
+- **Festivals:** Onam (Thiruvonam), Atham, Vishu, Sivaratri, Ashtami Rohini, Vinayaka Chathurthi, Navaratri, Deepavali, Attukal Pongala, Thrissur Pooram, Karkidaka Vavu, Guruvayur Ekadashi, Thaipooyam, the Mandala season, Mandala Pooja, Makaravilakku and more, individually or as a list for a year.
 - **Birth details:** the nakshatra with pada, rashi, tithi and Malayalam date of any moment of birth.
 - **Recurring dates:** star birthdays (pirannal), monthly nakshatram, shraddham by tithi, every Ekadashi and other vrat-style days, Malayalam and Gregorian anniversaries, with rules for doubled and missing days.
 - **North Malabar years:** `YearStart.kanni` numbers years from Kanni instead of Chingam.
@@ -81,6 +81,16 @@ for (final (festival, date) in cal.festivalsIn(1201)) {
 | Attukal Pongala | Pooram at sunset in Kumbham (later occurrence) | 2015–2025 |
 | Thrissur Pooram | Pooram at midnight in Medam (later occurrence) | 2016–2025 |
 | Karkidaka Vavu | Amavasya at the end of the afternoon in Karkidakam, else at sunrise | 2015–2025 |
+| Sivaratri | Waning Chathurdashi at midnight, in the lunar month holding Kumbham's sankranti | 2019–2026, 2029 |
+| Ashtami Rohini | Waning Ashtami at midnight in Chingam, preferring a night with Rohini | 2021–2025 |
+| Vinayaka Chathurthi | Waxing Chathurthi at mid-day, in the lunar month holding Kanni's sankranti | 2019–2026 |
+| Vijayadasami | Waxing Dashami at sunrise, in the lunar month holding Thulam's sankranti | 2019–2026 |
+| Mahanavami, Durgashtami | One and two days before Vijayadasami | 2019, 2021–2026 |
+| Deepavali | Waning Chathurdashi at dawn, in the lunar month holding Thulam's sankranti | 2019–2026 |
+| Guruvayur Ekadashi | First waxing Ekadashi at sunrise from Vrischikam 1 | 2019–2025 |
+| Thaipooyam | Pooyam on the day nearest the first full moon after Makaram's sankranti | 2020–2027 |
+
+Dhanu Thiruvathira isn't included, because published dates disagree. See the [accuracy notes](https://github.com/midhunarmid/kollavarsham/blob/main/docs/accuracy.md#festivals).
 
 ### Daily panchangam
 

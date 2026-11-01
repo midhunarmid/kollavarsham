@@ -65,8 +65,29 @@ Festivals tied to a nakshatra or tithi depend on the time of day they are observ
 | Attukal Pongala | Pooram at sunset in Kumbham; the later occurrence | 2015–2025 |
 | Thrissur Pooram | Pooram at midnight in Medam; the later occurrence | 2016–2025 |
 | Karkidaka Vavu | Amavasya at the end of the afternoon (⅘ of daytime) in Karkidakam, else at sunrise; the first if there are two | 2015–2025 |
+| Sivaratri | Waning Chathurdashi at midnight, in the lunar month holding Kumbham's sankranti | 2019–2026 (Kerala lists), 2029 |
+| Ashtami Rohini | Waning Ashtami at midnight in Chingam; if several nights qualify, the first with Rohini at midnight, else the first; if none, the first night with Rohini | 2021–2025 (Kerala lists) |
+| Vinayaka Chathurthi | Waxing Chathurthi at mid-day, in the lunar month holding Kanni's sankranti | 2019–2026 (national lists) |
+| Vijayadasami | Waxing Dashami at sunrise, in the lunar month holding Thulam's sankranti | 2019–2026 (Kerala lists) |
+| Mahanavami | The day before Vijayadasami | 2019 and 2021–2026 (Kerala lists) |
+| Durgashtami | Two days before Vijayadasami | 2019 and 2021–2026 (national lists, Kerala orders for 2024 and 2026) |
+| Deepavali | Waning Chathurdashi at dawn (96 minutes before sunrise), in the lunar month holding Thulam's sankranti | 2019–2026 (Kerala lists) |
+| Guruvayur Ekadashi | First waxing Ekadashi at sunrise from Vrischikam 1 | 2019–2025 |
+| Thaipooyam | The day with Pooyam at sunrise or sunset nearest the first full moon after Makaram's sankranti | 2020–2027 (Tamil Nadu and Malaysian lists) |
 
-Known ambiguities: Onam 2016 is given as 13 September by some panchangs and 14 September by the press (the package gives the 14th). Thrissur Pooram 2015 is listed as both 28 and 29 April. Dhanu Thiruvathira is not included yet because published dates disagree on the rule.
+A lunar month here runs from new moon to new moon and takes its name from the sankranti inside it. So Sivaratri can fall in Makaram (11 February 2029), although the sankranti is that of Kumbham.
+
+"Kerala lists" are the state's yearly public holiday orders, which carry a note that moon-dependent dates can change. All the sources are in the comments of `test/panchanga_test.dart`.
+
+Known ambiguities: Onam 2016 is given as 13 September by some panchangs and 14 September by the press (the package gives the 14th). Thrissur Pooram 2015 is listed as both 28 and 29 April.
+
+- **Navaratri 2020:** Kerala's list gives Mahanavami on 24 October and Vijayadasami on the 26th. The package gives the 25th for Mahanavami, so 2020 isn't in the Mahanavami and Durgashtami tests.
+- **Ashtami Rohini:** the rule was fitted to five years of Kerala lists and isn't simple. Dates computed before 2021 aren't checked. Drikpanchang gives 29 August 2021, a day before Kerala's list.
+- **Guruvayur Ekadashi:** sources differ by a day in 2019 (7 or 8 December) and 2022 (3 or 4 December). The package gives 8 December 2019 and 3 December 2022, the days with Ekadashi at sunrise.
+- **Thaipooyam:** no Kerala list was found, and the rule misses at least one year. It gives 10 February 2017 where lists from Tamil Nadu and Malaysia give the 9th.
+- **Vinayaka Chathurthi:** Kerala's lists don't include it, and some national sources differ by a day in several years.
+
+**Dhanu Thiruvathira is left out.** The sources found disagree: 19 or 20 December 2021, 26 or 27 December 2023, and 2 or 3 January 2026. Only 2023 (6 January), 2025 (13 January) and 2026 have a Kerala date, which is short of the five years a festival needs.
 
 ## Range
 
