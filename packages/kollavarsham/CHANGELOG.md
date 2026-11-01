@@ -1,4 +1,4 @@
-## Unreleased
+## 1.2.0
 
 **Added**
 
@@ -13,6 +13,9 @@
   Mahanavami, Vijayadasami, Deepavali, Guruvayur Ekadashi and Thaipooyam.
 - `Vrat` and `KollavarshamCalendar.vratDays`: Ekadashi, Pradosham, Shashti,
   Pournami and Amavasya for a year.
+- `ChristianFeast`, `christianFeastsIn` and `easterSunday`.
+- `HijriFestival`, `hijriFestivalsIn` and `tabularHijriToGregorian`:
+  tentative dates from the tabular Hijri calendar.
 
 **Fixed**
 

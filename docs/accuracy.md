@@ -101,6 +101,12 @@ Known ambiguities: Onam 2016 is given as 13 September by some panchangs and 14 S
 
 The reading times were chosen to fit these lists, not taken from a Kerala source, and no Kerala vrat list was found. The Ekadashi difference is 2025-11-02, where the package gives the sunrise day and drikpanchang's Smarta list gives the 1st. Its Vaishnava list gives the 2nd. The 2026 Pradosham differences are 28 February and 28 April, a day before the list.
 
+## Christian and Muslim days
+
+Easter uses the Gregorian computus, the date Western and most Kerala churches keep. It matches Kerala's holiday lists for 2019–2025, along with Good Friday. Palm Sunday and Maundy Thursday are counted back from Easter.
+
+Hijri dates come from the tabular calendar (civil epoch, leap years 2, 5, 7, 10, 13, 16, 18, 21, 24, 26 and 29 of each 30-year cycle). It is arithmetic, while the real dates follow the moon, so these are marked tentative and announced dates replace them. Eid ul-Fitr, Bakrid and Milad-i-Sherif for 2019–2025, and Muharram for 2021–2025, are within two days of Kerala's lists. Those lists were published ahead of the sighting, so they aren't the observed dates either.
+
 ## Range
 
 Years ME 1–2000 (825–2825 CE) are supported. Accuracy is best between 1900 and 2100. Outside it, ΔT is extrapolated and its uncertainty grows to many minutes within a few centuries, so borderline month starts become unreliable.

@@ -24,6 +24,7 @@ print(vishu); // 2026-04-14
 - **Panchanga:** the nakshatra, tithi, yoga and karana of any day (taken at sunrise) or any moment, with their start and end times; Rahu kalam, Gulika kalam and Yamagandam; moonrise and moonset; Chandrashtamam.
 - **Festivals:** Onam (Thiruvonam), Atham, Vishu, Sivaratri, Ashtami Rohini, Vinayaka Chathurthi, Navaratri, Deepavali, Attukal Pongala, Thrissur Pooram, Karkidaka Vavu, Guruvayur Ekadashi, Thaipooyam, the Mandala season, Mandala Pooja, Makaravilakku and more, individually or as a list for a year.
 - **Vrat days:** Ekadashi, Pradosham, Shashti, Pournami and Amavasya for a year.
+- **Christian and Muslim days:** Easter and the feasts around it, Christmas, and tentative dates for Ramadan, Eid ul-Fitr, Bakrid, Muharram and Milad-i-Sherif from the tabular Hijri calendar.
 - **Birth details:** the nakshatra with pada, rashi, tithi and Malayalam date of any moment of birth.
 - **Recurring dates:** star birthdays (pirannal), monthly nakshatram, shraddham by tithi, every Ekadashi and other vrat-style days, Malayalam and Gregorian anniversaries, with rules for doubled and missing days.
 - **North Malabar years:** `YearStart.kanni` numbers years from Kanni instead of Chingam.
@@ -106,6 +107,20 @@ cal.vratDays(Vrat.ekadashi, 1201); // every Ekadashi of the year
 | Shashti | 6th of the waxing fortnight | sunset |
 | Pournami | full moon | mid-day |
 | Amavasya | new moon | sunrise |
+
+### Christian and Muslim days
+
+```dart
+easterSunday(2026); // 2026-04-05
+christianFeastsIn(2026); // New Year, Palm Sunday ... Christmas
+
+// Tentative: the real dates follow the sighting of the moon.
+for (final (festival, date) in hijriFestivalsIn(2026)) {
+  print('${festival.english}: $date');
+}
+```
+
+These take a Gregorian year. Hijri dates come from the tabular calendar and were within two days of Kerala's holiday lists for 2019–2025. Treat them as estimates until a date is announced.
 
 ### Daily panchangam
 

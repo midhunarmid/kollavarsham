@@ -2,8 +2,8 @@
 ///
 /// Convert between Gregorian and Malayalam dates, get month and weekday
 /// names in Malayalam script or transliteration, the panchangam (nakshatra,
-/// tithi, yoga, karana, Rahu kalam, moonrise), festival and vrat dates, and
-/// format dates.
+/// tithi, yoga, karana, Rahu kalam, moonrise), Kerala festival and vrat
+/// dates, Christian and tentative Muslim festival dates, and format dates.
 ///
 /// ```dart
 /// import 'package:kollavarsham/kollavarsham.dart';
@@ -16,7 +16,11 @@ library;
 export 'src/birth_details.dart' show BirthDetails;
 export 'src/calendar.dart'
     show KollavarshamCalendar, ObserverLocation, YearStart;
+export 'src/christian.dart'
+    show ChristianFeast, christianFeastsIn, easterSunday;
 export 'src/festivals.dart' show KeralaFestival, KeralaFestivals;
+export 'src/hijri.dart'
+    show HijriFestival, hijriFestivalsIn, tabularHijriToGregorian;
 export 'src/malayalam_date.dart' show MalayalamDate, DateTimeToMalayalam;
 export 'src/names.dart' show MalayalamMonth, MalayalamWeekday, MalayalamScript;
 export 'src/numerals.dart' show toMalayalamDigits, fromMalayalamDigits;
