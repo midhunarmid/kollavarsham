@@ -2,8 +2,8 @@
 ///
 /// Convert between Gregorian and Malayalam dates, get month and weekday
 /// names in Malayalam script or transliteration, the panchangam (nakshatra,
-/// tithi, yoga, karana, Rahu kalam, moonrise), festival dates, and format
-/// dates.
+/// tithi, yoga, karana, Rahu kalam, moonrise), festival and vrat dates, and
+/// format dates.
 ///
 /// ```dart
 /// import 'package:kollavarsham/kollavarsham.dart';
@@ -34,3 +34,4 @@ export 'src/recurrence.dart'
         Recurrence,
         TithiEveryPaksha,
         TithiInMonth;
+export 'src/vrats.dart' show Vrat, VratDays;

@@ -216,7 +216,8 @@ void main() {
       1201: (2025, 12, 1),
     };
     // Tamil and Malaysian lists (timeanddate.com, officeholidays.com,
-    // sambadenglish.com, calendarific.com): no Kerala list was found.
+    // sambadenglish.com, calendarific.com): no Kerala list was found. They
+    // give 2017-02-09, a known miss, pinned below.
     const thaipooyam = {
       1195: (2020, 2, 8),
       1196: (2021, 1, 28),
@@ -261,6 +262,10 @@ void main() {
       expect(cal.festivalsOn(cal.onam(1200)), [KeralaFestival.onam]);
       expect(cal.festivalsOn(cal.onam(1200).addDays(1)), isEmpty);
       expect(KeralaFestival.vishu.name(MalayalamScript.malayalam), 'വിഷു');
+    });
+
+    test('Thaipooyam 2017 differs from the Malaysian lists', () {
+      expect(cal.thaipooyam(1192).toGregorian(), DateTime(2017, 2, 10));
     });
 
     test('every festival falls in its season, 1900-2100', () {

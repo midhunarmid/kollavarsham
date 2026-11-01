@@ -11,6 +11,8 @@
   `Rashi.fromSiderealLongitude` and `Nakshatra.rashiOf`.
 - Festivals: Sivaratri, Ashtami Rohini, Vinayaka Chathurthi, Durgashtami,
   Mahanavami, Vijayadasami, Deepavali, Guruvayur Ekadashi and Thaipooyam.
+- `Vrat` and `KollavarshamCalendar.vratDays`: Ekadashi, Pradosham, Shashti,
+  Pournami and Amavasya for a year.
 
 **Fixed**
 

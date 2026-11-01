@@ -89,6 +89,18 @@ Known ambiguities: Onam 2016 is given as 13 September by some panchangs and 14 S
 
 **Dhanu Thiruvathira is left out.** The sources found disagree: 19 or 20 December 2021, 26 or 27 December 2023, and 2 or 3 January 2026. Only 2023 (6 January), 2025 (13 January) and 2026 have a Kerala date, which is short of the five years a festival needs.
 
+## Vrat days
+
+| Vrat | Rule | Verified |
+|---|---|---|
+| Ekadashi | Lunar day 11 at sunrise, each fortnight | Drikpanchang, New Delhi, 2025: 24 of 25 days |
+| Pradosham | Lunar day 13, 72 minutes after sunset, each fortnight | Drikpanchang, New Delhi, 2025: all 24 days. A Tamil Nadu list for 2026 at Thiruvananthapuram: 23 of 25 |
+| Shashti | Waxing lunar day 6 at sunset | Drikpanchang, New Delhi, 2025: all 13 days |
+| Pournami | Full moon at mid-day | Drikpanchang, New Delhi, 2025: all 12 fasting days |
+| Amavasya | New moon at sunrise | Drikpanchang, New Delhi, 2025: all 12 days, taking the later date where the page lists two |
+
+The reading times were chosen to fit these lists, not taken from a Kerala source, and no Kerala vrat list was found. The Ekadashi difference is 2025-11-02, where the package gives the sunrise day and drikpanchang's Smarta list gives the 1st. Its Vaishnava list gives the 2nd. The 2026 Pradosham differences are 28 February and 28 April, a day before the list.
+
 ## Range
 
 Years ME 1–2000 (825–2825 CE) are supported. Accuracy is best between 1900 and 2100. Outside it, ΔT is extrapolated and its uncertainty grows to many minutes within a few centuries, so borderline month starts become unreliable.
