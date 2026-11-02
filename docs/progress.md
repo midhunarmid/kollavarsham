@@ -36,6 +36,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Choose the website domain and DNS (Day 20): `calendar.armid.in`, a CNAME to `midhunarmid.github.io`.
 - [ ] Check 2026–2027 dates against printed almanacs (Day 23). Include the Day 6 rules with the weakest evidence: Ashtami Rohini, Thaipooyam, Vinayaka Chathurthi and the vrat reading times, none of which has a Kerala almanac behind it.
 - [ ] Malayalam copy review by a native editor (Day 24).
+- [ ] Confirm the Day 9 storage choice: a versioned JSON document in shared_preferences instead of drift (drift now needs Dart 3.10, and a sqlite3.wasm download for the web). Moving to drift later means a one-time import of that document.
 
 ## Days
 
@@ -113,10 +114,13 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Golden tests for Today, Month and Day (ml/en, light/dark).
   - Twelve goldens at 25 August 2026, run on Windows only (`@TestOn('windows')`), since text rendering differs on the Linux CI. The theme gained a Roboto fallback: Noto Sans Malayalam has no Latin letters.
 
-### Day 9: Sprint 4a, database and people (status: todo)
-- [ ] drift database (native + web) with tables `people`, `events` (type, recurrence JSON, colour, notes), `reminders`, plus migrations and tests.
-- [ ] Repositories and Riverpod providers.
-- [ ] People list, person editor (name, relation, colour, optional photo) and person detail.
+### Day 9: Sprint 4a, database and people (status: done)
+- [x] drift database (native + web) with tables `people`, `events` (type, recurrence JSON, colour, notes), `reminders`, plus migrations and tests.
+  - Not drift: the tables are one versioned JSON document in shared_preferences (`lib/data/database.dart`), a file on Android and `localStorage` on the web. drift ≥2.33 and sqlite3 ≥3.0 need Dart 3.10, the workspace still resolves on Dart 3.6, and drift on the web needs a downloaded `sqlite3.wasm`. With a few hundred rows at most, rewriting the document per change is cheap. Migrations are numbered steps; a newer schema is refused rather than overwritten. See Needs you.
+- [x] Repositories and Riverpod providers.
+  - `Repository` (a Notifier) assigns ids and cascades deletes (person → events → reminders); providers for the sorted people list, a person, a person's events and an event's reminders.
+- [x] People list, person editor (name, relation, colour, optional photo) and person detail.
+  - The photo is left out: it needs `image_picker` and file storage, and adds little to a list of initials in colour. Events on the detail screen are listed only by type until Day 10's editor.
 
 ### Day 10: Sprint 4b, events and pirannal (status: todo)
 - [ ] Event editor with presets: pirannal (star + Malayalam month), monthly nakshatram, Gregorian birthday, shraddham (tithi or star in a month), anniversary, custom (any recurrence); duplicate-rule picker with an explanation.
@@ -197,3 +201,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-01 | Day 6 | Nine festivals (Dhanu Thiruvathira left out: sources disagree), vrat lists, Easter and Christian feasts, tentative Hijri festivals, festivalsIn crash fixed, kollavarsham 1.2.0 (no tag); 436 core, 21 widget and 4 app tests pass |
 | 2026-11-02 | Day 7 | Five-tab go_router shell, persisted settings (language, name script, digits, 14 Kerala cities or manual location, year start, calendar mode, theme), three-step onboarding, ml/en strings with a parity test; 21 app tests pass, web build OK |
 | 2026-11-02 | Day 8 | Today panchangam summary and next festival, Day detail screen (/day/yyyy-mm-dd) with every span to the next sunrise, Calendar tab opens days, 12 Windows-only goldens; 44 app tests pass, web build OK |
+| 2026-11-02 | Day 9 | Versioned JSON database in shared_preferences (people, events, reminders; migrations; drift deferred, see Needs you), Riverpod repository with cascading deletes, People list, editor and detail; 57 app tests pass |
