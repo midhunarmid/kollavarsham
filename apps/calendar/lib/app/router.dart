@@ -1,7 +1,10 @@
 import 'package:go_router/go_router.dart';
 
 import '../features/calendar/calendar_screen.dart';
+import '../data/models.dart';
 import '../features/day/day_screen.dart';
+import '../features/events/event_editor.dart';
+import '../features/events/find_star_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/people/people_screen.dart';
 import '../features/people/person_editor.dart';
@@ -53,6 +56,25 @@ abstract final class AppRoutes {
   /// The editor path of the person with [id].
   static String editPersonPath(int id) => '/person/$id/edit';
 
+  /// Event editor for a new event; see [newEventPath].
+  static const newEvent = '/event/new';
+
+  /// The editor of a new event, optionally for a person and of a type.
+  static String newEventPath({int? personId, EventType? type}) =>
+      Uri(path: newEvent, queryParameters: {
+        if (personId != null) 'person': '$personId',
+        if (type != null) 'type': type.name,
+      }).toString();
+
+  /// Event editor of a saved event; see [editEventPath].
+  static const editEvent = '/event/:id/edit';
+
+  /// The editor path of the event with [id].
+  static String editEventPath(int id) => '/event/$id/edit';
+
+  /// "Find my star"; pops with the BirthDetails taken.
+  static const findStar = '/find-star';
+
   /// The date in a Day detail path parameter, or null if malformed.
   static DateTime? parseDay(String? value) {
     final m = RegExp(r'^(\d{4})-(\d{2})-(\d{2})$').firstMatch(value ?? '');
@@ -91,6 +113,29 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
                   : null,
           builder: (_, state) => DayScreen(
               date: AppRoutes.parseDay(state.pathParameters['date'])!),
+        ),
+        GoRoute(
+          path: AppRoutes.newEvent,
+          builder: (_, state) {
+            final q = state.uri.queryParameters;
+            return EventEditor(
+              personId: int.tryParse(q['person'] ?? ''),
+              type: EventType.values.asNameMap()[q['type']],
+            );
+          },
+        ),
+        GoRoute(
+          path: AppRoutes.editEvent,
+          redirect: (_, state) =>
+              int.tryParse(state.pathParameters['id']!) == null
+                  ? AppRoutes.people
+                  : null,
+          builder: (_, state) =>
+              EventEditor(eventId: int.parse(state.pathParameters['id']!)),
+        ),
+        GoRoute(
+          path: AppRoutes.findStar,
+          builder: (_, __) => const FindStarScreen(),
         ),
         GoRoute(
           path: AppRoutes.newPerson,

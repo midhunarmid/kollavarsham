@@ -19,3 +19,11 @@ String eventTypeLabel(AppLocalizations l10n, EventType type) => switch (type) {
       EventType.anniversary => l10n.eventAnniversary,
       EventType.custom => l10n.eventCustom,
     };
+
+/// The display title of [event]: its own title, else its type, prefixed
+/// with the [person]'s name when there is one ("Midhun's Pirannal").
+String eventTitle(AppLocalizations l10n, CalendarEvent event, Person? person) {
+  final label =
+      event.title.isNotEmpty ? event.title : eventTypeLabel(l10n, event.type);
+  return person == null ? label : l10n.personEvent(person.name, label);
+}

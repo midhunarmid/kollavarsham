@@ -459,5 +459,190 @@
   "eventCustom": "Event",
   "@eventCustom": {
     "description": "Event type: any other recurring event."
+  },
+  "newEvent": "New event",
+  "@newEvent": {
+    "description": "Title of the event editor when adding."
+  },
+  "editEvent": "Edit event",
+  "@editEvent": {
+    "description": "Title of the event editor when editing."
+  },
+  "addEvent": "Add event",
+  "@addEvent": {
+    "description": "Button: add a recurring event (pirannal, birthday...)."
+  },
+  "eventType": "Type",
+  "@eventType": {
+    "description": "Event editor: kind of event."
+  },
+  "person": "Person",
+  "@person": {
+    "description": "Event editor: whose event it is."
+  },
+  "noPerson": "No one",
+  "@noPerson": {
+    "description": "Person option: the event belongs to no person."
+  },
+  "malayalamMonth": "Malayalam month",
+  "@malayalamMonth": {
+    "description": "Event editor: Malayalam month field."
+  },
+  "duplicateRuleHeading": "If it falls on two days of the month",
+  "@duplicateRuleHeading": {
+    "description": "Event editor: heading of the choice between the first and second day."
+  },
+  "duplicateSecond": "Second day",
+  "@duplicateSecond": {
+    "description": "Duplicate rule option: the later day."
+  },
+  "duplicateFirst": "First day",
+  "@duplicateFirst": {
+    "description": "Duplicate rule option: the earlier day."
+  },
+  "duplicateSecondHelp": "The later day is used, as in the usual Kerala practice for a birth star.",
+  "@duplicateSecondHelp": {
+    "description": "Explanation of the second-day rule."
+  },
+  "duplicateFirstHelp": "The earlier day is used, as is usual for a shraddham by star.",
+  "@duplicateFirstHelp": {
+    "description": "Explanation of the first-day rule."
+  },
+  "shraddhamByTithi": "By tithi",
+  "@shraddhamByTithi": {
+    "description": "Shraddham option: kept on the tithi of death."
+  },
+  "shraddhamByStar": "By star",
+  "@shraddhamByStar": {
+    "description": "Shraddham option: kept on the star of death."
+  },
+  "date": "Date",
+  "@date": {
+    "description": "Event editor: the Gregorian date."
+  },
+  "chooseDate": "Choose a date",
+  "@chooseDate": {
+    "description": "Button: open the date picker."
+  },
+  "year": "Year (optional)",
+  "@year": {
+    "description": "Event editor: year of birth or wedding, for ages."
+  },
+  "invalidYear": "Enter a year between 1800 and 2200",
+  "@invalidYear": {
+    "description": "Error for an out-of-range year."
+  },
+  "eventTitle": "Title",
+  "@eventTitle": {
+    "description": "Event editor: title of a custom event."
+  },
+  "titleRequired": "Enter a title",
+  "@titleRequired": {
+    "description": "Error when a custom event has no title."
+  },
+  "repeats": "Repeats",
+  "@repeats": {
+    "description": "Event editor: how a custom event repeats."
+  },
+  "kindMalayalamYearly": "Malayalam date, every year",
+  "@kindMalayalamYearly": {
+    "description": "Custom repeat option."
+  },
+  "kindMalayalamMonthly": "Malayalam date, every month",
+  "@kindMalayalamMonthly": {
+    "description": "Custom repeat option."
+  },
+  "kindGregorianYearly": "English date, every year",
+  "@kindGregorianYearly": {
+    "description": "Custom repeat option: a Gregorian date."
+  },
+  "kindTithi": "Tithi, every fortnight",
+  "@kindTithi": {
+    "description": "Custom repeat option: a tithi such as Ekadashi."
+  },
+  "day": "Day",
+  "@day": {
+    "description": "Event editor: day of the month."
+  },
+  "bothPakshas": "Both",
+  "@bothPakshas": {
+    "description": "Paksha option: both fortnights."
+  },
+  "nextDates": "Next dates",
+  "@nextDates": {
+    "description": "Event editor: preview of the next occurrences."
+  },
+  "findMyStar": "Find my star",
+  "@findMyStar": {
+    "description": "Button and title: work out the birth star from the birth date and time."
+  },
+  "findStarIntro": "Enter the date and time of birth. The place is the location chosen in Settings.",
+  "@findStarIntro": {
+    "description": "Find my star: instructions."
+  },
+  "birthDate": "Date of birth",
+  "@birthDate": {
+    "description": "Find my star: date field."
+  },
+  "birthTime": "Time of birth",
+  "@birthTime": {
+    "description": "Find my star: time field."
+  },
+  "starResult": "{star}, pada {pada}",
+  "@starResult": {
+    "description": "Find my star: the star and its quarter.",
+    "placeholders": {
+      "star": {
+        "type": "String"
+      },
+      "pada": {
+        "type": "int"
+      }
+    }
+  },
+  "rashiResult": "{rashi} rashi",
+  "@rashiResult": {
+    "description": "Find my star: the Moon sign.",
+    "placeholders": {
+      "rashi": {
+        "type": "String"
+      }
+    }
+  },
+  "useThisStar": "Use this star",
+  "@useThisStar": {
+    "description": "Find my star: fill the pirannal with the result."
+  },
+  "deleteEventTitle": "Delete this event?",
+  "@deleteEventTitle": {
+    "description": "Confirm dialog title for deleting an event."
+  },
+  "deleteEventBody": "Its reminders are deleted too.",
+  "@deleteEventBody": {
+    "description": "Confirm dialog text for deleting an event."
+  },
+  "upcoming": "Upcoming",
+  "@upcoming": {
+    "description": "Heading of the upcoming events list."
+  },
+  "noUpcoming": "Nothing in the next 30 days.",
+  "@noUpcoming": {
+    "description": "Shown when no personal event falls in the next 30 days."
+  },
+  "personEvent": "{name}'s {event}",
+  "@personEvent": {
+    "description": "A person's event, e.g. 'Midhun's Pirannal'.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "event": {
+        "type": "String"
+      }
+    }
+  },
+  "pirannalAndEvents": "Pirannal and events",
+  "@pirannalAndEvents": {
+    "description": "Today tab: heading of upcoming personal events."
   }
 }

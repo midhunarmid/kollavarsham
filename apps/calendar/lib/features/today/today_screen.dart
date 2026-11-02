@@ -6,6 +6,8 @@ import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 import '../../app/clock.dart';
 import '../../app/router.dart';
 import '../../app/settings.dart';
+import '../../data/occurrences.dart';
+import '../people/labels.dart';
 import '../../l10n/app_localizations.dart';
 import '../day/day_info.dart';
 import '../day/panchangam_view.dart';
@@ -25,6 +27,7 @@ class TodayScreen extends ConsumerWidget {
     final today = ref.watch(todayProvider);
     final info = DayInfo.of(today);
     final next = nextFestival(today);
+    final upcoming = ref.watch(eventIndexProvider).upcoming(today, 30);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appTitle)),
@@ -94,6 +97,39 @@ class TodayScreen extends ConsumerWidget {
                     contentPadding: EdgeInsets.zero,
                     leading: const Icon(Icons.celebration_outlined),
                     title: Text(f.name(script)),
+                  ),
+              const SizedBox(height: 16),
+              Text(l10n.pirannalAndEvents, style: theme.textTheme.titleSmall),
+              if (upcoming.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(l10n.noUpcoming),
+                )
+              else
+                for (final o in upcoming)
+                  ListTile(
+                    key: Key('upcoming-${o.event.id}-${o.date.dayNumber}'),
+                    contentPadding: EdgeInsets.zero,
+                    leading: Container(
+                      width: 6,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: o.color == null
+                            ? theme.colorScheme.primary
+                            : Color(o.color!),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    title: Text(eventTitle(l10n, o.event, o.person)),
+                    subtitle: Text(
+                      '${o.date.format('d MMMM', script: script, malayalamDigits: settings.malayalamDigits)}'
+                      ' · ${l10n.inDays(today.daysUntil(o.date))}',
+                    ),
+                    onTap: o.person == null
+                        ? () =>
+                            context.push(AppRoutes.editEventPath(o.event.id))
+                        : () =>
+                            context.push(AppRoutes.personPath(o.person!.id)),
                   ),
               if (next case (final festival, final date)) ...[
                 const SizedBox(height: 16),

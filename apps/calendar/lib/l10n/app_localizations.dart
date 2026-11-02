@@ -721,6 +721,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Event'**
   String get eventCustom;
+
+  /// Title of the event editor when adding.
+  ///
+  /// In en, this message translates to:
+  /// **'New event'**
+  String get newEvent;
+
+  /// Title of the event editor when editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit event'**
+  String get editEvent;
+
+  /// Button: add a recurring event (pirannal, birthday...).
+  ///
+  /// In en, this message translates to:
+  /// **'Add event'**
+  String get addEvent;
+
+  /// Event editor: kind of event.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get eventType;
+
+  /// Event editor: whose event it is.
+  ///
+  /// In en, this message translates to:
+  /// **'Person'**
+  String get person;
+
+  /// Person option: the event belongs to no person.
+  ///
+  /// In en, this message translates to:
+  /// **'No one'**
+  String get noPerson;
+
+  /// Event editor: Malayalam month field.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam month'**
+  String get malayalamMonth;
+
+  /// Event editor: heading of the choice between the first and second day.
+  ///
+  /// In en, this message translates to:
+  /// **'If it falls on two days of the month'**
+  String get duplicateRuleHeading;
+
+  /// Duplicate rule option: the later day.
+  ///
+  /// In en, this message translates to:
+  /// **'Second day'**
+  String get duplicateSecond;
+
+  /// Duplicate rule option: the earlier day.
+  ///
+  /// In en, this message translates to:
+  /// **'First day'**
+  String get duplicateFirst;
+
+  /// Explanation of the second-day rule.
+  ///
+  /// In en, this message translates to:
+  /// **'The later day is used, as in the usual Kerala practice for a birth star.'**
+  String get duplicateSecondHelp;
+
+  /// Explanation of the first-day rule.
+  ///
+  /// In en, this message translates to:
+  /// **'The earlier day is used, as is usual for a shraddham by star.'**
+  String get duplicateFirstHelp;
+
+  /// Shraddham option: kept on the tithi of death.
+  ///
+  /// In en, this message translates to:
+  /// **'By tithi'**
+  String get shraddhamByTithi;
+
+  /// Shraddham option: kept on the star of death.
+  ///
+  /// In en, this message translates to:
+  /// **'By star'**
+  String get shraddhamByStar;
+
+  /// Event editor: the Gregorian date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// Button: open the date picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a date'**
+  String get chooseDate;
+
+  /// Event editor: year of birth or wedding, for ages.
+  ///
+  /// In en, this message translates to:
+  /// **'Year (optional)'**
+  String get year;
+
+  /// Error for an out-of-range year.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a year between 1800 and 2200'**
+  String get invalidYear;
+
+  /// Event editor: title of a custom event.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get eventTitle;
+
+  /// Error when a custom event has no title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a title'**
+  String get titleRequired;
+
+  /// Event editor: how a custom event repeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get repeats;
+
+  /// Custom repeat option.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam date, every year'**
+  String get kindMalayalamYearly;
+
+  /// Custom repeat option.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam date, every month'**
+  String get kindMalayalamMonthly;
+
+  /// Custom repeat option: a Gregorian date.
+  ///
+  /// In en, this message translates to:
+  /// **'English date, every year'**
+  String get kindGregorianYearly;
+
+  /// Custom repeat option: a tithi such as Ekadashi.
+  ///
+  /// In en, this message translates to:
+  /// **'Tithi, every fortnight'**
+  String get kindTithi;
+
+  /// Event editor: day of the month.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get day;
+
+  /// Paksha option: both fortnights.
+  ///
+  /// In en, this message translates to:
+  /// **'Both'**
+  String get bothPakshas;
+
+  /// Event editor: preview of the next occurrences.
+  ///
+  /// In en, this message translates to:
+  /// **'Next dates'**
+  String get nextDates;
+
+  /// Button and title: work out the birth star from the birth date and time.
+  ///
+  /// In en, this message translates to:
+  /// **'Find my star'**
+  String get findMyStar;
+
+  /// Find my star: instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the date and time of birth. The place is the location chosen in Settings.'**
+  String get findStarIntro;
+
+  /// Find my star: date field.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth'**
+  String get birthDate;
+
+  /// Find my star: time field.
+  ///
+  /// In en, this message translates to:
+  /// **'Time of birth'**
+  String get birthTime;
+
+  /// Find my star: the star and its quarter.
+  ///
+  /// In en, this message translates to:
+  /// **'{star}, pada {pada}'**
+  String starResult(String star, int pada);
+
+  /// Find my star: the Moon sign.
+  ///
+  /// In en, this message translates to:
+  /// **'{rashi} rashi'**
+  String rashiResult(String rashi);
+
+  /// Find my star: fill the pirannal with the result.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this star'**
+  String get useThisStar;
+
+  /// Confirm dialog title for deleting an event.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this event?'**
+  String get deleteEventTitle;
+
+  /// Confirm dialog text for deleting an event.
+  ///
+  /// In en, this message translates to:
+  /// **'Its reminders are deleted too.'**
+  String get deleteEventBody;
+
+  /// Heading of the upcoming events list.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get upcoming;
+
+  /// Shown when no personal event falls in the next 30 days.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in the next 30 days.'**
+  String get noUpcoming;
+
+  /// A person's event, e.g. 'Midhun's Pirannal'.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s {event}'**
+  String personEvent(String name, String event);
+
+  /// Today tab: heading of upcoming personal events.
+  ///
+  /// In en, this message translates to:
+  /// **'Pirannal and events'**
+  String get pirannalAndEvents;
 }
 
 class _AppLocalizationsDelegate

@@ -354,4 +354,136 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eventCustom => 'Event';
+
+  @override
+  String get newEvent => 'New event';
+
+  @override
+  String get editEvent => 'Edit event';
+
+  @override
+  String get addEvent => 'Add event';
+
+  @override
+  String get eventType => 'Type';
+
+  @override
+  String get person => 'Person';
+
+  @override
+  String get noPerson => 'No one';
+
+  @override
+  String get malayalamMonth => 'Malayalam month';
+
+  @override
+  String get duplicateRuleHeading => 'If it falls on two days of the month';
+
+  @override
+  String get duplicateSecond => 'Second day';
+
+  @override
+  String get duplicateFirst => 'First day';
+
+  @override
+  String get duplicateSecondHelp =>
+      'The later day is used, as in the usual Kerala practice for a birth star.';
+
+  @override
+  String get duplicateFirstHelp =>
+      'The earlier day is used, as is usual for a shraddham by star.';
+
+  @override
+  String get shraddhamByTithi => 'By tithi';
+
+  @override
+  String get shraddhamByStar => 'By star';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get chooseDate => 'Choose a date';
+
+  @override
+  String get year => 'Year (optional)';
+
+  @override
+  String get invalidYear => 'Enter a year between 1800 and 2200';
+
+  @override
+  String get eventTitle => 'Title';
+
+  @override
+  String get titleRequired => 'Enter a title';
+
+  @override
+  String get repeats => 'Repeats';
+
+  @override
+  String get kindMalayalamYearly => 'Malayalam date, every year';
+
+  @override
+  String get kindMalayalamMonthly => 'Malayalam date, every month';
+
+  @override
+  String get kindGregorianYearly => 'English date, every year';
+
+  @override
+  String get kindTithi => 'Tithi, every fortnight';
+
+  @override
+  String get day => 'Day';
+
+  @override
+  String get bothPakshas => 'Both';
+
+  @override
+  String get nextDates => 'Next dates';
+
+  @override
+  String get findMyStar => 'Find my star';
+
+  @override
+  String get findStarIntro =>
+      'Enter the date and time of birth. The place is the location chosen in Settings.';
+
+  @override
+  String get birthDate => 'Date of birth';
+
+  @override
+  String get birthTime => 'Time of birth';
+
+  @override
+  String starResult(String star, int pada) {
+    return '$star, pada $pada';
+  }
+
+  @override
+  String rashiResult(String rashi) {
+    return '$rashi rashi';
+  }
+
+  @override
+  String get useThisStar => 'Use this star';
+
+  @override
+  String get deleteEventTitle => 'Delete this event?';
+
+  @override
+  String get deleteEventBody => 'Its reminders are deleted too.';
+
+  @override
+  String get upcoming => 'Upcoming';
+
+  @override
+  String get noUpcoming => 'Nothing in the next 30 days.';
+
+  @override
+  String personEvent(String name, String event) {
+    return '$name\'s $event';
+  }
+
+  @override
+  String get pirannalAndEvents => 'Pirannal and events';
 }

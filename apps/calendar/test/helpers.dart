@@ -4,6 +4,7 @@ import 'package:calendar/app/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Settings of a user who has finished onboarding.
@@ -51,5 +52,11 @@ Future<SharedPreferences> pumpApp(WidgetTester tester,
 Future<void> tapTab(WidgetTester tester, String label) async {
   await tester.tap(find.descendant(
       of: find.byType(NavigationBar), matching: find.text(label)));
+  await tester.pumpAndSettle();
+}
+
+/// Opens [location] over the current tab, as a push from the app would.
+Future<void> pushRoute(WidgetTester tester, String location) async {
+  GoRouter.of(tester.element(find.byType(NavigationBar))).push(location);
   await tester.pumpAndSettle();
 }

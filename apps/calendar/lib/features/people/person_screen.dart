@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
+import '../../app/clock.dart';
 import '../../app/router.dart';
+import '../../app/settings.dart';
+import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../l10n/app_localizations.dart';
 import 'labels.dart';
@@ -53,6 +57,9 @@ class PersonScreen extends ConsumerWidget {
       );
     }
     final events = ref.watch(personEventsProvider(personId));
+    final today = ref.watch(todayProvider);
+    final settings = ref.watch(settingsProvider);
+    final script = resolveScript(context, settings.nameScript.script);
 
     return Scaffold(
       appBar: AppBar(
@@ -96,15 +103,51 @@ class PersonScreen extends ConsumerWidget {
               child: Text(l10n.noEvents),
             )
           else
-            for (final e in events)
+            for (final (e, next) in [
+              for (final e in events)
+                (
+                  e,
+                  e.recurrence.next(today.addDays(-1).toGregorian(),
+                      calendar: today.calendar)
+                ),
+            ]..sort((a, b) => _compareDates(a.$2, b.$2)))
               ListTile(
+                key: Key('event-${e.id}'),
                 leading: const Icon(Icons.event_repeat),
                 title: Text(e.title.isNotEmpty
                     ? e.title
                     : eventTypeLabel(l10n, e.type)),
+                subtitle: next == null
+                    ? null
+                    : Text(
+                        '${MaterialLocalizations.of(context).formatMediumDate(next.toGregorian())}'
+                        ' · ${next.format('d MMMM', script: script, malayalamDigits: settings.malayalamDigits)}'
+                        ' · ${l10n.inDays(today.daysUntil(next))}'),
+                trailing: const Icon(Icons.edit_outlined),
+                onTap: () => context.push(AppRoutes.editEventPath(e.id)),
               ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: FilledButton.tonalIcon(
+                key: const Key('add-event'),
+                onPressed: () => context.push(AppRoutes.newEventPath(
+                    personId: personId,
+                    type: events.isEmpty ? EventType.pirannal : null)),
+                icon: const Icon(Icons.add),
+                label: Text(l10n.addEvent),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
+
+int _compareDates(MalayalamDate? a, MalayalamDate? b) => a == null
+    ? (b == null ? 0 : 1)
+    : b == null
+        ? -1
+        : a.compareTo(b);

@@ -354,4 +354,136 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get eventCustom => 'ദിവസം';
+
+  @override
+  String get newEvent => 'പുതിയ ദിവസം';
+
+  @override
+  String get editEvent => 'ദിവസം മാറ്റുക';
+
+  @override
+  String get addEvent => 'ദിവസം ചേർക്കുക';
+
+  @override
+  String get eventType => 'തരം';
+
+  @override
+  String get person => 'ആൾ';
+
+  @override
+  String get noPerson => 'ആരുമില്ല';
+
+  @override
+  String get malayalamMonth => 'മലയാള മാസം';
+
+  @override
+  String get duplicateRuleHeading => 'മാസത്തിൽ രണ്ടു ദിവസം വന്നാൽ';
+
+  @override
+  String get duplicateSecond => 'രണ്ടാമത്തെ ദിവസം';
+
+  @override
+  String get duplicateFirst => 'ആദ്യത്തെ ദിവസം';
+
+  @override
+  String get duplicateSecondHelp =>
+      'ജന്മനക്ഷത്രത്തിന് കേരളത്തിലെ പതിവുപോലെ പിന്നത്തെ ദിവസം എടുക്കുന്നു.';
+
+  @override
+  String get duplicateFirstHelp =>
+      'നക്ഷത്രപ്രകാരമുള്ള ശ്രാദ്ധത്തിന് പതിവുപോലെ ആദ്യത്തെ ദിവസം എടുക്കുന്നു.';
+
+  @override
+  String get shraddhamByTithi => 'തിഥിപ്രകാരം';
+
+  @override
+  String get shraddhamByStar => 'നക്ഷത്രപ്രകാരം';
+
+  @override
+  String get date => 'തീയതി';
+
+  @override
+  String get chooseDate => 'തീയതി തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get year => 'വർഷം (ഐച്ഛികം)';
+
+  @override
+  String get invalidYear => '1800-നും 2200-നും ഇടയിലുള്ള വർഷം നൽകുക';
+
+  @override
+  String get eventTitle => 'പേര്';
+
+  @override
+  String get titleRequired => 'പേര് നൽകുക';
+
+  @override
+  String get repeats => 'ആവർത്തനം';
+
+  @override
+  String get kindMalayalamYearly => 'മലയാള തീയതി, എല്ലാ വർഷവും';
+
+  @override
+  String get kindMalayalamMonthly => 'മലയാള തീയതി, എല്ലാ മാസവും';
+
+  @override
+  String get kindGregorianYearly => 'ഇംഗ്ലീഷ് തീയതി, എല്ലാ വർഷവും';
+
+  @override
+  String get kindTithi => 'തിഥി, എല്ലാ പക്ഷത്തിലും';
+
+  @override
+  String get day => 'ദിവസം';
+
+  @override
+  String get bothPakshas => 'രണ്ടും';
+
+  @override
+  String get nextDates => 'അടുത്ത തീയതികൾ';
+
+  @override
+  String get findMyStar => 'എന്റെ നക്ഷത്രം കണ്ടെത്തുക';
+
+  @override
+  String get findStarIntro =>
+      'ജനന തീയതിയും സമയവും നൽകുക. സ്ഥലം ക്രമീകരണങ്ങളിൽ തിരഞ്ഞെടുത്തതാണ്.';
+
+  @override
+  String get birthDate => 'ജനന തീയതി';
+
+  @override
+  String get birthTime => 'ജനന സമയം';
+
+  @override
+  String starResult(String star, int pada) {
+    return '$star, $pada-ാം പാദം';
+  }
+
+  @override
+  String rashiResult(String rashi) {
+    return '$rashi രാശി';
+  }
+
+  @override
+  String get useThisStar => 'ഈ നക്ഷത്രം ഉപയോഗിക്കുക';
+
+  @override
+  String get deleteEventTitle => 'ഈ ദിവസം നീക്കം ചെയ്യണോ?';
+
+  @override
+  String get deleteEventBody => 'അതിന്റെ ഓർമ്മപ്പെടുത്തലുകളും നീക്കം ചെയ്യും.';
+
+  @override
+  String get upcoming => 'വരാനിരിക്കുന്നവ';
+
+  @override
+  String get noUpcoming => 'അടുത്ത 30 ദിവസത്തിൽ ഒന്നുമില്ല.';
+
+  @override
+  String personEvent(String name, String event) {
+    return '$name – $event';
+  }
+
+  @override
+  String get pirannalAndEvents => 'പിറന്നാളും മറ്റു ദിവസങ്ങളും';
 }

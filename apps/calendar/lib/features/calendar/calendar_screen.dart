@@ -6,6 +6,7 @@ import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 import '../../app/clock.dart';
 import '../../app/router.dart';
 import '../../app/settings.dart';
+import '../../data/occurrences.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Calendar tab: a month view with festival markers and the selected day's
@@ -47,6 +48,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         (_selected ?? today).toGregorian(),
         calendar: calendar);
     final festivals = calendar.festivalsOn(selected);
+    final index = ref.watch(eventIndexProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,7 +69,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
             children: [
               MalayalamMonthView(
                 // A new calendar or mode needs a fresh month page.
-                key: ValueKey((calendar, settings.calendarMode)),
+                key: ValueKey((calendar, settings.calendarMode, index)),
                 controller: _controller,
                 calendar: calendar,
                 mode: settings.calendarMode,
@@ -76,7 +78,12 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                 initialMonth: selected,
                 selectedDate: selected,
                 showNakshatra: true,
-                eventLoader: festivalEventLoader(calendar),
+                eventLoader: (d) => [
+                  ...calendar.festivalsOn(d),
+                  ...index.on(d),
+                ],
+                markerBuilder: (context, date, events) =>
+                    _Markers(events: events),
                 onDateSelected: (d) {
                   setState(() => _selected = d);
                   context.push(AppRoutes.dayPath(d.toGregorian()));
@@ -104,6 +111,40 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Up to three dots under a day: festivals in the theme's marker colour,
+/// personal events in their person's colour.
+class _Markers extends StatelessWidget {
+  const _Markers({required this.events});
+
+  final List<Object> events;
+
+  @override
+  Widget build(BuildContext context) {
+    final festival = KollavarshamCalendarTheme.of(context).markerColor;
+    final fallback = Theme.of(context).colorScheme.primary;
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final e in events.take(3))
+            Container(
+              width: 5,
+              height: 5,
+              margin: const EdgeInsets.symmetric(horizontal: 1),
+              decoration: BoxDecoration(
+                color: e is Occurrence
+                    ? (e.color == null ? fallback : Color(e.color!))
+                    : festival,
+                shape: BoxShape.circle,
+              ),
+            ),
+        ],
       ),
     );
   }
