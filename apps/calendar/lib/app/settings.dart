@@ -55,6 +55,7 @@ class AppSettings {
     this.yearStart = YearStart.chingam,
     this.calendarMode = CalendarMode.malayalam,
     this.themeMode = ThemeMode.system,
+    this.onboardingDone = false,
   });
 
   /// Interface language.
@@ -79,6 +80,9 @@ class AppSettings {
   /// Light, dark or system theme.
   final ThemeMode themeMode;
 
+  /// Whether the first-run onboarding has been completed.
+  final bool onboardingDone;
+
   /// A copy with the given values replaced.
   AppSettings copyWith({
     AppLanguage? language,
@@ -88,6 +92,7 @@ class AppSettings {
     YearStart? yearStart,
     CalendarMode? calendarMode,
     ThemeMode? themeMode,
+    bool? onboardingDone,
   }) =>
       AppSettings(
         language: language ?? this.language,
@@ -97,6 +102,7 @@ class AppSettings {
         yearStart: yearStart ?? this.yearStart,
         calendarMode: calendarMode ?? this.calendarMode,
         themeMode: themeMode ?? this.themeMode,
+        onboardingDone: onboardingDone ?? this.onboardingDone,
       );
 
   @override
@@ -108,11 +114,12 @@ class AppSettings {
       other.location == location &&
       other.yearStart == yearStart &&
       other.calendarMode == calendarMode &&
-      other.themeMode == themeMode;
+      other.themeMode == themeMode &&
+      other.onboardingDone == onboardingDone;
 
   @override
   int get hashCode => Object.hash(language, nameScript, malayalamDigits,
-      location, yearStart, calendarMode, themeMode);
+      location, yearStart, calendarMode, themeMode, onboardingDone);
 }
 
 T _byName<T extends Enum>(List<T> values, String? name, T fallback) {
@@ -143,6 +150,7 @@ class SettingsStore {
   static const _yearStart = 'settings.yearStart';
   static const _calendarMode = 'settings.calendarMode';
   static const _themeMode = 'settings.themeMode';
+  static const _onboardingDone = 'settings.onboardingDone';
 
   /// Value of the location key for a manual location.
   static const manualLocation = 'manual';
@@ -163,6 +171,7 @@ class SettingsStore {
           CalendarMode.values, prefs.getString(_calendarMode), d.calendarMode),
       themeMode:
           _byName(ThemeMode.values, prefs.getString(_themeMode), d.themeMode),
+      onboardingDone: prefs.getBool(_onboardingDone) ?? d.onboardingDone,
     );
   }
 
@@ -191,6 +200,7 @@ class SettingsStore {
     await prefs.setString(_yearStart, s.yearStart.name);
     await prefs.setString(_calendarMode, s.calendarMode.name);
     await prefs.setString(_themeMode, s.themeMode.name);
+    await prefs.setBool(_onboardingDone, s.onboardingDone);
   }
 }
 

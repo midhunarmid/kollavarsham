@@ -5,11 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// English interface settings.
-const enSettings = AppSettings(language: AppLanguage.english);
+/// Settings of a user who has finished onboarding.
+const doneSettings = AppSettings(onboardingDone: true);
 
-/// Malayalam interface settings.
-const mlSettings = AppSettings(language: AppLanguage.malayalam);
+/// English interface settings, past onboarding.
+const enSettings =
+    AppSettings(language: AppLanguage.english, onboardingDone: true);
+
+/// Malayalam interface settings, past onboarding.
+const mlSettings =
+    AppSettings(language: AppLanguage.malayalam, onboardingDone: true);
 
 /// Fresh in-memory preferences holding [settings], if given.
 Future<SharedPreferences> testPrefs([AppSettings? settings]) async {
@@ -22,7 +27,7 @@ Future<SharedPreferences> testPrefs([AppSettings? settings]) async {
 /// Pumps the whole app on a tall phone-sized surface; returns its
 /// preferences.
 Future<SharedPreferences> pumpApp(WidgetTester tester,
-    {AppSettings? settings = const AppSettings()}) async {
+    {AppSettings? settings = doneSettings}) async {
   await tester.binding.setSurfaceSize(const Size(480, 1400));
   addTearDown(() => tester.binding.setSurfaceSize(null));
   final prefs = await testPrefs(settings);

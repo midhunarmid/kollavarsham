@@ -18,7 +18,8 @@ class CalendarApp extends ConsumerStatefulWidget {
 }
 
 class _CalendarAppState extends ConsumerState<CalendarApp> {
-  final GoRouter _router = createRouter();
+  late final GoRouter _router = createRouter(
+      needsOnboarding: () => !ref.read(settingsProvider).onboardingDone);
 
   @override
   void dispose() {

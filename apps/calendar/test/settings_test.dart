@@ -28,6 +28,7 @@ void main() {
         yearStart: YearStart.kanni,
         calendarMode: CalendarMode.gregorian,
         themeMode: ThemeMode.dark,
+        onboardingDone: true,
       );
       await SettingsStore(prefs).save(s);
       expect(SettingsStore(prefs).load(), s);

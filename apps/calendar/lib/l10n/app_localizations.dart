@@ -355,6 +355,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English months'**
   String get calendarModeGregorian;
+
+  /// Progress label at the top of each onboarding page.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total}'**
+  String onboardingStep(int step, int total);
+
+  /// Onboarding page 1 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get onboardingWelcomeTitle;
+
+  /// Onboarding page 1 text, above the language choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam dates, stars, festivals and star birthdays (pirannal) for your family, all on this phone. Choose the language for the app.'**
+  String get onboardingWelcomeBody;
+
+  /// Onboarding page 2 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location'**
+  String get onboardingLocationTitle;
+
+  /// Onboarding page 2 text, above the location choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise decides the star of the day and the day a Malayalam month begins, so choose the nearest city. Outside Kerala, enter your coordinates and time zone. You can change this later in Settings.'**
+  String get onboardingLocationBody;
+
+  /// Button that opens a picker to change a value.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get change;
+
+  /// Onboarding page 3 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get onboardingNotificationsTitle;
+
+  /// Onboarding page 3 text, above the list of reminder kinds.
+  ///
+  /// In en, this message translates to:
+  /// **'The app can send notifications so you don\'t miss:'**
+  String get onboardingNotificationsBody;
+
+  /// Onboarding: first kind of reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Pirannal and monthly nakshatram of the people you add'**
+  String get onboardingNotifyPirannal;
+
+  /// Onboarding: second kind of reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Shraddham, birthdays and anniversaries'**
+  String get onboardingNotifyShraddham;
+
+  /// Onboarding: third kind of reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'The start of each Malayalam month and year'**
+  String get onboardingNotifyMonthStart;
+
+  /// Onboarding page 3: when the permission is asked, and the privacy promise.
+  ///
+  /// In en, this message translates to:
+  /// **'Android asks for permission when you set up your first reminder. Your events stay on this phone; the app has no account and sends nothing to a server.'**
+  String get onboardingNotificationsPrivacy;
+
+  /// Onboarding button: previous page.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// Onboarding button: next page.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// Onboarding button on the last page: finish and open the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get getStarted;
 }
 
 class _AppLocalizationsDelegate

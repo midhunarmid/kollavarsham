@@ -141,4 +141,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calendarModeGregorian => 'English months';
+
+  @override
+  String onboardingStep(int step, int total) {
+    return 'Step $step of $total';
+  }
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Malayalam dates, stars, festivals and star birthdays (pirannal) for your family, all on this phone. Choose the language for the app.';
+
+  @override
+  String get onboardingLocationTitle => 'Your location';
+
+  @override
+  String get onboardingLocationBody =>
+      'Sunrise decides the star of the day and the day a Malayalam month begins, so choose the nearest city. Outside Kerala, enter your coordinates and time zone. You can change this later in Settings.';
+
+  @override
+  String get change => 'Change';
+
+  @override
+  String get onboardingNotificationsTitle => 'Reminders';
+
+  @override
+  String get onboardingNotificationsBody =>
+      'The app can send notifications so you don\'t miss:';
+
+  @override
+  String get onboardingNotifyPirannal =>
+      'Pirannal and monthly nakshatram of the people you add';
+
+  @override
+  String get onboardingNotifyShraddham =>
+      'Shraddham, birthdays and anniversaries';
+
+  @override
+  String get onboardingNotifyMonthStart =>
+      'The start of each Malayalam month and year';
+
+  @override
+  String get onboardingNotificationsPrivacy =>
+      'Android asks for permission when you set up your first reminder. Your events stay on this phone; the app has no account and sends nothing to a server.';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get getStarted => 'Get started';
 }

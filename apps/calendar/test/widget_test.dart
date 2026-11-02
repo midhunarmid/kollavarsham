@@ -38,7 +38,7 @@ void main() {
 
   testWidgets('dark theme is Material 3 with the bundled font', (tester) async {
     await pumpApp(tester,
-        settings: const AppSettings(themeMode: ThemeMode.dark));
+        settings: doneSettings.copyWith(themeMode: ThemeMode.dark));
     final theme = Theme.of(tester.element(find.byType(NavigationBar)));
     expect(theme.brightness, Brightness.dark);
     expect(theme.useMaterial3, isTrue);
