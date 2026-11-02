@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
+import '../../app/report.dart';
 import '../../app/router.dart';
 import '../../app/settings.dart';
+import '../../app/version.dart';
 import '../../data/festival_index.dart';
 import '../../data/occurrences.dart';
 import '../../l10n/app_localizations.dart';
@@ -50,6 +52,17 @@ class DayScreen extends ConsumerWidget {
             tooltip: l10n.nextDay,
             icon: const Icon(Icons.chevron_right),
             onPressed: () => goTo(1),
+          ),
+          PopupMenuButton<void>(
+            key: const Key('day-menu'),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                key: const Key('report-wrong-date'),
+                onTap: () => ref.read(openUrlProvider)(
+                    wrongDateReport(day, festivals, appVersion: appVersion)),
+                child: Text(l10n.reportWrongDate),
+              ),
+            ],
           ),
         ],
       ),

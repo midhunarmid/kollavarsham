@@ -1561,6 +1561,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That file is not a backup from this app.'**
   String get restoreFailed;
+
+  /// Menu item: open a pre-filled issue on GitHub about this day.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a wrong date'**
+  String get reportWrongDate;
 }
 
 class _AppLocalizationsDelegate

@@ -859,4 +859,7 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get restoreFailed => 'ആ ഫയൽ ഈ ആപ്പിന്റെ ബാക്കപ്പ് അല്ല.';
+
+  @override
+  String get reportWrongDate => 'തെറ്റായ തീയതി അറിയിക്കുക';
 }

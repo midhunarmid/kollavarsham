@@ -1225,5 +1225,9 @@
   "restoreFailed": "That file is not a backup from this app.",
   "@restoreFailed": {
     "description": "Snackbar when the picked file can't be restored."
+  },
+  "reportWrongDate": "Report a wrong date",
+  "@reportWrongDate": {
+    "description": "Menu item: open a pre-filled issue on GitHub about this day."
   }
 }

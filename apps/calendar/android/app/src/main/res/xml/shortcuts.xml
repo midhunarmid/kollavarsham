@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher shortcuts; each opens a route through Flutter deep linking. -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="today"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_today">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="in.armid.calendar"
+            android:targetClass="in.armid.calendar.MainActivity"
+            android:data="kollavarsham://app/today" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="add_event"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_add_event">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="in.armid.calendar"
+            android:targetClass="in.armid.calendar.MainActivity"
+            android:data="kollavarsham://app/event/new" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="converter"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_converter">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="in.armid.calendar"
+            android:targetClass="in.armid.calendar.MainActivity"
+            android:data="kollavarsham://app/tools/converter" />
+    </shortcut>
+</shortcuts>

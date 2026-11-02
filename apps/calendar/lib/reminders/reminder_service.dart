@@ -15,6 +15,8 @@ import '../data/database.dart';
 import '../data/festival_index.dart';
 import '../data/repository.dart';
 import '../l10n/app_localizations.dart';
+import '../data/occurrences.dart';
+import 'home_widgets.dart';
 import 'notifications.dart';
 import 'reminder_options.dart';
 import 'scheduler.dart';
@@ -36,19 +38,31 @@ import 'scheduler.dart';
 /// Recomputes and replaces the scheduled notifications from what is
 /// stored in [prefs]; used by the daily background job.
 Future<void> rescheduleFromPrefs(
-    SharedPreferences prefs, NotificationSink sink, DateTime now) async {
+    SharedPreferences prefs, NotificationSink sink, DateTime now,
+    {HomeWidgetSink widgets = const HomeWidgetSink()}) async {
   final settings = SettingsStore(prefs).load();
   final (l10n, script) =
       notificationLanguage(settings, PlatformDispatcher.instance.locale);
+  final calendar = calendarFor(settings.location, settings.yearStart);
+  final holidays = await loadHolidays();
   final scheduler = ReminderScheduler(
-    calendar: calendarFor(settings.location, settings.yearStart),
+    calendar: calendar,
     l10n: l10n,
     script: script,
     malayalamDigits: settings.malayalamDigits,
     options: ReminderOptionsStore(prefs).load(),
-    holidays: await loadHolidays(),
+    holidays: holidays,
   );
-  await sink.sync(scheduler.schedule(AppDatabase(prefs).load(), now), l10n);
+  final db = AppDatabase(prefs).load();
+  await sink.sync(scheduler.schedule(db, now), l10n);
+  await widgets.update(homeWidgetData(
+    today: calendar.fromGregorian(now.toUtc().add(calendar.location.utcOffset)),
+    festivals: FestivalIndex(calendar, holidays, settings.categories),
+    events: EventIndex(db.events, db.people, calendar),
+    l10n: l10n,
+    script: script,
+    malayalamDigits: settings.malayalamDigits,
+  ));
 }
 
 /// The plugin, once initialised in `main` on Android.
@@ -61,6 +75,13 @@ final notificationSinkProvider = Provider<NotificationSink>((ref) {
       ? const NoNotifications()
       : AndroidNotifications(plugin);
 });
+
+/// Whether this is the Android app (set up in `main`).
+bool isAndroidApp = false;
+
+/// Where home-screen widget text goes; a no-op except in the Android app.
+final homeWidgetSinkProvider =
+    Provider<HomeWidgetSink>((ref) => HomeWidgetSink(enabled: isAndroidApp));
 
 /// The notifications the current data and settings call for.
 final scheduledNotificationsProvider =
@@ -100,11 +121,19 @@ class ReminderSync {
   Future<void> syncNow() async {
     _timer?.cancel();
     final settings = _ref.read(settingsProvider);
-    final (l10n, _) =
+    final (l10n, script) =
         notificationLanguage(settings, PlatformDispatcher.instance.locale);
     await _ref
         .read(notificationSinkProvider)
         .sync(_ref.read(scheduledNotificationsProvider), l10n);
+    await _ref.read(homeWidgetSinkProvider).update(homeWidgetData(
+          today: _ref.read(todayProvider),
+          festivals: _ref.read(festivalIndexProvider),
+          events: _ref.read(eventIndexProvider),
+          l10n: l10n,
+          script: script,
+          malayalamDigits: settings.malayalamDigits,
+        ));
   }
 
   /// Stops listening.
@@ -133,7 +162,8 @@ void backgroundDispatcher() {
     await plugin.initialize(const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher')));
     await rescheduleFromPrefs(await SharedPreferences.getInstance(),
-        AndroidNotifications(plugin), DateTime.now());
+        AndroidNotifications(plugin), DateTime.now(),
+        widgets: const HomeWidgetSink(enabled: true));
     return true;
   });
 }
@@ -172,6 +202,7 @@ Future<void> initReminders(SharedPreferences prefs) async {
     onDidReceiveBackgroundNotificationResponse: notificationBackgroundResponse,
   );
   notificationsPlugin = plugin;
+  isAndroidApp = true;
   final launch = await plugin.getNotificationAppLaunchDetails();
   if (launch?.didNotificationLaunchApp ?? false) {
     notificationRoute.value =

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_today_description">ഇന്നത്തെ മലയാള തീയതി, നക്ഷത്രം, വിശേഷങ്ങൾ</string>
+    <string name="widget_next_description">അടുത്ത പിറന്നാളോ ദിവസമോ</string>
+    <string name="widget_next_heading">വരാനിരിക്കുന്നത്</string>
+    <string name="widget_open_app">ക്രമീകരിക്കാൻ ആപ്പ് തുറക്കുക</string>
+    <string name="shortcut_today">ഇന്ന്</string>
+    <string name="shortcut_add_event">ദിവസം ചേർക്കുക</string>
+    <string name="shortcut_converter">തീയതി മാറ്റൽ</string>
+</resources>

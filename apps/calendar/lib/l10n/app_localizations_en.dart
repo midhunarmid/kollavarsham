@@ -881,4 +881,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restoreFailed => 'That file is not a backup from this app.';
+
+  @override
+  String get reportWrongDate => 'Report a wrong date';
 }

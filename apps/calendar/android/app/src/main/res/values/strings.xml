@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_today_description">Today’s Malayalam date, star and festivals</string>
+    <string name="widget_next_description">Your next pirannal or event</string>
+    <string name="widget_next_heading">Coming up</string>
+    <string name="widget_open_app">Open the app to set up</string>
+    <string name="shortcut_today">Today</string>
+    <string name="shortcut_add_event">Add event</string>
+    <string name="shortcut_converter">Date converter</string>
+</resources>
