@@ -45,10 +45,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get navSettings => 'ക്രമീകരണങ്ങൾ';
 
   @override
-  String get toolsComingSoon =>
-      'തീയതി മാറ്റൽ, വയസ്സ് കണക്കാക്കൽ, നക്ഷത്രം കണ്ടെത്തൽ എന്നിവ ഇവിടെ ഉണ്ടാകും. അടുത്ത അപ്ഡേറ്റിൽ വരും.';
-
-  @override
   String get settingsLanguage => 'ഭാഷ';
 
   @override
@@ -712,4 +708,101 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get nextYear => 'അടുത്ത വർഷം';
+
+  @override
+  String get toolConverter => 'തീയതി മാറ്റൽ';
+
+  @override
+  String get toolConverterHelp => 'മലയാളം ⇄ ഇംഗ്ലീഷ് തീയതി, നക്ഷത്രവും തിഥിയും';
+
+  @override
+  String get toolAge => 'വയസ്സ് കണക്കാക്കൽ';
+
+  @override
+  String get toolAgeHelp => 'വയസ്സ് വർഷം, മാസം, ദിവസം; അടുത്ത ജന്മദിനം';
+
+  @override
+  String get toolBetween => 'തീയതികൾക്കിടയിലെ ദിവസങ്ങൾ';
+
+  @override
+  String get toolBetweenHelp => 'ഒരു തീയതി മുതൽ മറ്റൊന്നുവരെയുള്ള ദിവസങ്ങൾ';
+
+  @override
+  String get toolYearInfo => 'കൊല്ലവർഷം';
+
+  @override
+  String get toolYearInfoHelp =>
+      'ഓരോ മാസവും തുടങ്ങുന്ന ദിവസം, ദൈർഘ്യം, സംക്രമം';
+
+  @override
+  String get toolFindStarHelp => 'ജനനസമയത്തു നിന്ന് നക്ഷത്രം, പാദം, രാശി';
+
+  @override
+  String get englishDate => 'ഇംഗ്ലീഷ് തീയതി';
+
+  @override
+  String get malayalamDate => 'മലയാള തീയതി';
+
+  @override
+  String get pickEnglishDate => 'ഇംഗ്ലീഷ് തീയതി തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get pickMalayalamDate => 'മലയാള തീയതി തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String ageResult(int years, int months, int days) {
+    return '$years വർഷം, $months മാസം, $days ദിവസം';
+  }
+
+  @override
+  String totalDays(int count) {
+    return 'ആകെ $count ദിവസം';
+  }
+
+  @override
+  String nextBirthday(String date, String when) {
+    return 'അടുത്ത ജന്മദിനം: $date ($when)';
+  }
+
+  @override
+  String get fromDate => 'മുതൽ';
+
+  @override
+  String get toDate => 'വരെ';
+
+  @override
+  String daysResult(int count) {
+    return '$count ദിവസം';
+  }
+
+  @override
+  String weeksResult(int weeks, int days) {
+    return '$weeks ആഴ്ചയും $days ദിവസവും';
+  }
+
+  @override
+  String yearLength(int count, String first, String last) {
+    return '$first മുതൽ $last വരെ, $count ദിവസം';
+  }
+
+  @override
+  String monthInfo(String start, int days, String time) {
+    return '$start · $days ദിവസം · സംക്രമം $time';
+  }
+
+  @override
+  String get shareCard => 'ചിത്രമായി പങ്കിടുക';
+
+  @override
+  String greetingPirannal(String name) {
+    return '$name, പിറന്നാൾ ആശംസകൾ!';
+  }
+
+  @override
+  String greetingBirthday(String name) {
+    return '$name, ജന്മദിനാശംസകൾ!';
+  }
+
+  @override
+  String get greeting => 'ആശംസാ കാർഡ്';
 }

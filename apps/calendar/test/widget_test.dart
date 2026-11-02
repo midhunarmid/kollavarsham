@@ -57,7 +57,7 @@ void main() {
     await tapTab(tester, 'People');
     expect(find.textContaining('pirannal'), findsOneWidget);
     await tapTab(tester, 'Tools');
-    expect(find.textContaining('date converter'), findsOneWidget);
+    expect(find.byKey(const Key('tool-converter')), findsOneWidget);
     await tapTab(tester, 'Settings');
     expect(find.byKey(const Key('settings-theme')), findsOneWidget);
     await tapTab(tester, 'Today');

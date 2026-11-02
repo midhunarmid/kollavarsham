@@ -9,6 +9,7 @@ import '../../app/settings.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../l10n/app_localizations.dart';
+import '../share/share_card.dart';
 import 'labels.dart';
 import 'people_screen.dart';
 
@@ -123,7 +124,35 @@ class PersonScreen extends ConsumerWidget {
                         '${MaterialLocalizations.of(context).formatMediumDate(next.toGregorian())}'
                         ' · ${next.format('d MMMM', script: script, malayalamDigits: settings.malayalamDigits)}'
                         ' · ${l10n.inDays(today.daysUntil(next))}'),
-                trailing: const Icon(Icons.edit_outlined),
+                trailing: next != null &&
+                        (e.type == EventType.pirannal ||
+                            e.type == EventType.birthday)
+                    ? IconButton(
+                        key: Key('greeting-${e.id}'),
+                        tooltip: l10n.greeting,
+                        icon: const Icon(Icons.card_giftcard),
+                        onPressed: () => showShareCardDialog(
+                          context,
+                          ref,
+                          card: GreetingCard(
+                            greeting: e.type == EventType.pirannal
+                                ? l10n.greetingPirannal(person.name)
+                                : l10n.greetingBirthday(person.name),
+                            lines: [
+                              if (e.recurrence
+                                  case NakshatraInMonth(:final nakshatra))
+                                nakshatra.name(script),
+                              next.format('d MMMM y',
+                                  script: script,
+                                  malayalamDigits: settings.malayalamDigits),
+                              MaterialLocalizations.of(context)
+                                  .formatFullDate(next.toGregorian()),
+                            ],
+                          ),
+                          fileName: 'greeting-${e.id}.png',
+                        ),
+                      )
+                    : const Icon(Icons.edit_outlined),
                 onTap: () => context.push(AppRoutes.editEventPath(e.id)),
               ),
           Padding(

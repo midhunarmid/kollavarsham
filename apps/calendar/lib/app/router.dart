@@ -16,6 +16,7 @@ import '../features/people/person_screen.dart';
 import '../features/settings/reminders_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/today/today_screen.dart';
+import '../features/tools/tool_screens.dart';
 import '../features/tools/tools_screen.dart';
 import 'shell.dart';
 
@@ -41,6 +42,18 @@ abstract final class AppRoutes {
 
   /// Settings.
   static const settings = '/settings';
+
+  /// Tools → Date converter.
+  static const converter = '/tools/converter';
+
+  /// Tools → Age calculator.
+  static const age = '/tools/age';
+
+  /// Tools → Days between dates.
+  static const between = '/tools/between';
+
+  /// Tools → Kollavarsham year.
+  static const yearInfo = '/tools/year';
 
   /// Settings → Reminders.
   static const reminders = '/settings/reminders';
@@ -216,7 +229,21 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
               _tab(AppRoutes.people, (_, __) => const PeopleScreen()),
             ]),
             StatefulShellBranch(routes: [
-              _tab(AppRoutes.tools, (_, __) => const ToolsScreen()),
+              GoRoute(
+                path: AppRoutes.tools,
+                builder: (_, __) => const ToolsScreen(),
+                routes: [
+                  GoRoute(
+                      path: 'converter',
+                      builder: (_, __) => const ConverterScreen()),
+                  GoRoute(path: 'age', builder: (_, __) => const AgeScreen()),
+                  GoRoute(
+                      path: 'between',
+                      builder: (_, __) => const BetweenScreen()),
+                  GoRoute(
+                      path: 'year', builder: (_, __) => const YearInfoScreen()),
+                ],
+              ),
             ]),
             StatefulShellBranch(routes: [
               GoRoute(

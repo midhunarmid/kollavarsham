@@ -48,10 +48,6 @@
   "@navSettings": {
     "description": "Bottom bar tab and title: app settings."
   },
-  "toolsComingSoon": "The date converter, age calculator and star finder will be here. Coming in a later update.",
-  "@toolsComingSoon": {
-    "description": "Placeholder on the Tools tab until it is built."
-  },
   "settingsLanguage": "Language",
   "@settingsLanguage": {
     "description": "Settings: interface language."
@@ -978,5 +974,178 @@
   "nextYear": "Next year",
   "@nextYear": {
     "description": "Tooltip: next year."
+  },
+  "toolConverter": "Date converter",
+  "@toolConverter": {
+    "description": "Tool: convert between Malayalam and English dates."
+  },
+  "toolConverterHelp": "Malayalam ⇄ English dates, with star and tithi",
+  "@toolConverterHelp": {
+    "description": "Subtitle of the date converter tool."
+  },
+  "toolAge": "Age calculator",
+  "@toolAge": {
+    "description": "Tool: age from a date of birth."
+  },
+  "toolAgeHelp": "Age in years, months and days, and the next birthday",
+  "@toolAgeHelp": {
+    "description": "Subtitle of the age calculator."
+  },
+  "toolBetween": "Days between dates",
+  "@toolBetween": {
+    "description": "Tool: number of days between two dates."
+  },
+  "toolBetweenHelp": "Count the days from one date to another",
+  "@toolBetweenHelp": {
+    "description": "Subtitle of the days-between tool."
+  },
+  "toolYearInfo": "Kollavarsham year",
+  "@toolYearInfo": {
+    "description": "Tool: the months of a Kollavarsham year."
+  },
+  "toolYearInfoHelp": "When each month starts, its length and sankranti",
+  "@toolYearInfoHelp": {
+    "description": "Subtitle of the year info tool."
+  },
+  "toolFindStarHelp": "Birth star, pada and rashi from the time of birth",
+  "@toolFindStarHelp": {
+    "description": "Subtitle of the Find my star tool."
+  },
+  "englishDate": "English date",
+  "@englishDate": {
+    "description": "Label: the Gregorian date."
+  },
+  "malayalamDate": "Malayalam date",
+  "@malayalamDate": {
+    "description": "Label: the Malayalam (Kollavarsham) date."
+  },
+  "pickEnglishDate": "Choose an English date",
+  "@pickEnglishDate": {
+    "description": "Button: open the Gregorian date picker."
+  },
+  "pickMalayalamDate": "Choose a Malayalam date",
+  "@pickMalayalamDate": {
+    "description": "Button: open the Malayalam date picker."
+  },
+  "ageResult": "{years} years, {months} months, {days} days",
+  "@ageResult": {
+    "description": "Age calculator result.",
+    "placeholders": {
+      "years": {
+        "type": "int"
+      },
+      "months": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "totalDays": "{count} days in all",
+  "@totalDays": {
+    "description": "Total number of days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nextBirthday": "Next birthday: {date} ({when})",
+  "@nextBirthday": {
+    "description": "Age calculator: next birthday and countdown.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "fromDate": "From",
+  "@fromDate": {
+    "description": "Days between: the first date."
+  },
+  "toDate": "To",
+  "@toDate": {
+    "description": "Days between: the second date."
+  },
+  "daysResult": "{count, plural, =1{1 day} other{{count} days}}",
+  "@daysResult": {
+    "description": "Number of days between two dates.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weeksResult": "{weeks} weeks and {days} days",
+  "@weeksResult": {
+    "description": "Days between, in weeks.",
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "yearLength": "{count} days, from {first} to {last}",
+  "@yearLength": {
+    "description": "Year info: length and Gregorian span of a Kollavarsham year.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "monthInfo": "{start} · {days} days · sankranti {time}",
+  "@monthInfo": {
+    "description": "Year info row: month start, length and sankranti time.",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCard": "Share as image",
+  "@shareCard": {
+    "description": "Button: share a card image."
+  },
+  "greetingPirannal": "Happy pirannal, {name}!",
+  "@greetingPirannal": {
+    "description": "Pirannal greeting card title.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "greetingBirthday": "Happy birthday, {name}!",
+  "@greetingBirthday": {
+    "description": "Birthday greeting card title.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "greeting": "Greeting card",
+  "@greeting": {
+    "description": "Button: make a greeting card for a pirannal or birthday."
   }
 }

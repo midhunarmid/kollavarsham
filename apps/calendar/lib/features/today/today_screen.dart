@@ -13,6 +13,7 @@ import '../../l10n/app_localizations.dart';
 import '../day/day_info.dart';
 import '../day/festival_tile.dart';
 import '../day/panchangam_view.dart';
+import '../share/share_card.dart';
 
 /// Today tab: today's Malayalam and Gregorian dates, the panchangam
 /// summary, today's festivals and the next festival.
@@ -34,7 +35,28 @@ class TodayScreen extends ConsumerWidget {
     final upcoming = ref.watch(eventIndexProvider).upcoming(today, 30);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appTitle)),
+      appBar: AppBar(
+        title: Text(l10n.appTitle),
+        actions: [
+          IconButton(
+            key: const Key('share-today'),
+            tooltip: l10n.shareCard,
+            icon: const Icon(Icons.share_outlined),
+            onPressed: () => showShareCardDialog(
+              context,
+              ref,
+              card: PanchangamCard(
+                info: info,
+                script: script,
+                malayalamDigits: settings.malayalamDigits,
+                festivals: [for (final f in todays) f.name(script)],
+              ),
+              fileName:
+                  'panchangam-${today.toGregorian().toIso8601String().substring(0, 10)}.png',
+            ),
+          ),
+        ],
+      ),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 560),

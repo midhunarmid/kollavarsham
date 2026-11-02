@@ -170,12 +170,6 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get navSettings;
 
-  /// Placeholder on the Tools tab until it is built.
-  ///
-  /// In en, this message translates to:
-  /// **'The date converter, age calculator and star finder will be here. Coming in a later update.'**
-  String get toolsComingSoon;
-
   /// Settings: interface language.
   ///
   /// In en, this message translates to:
@@ -1321,6 +1315,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next year'**
   String get nextYear;
+
+  /// Tool: convert between Malayalam and English dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Date converter'**
+  String get toolConverter;
+
+  /// Subtitle of the date converter tool.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam ⇄ English dates, with star and tithi'**
+  String get toolConverterHelp;
+
+  /// Tool: age from a date of birth.
+  ///
+  /// In en, this message translates to:
+  /// **'Age calculator'**
+  String get toolAge;
+
+  /// Subtitle of the age calculator.
+  ///
+  /// In en, this message translates to:
+  /// **'Age in years, months and days, and the next birthday'**
+  String get toolAgeHelp;
+
+  /// Tool: number of days between two dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Days between dates'**
+  String get toolBetween;
+
+  /// Subtitle of the days-between tool.
+  ///
+  /// In en, this message translates to:
+  /// **'Count the days from one date to another'**
+  String get toolBetweenHelp;
+
+  /// Tool: the months of a Kollavarsham year.
+  ///
+  /// In en, this message translates to:
+  /// **'Kollavarsham year'**
+  String get toolYearInfo;
+
+  /// Subtitle of the year info tool.
+  ///
+  /// In en, this message translates to:
+  /// **'When each month starts, its length and sankranti'**
+  String get toolYearInfoHelp;
+
+  /// Subtitle of the Find my star tool.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth star, pada and rashi from the time of birth'**
+  String get toolFindStarHelp;
+
+  /// Label: the Gregorian date.
+  ///
+  /// In en, this message translates to:
+  /// **'English date'**
+  String get englishDate;
+
+  /// Label: the Malayalam (Kollavarsham) date.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam date'**
+  String get malayalamDate;
+
+  /// Button: open the Gregorian date picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an English date'**
+  String get pickEnglishDate;
+
+  /// Button: open the Malayalam date picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a Malayalam date'**
+  String get pickMalayalamDate;
+
+  /// Age calculator result.
+  ///
+  /// In en, this message translates to:
+  /// **'{years} years, {months} months, {days} days'**
+  String ageResult(int years, int months, int days);
+
+  /// Total number of days.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days in all'**
+  String totalDays(int count);
+
+  /// Age calculator: next birthday and countdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Next birthday: {date} ({when})'**
+  String nextBirthday(String date, String when);
+
+  /// Days between: the first date.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get fromDate;
+
+  /// Days between: the second date.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get toDate;
+
+  /// Number of days between two dates.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String daysResult(int count);
+
+  /// Days between, in weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks} weeks and {days} days'**
+  String weeksResult(int weeks, int days);
+
+  /// Year info: length and Gregorian span of a Kollavarsham year.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days, from {first} to {last}'**
+  String yearLength(int count, String first, String last);
+
+  /// Year info row: month start, length and sankranti time.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} · {days} days · sankranti {time}'**
+  String monthInfo(String start, int days, String time);
+
+  /// Button: share a card image.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as image'**
+  String get shareCard;
+
+  /// Pirannal greeting card title.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy pirannal, {name}!'**
+  String greetingPirannal(String name);
+
+  /// Birthday greeting card title.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy birthday, {name}!'**
+  String greetingBirthday(String name);
+
+  /// Button: make a greeting card for a pirannal or birthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Greeting card'**
+  String get greeting;
 }
 
 class _AppLocalizationsDelegate

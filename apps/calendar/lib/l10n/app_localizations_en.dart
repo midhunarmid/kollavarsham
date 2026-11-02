@@ -45,10 +45,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navSettings => 'Settings';
 
   @override
-  String get toolsComingSoon =>
-      'The date converter, age calculator and star finder will be here. Coming in a later update.';
-
-  @override
   String get settingsLanguage => 'Language';
 
   @override
@@ -713,4 +709,110 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextYear => 'Next year';
+
+  @override
+  String get toolConverter => 'Date converter';
+
+  @override
+  String get toolConverterHelp =>
+      'Malayalam ⇄ English dates, with star and tithi';
+
+  @override
+  String get toolAge => 'Age calculator';
+
+  @override
+  String get toolAgeHelp =>
+      'Age in years, months and days, and the next birthday';
+
+  @override
+  String get toolBetween => 'Days between dates';
+
+  @override
+  String get toolBetweenHelp => 'Count the days from one date to another';
+
+  @override
+  String get toolYearInfo => 'Kollavarsham year';
+
+  @override
+  String get toolYearInfoHelp =>
+      'When each month starts, its length and sankranti';
+
+  @override
+  String get toolFindStarHelp =>
+      'Birth star, pada and rashi from the time of birth';
+
+  @override
+  String get englishDate => 'English date';
+
+  @override
+  String get malayalamDate => 'Malayalam date';
+
+  @override
+  String get pickEnglishDate => 'Choose an English date';
+
+  @override
+  String get pickMalayalamDate => 'Choose a Malayalam date';
+
+  @override
+  String ageResult(int years, int months, int days) {
+    return '$years years, $months months, $days days';
+  }
+
+  @override
+  String totalDays(int count) {
+    return '$count days in all';
+  }
+
+  @override
+  String nextBirthday(String date, String when) {
+    return 'Next birthday: $date ($when)';
+  }
+
+  @override
+  String get fromDate => 'From';
+
+  @override
+  String get toDate => 'To';
+
+  @override
+  String daysResult(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String weeksResult(int weeks, int days) {
+    return '$weeks weeks and $days days';
+  }
+
+  @override
+  String yearLength(int count, String first, String last) {
+    return '$count days, from $first to $last';
+  }
+
+  @override
+  String monthInfo(String start, int days, String time) {
+    return '$start · $days days · sankranti $time';
+  }
+
+  @override
+  String get shareCard => 'Share as image';
+
+  @override
+  String greetingPirannal(String name) {
+    return 'Happy pirannal, $name!';
+  }
+
+  @override
+  String greetingBirthday(String name) {
+    return 'Happy birthday, $name!';
+  }
+
+  @override
+  String get greeting => 'Greeting card';
 }

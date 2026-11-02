@@ -30,7 +30,7 @@ Future<List<String>> _pumpWithShare(WidgetTester tester,
       holidaysProvider.overrideWithValue(bundledHolidays),
       clockProvider.overrideWithValue(() => _now),
       shareProvider.overrideWithValue(
-          ({text, files, subject}) async => shared.add(text ?? '')),
+          ({text, files, fileNames, subject}) async => shared.add(text ?? '')),
     ],
     child: const CalendarApp(),
   ));
