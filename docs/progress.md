@@ -168,9 +168,11 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - `lib/data/festival_info.dart`; the holiday files gained `name_ml` (schema updated). The Malayalam text joins the Day 24 copy review.
   - The bottom bar's Malayalam labels wrap on narrow phones (seen in the goldens); left for the Day 18 accessibility pass.
 
-### Day 15: Sprint 7a, tools and sharing (status: todo)
-- [ ] Tools tab: date converter (both directions), age calculator, days between dates, Kollavarsham year info.
-- [ ] Share cards rendered as images: today's panchangam, pirannal greeting.
+### Day 15: Sprint 7a, tools and sharing (status: done)
+- [x] Tools tab: date converter (both directions), age calculator, days between dates, Kollavarsham year info.
+  - Find my star is listed there too. The converter's Malayalam direction uses `showMalayalamDatePicker` from `kollavarsham_flutter`.
+- [x] Share cards rendered as images: today's panchangam, pirannal greeting.
+  - A preview dialog renders the card in a `RepaintBoundary` and shares a 3× PNG (Today → share; a person's pirannal or birthday → gift icon). File names go through `fileNameOverrides`, since `XFile.fromData` ignores the name on Android.
 
 ### Day 16: Sprint 7b, export and backup (status: todo)
 - [ ] .ics export of selected events for N years (explicit dates).
@@ -225,4 +227,5 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 11 | Pure-Dart ReminderScheduler (60 days, stable ids, fake-clock tests), ml/en notification templates, month and year start reminders; 72 app tests pass |
 | 2026-11-02 | Day 12 | flutter_local_notifications scheduling with exact/inexact fallback, Open/Snooze actions, daily workmanager job, boot receiver, Settings → Reminders (types, month/year starts, festival categories, daily panchangam); 84 app tests pass, debug APK and web build OK; not run on a device |
 | 2026-11-02 | Day 13 | Bundled holiday data merged with computed festivals (alias matching, announced Muslim dates), six persisted category filters, Agenda with search; 93 app tests pass, web build OK |
-| 2026-11-02 | Day 14 | Festival detail (description, rule, source, next 5 dates, share), year view, ml/en descriptions for every festival and holiday, name_ml in the holiday files; 107 app tests pass, web build OK |
+| 2026-11-02 | Day 14 | Festival detail (description, rule, source, next 5 dates, share), year view, ml/en descriptions for every festival and holiday, name_ml in the holiday files; 101 app tests pass, web build OK |
+| 2026-11-02 | Day 15 | Tools tab (converter, Find my star, age, days between, year info), panchangam and greeting share cards as PNG; 110 app tests pass, web build OK |
