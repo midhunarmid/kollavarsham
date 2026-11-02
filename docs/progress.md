@@ -93,10 +93,16 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] CHANGELOG `1.2.0`; bump the version (no tag).
   - The new Malayalam festival, vrat, feast and Hijri names await the Day 24 copy review.
 
-### Day 7: Sprint 3a, app shell (status: todo)
-- [ ] go_router navigation (bottom bar: Today, Calendar, People, Tools, Settings), theme with light/dark/system, ml/en l10n for every UI string.
-- [ ] Settings storage (shared_preferences): language, script, Malayalam digits, location (Kerala cities + manual lat/long/time zone), year start, default calendar mode, theme.
-- [ ] Onboarding flow: language, location, what notifications are for.
+### Day 7: Sprint 3a, app shell (status: done)
+- [x] go_router navigation (bottom bar: Today, Calendar, People, Tools, Settings), theme with light/dark/system, ml/en l10n for every UI string.
+  - A `StatefulShellRoute` keeps each tab's state. People and Tools are placeholders until Days 9 and 15. A test checks that `app_en.arb` and `app_ml.arb` have the same keys and that every English string has a description.
+- [x] Settings storage (shared_preferences): language, script, Malayalam digits, location (Kerala cities + manual lat/long/time zone), year start, default calendar mode, theme.
+  - Locations: the 14 district headquarters (approximate city-centre coordinates; Thiruvananthapuram, Kochi and Kozhikode reuse the engine's values) or a manual latitude, longitude and UTC offset. `calendarProvider` builds the `KollavarshamCalendar` from the location and year start.
+  - `shared_preferences: ^2.5.3`, because the CI job on Flutter 3.27.4 resolves the whole workspace and newer releases need Flutter 3.41.
+  - Week start (design.md §3.9) is left out: `MalayalamMonthView` has no week-start option yet.
+- [x] Onboarding flow: language, location, what notifications are for.
+  - Three steps; the router sends a first run to `/onboarding` until it is finished. The notification permission is not asked here; Day 12 asks for it with the first reminder.
+  - Checked by widget tests and `flutter build web`; the app wasn't opened in a browser in this run. The new Malayalam strings await the Day 24 copy review.
 
 ### Day 8: Sprint 3b, Today, Month and Day screens (status: todo)
 - [ ] Today: both dates, nakshatra/tithi with times, sunrise/sunset, rahu kalam, gulika, yamagandam, today's festivals, next festival.
@@ -186,3 +192,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-10-30 | Day 4 | BirthDetails (pada, rashi, tithi, Malayalam date), Rashi, TithiInMonth (shraddham, afternoon rule) and TithiEveryPaksha, kollavarsham 1.1.0 (no tag); 171 core, 21 widget and 4 app tests pass; R4 differs from Karkidaka Vavu in 2024, sent to owner review |
 | 2026-10-30 | Day 5 | Yoga, Karana, Kalam (Rahu, Gulika, Yamagandam), moonrise/moonset and Chandrashtamam, checked against 30 days of drikpanchang for Thiruvananthapuram and 13 published Mesha periods; 397 core, 21 widget and 4 app tests pass |
 | 2026-11-01 | Day 6 | Nine festivals (Dhanu Thiruvathira left out: sources disagree), vrat lists, Easter and Christian feasts, tentative Hijri festivals, festivalsIn crash fixed, kollavarsham 1.2.0 (no tag); 436 core, 21 widget and 4 app tests pass |
+| 2026-11-02 | Day 7 | Five-tab go_router shell, persisted settings (language, name script, digits, 14 Kerala cities or manual location, year start, calendar mode, theme), three-step onboarding, ml/en strings with a parity test; 21 app tests pass, web build OK |
