@@ -1,10 +1,57 @@
 import 'package:go_router/go_router.dart';
 
-import '../features/today/home_screen.dart';
+import '../features/calendar/calendar_screen.dart';
+import '../features/people/people_screen.dart';
+import '../features/settings/settings_screen.dart';
+import '../features/today/today_screen.dart';
+import '../features/tools/tools_screen.dart';
+import 'shell.dart';
 
-/// Creates the app's router.
+/// Paths of the bottom-bar tabs, in bar order.
+abstract final class AppRoutes {
+  /// Today (home).
+  static const today = '/today';
+
+  /// Month calendar.
+  static const calendar = '/calendar';
+
+  /// People and their events.
+  static const people = '/people';
+
+  /// Converter and other tools.
+  static const tools = '/tools';
+
+  /// Settings.
+  static const settings = '/settings';
+}
+
+GoRoute _tab(String path, GoRouterWidgetBuilder builder) =>
+    GoRoute(path: path, builder: builder);
+
+/// Creates the app's router: five tabs under a bottom navigation bar.
 GoRouter createRouter() => GoRouter(
+      initialLocation: AppRoutes.today,
       routes: [
-        GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
+        GoRoute(path: '/', redirect: (_, __) => AppRoutes.today),
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, shell) => AppShell(shell: shell),
+          branches: [
+            StatefulShellBranch(routes: [
+              _tab(AppRoutes.today, (_, __) => const TodayScreen()),
+            ]),
+            StatefulShellBranch(routes: [
+              _tab(AppRoutes.calendar, (_, __) => const CalendarScreen()),
+            ]),
+            StatefulShellBranch(routes: [
+              _tab(AppRoutes.people, (_, __) => const PeopleScreen()),
+            ]),
+            StatefulShellBranch(routes: [
+              _tab(AppRoutes.tools, (_, __) => const ToolsScreen()),
+            ]),
+            StatefulShellBranch(routes: [
+              _tab(AppRoutes.settings, (_, __) => const SettingsScreen()),
+            ]),
+          ],
+        ),
       ],
     );

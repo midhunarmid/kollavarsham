@@ -3,16 +3,16 @@ import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
 import '../../l10n/app_localizations.dart';
 
-/// Home screen: today's Malayalam date and a month calendar.
-class HomeScreen extends StatefulWidget {
-  /// Creates the home screen.
-  const HomeScreen({super.key});
+/// Calendar tab: a month view and the selected day's festivals.
+class CalendarScreen extends StatefulWidget {
+  /// Creates the Calendar screen.
+  const CalendarScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _CalendarScreenState extends State<CalendarScreen> {
   final _controller = MalayalamMonthViewController();
   final _today = MalayalamDate.today();
   late MalayalamDate _selected = _today;
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.appTitle),
+        title: Text(l10n.navCalendar),
         actions: [
           IconButton(
             tooltip: l10n.today,
@@ -52,35 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(l10n.todayHeading,
-                          style: theme.textTheme.labelLarge),
-                      const SizedBox(height: 4),
-                      MalayalamDateText(
-                        key: const Key('today-date'),
-                        date: _today,
-                        pattern: 'EEEE, d MMMM y',
-                        style: theme.textTheme.headlineSmall,
-                      ),
-                      Text(
-                        MaterialLocalizations.of(context)
-                            .formatFullDate(_today.toGregorian()),
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                      Text(
-                        _today.nakshatra.name(script),
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
               MalayalamMonthView(
                 controller: _controller,
                 initialMonth: _selected,

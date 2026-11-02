@@ -4,5 +4,20 @@
   "today": "ഇന്ന്",
   "todayHeading": "ഇന്ന്",
   "festivals": "വിശേഷങ്ങൾ",
-  "noFestivals": "ഈ ദിവസം വിശേഷങ്ങളില്ല"
+  "noFestivals": "ഈ ദിവസം വിശേഷങ്ങളില്ല",
+  "todaysFestivals": "ഇന്നത്തെ വിശേഷങ്ങൾ",
+  "noFestivalToday": "ഇന്ന് വിശേഷങ്ങളില്ല",
+  "navToday": "ഇന്ന്",
+  "navCalendar": "കലണ്ടർ",
+  "navPeople": "ആളുകൾ",
+  "navTools": "ഉപകരണങ്ങൾ",
+  "navSettings": "ക്രമീകരണങ്ങൾ",
+  "peopleComingSoon": "ആളുകളെയും അവരുടെ പിറന്നാൾ, ജന്മദിനം, ശ്രാദ്ധം എന്നിവയും ഇവിടെ ചേർക്കാം. അടുത്ത അപ്ഡേറ്റിൽ വരും.",
+  "toolsComingSoon": "തീയതി മാറ്റൽ, വയസ്സ് കണക്കാക്കൽ, നക്ഷത്രം കണ്ടെത്തൽ എന്നിവ ഇവിടെ ഉണ്ടാകും. അടുത്ത അപ്ഡേറ്റിൽ വരും.",
+  "settingsLanguage": "ഭാഷ",
+  "languageSystem": "ഉപകരണം",
+  "settingsTheme": "തീം",
+  "themeSystem": "സിസ്റ്റം",
+  "themeLight": "ലൈറ്റ്",
+  "themeDark": "ഡാർക്ക്"
 }

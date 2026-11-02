@@ -127,6 +127,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No festivals on this day'**
   String get noFestivals;
+
+  /// Heading for today's festivals on the Today tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s festivals'**
+  String get todaysFestivals;
+
+  /// Shown on the Today tab when today has no festival.
+  ///
+  /// In en, this message translates to:
+  /// **'No festival today'**
+  String get noFestivalToday;
+
+  /// Bottom bar tab: today's date and panchangam.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get navToday;
+
+  /// Bottom bar tab and title: the month calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get navCalendar;
+
+  /// Bottom bar tab and title: people and their star birthdays.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get navPeople;
+
+  /// Bottom bar tab and title: date converter and calculators.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get navTools;
+
+  /// Bottom bar tab and title: app settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get navSettings;
+
+  /// Placeholder on the People tab until it is built.
+  ///
+  /// In en, this message translates to:
+  /// **'Add people and their pirannal, birthdays and shraddham here. Coming in a later update.'**
+  String get peopleComingSoon;
+
+  /// Placeholder on the Tools tab until it is built.
+  ///
+  /// In en, this message translates to:
+  /// **'The date converter, age calculator and star finder will be here. Coming in a later update.'**
+  String get toolsComingSoon;
+
+  /// Settings: interface language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// Language option: follow the device language.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get languageSystem;
+
+  /// Settings: light or dark appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// Theme option: follow the device setting.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// Theme option: light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// Theme option: dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
 }
 
 class _AppLocalizationsDelegate

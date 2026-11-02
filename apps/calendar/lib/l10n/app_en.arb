@@ -19,5 +19,65 @@
   "noFestivals": "No festivals on this day",
   "@noFestivals": {
     "description": "Shown when the selected day has no festivals."
+  },
+  "todaysFestivals": "Today's festivals",
+  "@todaysFestivals": {
+    "description": "Heading for today's festivals on the Today tab."
+  },
+  "noFestivalToday": "No festival today",
+  "@noFestivalToday": {
+    "description": "Shown on the Today tab when today has no festival."
+  },
+  "navToday": "Today",
+  "@navToday": {
+    "description": "Bottom bar tab: today's date and panchangam."
+  },
+  "navCalendar": "Calendar",
+  "@navCalendar": {
+    "description": "Bottom bar tab and title: the month calendar."
+  },
+  "navPeople": "People",
+  "@navPeople": {
+    "description": "Bottom bar tab and title: people and their star birthdays."
+  },
+  "navTools": "Tools",
+  "@navTools": {
+    "description": "Bottom bar tab and title: date converter and calculators."
+  },
+  "navSettings": "Settings",
+  "@navSettings": {
+    "description": "Bottom bar tab and title: app settings."
+  },
+  "peopleComingSoon": "Add people and their pirannal, birthdays and shraddham here. Coming in a later update.",
+  "@peopleComingSoon": {
+    "description": "Placeholder on the People tab until it is built."
+  },
+  "toolsComingSoon": "The date converter, age calculator and star finder will be here. Coming in a later update.",
+  "@toolsComingSoon": {
+    "description": "Placeholder on the Tools tab until it is built."
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Settings: interface language."
+  },
+  "languageSystem": "Device",
+  "@languageSystem": {
+    "description": "Language option: follow the device language."
+  },
+  "settingsTheme": "Theme",
+  "@settingsTheme": {
+    "description": "Settings: light or dark appearance."
+  },
+  "themeSystem": "System",
+  "@themeSystem": {
+    "description": "Theme option: follow the device setting."
+  },
+  "themeLight": "Light",
+  "@themeLight": {
+    "description": "Theme option: light."
+  },
+  "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Theme option: dark."
   }
 }
