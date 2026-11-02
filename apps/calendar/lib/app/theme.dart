@@ -15,7 +15,13 @@ ThemeData appTheme(Brightness brightness) => ThemeData(
       // Noto Sans Malayalam has no Latin letters; Roboto is Android's
       // system font, and the web engine fetches a fallback by itself.
       fontFamilyFallback: const ['Roboto'],
-      extensions: const [
-        KollavarshamCalendarTheme(holidayColor: Color(0xFFD84315)),
+      extensions: [
+        // Deep orange, dark enough on light surfaces and light enough on
+        // dark ones for 4.5:1 text contrast (WCAG AA).
+        KollavarshamCalendarTheme(
+          holidayColor: brightness == Brightness.light
+              ? const Color(0xFFBF360C)
+              : const Color(0xFFFF8A65),
+        ),
       ],
     );

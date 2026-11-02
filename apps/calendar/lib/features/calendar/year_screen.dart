@@ -163,32 +163,37 @@ class _MiniMonth extends StatelessWidget {
     // Sunday-first rows, as in the month view.
     final lead = days.first.toGregorian().weekday % 7;
     final small = theme.textTheme.labelSmall!.copyWith(fontSize: 9);
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.all(4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title,
-                style: titleStyle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis),
-            const SizedBox(height: 4),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 7,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                children: [
-                  for (var i = 0; i < lead; i++) const SizedBox.shrink(),
-                  for (final d in days)
-                    _cell(d, festivals.on(d), small, theme, calTheme),
-                ],
+    return Semantics(
+      button: true,
+      label: title,
+      excludeSemantics: true,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title,
+                  style: titleStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
+              const SizedBox(height: 4),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 7,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  children: [
+                    for (var i = 0; i < lead; i++) const SizedBox.shrink(),
+                    for (final d in days)
+                      _cell(d, festivals.on(d), small, theme, calTheme),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -200,41 +205,45 @@ class _MiniMonth extends StatelessWidget {
     final number = gregorian ? d.toGregorian().day : d.day;
     final holiday = fs.any((f) => f.holiday == HolidayKind.public);
     final sunday = d.toGregorian().weekday == DateTime.sunday;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 2),
-          decoration: isToday
-              ? BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(4))
-              : null,
-          child: Text(
-            digits ? toMalayalamDigits('$number') : '$number',
-            style: small.copyWith(
-              color: isToday
-                  ? theme.colorScheme.onPrimary
-                  : holiday || sunday
-                      ? calTheme.holidayColor
-                      : null,
+    // Cells are an overview (the month has one label for screen readers),
+    // so large text scales down to fit them.
+    return FittedBox(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            decoration: isToday
+                ? BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    borderRadius: BorderRadius.circular(4))
+                : null,
+            child: Text(
+              digits ? toMalayalamDigits('$number') : '$number',
+              style: small.copyWith(
+                color: isToday
+                    ? theme.colorScheme.onPrimary
+                    : holiday || sunday
+                        ? calTheme.holidayColor
+                        : null,
+              ),
             ),
           ),
-        ),
-        Container(
-          width: 3,
-          height: 3,
-          margin: const EdgeInsets.only(top: 1),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: fs.isEmpty
-                ? Colors.transparent
-                : holiday
-                    ? calTheme.holidayColor
-                    : calTheme.markerColor,
+          Container(
+            width: 3,
+            height: 3,
+            margin: const EdgeInsets.only(top: 1),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: fs.isEmpty
+                  ? Colors.transparent
+                  : holiday
+                      ? calTheme.holidayColor
+                      : calTheme.markerColor,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
