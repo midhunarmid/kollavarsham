@@ -104,11 +104,14 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - Three steps; the router sends a first run to `/onboarding` until it is finished. The notification permission is not asked here; Day 12 asks for it with the first reminder.
   - Checked by widget tests and `flutter build web`; the app wasn't opened in a browser in this run. The new Malayalam strings await the Day 24 copy review.
 
-### Day 8: Sprint 3b, Today, Month and Day screens (status: todo)
-- [ ] Today: both dates, nakshatra/tithi with times, sunrise/sunset, rahu kalam, gulika, yamagandam, today's festivals, next festival.
-- [ ] Calendar tab: `MalayalamMonthView` in both modes with festival markers; tap a day for the Day detail screen.
-- [ ] Day detail screen with the full panchangam and festivals.
-- [ ] Golden tests for Today, Month and Day (ml/en, light/dark).
+### Day 8: Sprint 3b, Today, Month and Day screens (status: done)
+- [x] Today: both dates, nakshatra/tithi with times, sunrise/sunset, rahu kalam, gulika, yamagandam, today's festivals, next festival.
+  - Times are wall-clock times at the chosen location, in the locale's 12- or 24-hour format, marked "(next day)" after midnight. "Today" comes from a `clockProvider`, so tests fix the day. The pirannal section waits for Day 10.
+- [x] Calendar tab: `MalayalamMonthView` in both modes with festival markers; tap a day for the Day detail screen.
+- [x] Day detail screen with the full panchangam and festivals.
+  - Route `/day/yyyy-mm-dd` over the tabs, with previous/next day buttons. Lists every star, tithi, yoga and karana from sunrise to the next sunrise, moonrise and moonset, and the "almanacs may differ" note when a month starts within 10 minutes of the cut-off.
+- [x] Golden tests for Today, Month and Day (ml/en, light/dark).
+  - Twelve goldens at 25 August 2026, run on Windows only (`@TestOn('windows')`), since text rendering differs on the Linux CI. The theme gained a Roboto fallback: Noto Sans Malayalam has no Latin letters.
 
 ### Day 9: Sprint 4a, database and people (status: todo)
 - [ ] drift database (native + web) with tables `people`, `events` (type, recurrence JSON, colour, notes), `reminders`, plus migrations and tests.
@@ -193,3 +196,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-10-30 | Day 5 | Yoga, Karana, Kalam (Rahu, Gulika, Yamagandam), moonrise/moonset and Chandrashtamam, checked against 30 days of drikpanchang for Thiruvananthapuram and 13 published Mesha periods; 397 core, 21 widget and 4 app tests pass |
 | 2026-11-01 | Day 6 | Nine festivals (Dhanu Thiruvathira left out: sources disagree), vrat lists, Easter and Christian feasts, tentative Hijri festivals, festivalsIn crash fixed, kollavarsham 1.2.0 (no tag); 436 core, 21 widget and 4 app tests pass |
 | 2026-11-02 | Day 7 | Five-tab go_router shell, persisted settings (language, name script, digits, 14 Kerala cities or manual location, year start, calendar mode, theme), three-step onboarding, ml/en strings with a parity test; 21 app tests pass, web build OK |
+| 2026-11-02 | Day 8 | Today panchangam summary and next festival, Day detail screen (/day/yyyy-mm-dd) with every span to the next sunrise, Calendar tab opens days, 12 Windows-only goldens; 44 app tests pass, web build OK |
