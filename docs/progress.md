@@ -159,10 +159,14 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Agenda tab or section: upcoming festivals, holidays and personal events; search by name.
   - Calendar → Agenda (`/calendar/agenda`): the next 366 days, filter chips, search over Malayalam and English names, people and event titles.
 
-### Day 14: Sprint 6b, festival details and year view (status: todo)
-- [ ] Festival detail screen: Malayalam and English description, rule, next 5 dates, share.
-- [ ] Year view (12 mini-months with festival dots) in `kollavarsham_flutter` or the app.
-- [ ] Descriptions content for all festivals (ml/en).
+### Day 14: Sprint 6b, festival details and year view (status: done)
+- [x] Festival detail screen: Malayalam and English description, rule, next 5 dates, share.
+  - `/festival/<id>` (ids like `hindu.onam`, `christian.easter`, `muslim.bakrid`, `holiday.gandhijayanthi`). List-only holidays have dates only in years with a holiday file. Sharing goes through `share_plus ^12.0.2` (the newest on Dart 3.6).
+- [x] Year view (12 mini-months with festival dots) in `kollavarsham_flutter` or the app.
+  - In the app (Calendar → Year), in the tab's mode; tapping a month opens it in the month view.
+- [x] Descriptions content for all festivals (ml/en).
+  - `lib/data/festival_info.dart`; the holiday files gained `name_ml` (schema updated). The Malayalam text joins the Day 24 copy review.
+  - The bottom bar's Malayalam labels wrap on narrow phones (seen in the goldens); left for the Day 18 accessibility pass.
 
 ### Day 15: Sprint 7a, tools and sharing (status: todo)
 - [ ] Tools tab: date converter (both directions), age calculator, days between dates, Kollavarsham year info.
@@ -221,3 +225,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 11 | Pure-Dart ReminderScheduler (60 days, stable ids, fake-clock tests), ml/en notification templates, month and year start reminders; 72 app tests pass |
 | 2026-11-02 | Day 12 | flutter_local_notifications scheduling with exact/inexact fallback, Open/Snooze actions, daily workmanager job, boot receiver, Settings → Reminders (types, month/year starts, festival categories, daily panchangam); 84 app tests pass, debug APK and web build OK; not run on a device |
 | 2026-11-02 | Day 13 | Bundled holiday data merged with computed festivals (alias matching, announced Muslim dates), six persisted category filters, Agenda with search; 93 app tests pass, web build OK |
+| 2026-11-02 | Day 14 | Festival detail (description, rule, source, next 5 dates, share), year view, ml/en descriptions for every festival and holiday, name_ml in the holiday files; 107 app tests pass, web build OK |
