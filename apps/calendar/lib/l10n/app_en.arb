@@ -881,5 +881,53 @@
   "remindersWeb": "In the browser, reminders show in the Today tab. Notifications come with the Android app.",
   "@remindersWeb": {
     "description": "Reminder settings note on the web."
+  },
+  "categoryNational": "National",
+  "@categoryNational": {
+    "description": "Festival category: national days."
+  },
+  "categoryGovernment": "Government",
+  "@categoryGovernment": {
+    "description": "Festival category: Kerala government holidays such as jayanthis."
+  },
+  "categoryBank": "Bank",
+  "@categoryBank": {
+    "description": "Festival category: bank-only closures."
+  },
+  "holidayPublic": "Public holiday",
+  "@holidayPublic": {
+    "description": "Badge: the day is a public holiday."
+  },
+  "holidayRestricted": "Restricted holiday",
+  "@holidayRestricted": {
+    "description": "Badge: an optional holiday for some communities."
+  },
+  "holidayBank": "Bank holiday",
+  "@holidayBank": {
+    "description": "Badge: banks are closed."
+  },
+  "tentativeDate": "Date may change",
+  "@tentativeDate": {
+    "description": "Badge on a festival whose date depends on the moon being sighted."
+  },
+  "agenda": "Agenda",
+  "@agenda": {
+    "description": "Title and button: list of upcoming festivals, holidays and events."
+  },
+  "searchHint": "Search festivals and events",
+  "@searchHint": {
+    "description": "Hint in the agenda search field."
+  },
+  "agendaEmpty": "Nothing found in the next year.",
+  "@agendaEmpty": {
+    "description": "Agenda: no matches."
+  },
+  "yourEvents": "Your events",
+  "@yourEvents": {
+    "description": "Day detail: heading of the user's own events on that day."
+  },
+  "categoriesHeading": "Show",
+  "@categoriesHeading": {
+    "description": "Heading of the festival category filter."
   }
 }

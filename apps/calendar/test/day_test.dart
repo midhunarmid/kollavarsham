@@ -1,4 +1,6 @@
 import 'package:calendar/app/router.dart';
+import 'package:calendar/data/festival_days.dart';
+import 'package:calendar/data/festival_index.dart';
 import 'package:calendar/features/day/day_info.dart';
 import 'package:calendar/features/day/day_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +49,11 @@ void main() {
     });
 
     test('next festival is Onam, the day after', () {
-      final (festival, date) = nextFestival(day)!;
-      expect(festival, KeralaFestival.onam);
-      expect(day.daysUntil(date), 1);
+      final next = FestivalIndex(_cal, HolidayData.empty, {
+        FestivalCategory.hindu,
+      }).next(day)!;
+      expect(next.english, KeralaFestival.onam.english);
+      expect(day.daysUntil(next.date), 1);
     });
 
     test('local time adds the location offset', () {
@@ -83,15 +87,26 @@ void main() {
             matching: find.textContaining(star)),
         findsOneWidget);
     expect(find.text('Rahu Kalam'), findsOneWidget);
-    expect(find.text('No festival today'), findsOneWidget);
-    expect(find.text('Thiruvonam'), findsOneWidget);
-    expect(find.textContaining('tomorrow'), findsOneWidget);
+    // Holidays from the bundled data: First Onam and the announced
+    // Milad-i-Sherif (which replaces the computed tentative date).
+    expect(find.text('First Onam'), findsOneWidget);
+    expect(find.text('Milad-i-Sherif'), findsOneWidget);
+    expect(find.textContaining('Public holiday · Date may change'),
+        findsOneWidget);
+    // The computed Thiruvonam, marked as the listed holiday.
+    expect(
+        find.descendant(
+            of: find.byKey(const Key('next-festival')),
+            matching: find.text('Thiruvonam')),
+        findsOneWidget);
+    expect(find.textContaining('tomorrow · Hindu · Public holiday'),
+        findsOneWidget);
 
     await tester.tap(find.byKey(const Key('next-festival')));
     await tester.pumpAndSettle();
     final screen = tester.widget<DayScreen>(find.byType(DayScreen));
     expect(screen.date, DateTime(2026, 8, 26));
-    expect(find.byIcon(Icons.celebration_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.temple_hindu_outlined), findsOneWidget);
   });
 
   testWidgets('Today is in Malayalam with a Malayalam interface',

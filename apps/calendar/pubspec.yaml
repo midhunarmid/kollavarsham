@@ -32,6 +32,8 @@ flutter:
   generate: true
   assets:
     - assets/fonts/OFL.txt
+    # Copies of data/holidays/*.json; refresh with tool/sync_holidays.dart.
+    - assets/holidays/
   fonts:
     - family: NotoSansMalayalam
       fonts:

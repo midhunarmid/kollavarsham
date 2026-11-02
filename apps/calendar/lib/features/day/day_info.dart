@@ -18,7 +18,6 @@ class DayInfo {
     required this.yogas,
     required this.karanas,
     required this.kalams,
-    required this.festivals,
     required this.monthStartMargin,
   });
 
@@ -49,7 +48,6 @@ class DayInfo {
         for (final k in shownKalams)
           if (calendar.kalamOn(day, k) case final span?) span,
       ],
-      festivals: calendar.festivalsOn(date),
       monthStartMargin: date.day == 1
           ? calendar.monthStartMargin(date.year, date.month)
           : null,
@@ -87,9 +85,6 @@ class DayInfo {
   /// Rahu kalam, Gulika kalam and Yamagandam, where the Sun rises and sets.
   final List<PanchangaSpan<Kalam>> kalams;
 
-  /// Kerala festivals on the day.
-  final List<KeralaFestival> festivals;
-
   /// On a month's first day, how far the sankranti was from the cut-off
   /// that decides the month start; null on other days.
   final Duration? monthStartMargin;
@@ -121,14 +116,3 @@ List<PanchangaSpan<T>> spansBetween<T>(
 /// whose fields hold that local time.
 DateTime localTime(DateTime instant, KollavarshamCalendar calendar) =>
     instant.toUtc().add(calendar.location.utcOffset);
-
-/// The first Kerala festival after [date], within the next two years.
-(KeralaFestival, MalayalamDate)? nextFestival(MalayalamDate date) {
-  final calendar = date.calendar;
-  for (var year = date.year; year <= date.year + 2; year++) {
-    for (final entry in calendar.festivalsIn(year)) {
-      if (entry.$2.isAfter(date)) return entry;
-    }
-  }
-  return null;
-}

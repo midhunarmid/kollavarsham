@@ -2,6 +2,7 @@ import 'package:calendar/app/clock.dart';
 import 'package:calendar/app/app.dart';
 import 'package:calendar/app/settings.dart';
 import 'package:calendar/data/database.dart';
+import 'package:calendar/data/festival_index.dart';
 import 'package:calendar/data/models.dart';
 import 'package:calendar/features/day/day_screen.dart';
 import 'package:calendar/l10n/app_localizations.dart';
@@ -67,6 +68,7 @@ Future<(FakeSink, SharedPreferences)> _pump(WidgetTester tester,
   await tester.pumpWidget(ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(prefs),
+      holidaysProvider.overrideWithValue(bundledHolidays),
       clockProvider.overrideWithValue(() => _now),
       notificationSinkProvider.overrideWithValue(sink),
     ],

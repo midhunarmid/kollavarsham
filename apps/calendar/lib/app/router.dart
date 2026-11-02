@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import '../features/agenda/agenda_screen.dart';
 import '../features/calendar/calendar_screen.dart';
 import '../data/models.dart';
 import '../features/day/day_screen.dart';
@@ -22,6 +23,9 @@ abstract final class AppRoutes {
 
   /// Month calendar.
   static const calendar = '/calendar';
+
+  /// Agenda, under the Calendar tab.
+  static const agenda = '/calendar/agenda';
 
   /// People and their events.
   static const people = '/people';
@@ -168,7 +172,16 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
               _tab(AppRoutes.today, (_, __) => const TodayScreen()),
             ]),
             StatefulShellBranch(routes: [
-              _tab(AppRoutes.calendar, (_, __) => const CalendarScreen()),
+              GoRoute(
+                path: AppRoutes.calendar,
+                builder: (_, __) => const CalendarScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'agenda',
+                    builder: (_, __) => const AgendaScreen(),
+                  ),
+                ],
+              ),
             ]),
             StatefulShellBranch(routes: [
               _tab(AppRoutes.people, (_, __) => const PeopleScreen()),

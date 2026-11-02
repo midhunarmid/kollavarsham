@@ -145,14 +145,10 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
             child: Wrap(
               spacing: 8,
               children: [
-                for (final (c, label) in [
-                  (FestivalCategory.hindu, l10n.categoryHindu),
-                  (FestivalCategory.christian, l10n.categoryChristian),
-                  (FestivalCategory.muslim, l10n.categoryMuslim),
-                ])
+                for (final c in FestivalCategory.values)
                   FilterChip(
                     key: Key('remind-festival-${c.name}'),
-                    label: Text(label),
+                    label: Text(categoryLabel(l10n, c)),
                     selected: o.festivals.contains(c),
                     onSelected: o.enabled
                         ? (on) => _edit((o) => o.copyWith(

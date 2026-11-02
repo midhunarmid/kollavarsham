@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:calendar/app/app.dart';
 import 'package:calendar/app/clock.dart';
 import 'package:calendar/app/settings.dart';
+import 'package:calendar/data/festival_days.dart';
+import 'package:calendar/data/festival_index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,6 +44,7 @@ Future<SharedPreferences> pumpApp(WidgetTester tester,
   await tester.pumpWidget(ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(prefs),
+      holidaysProvider.overrideWithValue(bundledHolidays),
       if (now != null) clockProvider.overrideWithValue(() => now),
     ],
     child: const CalendarApp(),
@@ -60,3 +65,10 @@ Future<void> pushRoute(WidgetTester tester, String location) async {
   GoRouter.of(tester.element(find.byType(NavigationBar))).push(location);
   await tester.pumpAndSettle();
 }
+
+/// The app's bundled holiday lists, read from disk as `main` would load
+/// them from the asset bundle.
+final bundledHolidays = HolidayData.parse([
+  for (final f in Directory('assets/holidays').listSync().whereType<File>())
+    if (f.path.endsWith('.json')) f.readAsStringSync(),
+]);

@@ -1,3 +1,4 @@
+import '../../data/festival_days.dart';
 import '../../data/models.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -27,3 +28,21 @@ String eventTitle(AppLocalizations l10n, CalendarEvent event, Person? person) {
       event.title.isNotEmpty ? event.title : eventTypeLabel(l10n, event.type);
   return person == null ? label : l10n.personEvent(person.name, label);
 }
+
+/// The localized name of a festival [category].
+String categoryLabel(AppLocalizations l10n, FestivalCategory category) =>
+    switch (category) {
+      FestivalCategory.hindu => l10n.categoryHindu,
+      FestivalCategory.christian => l10n.categoryChristian,
+      FestivalCategory.muslim => l10n.categoryMuslim,
+      FestivalCategory.national => l10n.categoryNational,
+      FestivalCategory.government => l10n.categoryGovernment,
+      FestivalCategory.bank => l10n.categoryBank,
+    };
+
+/// The localized badge of a holiday [kind].
+String holidayLabel(AppLocalizations l10n, HolidayKind kind) => switch (kind) {
+      HolidayKind.public => l10n.holidayPublic,
+      HolidayKind.restricted => l10n.holidayRestricted,
+      HolidayKind.bank => l10n.holidayBank,
+    };

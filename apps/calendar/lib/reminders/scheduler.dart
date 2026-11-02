@@ -92,7 +92,11 @@ class ReminderScheduler {
     this.options = const ReminderOptions(),
     this.days = 60,
     this.dailyDays = 7,
+    this.holidays = HolidayData.empty,
   });
+
+  /// Holiday lists merged with the computed festivals.
+  final HolidayData holidays;
 
   /// Calendar (location) of the dates and of the reminder times.
   final KollavarshamCalendar calendar;
@@ -185,7 +189,7 @@ class ReminderScheduler {
 
     if (options.festivals.isNotEmpty) {
       for (final f in festivalDaysBetween(calendar, today, end.addDays(1),
-          categories: options.festivals)) {
+          categories: options.festivals, holidays: holidays)) {
         final eve = f.date.addDays(-1);
         final time = _at(eve.toGregorian(), options.minuteOfDay);
         if (!time.isAfter(now)) continue;

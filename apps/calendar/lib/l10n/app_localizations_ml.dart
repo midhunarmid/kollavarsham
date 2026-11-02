@@ -645,4 +645,40 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get remindersWeb =>
       'ബ്രൗസറിൽ ഓർമ്മപ്പെടുത്തലുകൾ \'ഇന്ന്\' ടാബിൽ കാണാം. അറിയിപ്പുകൾ ആൻഡ്രോയിഡ് ആപ്പിലാണ്.';
+
+  @override
+  String get categoryNational => 'ദേശീയം';
+
+  @override
+  String get categoryGovernment => 'സർക്കാർ';
+
+  @override
+  String get categoryBank => 'ബാങ്ക്';
+
+  @override
+  String get holidayPublic => 'പൊതു അവധി';
+
+  @override
+  String get holidayRestricted => 'നിയന്ത്രിത അവധി';
+
+  @override
+  String get holidayBank => 'ബാങ്ക് അവധി';
+
+  @override
+  String get tentativeDate => 'തീയതി മാറിയേക്കാം';
+
+  @override
+  String get agenda => 'അജണ്ട';
+
+  @override
+  String get searchHint => 'വിശേഷങ്ങളും ദിവസങ്ങളും തിരയുക';
+
+  @override
+  String get agendaEmpty => 'അടുത്ത ഒരു വർഷത്തിൽ ഒന്നും കണ്ടെത്തിയില്ല.';
+
+  @override
+  String get yourEvents => 'നിങ്ങളുടെ ദിവസങ്ങൾ';
+
+  @override
+  String get categoriesHeading => 'കാണിക്കുക';
 }

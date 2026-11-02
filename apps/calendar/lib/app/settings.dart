@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/festival_days.dart';
 import 'locations.dart';
 
 /// Interface language.
@@ -56,6 +58,7 @@ class AppSettings {
     this.calendarMode = CalendarMode.malayalam,
     this.themeMode = ThemeMode.system,
     this.onboardingDone = false,
+    this.categories = const {...FestivalCategory.values},
   });
 
   /// Interface language.
@@ -83,6 +86,9 @@ class AppSettings {
   /// Whether the first-run onboarding has been completed.
   final bool onboardingDone;
 
+  /// Festival and holiday categories shown in the calendar and agenda.
+  final Set<FestivalCategory> categories;
+
   /// A copy with the given values replaced.
   AppSettings copyWith({
     AppLanguage? language,
@@ -93,6 +99,7 @@ class AppSettings {
     CalendarMode? calendarMode,
     ThemeMode? themeMode,
     bool? onboardingDone,
+    Set<FestivalCategory>? categories,
   }) =>
       AppSettings(
         language: language ?? this.language,
@@ -103,6 +110,7 @@ class AppSettings {
         calendarMode: calendarMode ?? this.calendarMode,
         themeMode: themeMode ?? this.themeMode,
         onboardingDone: onboardingDone ?? this.onboardingDone,
+        categories: categories ?? this.categories,
       );
 
   @override
@@ -115,11 +123,20 @@ class AppSettings {
       other.yearStart == yearStart &&
       other.calendarMode == calendarMode &&
       other.themeMode == themeMode &&
-      other.onboardingDone == onboardingDone;
+      other.onboardingDone == onboardingDone &&
+      setEquals(other.categories, categories);
 
   @override
-  int get hashCode => Object.hash(language, nameScript, malayalamDigits,
-      location, yearStart, calendarMode, themeMode, onboardingDone);
+  int get hashCode => Object.hash(
+      language,
+      nameScript,
+      malayalamDigits,
+      location,
+      yearStart,
+      calendarMode,
+      themeMode,
+      onboardingDone,
+      Object.hashAllUnordered(categories));
 }
 
 T _byName<T extends Enum>(List<T> values, String? name, T fallback) {
@@ -151,6 +168,7 @@ class SettingsStore {
   static const _calendarMode = 'settings.calendarMode';
   static const _themeMode = 'settings.themeMode';
   static const _onboardingDone = 'settings.onboardingDone';
+  static const _categories = 'settings.categories';
 
   /// Value of the location key for a manual location.
   static const manualLocation = 'manual';
@@ -172,6 +190,13 @@ class SettingsStore {
       themeMode:
           _byName(ThemeMode.values, prefs.getString(_themeMode), d.themeMode),
       onboardingDone: prefs.getBool(_onboardingDone) ?? d.onboardingDone,
+      categories: switch (prefs.getStringList(_categories)) {
+        null => d.categories,
+        final names => {
+            for (final c in FestivalCategory.values)
+              if (names.contains(c.name)) c,
+          },
+      },
     );
   }
 
@@ -201,6 +226,8 @@ class SettingsStore {
     await prefs.setString(_calendarMode, s.calendarMode.name);
     await prefs.setString(_themeMode, s.themeMode.name);
     await prefs.setBool(_onboardingDone, s.onboardingDone);
+    await prefs
+        .setStringList(_categories, [for (final c in s.categories) c.name]);
   }
 }
 

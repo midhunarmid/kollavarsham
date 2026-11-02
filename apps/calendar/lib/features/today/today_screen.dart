@@ -6,10 +6,12 @@ import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 import '../../app/clock.dart';
 import '../../app/router.dart';
 import '../../app/settings.dart';
+import '../../data/festival_index.dart';
 import '../../data/occurrences.dart';
 import '../people/labels.dart';
 import '../../l10n/app_localizations.dart';
 import '../day/day_info.dart';
+import '../day/festival_tile.dart';
 import '../day/panchangam_view.dart';
 
 /// Today tab: today's Malayalam and Gregorian dates, the panchangam
@@ -26,7 +28,9 @@ class TodayScreen extends ConsumerWidget {
     final script = resolveScript(context, settings.nameScript.script);
     final today = ref.watch(todayProvider);
     final info = DayInfo.of(today);
-    final next = nextFestival(today);
+    final festivals = ref.watch(festivalIndexProvider);
+    final todays = festivals.on(today);
+    final next = festivals.next(today);
     final upcoming = ref.watch(eventIndexProvider).upcoming(today, 30);
 
     return Scaffold(
@@ -89,15 +93,10 @@ class TodayScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               Text(l10n.todaysFestivals, style: theme.textTheme.titleSmall),
               const SizedBox(height: 4),
-              if (info.festivals.isEmpty)
+              if (todays.isEmpty)
                 Text(l10n.noFestivalToday)
               else
-                for (final f in info.festivals)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: const Icon(Icons.celebration_outlined),
-                    title: Text(f.name(script)),
-                  ),
+                for (final f in todays) FestivalTile(day: f, script: script),
               const SizedBox(height: 16),
               Text(l10n.pirannalAndEvents, style: theme.textTheme.titleSmall),
               if (upcoming.isEmpty)
@@ -131,21 +130,18 @@ class TodayScreen extends ConsumerWidget {
                         : () =>
                             context.push(AppRoutes.personPath(o.person!.id)),
                   ),
-              if (next case (final festival, final date)) ...[
+              if (next != null) ...[
                 const SizedBox(height: 16),
                 Text(l10n.nextFestival, style: theme.textTheme.titleSmall),
-                ListTile(
+                FestivalTile(
                   key: const Key('next-festival'),
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.event_outlined),
-                  title: Text(festival.name(script)),
-                  subtitle: Text(
-                    '${date.format('d MMMM', script: script, malayalamDigits: settings.malayalamDigits)}'
-                    ' · ${l10n.inDays(today.daysUntil(date))}',
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
+                  day: next,
+                  script: script,
+                  subtitlePrefix:
+                      '${next.date.format('d MMMM', script: script, malayalamDigits: settings.malayalamDigits)}'
+                      ' · ${l10n.inDays(today.daysUntil(next.date))}',
                   onTap: () =>
-                      context.push(AppRoutes.dayPath(date.toGregorian())),
+                      context.push(AppRoutes.dayPath(next.date.toGregorian())),
                 ),
               ],
             ],

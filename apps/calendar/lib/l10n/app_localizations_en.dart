@@ -646,4 +646,40 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get remindersWeb =>
       'In the browser, reminders show in the Today tab. Notifications come with the Android app.';
+
+  @override
+  String get categoryNational => 'National';
+
+  @override
+  String get categoryGovernment => 'Government';
+
+  @override
+  String get categoryBank => 'Bank';
+
+  @override
+  String get holidayPublic => 'Public holiday';
+
+  @override
+  String get holidayRestricted => 'Restricted holiday';
+
+  @override
+  String get holidayBank => 'Bank holiday';
+
+  @override
+  String get tentativeDate => 'Date may change';
+
+  @override
+  String get agenda => 'Agenda';
+
+  @override
+  String get searchHint => 'Search festivals and events';
+
+  @override
+  String get agendaEmpty => 'Nothing found in the next year.';
+
+  @override
+  String get yourEvents => 'Your events';
+
+  @override
+  String get categoriesHeading => 'Show';
 }

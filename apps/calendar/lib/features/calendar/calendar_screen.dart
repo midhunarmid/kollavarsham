@@ -6,7 +6,10 @@ import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 import '../../app/clock.dart';
 import '../../app/router.dart';
 import '../../app/settings.dart';
+import '../../data/festival_days.dart';
+import '../../data/festival_index.dart';
 import '../../data/occurrences.dart';
+import '../day/festival_tile.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Calendar tab: a month view with festival markers and the selected day's
@@ -47,13 +50,20 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     final selected = MalayalamDate.fromGregorian(
         (_selected ?? today).toGregorian(),
         calendar: calendar);
-    final festivals = calendar.festivalsOn(selected);
+    final festivalIndex = ref.watch(festivalIndexProvider);
+    final festivals = festivalIndex.on(selected);
     final index = ref.watch(eventIndexProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.navCalendar),
         actions: [
+          IconButton(
+            key: const Key('open-agenda'),
+            tooltip: l10n.agenda,
+            icon: const Icon(Icons.view_agenda_outlined),
+            onPressed: () => context.push(AppRoutes.agenda),
+          ),
           IconButton(
             tooltip: l10n.today,
             icon: const Icon(Icons.today),
@@ -69,7 +79,8 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
             children: [
               MalayalamMonthView(
                 // A new calendar or mode needs a fresh month page.
-                key: ValueKey((calendar, settings.calendarMode, index)),
+                key: ValueKey(
+                    (calendar, settings.calendarMode, index, festivalIndex)),
                 controller: _controller,
                 calendar: calendar,
                 mode: settings.calendarMode,
@@ -79,7 +90,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                 selectedDate: selected,
                 showNakshatra: true,
                 eventLoader: (d) => [
-                  ...calendar.festivalsOn(d),
+                  ...festivalIndex.on(d),
                   ...index.on(d),
                 ],
                 markerBuilder: (context, date, events) =>
@@ -107,7 +118,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
               if (festivals.isEmpty)
                 Text(l10n.noFestivals)
               else
-                for (final f in festivals) Text(f.name(script)),
+                for (final f in festivals) FestivalTile(day: f, script: script),
             ],
           ),
         ),
@@ -116,8 +127,9 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   }
 }
 
-/// Up to three dots under a day: festivals in the theme's marker colour,
-/// personal events in their person's colour.
+/// Up to three dots under a day: public holidays in the holiday colour,
+/// other festivals in the marker colour, personal events in their
+/// person's colour.
 class _Markers extends StatelessWidget {
   const _Markers({required this.events});
 
@@ -125,7 +137,7 @@ class _Markers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final festival = KollavarshamCalendarTheme.of(context).markerColor;
+    final calTheme = KollavarshamCalendarTheme.of(context);
     final fallback = Theme.of(context).colorScheme.primary;
     return Padding(
       padding: const EdgeInsets.only(top: 2),
@@ -140,7 +152,9 @@ class _Markers extends StatelessWidget {
               decoration: BoxDecoration(
                 color: e is Occurrence
                     ? (e.color == null ? fallback : Color(e.color!))
-                    : festival,
+                    : e is FestivalDay && e.holiday == HolidayKind.public
+                        ? calTheme.holidayColor
+                        : calTheme.markerColor,
                 shape: BoxShape.circle,
               ),
             ),

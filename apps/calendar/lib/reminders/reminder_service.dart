@@ -12,6 +12,7 @@ import 'package:workmanager/workmanager.dart';
 import '../app/clock.dart';
 import '../app/settings.dart';
 import '../data/database.dart';
+import '../data/festival_index.dart';
 import '../data/repository.dart';
 import '../l10n/app_localizations.dart';
 import 'notifications.dart';
@@ -45,6 +46,7 @@ Future<void> rescheduleFromPrefs(
     script: script,
     malayalamDigits: settings.malayalamDigits,
     options: ReminderOptionsStore(prefs).load(),
+    holidays: await loadHolidays(),
   );
   await sink.sync(scheduler.schedule(AppDatabase(prefs).load(), now), l10n);
 }
@@ -72,6 +74,7 @@ final scheduledNotificationsProvider =
     script: script,
     malayalamDigits: settings.malayalamDigits,
     options: ref.watch(reminderOptionsProvider),
+    holidays: ref.watch(holidaysProvider),
   ).schedule(ref.watch(repositoryProvider), ref.watch(clockProvider)());
 });
 

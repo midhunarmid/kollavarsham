@@ -5,8 +5,12 @@ import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
 import '../../app/router.dart';
 import '../../app/settings.dart';
+import '../../data/festival_index.dart';
+import '../../data/occurrences.dart';
 import '../../l10n/app_localizations.dart';
+import '../people/labels.dart';
 import 'day_info.dart';
+import 'festival_tile.dart';
 import 'panchangam_view.dart';
 
 /// Day detail: the full panchangam and festivals of one Gregorian [date].
@@ -26,6 +30,8 @@ class DayScreen extends ConsumerWidget {
     final script = resolveScript(context, settings.nameScript.script);
     final day = calendar.fromGregorian(date);
     final info = DayInfo.of(day);
+    final festivals = ref.watch(festivalIndexProvider).on(day);
+    final events = ref.watch(eventIndexProvider).on(day);
     final gregorian = day.toGregorian();
 
     void goTo(int days) => context.pushReplacement(
@@ -93,15 +99,23 @@ class DayScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               Text(l10n.festivals, style: theme.textTheme.titleSmall),
               const SizedBox(height: 4),
-              if (info.festivals.isEmpty)
+              if (festivals.isEmpty)
                 Text(l10n.noFestivals)
               else
-                for (final f in info.festivals)
+                for (final f in festivals) FestivalTile(day: f, script: script),
+              if (events.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                Text(l10n.yourEvents, style: theme.textTheme.titleSmall),
+                for (final o in events)
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const Icon(Icons.celebration_outlined),
-                    title: Text(f.name(script)),
+                    leading: Icon(Icons.event_repeat,
+                        color: o.color == null ? null : Color(o.color!)),
+                    title: Text(eventTitle(l10n, o.event, o.person)),
+                    onTap: () =>
+                        context.push(AppRoutes.editEventPath(o.event.id)),
                   ),
+              ],
             ],
           ),
         ),

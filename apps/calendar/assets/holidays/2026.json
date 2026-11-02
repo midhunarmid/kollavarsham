@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "region": "Kerala, India",
+  "status": "partial",
+  "scope": "Government of Kerala public holidays for 2026, as listed by Onmanorama (21 Oct 2025 list), plus restricted and bank entries from the same article",
+  "generatedFrom": [
+    "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+  ],
+  "notes": [
+    "The source gives no government order number. Aggregator pages cite G.O. (P) No. 14/2025/GAD or No. 15/2025/GAD; this is unresolved, so no order number is recorded.",
+    "Mahanavami is 20 Oct 2026 in this source. An aggregator reports a later Navaratri holiday order dated 16 Oct 2026 that names 19 Oct 2026; this is unverified and not added. Check the gazette.",
+    "Kerala Piravi (1 Nov) is not in this source and is not added. An aggregator lists it on 1 Nov, but the official notification was not found.",
+    "Milad-i-Sherif and the Muslim festivals are tentative because the source marks their dates as dependent on the moon.",
+    "Holidays on Sunday (Maha Sivarathri, Easter, Deepavali) are kept with a sourceNote, per the schema rules."
+  ],
+  "holidays": [
+    {
+      "date": "2026-01-02",
+      "name": "Mannam Jayanthi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-01-26",
+      "name": "Republic Day",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-02-15",
+      "name": "Maha Sivarathri",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "falls on Sunday"
+    },
+    {
+      "date": "2026-03-04",
+      "name": "Ayya Vaikunda Swami Jayanthi",
+      "category": "government",
+      "kind": "restricted",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "community": "Nadar"
+    },
+    {
+      "date": "2026-03-20",
+      "name": "Id-ul Fitr (Ramzan)",
+      "category": "muslim",
+      "kind": "public",
+      "tentative": true,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "date depends on the moon"
+    },
+    {
+      "date": "2026-04-01",
+      "name": "Annual closing of accounts (banks)",
+      "category": "bank",
+      "kind": "bank",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "bank closure under the Negotiable Instruments Act; not a government holiday"
+    },
+    {
+      "date": "2026-04-02",
+      "name": "Maundy Thursday",
+      "category": "christian",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-04-03",
+      "name": "Good Friday",
+      "category": "christian",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-04-05",
+      "name": "Easter",
+      "category": "christian",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "falls on Sunday"
+    },
+    {
+      "date": "2026-04-14",
+      "name": "Dr BR Ambedkar Jayanthi",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-04-15",
+      "name": "Vishu",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-05-01",
+      "name": "May Day",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-05-27",
+      "name": "Id-ul Ad'ha (Bakrid)",
+      "category": "muslim",
+      "kind": "public",
+      "tentative": true,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "date depends on the moon"
+    },
+    {
+      "date": "2026-06-25",
+      "name": "Muharam",
+      "category": "muslim",
+      "kind": "public",
+      "tentative": true,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "Muslim festival, tentative until confirmed by the moon"
+    },
+    {
+      "date": "2026-08-12",
+      "name": "Karkidaka Vavu",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-08-15",
+      "name": "Independence Day",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-08-25",
+      "name": "First Onam",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-08-25",
+      "name": "Milad-i-Sherif",
+      "category": "muslim",
+      "kind": "public",
+      "tentative": true,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "source marks this date with an asterisk (depends on the moon)"
+    },
+    {
+      "date": "2026-08-26",
+      "name": "Thiruvonam",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-08-27",
+      "name": "Third Onam",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-08-28",
+      "name": "Avani Avittom",
+      "category": "hindu",
+      "kind": "restricted",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "community": "Brahmin"
+    },
+    {
+      "date": "2026-08-28",
+      "name": "Ayyankali Jayanthi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "listed on the same date as Fourth Onam and Sree Narayana Guru Jayanthi in the source"
+    },
+    {
+      "date": "2026-08-28",
+      "name": "Fourth Onam",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-08-28",
+      "name": "Sreenarayana Guru Jayanthi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "listed on the same date as Fourth Onam and Ayyankali Jayanthi in the source"
+    },
+    {
+      "date": "2026-09-04",
+      "name": "Sreekrishna Jayanthi",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-09-17",
+      "name": "Vishwakarma Day",
+      "category": "hindu",
+      "kind": "restricted",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "community": "Viswakarma"
+    },
+    {
+      "date": "2026-09-21",
+      "name": "Sreenarayana Guru Samadhi",
+      "category": "government",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-10-02",
+      "name": "Gandhi Jayanthi",
+      "category": "national",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-10-20",
+      "name": "Mahanavami",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "see file notes: a later order may name 19 Oct 2026"
+    },
+    {
+      "date": "2026-10-21",
+      "name": "Vijayadasami",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    },
+    {
+      "date": "2026-11-08",
+      "name": "Deepavali",
+      "category": "hindu",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html",
+      "sourceNote": "falls on Sunday"
+    },
+    {
+      "date": "2026-12-25",
+      "name": "Christmas",
+      "category": "christian",
+      "kind": "public",
+      "tentative": false,
+      "source": "https://www.onmanorama.com/news/kerala/2025/10/29/kerala-public-holidays-2026-full-list.html"
+    }
+  ]
+}

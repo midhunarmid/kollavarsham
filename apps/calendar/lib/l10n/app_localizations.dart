@@ -1195,6 +1195,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'In the browser, reminders show in the Today tab. Notifications come with the Android app.'**
   String get remindersWeb;
+
+  /// Festival category: national days.
+  ///
+  /// In en, this message translates to:
+  /// **'National'**
+  String get categoryNational;
+
+  /// Festival category: Kerala government holidays such as jayanthis.
+  ///
+  /// In en, this message translates to:
+  /// **'Government'**
+  String get categoryGovernment;
+
+  /// Festival category: bank-only closures.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get categoryBank;
+
+  /// Badge: the day is a public holiday.
+  ///
+  /// In en, this message translates to:
+  /// **'Public holiday'**
+  String get holidayPublic;
+
+  /// Badge: an optional holiday for some communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted holiday'**
+  String get holidayRestricted;
+
+  /// Badge: banks are closed.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank holiday'**
+  String get holidayBank;
+
+  /// Badge on a festival whose date depends on the moon being sighted.
+  ///
+  /// In en, this message translates to:
+  /// **'Date may change'**
+  String get tentativeDate;
+
+  /// Title and button: list of upcoming festivals, holidays and events.
+  ///
+  /// In en, this message translates to:
+  /// **'Agenda'**
+  String get agenda;
+
+  /// Hint in the agenda search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search festivals and events'**
+  String get searchHint;
+
+  /// Agenda: no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found in the next year.'**
+  String get agendaEmpty;
+
+  /// Day detail: heading of the user's own events on that day.
+  ///
+  /// In en, this message translates to:
+  /// **'Your events'**
+  String get yourEvents;
+
+  /// Heading of the festival category filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get categoriesHeading;
 }
 
 class _AppLocalizationsDelegate
