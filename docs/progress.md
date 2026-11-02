@@ -36,6 +36,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Choose the website domain and DNS (Day 20): `calendar.armid.in`, a CNAME to `midhunarmid.github.io`.
 - [ ] Check 2026–2027 dates against printed almanacs (Day 23). Include the Day 6 rules with the weakest evidence: Ashtami Rohini, Thaipooyam, Vinayaka Chathurthi and the vrat reading times, none of which has a Kerala almanac behind it.
 - [ ] Malayalam copy review by a native editor (Day 24).
+- [ ] Create a `wrong-date` label in the GitHub repository, used by the app's "Report a wrong date" link (Day 17).
 - [ ] Confirm the Day 9 storage choice: a versioned JSON document in shared_preferences instead of drift (drift now needs Dart 3.10, and a sqlite3.wasm download for the web). Moving to drift later means a one-time import of that document.
 
 ## Days
@@ -182,9 +183,13 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - file_picker 11 relies on AGP 9's built-in Kotlin, which the Flutter template disables (`android.builtInKotlin=false`), so `android/build.gradle.kts` applies the Kotlin plugin (JVM 17) to that subproject. Revisit when Flutter moves the template to built-in Kotlin.
   - `backup_rules.xml` (Android 6–11) and `data_extraction_rules.xml` (12+) include `FlutterSharedPreferences.xml`, which holds all the data. Not tested with `adb shell bmgr`: no emulator in this environment.
 
-### Day 17: Sprint 8a, Android widgets and extras (status: todo)
-- [ ] Home-screen widgets via `home_widget`: Today (date, star, festival) and Next pirannal; refreshed daily.
-- [ ] App shortcuts; "Report a wrong date" (pre-filled GitHub issue URL); North Malabar year setting wired through.
+### Day 17: Sprint 8a, Android widgets and extras (status: done)
+- [x] Home-screen widgets via `home_widget`: Today (date, star, festival) and Next pirannal; refreshed daily.
+  - `home_widget ^0.9.2` (newest on Dart 3.6), with the same AGP 9 Kotlin hook as file_picker. Dart writes a week of widget text ahead, keyed `today.<date>.*` / `next.<date>.*`, on every app sync and in the daily workmanager job; the Kotlin providers read the device's date, and `updatePeriodMillis` redraws them hourly. Debug APK builds; the widgets haven't been seen on a device (no emulator here).
+- [x] App shortcuts; "Report a wrong date" (pre-filled GitHub issue URL); North Malabar year setting wired through.
+  - Shortcuts are static (`res/xml/shortcuts.xml`, Today / Add event / Date converter) and open routes through Flutter deep linking (`kollavarsham://app/<route>`), so no plugin. Widget taps use the same.
+  - The report opens `github.com/midhunarmid/kollavarsham/issues/new` (url_launcher) with the date, the app's Malayalam date, star, tithi, festivals, city and year start. A manual location is reported only as "manual" with its UTC offset. Needs you: create the `wrong-date` label on GitHub.
+  - North Malabar (Kanni 1) was already a setting; tests now check year info, the year view and the new-year reminder with it.
 
 ### Day 18: Sprint 8b, release readiness (status: todo)
 - [ ] Accessibility pass (semantics, large text, contrast) and performance (R8/minify, startup, size).
@@ -234,3 +239,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 14 | Festival detail (description, rule, source, next 5 dates, share), year view, ml/en descriptions for every festival and holiday, name_ml in the holiday files; 101 app tests pass, web build OK |
 | 2026-11-02 | Day 15 | Tools tab (converter, Find my star, age, days between, year info), panchangam and greeting share cards as PNG; 109 app tests pass, web build OK |
 | 2026-11-02 | Day 16 | .ics export (explicit dates, N years), versioned JSON backup and restore with file_picker, Auto Backup rules; 116 app tests pass, debug APK and web build OK |
+| 2026-11-02 | Day 17 | Today and Next pirannal home-screen widgets (week of text ahead), static launcher shortcuts via deep links, Report a wrong date, North Malabar checks; 124 app tests pass, debug APK and web build OK |
