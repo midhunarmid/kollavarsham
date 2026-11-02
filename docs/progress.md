@@ -174,9 +174,13 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Share cards rendered as images: today's panchangam, pirannal greeting.
   - A preview dialog renders the card in a `RepaintBoundary` and shares a 3× PNG (Today → share; a person's pirannal or birthday → gift icon). File names go through `fileNameOverrides`, since `XFile.fromData` ignores the name on Android.
 
-### Day 16: Sprint 7b, export and backup (status: todo)
-- [ ] .ics export of selected events for N years (explicit dates).
-- [ ] JSON backup/restore (versioned), file picker/share; Android Auto Backup rules; round-trip tests.
+### Day 16: Sprint 7b, export and backup (status: done)
+- [x] .ics export of selected events for N years (explicit dates).
+  - Settings → Backup and export: pick events and 1, 2, 5 or 10 years. All-day events with a stable UID per occurrence, RFC 5545 escaping and 75-octet line folding; the description carries the Malayalam date, star and notes.
+- [x] JSON backup/restore (versioned), file picker/share; Android Auto Backup rules; round-trip tests.
+  - `lib/backup/backup.dart`: `backupVersion` 1 with the database document, settings and reminder options. Restore refuses other files and newer versions and migrates older database schemas. Saving goes through the share sheet; restoring uses `file_picker ^11.0.3` (newest on Dart 3.6).
+  - file_picker 11 relies on AGP 9's built-in Kotlin, which the Flutter template disables (`android.builtInKotlin=false`), so `android/build.gradle.kts` applies the Kotlin plugin (JVM 17) to that subproject. Revisit when Flutter moves the template to built-in Kotlin.
+  - `backup_rules.xml` (Android 6–11) and `data_extraction_rules.xml` (12+) include `FlutterSharedPreferences.xml`, which holds all the data. Not tested with `adb shell bmgr`: no emulator in this environment.
 
 ### Day 17: Sprint 8a, Android widgets and extras (status: todo)
 - [ ] Home-screen widgets via `home_widget`: Today (date, star, festival) and Next pirannal; refreshed daily.
@@ -228,4 +232,5 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 12 | flutter_local_notifications scheduling with exact/inexact fallback, Open/Snooze actions, daily workmanager job, boot receiver, Settings → Reminders (types, month/year starts, festival categories, daily panchangam); 84 app tests pass, debug APK and web build OK; not run on a device |
 | 2026-11-02 | Day 13 | Bundled holiday data merged with computed festivals (alias matching, announced Muslim dates), six persisted category filters, Agenda with search; 93 app tests pass, web build OK |
 | 2026-11-02 | Day 14 | Festival detail (description, rule, source, next 5 dates, share), year view, ml/en descriptions for every festival and holiday, name_ml in the holiday files; 101 app tests pass, web build OK |
-| 2026-11-02 | Day 15 | Tools tab (converter, Find my star, age, days between, year info), panchangam and greeting share cards as PNG; 110 app tests pass, web build OK |
+| 2026-11-02 | Day 15 | Tools tab (converter, Find my star, age, days between, year info), panchangam and greeting share cards as PNG; 109 app tests pass, web build OK |
+| 2026-11-02 | Day 16 | .ics export (explicit dates, N years), versioned JSON backup and restore with file_picker, Auto Backup rules; 116 app tests pass, debug APK and web build OK |
