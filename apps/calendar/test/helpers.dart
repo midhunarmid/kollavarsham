@@ -26,14 +26,16 @@ Future<SharedPreferences> testPrefs([AppSettings? settings]) async {
 }
 
 /// Pumps the whole app on a tall phone-sized surface; returns its
-/// preferences. With [now], the app's clock is fixed at that instant.
+/// preferences. With [now], the app's clock is fixed at that instant;
+/// with [prefs], those preferences are used instead of fresh ones.
 Future<SharedPreferences> pumpApp(WidgetTester tester,
     {AppSettings? settings = doneSettings,
     DateTime? now,
+    SharedPreferences? prefs,
     Size size = const Size(480, 1400)}) async {
   await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
-  final prefs = await testPrefs(settings);
+  prefs ??= await testPrefs(settings);
   await tester.pumpWidget(ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(prefs),

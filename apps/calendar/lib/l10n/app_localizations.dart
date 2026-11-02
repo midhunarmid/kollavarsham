@@ -170,12 +170,6 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get navSettings;
 
-  /// Placeholder on the People tab until it is built.
-  ///
-  /// In en, this message translates to:
-  /// **'Add people and their pirannal, birthdays and shraddham here. Coming in a later update.'**
-  String get peopleComingSoon;
-
   /// Placeholder on the Tools tab until it is built.
   ///
   /// In en, this message translates to:
@@ -314,13 +308,13 @@ abstract class AppLocalizations {
   /// **'Enter hours from −12 to 14, in quarter hours'**
   String get invalidUtcOffset;
 
-  /// Dialog button: close without saving.
+  /// Button: close a dialog without changes.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
 
-  /// Dialog button: save.
+  /// Button: save the editor.
   ///
   /// In en, this message translates to:
   /// **'Save'**
@@ -571,6 +565,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Times are for the location chosen in Settings.'**
   String get timesForLocation;
+
+  /// Empty People tab.
+  ///
+  /// In en, this message translates to:
+  /// **'No people yet. Add someone to keep their pirannal, birthday or shraddham.'**
+  String get peopleEmpty;
+
+  /// Button: add a person.
+  ///
+  /// In en, this message translates to:
+  /// **'Add person'**
+  String get addPerson;
+
+  /// Title of the person editor when adding.
+  ///
+  /// In en, this message translates to:
+  /// **'New person'**
+  String get newPerson;
+
+  /// Title of the person editor when editing, and its button tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit person'**
+  String get editPerson;
+
+  /// Person editor: name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get personName;
+
+  /// Error when the name is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get nameRequired;
+
+  /// Person editor: relation to the user.
+  ///
+  /// In en, this message translates to:
+  /// **'Relation'**
+  String get relation;
+
+  /// Relation: the user themselves.
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get relationSelf;
+
+  /// Relation: family member.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get relationFamily;
+
+  /// Relation: friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend'**
+  String get relationFriend;
+
+  /// Relation: anyone else.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get relationOther;
+
+  /// Editor: marker colour for the calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour'**
+  String get colour;
+
+  /// Accessibility label of a colour swatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour {number}'**
+  String colourOption(int number);
+
+  /// Editor: free-text notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// Button: delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Confirm dialog title for deleting a person.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String deletePersonTitle(String name);
+
+  /// Confirm dialog text for deleting a person.
+  ///
+  /// In en, this message translates to:
+  /// **'Their events and reminders are deleted too.'**
+  String get deletePersonBody;
+
+  /// Heading of a person's recurring events.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get events;
+
+  /// Shown when a person has no events.
+  ///
+  /// In en, this message translates to:
+  /// **'No events yet.'**
+  String get noEvents;
+
+  /// Shown when opening a deleted person.
+  ///
+  /// In en, this message translates to:
+  /// **'This person is no longer in your list.'**
+  String get personNotFound;
+
+  /// Event type: yearly star birthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Pirannal'**
+  String get eventPirannal;
+
+  /// Event type: monthly birth star day.
+  ///
+  /// In en, this message translates to:
+  /// **'Nakshatram'**
+  String get eventNakshatram;
+
+  /// Event type: Gregorian birthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get eventBirthday;
+
+  /// Event type: yearly death anniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'Shraddham'**
+  String get eventShraddham;
+
+  /// Event type: wedding or other anniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'Anniversary'**
+  String get eventAnniversary;
+
+  /// Event type: any other recurring event.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get eventCustom;
 }
 
 class _AppLocalizationsDelegate

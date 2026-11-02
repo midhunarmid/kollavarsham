@@ -45,10 +45,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navSettings => 'Settings';
 
   @override
-  String get peopleComingSoon =>
-      'Add people and their pirannal, birthdays and shraddham here. Coming in a later update.';
-
-  @override
   String get toolsComingSoon =>
       'The date converter, age calculator and star finder will be here. Coming in a later update.';
 
@@ -275,4 +271,87 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get timesForLocation =>
       'Times are for the location chosen in Settings.';
+
+  @override
+  String get peopleEmpty =>
+      'No people yet. Add someone to keep their pirannal, birthday or shraddham.';
+
+  @override
+  String get addPerson => 'Add person';
+
+  @override
+  String get newPerson => 'New person';
+
+  @override
+  String get editPerson => 'Edit person';
+
+  @override
+  String get personName => 'Name';
+
+  @override
+  String get nameRequired => 'Enter a name';
+
+  @override
+  String get relation => 'Relation';
+
+  @override
+  String get relationSelf => 'Me';
+
+  @override
+  String get relationFamily => 'Family';
+
+  @override
+  String get relationFriend => 'Friend';
+
+  @override
+  String get relationOther => 'Other';
+
+  @override
+  String get colour => 'Colour';
+
+  @override
+  String colourOption(int number) {
+    return 'Colour $number';
+  }
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String deletePersonTitle(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get deletePersonBody => 'Their events and reminders are deleted too.';
+
+  @override
+  String get events => 'Events';
+
+  @override
+  String get noEvents => 'No events yet.';
+
+  @override
+  String get personNotFound => 'This person is no longer in your list.';
+
+  @override
+  String get eventPirannal => 'Pirannal';
+
+  @override
+  String get eventNakshatram => 'Nakshatram';
+
+  @override
+  String get eventBirthday => 'Birthday';
+
+  @override
+  String get eventShraddham => 'Shraddham';
+
+  @override
+  String get eventAnniversary => 'Anniversary';
+
+  @override
+  String get eventCustom => 'Event';
 }

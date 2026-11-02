@@ -45,10 +45,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get navSettings => 'ക്രമീകരണങ്ങൾ';
 
   @override
-  String get peopleComingSoon =>
-      'ആളുകളെയും അവരുടെ പിറന്നാൾ, ജന്മദിനം, ശ്രാദ്ധം എന്നിവയും ഇവിടെ ചേർക്കാം. അടുത്ത അപ്ഡേറ്റിൽ വരും.';
-
-  @override
   String get toolsComingSoon =>
       'തീയതി മാറ്റൽ, വയസ്സ് കണക്കാക്കൽ, നക്ഷത്രം കണ്ടെത്തൽ എന്നിവ ഇവിടെ ഉണ്ടാകും. അടുത്ത അപ്ഡേറ്റിൽ വരും.';
 
@@ -274,4 +270,88 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get timesForLocation =>
       'സമയങ്ങൾ ക്രമീകരണങ്ങളിൽ തിരഞ്ഞെടുത്ത സ്ഥലത്തേതാണ്.';
+
+  @override
+  String get peopleEmpty =>
+      'ഇതുവരെ ആരെയും ചേർത്തിട്ടില്ല. പിറന്നാൾ, ജന്മദിനം, ശ്രാദ്ധം എന്നിവ ഓർക്കാൻ ഒരാളെ ചേർക്കുക.';
+
+  @override
+  String get addPerson => 'ആളെ ചേർക്കുക';
+
+  @override
+  String get newPerson => 'പുതിയ ആൾ';
+
+  @override
+  String get editPerson => 'വിവരങ്ങൾ മാറ്റുക';
+
+  @override
+  String get personName => 'പേര്';
+
+  @override
+  String get nameRequired => 'പേര് നൽകുക';
+
+  @override
+  String get relation => 'ബന്ധം';
+
+  @override
+  String get relationSelf => 'ഞാൻ';
+
+  @override
+  String get relationFamily => 'കുടുംബം';
+
+  @override
+  String get relationFriend => 'സുഹൃത്ത്';
+
+  @override
+  String get relationOther => 'മറ്റുള്ളവർ';
+
+  @override
+  String get colour => 'നിറം';
+
+  @override
+  String colourOption(int number) {
+    return 'നിറം $number';
+  }
+
+  @override
+  String get notes => 'കുറിപ്പുകൾ';
+
+  @override
+  String get delete => 'നീക്കം ചെയ്യുക';
+
+  @override
+  String deletePersonTitle(String name) {
+    return '$name നീക്കം ചെയ്യണോ?';
+  }
+
+  @override
+  String get deletePersonBody =>
+      'അവരുടെ ദിവസങ്ങളും ഓർമ്മപ്പെടുത്തലുകളും കൂടി നീക്കം ചെയ്യും.';
+
+  @override
+  String get events => 'ദിവസങ്ങൾ';
+
+  @override
+  String get noEvents => 'ദിവസങ്ങൾ ഒന്നും ചേർത്തിട്ടില്ല.';
+
+  @override
+  String get personNotFound => 'ഈ ആൾ ഇപ്പോൾ പട്ടികയിൽ ഇല്ല.';
+
+  @override
+  String get eventPirannal => 'പിറന്നാൾ';
+
+  @override
+  String get eventNakshatram => 'നക്ഷത്രം';
+
+  @override
+  String get eventBirthday => 'ജന്മദിനം';
+
+  @override
+  String get eventShraddham => 'ശ്രാദ്ധം';
+
+  @override
+  String get eventAnniversary => 'വാർഷികം';
+
+  @override
+  String get eventCustom => 'ദിവസം';
 }

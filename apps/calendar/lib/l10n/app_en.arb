@@ -48,10 +48,6 @@
   "@navSettings": {
     "description": "Bottom bar tab and title: app settings."
   },
-  "peopleComingSoon": "Add people and their pirannal, birthdays and shraddham here. Coming in a later update.",
-  "@peopleComingSoon": {
-    "description": "Placeholder on the People tab until it is built."
-  },
   "toolsComingSoon": "The date converter, age calculator and star finder will be here. Coming in a later update.",
   "@toolsComingSoon": {
     "description": "Placeholder on the Tools tab until it is built."
@@ -146,11 +142,11 @@
   },
   "cancel": "Cancel",
   "@cancel": {
-    "description": "Dialog button: close without saving."
+    "description": "Button: close a dialog without changes."
   },
   "save": "Save",
   "@save": {
-    "description": "Dialog button: save."
+    "description": "Button: save the editor."
   },
   "settingsYearStart": "Year starts in",
   "@settingsYearStart": {
@@ -349,5 +345,119 @@
   "timesForLocation": "Times are for the location chosen in Settings.",
   "@timesForLocation": {
     "description": "Footnote under the panchangam times."
+  },
+  "peopleEmpty": "No people yet. Add someone to keep their pirannal, birthday or shraddham.",
+  "@peopleEmpty": {
+    "description": "Empty People tab."
+  },
+  "addPerson": "Add person",
+  "@addPerson": {
+    "description": "Button: add a person."
+  },
+  "newPerson": "New person",
+  "@newPerson": {
+    "description": "Title of the person editor when adding."
+  },
+  "editPerson": "Edit person",
+  "@editPerson": {
+    "description": "Title of the person editor when editing, and its button tooltip."
+  },
+  "personName": "Name",
+  "@personName": {
+    "description": "Person editor: name field."
+  },
+  "nameRequired": "Enter a name",
+  "@nameRequired": {
+    "description": "Error when the name is empty."
+  },
+  "relation": "Relation",
+  "@relation": {
+    "description": "Person editor: relation to the user."
+  },
+  "relationSelf": "Me",
+  "@relationSelf": {
+    "description": "Relation: the user themselves."
+  },
+  "relationFamily": "Family",
+  "@relationFamily": {
+    "description": "Relation: family member."
+  },
+  "relationFriend": "Friend",
+  "@relationFriend": {
+    "description": "Relation: friend."
+  },
+  "relationOther": "Other",
+  "@relationOther": {
+    "description": "Relation: anyone else."
+  },
+  "colour": "Colour",
+  "@colour": {
+    "description": "Editor: marker colour for the calendar."
+  },
+  "colourOption": "Colour {number}",
+  "@colourOption": {
+    "description": "Accessibility label of a colour swatch.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "notes": "Notes",
+  "@notes": {
+    "description": "Editor: free-text notes."
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Button: delete."
+  },
+  "deletePersonTitle": "Delete {name}?",
+  "@deletePersonTitle": {
+    "description": "Confirm dialog title for deleting a person.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deletePersonBody": "Their events and reminders are deleted too.",
+  "@deletePersonBody": {
+    "description": "Confirm dialog text for deleting a person."
+  },
+  "events": "Events",
+  "@events": {
+    "description": "Heading of a person's recurring events."
+  },
+  "noEvents": "No events yet.",
+  "@noEvents": {
+    "description": "Shown when a person has no events."
+  },
+  "personNotFound": "This person is no longer in your list.",
+  "@personNotFound": {
+    "description": "Shown when opening a deleted person."
+  },
+  "eventPirannal": "Pirannal",
+  "@eventPirannal": {
+    "description": "Event type: yearly star birthday."
+  },
+  "eventNakshatram": "Nakshatram",
+  "@eventNakshatram": {
+    "description": "Event type: monthly birth star day."
+  },
+  "eventBirthday": "Birthday",
+  "@eventBirthday": {
+    "description": "Event type: Gregorian birthday."
+  },
+  "eventShraddham": "Shraddham",
+  "@eventShraddham": {
+    "description": "Event type: yearly death anniversary."
+  },
+  "eventAnniversary": "Anniversary",
+  "@eventAnniversary": {
+    "description": "Event type: wedding or other anniversary."
+  },
+  "eventCustom": "Event",
+  "@eventCustom": {
+    "description": "Event type: any other recurring event."
   }
 }

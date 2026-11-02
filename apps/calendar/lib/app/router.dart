@@ -4,6 +4,8 @@ import '../features/calendar/calendar_screen.dart';
 import '../features/day/day_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/people/people_screen.dart';
+import '../features/people/person_editor.dart';
+import '../features/people/person_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/today/today_screen.dart';
 import '../features/tools/tools_screen.dart';
@@ -38,6 +40,18 @@ abstract final class AppRoutes {
   static String _iso(DateTime d) => '${d.year.toString().padLeft(4, '0')}-'
       '${d.month.toString().padLeft(2, '0')}-'
       '${d.day.toString().padLeft(2, '0')}';
+
+  /// Person editor for a new person.
+  static const newPerson = '/person/new';
+
+  /// Person detail; see [personPath].
+  static const person = '/person/:id';
+
+  /// The detail path of the person with [id].
+  static String personPath(int id) => '/person/$id';
+
+  /// The editor path of the person with [id].
+  static String editPersonPath(int id) => '/person/$id/edit';
 
   /// The date in a Day detail path parameter, or null if malformed.
   static DateTime? parseDay(String? value) {
@@ -77,6 +91,26 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
                   : null,
           builder: (_, state) => DayScreen(
               date: AppRoutes.parseDay(state.pathParameters['date'])!),
+        ),
+        GoRoute(
+          path: AppRoutes.newPerson,
+          builder: (_, __) => const PersonEditor(),
+        ),
+        GoRoute(
+          path: AppRoutes.person,
+          redirect: (_, state) =>
+              int.tryParse(state.pathParameters['id']!) == null
+                  ? AppRoutes.people
+                  : null,
+          builder: (_, state) =>
+              PersonScreen(personId: int.parse(state.pathParameters['id']!)),
+          routes: [
+            GoRoute(
+              path: 'edit',
+              builder: (_, state) => PersonEditor(
+                  personId: int.parse(state.pathParameters['id']!)),
+            ),
+          ],
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, shell) => AppShell(shell: shell),
