@@ -150,10 +150,14 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - Festival categories are Hindu (the engine's Kerala festivals), Christian and Muslim (tentative); Day 13 adds holidays and filters. Snooze is "Remind in 1 hour".
 - [x] Reminder settings screen.
 
-### Day 13: Sprint 6a, holidays and agenda (status: todo)
-- [ ] Holiday data loader for `data/holidays/*.json` (bundled as assets), merged with computed festivals.
-- [ ] Category filters (Hindu, Christian, Muslim, national, government, bank), persisted.
-- [ ] Agenda tab or section: upcoming festivals, holidays and personal events; search by name.
+### Day 13: Sprint 6a, holidays and agenda (status: done)
+- [x] Holiday data loader for `data/holidays/*.json` (bundled as assets), merged with computed festivals.
+  - Flutter assets can't point outside the package, so `apps/calendar/assets/holidays/` holds copies made by `dart run tool/sync_holidays.dart`; `test/holidays_test.dart` fails while they differ. They load before the first frame.
+  - Merging: an entry whose name matches a computed festival (an alias table, e.g. "Sreekrishna Jayanthi" → Ashtami Rohini) on the same day marks it as a holiday; an announced Muslim date replaces the tabular one for that festival and year; all other entries are their own items. Data entries have English names only until Day 14.
+- [x] Category filters (Hindu, Christian, Muslim, national, government, bank), persisted.
+  - In `AppSettings.categories`; they apply to the calendar markers, Today, Day detail and the agenda. Festival reminders have their own category choice in Settings → Reminders.
+- [x] Agenda tab or section: upcoming festivals, holidays and personal events; search by name.
+  - Calendar → Agenda (`/calendar/agenda`): the next 366 days, filter chips, search over Malayalam and English names, people and event titles.
 
 ### Day 14: Sprint 6b, festival details and year view (status: todo)
 - [ ] Festival detail screen: Malayalam and English description, rule, next 5 dates, share.
@@ -216,3 +220,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 10 | Event editor with six presets and duplicate-rule picker, Find my star, upcoming events on Today and person detail, person-colour calendar markers; Midhun/Pooradam/Dhanu test; 63 app tests pass |
 | 2026-11-02 | Day 11 | Pure-Dart ReminderScheduler (60 days, stable ids, fake-clock tests), ml/en notification templates, month and year start reminders; 72 app tests pass |
 | 2026-11-02 | Day 12 | flutter_local_notifications scheduling with exact/inexact fallback, Open/Snooze actions, daily workmanager job, boot receiver, Settings → Reminders (types, month/year starts, festival categories, daily panchangam); 84 app tests pass, debug APK and web build OK; not run on a device |
+| 2026-11-02 | Day 13 | Bundled holiday data merged with computed festivals (alias matching, announced Muslim dates), six persisted category filters, Agenda with search; 93 app tests pass, web build OK |
