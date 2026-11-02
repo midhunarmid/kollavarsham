@@ -140,11 +140,15 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Month and year start reminders ("Chingam 1 tomorrow: Malayalam New Year 1202").
   - The evening before at 20:00, with the sankranti time. `ReminderOptions` (year start on, months off by default) is persisted with the Day 12 reminder settings screen.
 
-### Day 12: Sprint 5b, Android notifications (status: todo)
-- [ ] flutter_local_notifications + timezone: schedule and cancel from the scheduler output; `POST_NOTIFICATIONS` and exact-alarm permission flows with fallback.
-- [ ] Reschedule on app start, on boot, on time/time-zone change, and in a daily workmanager job.
-- [ ] Daily panchangam notification (optional); festival reminders by category; actions (Open, Snooze).
-- [ ] Reminder settings screen.
+### Day 12: Sprint 5b, Android notifications (status: done)
+- [x] flutter_local_notifications + timezone: schedule and cancel from the scheduler output; `POST_NOTIFICATIONS` and exact-alarm permission flows with fallback.
+  - `flutter_local_notifications ^19.5.0`, `timezone ^0.10.1` and `workmanager ^0.7.0`: the newest that resolve on Dart 3.6 / Flutter 3.27. The plugin needs core library desugaring (`desugar_jdk_libs` 2.1.4). Without exact alarms, notifications use `inexactAllowWhileIdle`. The permission is asked when the first event is saved, and from Settings → Reminders.
+  - Not run on a device: the emulator couldn't start in this environment (Windows hypervisor access denied). Scheduling, settings, permission requests and notification taps are covered by tests with a fake sink; delivery on a phone is unverified.
+- [x] Reschedule on app start, on boot, on time/time-zone change, and in a daily workmanager job.
+  - Boot and app updates: the plugin's `ScheduledNotificationBootReceiver`. Times are absolute instants at the chosen location, so a device time-zone change doesn't move them and needs no handler. `workmanager` 0.7 still applies the Kotlin Gradle Plugin, which Flutter warns will stop building in a future release.
+- [x] Daily panchangam notification (optional); festival reminders by category; actions (Open, Snooze).
+  - Festival categories are Hindu (the engine's Kerala festivals), Christian and Muslim (tentative); Day 13 adds holidays and filters. Snooze is "Remind in 1 hour".
+- [x] Reminder settings screen.
 
 ### Day 13: Sprint 6a, holidays and agenda (status: todo)
 - [ ] Holiday data loader for `data/holidays/*.json` (bundled as assets), merged with computed festivals.
@@ -211,3 +215,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 9 | Versioned JSON database in shared_preferences (people, events, reminders; migrations; drift deferred, see Needs you), Riverpod repository with cascading deletes, People list, editor and detail; 57 app tests pass |
 | 2026-11-02 | Day 10 | Event editor with six presets and duplicate-rule picker, Find my star, upcoming events on Today and person detail, person-colour calendar markers; Midhun/Pooradam/Dhanu test; 63 app tests pass |
 | 2026-11-02 | Day 11 | Pure-Dart ReminderScheduler (60 days, stable ids, fake-clock tests), ml/en notification templates, month and year start reminders; 72 app tests pass |
+| 2026-11-02 | Day 12 | flutter_local_notifications scheduling with exact/inexact fallback, Open/Snooze actions, daily workmanager job, boot receiver, Settings → Reminders (types, month/year starts, festival categories, daily panchangam); 84 app tests pass, debug APK and web build OK; not run on a device |
