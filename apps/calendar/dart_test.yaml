@@ -1,0 +1,5 @@
+tags:
+  # Screenshot comparisons. Text rendering differs between platforms, so the
+  # goldens are made and checked on Windows only (`@TestOn('windows')`).
+  # Refresh them with `flutter test --update-goldens test/golden_test.dart`.
+  golden:
