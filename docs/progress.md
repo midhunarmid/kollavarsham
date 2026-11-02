@@ -132,10 +132,13 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Widget tests: create "Midhun: Pooradam, Dhanu" and check the next 5 pirannals and 12 nakshatram days.
   - The checks are structural (each date in Dhanu of successive years, each a Pooradam day at sunrise + 6 nazhika, monthly gaps), not almanac values. The monthly rule gives both days when the star is read on two days running, so "12 nakshatram days" can be fewer than 12 lunar months.
 
-### Day 11: Sprint 5a, reminder scheduler (status: todo)
-- [ ] Pure-Dart scheduler: from events and reminder settings, compute the notifications for the next 60 days, with stable IDs per (event, date, offset). Unit tests with a fake clock.
-- [ ] Message templates (ml/en) with `{name}`, `{star}`, `{month}`, `{age}`, e.g. "Midhun's pirannal (Pooradam)", "Midhun's nakshatram".
-- [ ] Month and year start reminders ("Chingam 1 tomorrow: Malayalam New Year 1202").
+### Day 11: Sprint 5a, reminder scheduler (status: done)
+- [x] Pure-Dart scheduler: from events and reminder settings, compute the notifications for the next 60 days, with stable IDs per (event, date, offset). Unit tests with a fake clock.
+  - `lib/reminders/scheduler.dart`. It uses no plugins and no BuildContext (templates come from `lookupAppLocalizations`), so Day 12's background job can run it. Ids are FNV-1a hashes in 31 bits.
+- [x] Message templates (ml/en) with `{name}`, `{star}`, `{month}`, `{age}`, e.g. "Midhun's pirannal (Pooradam)", "Midhun's nakshatram".
+  - Malayalam titles use "{name} – പിറന്നാൾ" rather than a genitive suffix, which depends on how the name ends. Ages are shown for birthdays and anniversaries with a year; a pirannal's age waits for a birth Malayalam year in the data.
+- [x] Month and year start reminders ("Chingam 1 tomorrow: Malayalam New Year 1202").
+  - The evening before at 20:00, with the sankranti time. `ReminderOptions` (year start on, months off by default) is persisted with the Day 12 reminder settings screen.
 
 ### Day 12: Sprint 5b, Android notifications (status: todo)
 - [ ] flutter_local_notifications + timezone: schedule and cancel from the scheduler output; `POST_NOTIFICATIONS` and exact-alarm permission flows with fallback.
@@ -207,3 +210,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 8 | Today panchangam summary and next festival, Day detail screen (/day/yyyy-mm-dd) with every span to the next sunrise, Calendar tab opens days, 12 Windows-only goldens; 44 app tests pass, web build OK |
 | 2026-11-02 | Day 9 | Versioned JSON database in shared_preferences (people, events, reminders; migrations; drift deferred, see Needs you), Riverpod repository with cascading deletes, People list, editor and detail; 57 app tests pass |
 | 2026-11-02 | Day 10 | Event editor with six presets and duplicate-rule picker, Find my star, upcoming events on Today and person detail, person-colour calendar markers; Midhun/Pooradam/Dhanu test; 63 app tests pass |
+| 2026-11-02 | Day 11 | Pure-Dart ReminderScheduler (60 days, stable ids, fake-clock tests), ml/en notification templates, month and year start reminders; 72 app tests pass |
