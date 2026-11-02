@@ -13,6 +13,7 @@ import '../features/onboarding/onboarding_screen.dart';
 import '../features/people/people_screen.dart';
 import '../features/people/person_editor.dart';
 import '../features/people/person_screen.dart';
+import '../features/settings/backup_screen.dart';
 import '../features/settings/reminders_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/today/today_screen.dart';
@@ -54,6 +55,9 @@ abstract final class AppRoutes {
 
   /// Tools → Kollavarsham year.
   static const yearInfo = '/tools/year';
+
+  /// Settings → Backup and export.
+  static const backup = '/settings/backup';
 
   /// Settings → Reminders.
   static const reminders = '/settings/reminders';
@@ -253,6 +257,10 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
                   GoRoute(
                     path: 'reminders',
                     builder: (_, __) => const RemindersScreen(),
+                  ),
+                  GoRoute(
+                    path: 'backup',
+                    builder: (_, __) => const BackupScreen(),
                   ),
                 ],
               ),

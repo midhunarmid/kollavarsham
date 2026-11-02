@@ -815,4 +815,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get greeting => 'Greeting card';
+
+  @override
+  String get settingsBackup => 'Backup and export';
+
+  @override
+  String get settingsBackupHelp =>
+      'Save or restore your data; export dates to another calendar';
+
+  @override
+  String get exportIcs => 'Export to another calendar (.ics)';
+
+  @override
+  String get exportIcsHelp =>
+      'Each date is written out, so Google Calendar and others show the right day without knowing the Malayalam calendar.';
+
+  @override
+  String exportYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count years',
+      one: '1 year',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String exportButton(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dates',
+      one: '1 date',
+    );
+    return 'Export $_temp0';
+  }
+
+  @override
+  String get backupHeading => 'Backup';
+
+  @override
+  String get backupHelp =>
+      'Your data stays on this device. Save a backup file to keep it safe or move it to another phone.';
+
+  @override
+  String get saveBackup => 'Save a backup';
+
+  @override
+  String get restoreBackup => 'Restore from a backup';
+
+  @override
+  String get restoreTitle => 'Replace your data?';
+
+  @override
+  String restoreBody(int people, int events) {
+    return 'Your people, events, reminders and settings are replaced by the backup: $people people and $events events.';
+  }
+
+  @override
+  String get restoreAction => 'Restore';
+
+  @override
+  String get restoreDone => 'Backup restored.';
+
+  @override
+  String get restoreFailed => 'That file is not a backup from this app.';
 }

@@ -36,6 +36,14 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(AppRoutes.reminders),
           ),
+          ListTile(
+            key: const Key('settings-backup'),
+            leading: const Icon(Icons.backup_outlined),
+            title: Text(l10n.settingsBackup),
+            subtitle: Text(l10n.settingsBackupHelp),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(AppRoutes.backup),
+          ),
           _Section(
             title: l10n.settingsLanguage,
             child: LanguageChooser(

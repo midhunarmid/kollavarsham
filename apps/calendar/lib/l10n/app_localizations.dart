@@ -1471,6 +1471,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Greeting card'**
   String get greeting;
+
+  /// Settings entry and title: backup, restore and calendar export.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup and export'**
+  String get settingsBackup;
+
+  /// Subtitle of the Backup and export entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Save or restore your data; export dates to another calendar'**
+  String get settingsBackupHelp;
+
+  /// Heading: export events as an .ics file.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to another calendar (.ics)'**
+  String get exportIcs;
+
+  /// Explanation of the .ics export.
+  ///
+  /// In en, this message translates to:
+  /// **'Each date is written out, so Google Calendar and others show the right day without knowing the Malayalam calendar.'**
+  String get exportIcsHelp;
+
+  /// How many years of dates to export.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 year} other{{count} years}}'**
+  String exportYears(int count);
+
+  /// Button: export the dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Export {count, plural, =1{1 date} other{{count} dates}}'**
+  String exportButton(int count);
+
+  /// Heading: backup and restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backupHeading;
+
+  /// Explanation of backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data stays on this device. Save a backup file to keep it safe or move it to another phone.'**
+  String get backupHelp;
+
+  /// Button: create and share a backup file.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a backup'**
+  String get saveBackup;
+
+  /// Button: pick a backup file and restore it.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from a backup'**
+  String get restoreBackup;
+
+  /// Confirm dialog title before restoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace your data?'**
+  String get restoreTitle;
+
+  /// Confirm dialog text before restoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Your people, events, reminders and settings are replaced by the backup: {people} people and {events} events.'**
+  String restoreBody(int people, int events);
+
+  /// Button: confirm the restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restoreAction;
+
+  /// Snackbar after a restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup restored.'**
+  String get restoreDone;
+
+  /// Snackbar when the picked file can't be restored.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is not a backup from this app.'**
+  String get restoreFailed;
 }
 
 class _AppLocalizationsDelegate

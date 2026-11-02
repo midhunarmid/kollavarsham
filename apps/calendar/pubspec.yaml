@@ -9,6 +9,7 @@ environment:
 resolution: workspace
 
 dependencies:
+  file_picker: ^11.0.3
   flutter:
     sdk: flutter
   flutter_local_notifications: ^19.5.0

@@ -805,4 +805,58 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get greeting => 'ആശംസാ കാർഡ്';
+
+  @override
+  String get settingsBackup => 'ബാക്കപ്പും എക്സ്പോർട്ടും';
+
+  @override
+  String get settingsBackupHelp =>
+      'വിവരങ്ങൾ സൂക്ഷിക്കുക, തിരികെ ചേർക്കുക; തീയതികൾ മറ്റൊരു കലണ്ടറിലേക്ക്';
+
+  @override
+  String get exportIcs => 'മറ്റൊരു കലണ്ടറിലേക്ക് (.ics)';
+
+  @override
+  String get exportIcsHelp =>
+      'ഓരോ തീയതിയും എഴുതിച്ചേർക്കുന്നതിനാൽ മലയാള കലണ്ടർ അറിയാത്ത ഗൂഗിൾ കലണ്ടറിലും ശരിയായ ദിവസം കാണാം.';
+
+  @override
+  String exportYears(int count) {
+    return '$count വർഷം';
+  }
+
+  @override
+  String exportButton(int count) {
+    return '$count തീയതികൾ എക്സ്പോർട്ട് ചെയ്യുക';
+  }
+
+  @override
+  String get backupHeading => 'ബാക്കപ്പ്';
+
+  @override
+  String get backupHelp =>
+      'നിങ്ങളുടെ വിവരങ്ങൾ ഈ ഉപകരണത്തിൽ മാത്രം. സുരക്ഷിതമായി സൂക്ഷിക്കാനോ മറ്റൊരു ഫോണിലേക്ക് മാറ്റാനോ ബാക്കപ്പ് ഫയൽ സേവ് ചെയ്യുക.';
+
+  @override
+  String get saveBackup => 'ബാക്കപ്പ് സേവ് ചെയ്യുക';
+
+  @override
+  String get restoreBackup => 'ബാക്കപ്പിൽ നിന്ന് തിരികെ ചേർക്കുക';
+
+  @override
+  String get restoreTitle => 'നിലവിലെ വിവരങ്ങൾ മാറ്റണോ?';
+
+  @override
+  String restoreBody(int people, int events) {
+    return 'നിങ്ങളുടെ ആളുകൾ, ദിവസങ്ങൾ, ഓർമ്മപ്പെടുത്തലുകൾ, ക്രമീകരണങ്ങൾ എന്നിവ ബാക്കപ്പിലേതുകൊണ്ട് മാറ്റും: $people ആളുകൾ, $events ദിവസങ്ങൾ.';
+  }
+
+  @override
+  String get restoreAction => 'തിരികെ ചേർക്കുക';
+
+  @override
+  String get restoreDone => 'ബാക്കപ്പ് തിരികെ ചേർത്തു.';
+
+  @override
+  String get restoreFailed => 'ആ ഫയൽ ഈ ആപ്പിന്റെ ബാക്കപ്പ് അല്ല.';
 }

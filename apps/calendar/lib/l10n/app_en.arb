@@ -1147,5 +1147,83 @@
   "greeting": "Greeting card",
   "@greeting": {
     "description": "Button: make a greeting card for a pirannal or birthday."
+  },
+  "settingsBackup": "Backup and export",
+  "@settingsBackup": {
+    "description": "Settings entry and title: backup, restore and calendar export."
+  },
+  "settingsBackupHelp": "Save or restore your data; export dates to another calendar",
+  "@settingsBackupHelp": {
+    "description": "Subtitle of the Backup and export entry."
+  },
+  "exportIcs": "Export to another calendar (.ics)",
+  "@exportIcs": {
+    "description": "Heading: export events as an .ics file."
+  },
+  "exportIcsHelp": "Each date is written out, so Google Calendar and others show the right day without knowing the Malayalam calendar.",
+  "@exportIcsHelp": {
+    "description": "Explanation of the .ics export."
+  },
+  "exportYears": "{count, plural, =1{1 year} other{{count} years}}",
+  "@exportYears": {
+    "description": "How many years of dates to export.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exportButton": "Export {count, plural, =1{1 date} other{{count} dates}}",
+  "@exportButton": {
+    "description": "Button: export the dates.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupHeading": "Backup",
+  "@backupHeading": {
+    "description": "Heading: backup and restore."
+  },
+  "backupHelp": "Your data stays on this device. Save a backup file to keep it safe or move it to another phone.",
+  "@backupHelp": {
+    "description": "Explanation of backups."
+  },
+  "saveBackup": "Save a backup",
+  "@saveBackup": {
+    "description": "Button: create and share a backup file."
+  },
+  "restoreBackup": "Restore from a backup",
+  "@restoreBackup": {
+    "description": "Button: pick a backup file and restore it."
+  },
+  "restoreTitle": "Replace your data?",
+  "@restoreTitle": {
+    "description": "Confirm dialog title before restoring."
+  },
+  "restoreBody": "Your people, events, reminders and settings are replaced by the backup: {people} people and {events} events.",
+  "@restoreBody": {
+    "description": "Confirm dialog text before restoring.",
+    "placeholders": {
+      "people": {
+        "type": "int"
+      },
+      "events": {
+        "type": "int"
+      }
+    }
+  },
+  "restoreAction": "Restore",
+  "@restoreAction": {
+    "description": "Button: confirm the restore."
+  },
+  "restoreDone": "Backup restored.",
+  "@restoreDone": {
+    "description": "Snackbar after a restore."
+  },
+  "restoreFailed": "That file is not a backup from this app.",
+  "@restoreFailed": {
+    "description": "Snackbar when the picked file can't be restored."
   }
 }
