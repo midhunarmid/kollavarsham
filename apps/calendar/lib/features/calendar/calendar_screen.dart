@@ -59,6 +59,19 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         title: Text(l10n.navCalendar),
         actions: [
           IconButton(
+            key: const Key('open-year'),
+            tooltip: l10n.yearView,
+            icon: const Icon(Icons.calendar_view_month_outlined),
+            onPressed: () async {
+              final month = await context.push<MalayalamDate>(AppRoutes.year,
+                  extra: _controller.displayedMonth ?? selected);
+              if (month != null && mounted) {
+                setState(() => _selected = month);
+                _controller.jumpTo(month);
+              }
+            },
+          ),
+          IconButton(
             key: const Key('open-agenda'),
             tooltip: l10n.agenda,
             icon: const Icon(Icons.view_agenda_outlined),

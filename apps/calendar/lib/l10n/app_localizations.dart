@@ -1267,6 +1267,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show'**
   String get categoriesHeading;
+
+  /// Festival detail: heading of the description.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get festivalAbout;
+
+  /// Festival detail: heading of the date rule.
+  ///
+  /// In en, this message translates to:
+  /// **'How the date is found'**
+  String get festivalRule;
+
+  /// Festival detail: where a holiday entry comes from.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {url}'**
+  String festivalSource(String url);
+
+  /// Shown when a festival link has no dates.
+  ///
+  /// In en, this message translates to:
+  /// **'This festival is not in the calendar.'**
+  String get festivalNotFound;
+
+  /// Button: share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// Text shared for a festival.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {date}\nMalayalam Calendar · calendar.armid.in'**
+  String shareFestivalText(String name, String date);
+
+  /// Button and title: the year view with twelve small months.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get yearView;
+
+  /// Tooltip: previous year.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous year'**
+  String get previousYear;
+
+  /// Tooltip: next year.
+  ///
+  /// In en, this message translates to:
+  /// **'Next year'**
+  String get nextYear;
 }
 
 class _AppLocalizationsDelegate

@@ -682,4 +682,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoriesHeading => 'Show';
+
+  @override
+  String get festivalAbout => 'About';
+
+  @override
+  String get festivalRule => 'How the date is found';
+
+  @override
+  String festivalSource(String url) {
+    return 'Source: $url';
+  }
+
+  @override
+  String get festivalNotFound => 'This festival is not in the calendar.';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String shareFestivalText(String name, String date) {
+    return '$name: $date\nMalayalam Calendar · calendar.armid.in';
+  }
+
+  @override
+  String get yearView => 'Year';
+
+  @override
+  String get previousYear => 'Previous year';
+
+  @override
+  String get nextYear => 'Next year';
 }

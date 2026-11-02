@@ -25,6 +25,7 @@ Every entry must have a **source URL**. If an entry cannot be sourced, it is not
 |---|---|---|---|
 | `date` | `YYYY-MM-DD` (Gregorian, Kerala local date) | yes | the holiday date |
 | `name` | string (English) | yes | name as the source gives it |
+| `name_ml` | string (Malayalam) | yes | Malayalam name, for the app and site; awaits the native-editor review (Day 24) |
 | `category` | `hindu`, `christian`, `muslim`, `national`, `government`, `bank` | yes | used by the category filters (C6) |
 | `kind` | `public`, `restricted`, `bank` | yes | `public` = listed as a public holiday; `restricted` = optional holiday chosen by employees; `bank` = bank-only closure |
 | `tentative` | boolean | yes | `true` when the date depends on the moon's appearance or an estimate |
@@ -32,7 +33,7 @@ Every entry must have a **source URL**. If an entry cannot be sourced, it is not
 | `sourceNote` | string | no | e.g. which GO number, or a date conflict |
 | `community` | string | no | for restricted holidays, the community named by the source |
 
-Malayalam names (`name_ml`) are not in these files yet. They are added with the festival descriptions (Day 14).
+Malayalam names (`name_ml`) were added with the festival descriptions (Day 14). The app shows the engine's own names for entries it merges with a computed festival.
 
 ## Rules
 

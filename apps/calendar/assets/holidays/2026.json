@@ -18,6 +18,7 @@
     {
       "date": "2026-01-02",
       "name": "Mannam Jayanthi",
+      "name_ml": "മന്നം ജയന്തി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -26,6 +27,7 @@
     {
       "date": "2026-01-26",
       "name": "Republic Day",
+      "name_ml": "റിപ്പബ്ലിക് ദിനം",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -34,6 +36,7 @@
     {
       "date": "2026-02-15",
       "name": "Maha Sivarathri",
+      "name_ml": "മഹാശിവരാത്രി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -43,6 +46,7 @@
     {
       "date": "2026-03-04",
       "name": "Ayya Vaikunda Swami Jayanthi",
+      "name_ml": "അയ്യാ വൈകുണ്ഠ സ്വാമി ജയന്തി",
       "category": "government",
       "kind": "restricted",
       "tentative": false,
@@ -52,6 +56,7 @@
     {
       "date": "2026-03-20",
       "name": "Id-ul Fitr (Ramzan)",
+      "name_ml": "ഈദുൽ ഫിത്ർ (റംസാൻ)",
       "category": "muslim",
       "kind": "public",
       "tentative": true,
@@ -61,6 +66,7 @@
     {
       "date": "2026-04-01",
       "name": "Annual closing of accounts (banks)",
+      "name_ml": "ബാങ്കുകളുടെ വാർഷിക കണക്കെടുപ്പ്",
       "category": "bank",
       "kind": "bank",
       "tentative": false,
@@ -70,6 +76,7 @@
     {
       "date": "2026-04-02",
       "name": "Maundy Thursday",
+      "name_ml": "പെസഹ വ്യാഴം",
       "category": "christian",
       "kind": "public",
       "tentative": false,
@@ -78,6 +85,7 @@
     {
       "date": "2026-04-03",
       "name": "Good Friday",
+      "name_ml": "ദുഃഖ വെള്ളി",
       "category": "christian",
       "kind": "public",
       "tentative": false,
@@ -86,6 +94,7 @@
     {
       "date": "2026-04-05",
       "name": "Easter",
+      "name_ml": "ഈസ്റ്റർ",
       "category": "christian",
       "kind": "public",
       "tentative": false,
@@ -95,6 +104,7 @@
     {
       "date": "2026-04-14",
       "name": "Dr BR Ambedkar Jayanthi",
+      "name_ml": "ഡോ. ബി.ആർ. അംബേദ്കർ ജയന്തി",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -103,6 +113,7 @@
     {
       "date": "2026-04-15",
       "name": "Vishu",
+      "name_ml": "വിഷു",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -111,6 +122,7 @@
     {
       "date": "2026-05-01",
       "name": "May Day",
+      "name_ml": "മേയ് ദിനം",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -119,6 +131,7 @@
     {
       "date": "2026-05-27",
       "name": "Id-ul Ad'ha (Bakrid)",
+      "name_ml": "ബക്രീദ്",
       "category": "muslim",
       "kind": "public",
       "tentative": true,
@@ -128,6 +141,7 @@
     {
       "date": "2026-06-25",
       "name": "Muharam",
+      "name_ml": "മുഹറം",
       "category": "muslim",
       "kind": "public",
       "tentative": true,
@@ -137,6 +151,7 @@
     {
       "date": "2026-08-12",
       "name": "Karkidaka Vavu",
+      "name_ml": "കർക്കടക വാവ്",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -145,6 +160,7 @@
     {
       "date": "2026-08-15",
       "name": "Independence Day",
+      "name_ml": "സ്വാതന്ത്ര്യ ദിനം",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -153,6 +169,7 @@
     {
       "date": "2026-08-25",
       "name": "First Onam",
+      "name_ml": "ഒന്നാം ഓണം",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -161,6 +178,7 @@
     {
       "date": "2026-08-25",
       "name": "Milad-i-Sherif",
+      "name_ml": "മിലാദ് ഇ ഷെരീഫ്",
       "category": "muslim",
       "kind": "public",
       "tentative": true,
@@ -170,6 +188,7 @@
     {
       "date": "2026-08-26",
       "name": "Thiruvonam",
+      "name_ml": "തിരുവോണം",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -178,6 +197,7 @@
     {
       "date": "2026-08-27",
       "name": "Third Onam",
+      "name_ml": "മൂന്നാം ഓണം",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -186,6 +206,7 @@
     {
       "date": "2026-08-28",
       "name": "Avani Avittom",
+      "name_ml": "ആവണി അവിട്ടം",
       "category": "hindu",
       "kind": "restricted",
       "tentative": false,
@@ -195,6 +216,7 @@
     {
       "date": "2026-08-28",
       "name": "Ayyankali Jayanthi",
+      "name_ml": "അയ്യങ്കാളി ജയന്തി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -204,6 +226,7 @@
     {
       "date": "2026-08-28",
       "name": "Fourth Onam",
+      "name_ml": "നാലാം ഓണം",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -212,6 +235,7 @@
     {
       "date": "2026-08-28",
       "name": "Sreenarayana Guru Jayanthi",
+      "name_ml": "ശ്രീനാരായണ ഗുരു ജയന്തി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -221,6 +245,7 @@
     {
       "date": "2026-09-04",
       "name": "Sreekrishna Jayanthi",
+      "name_ml": "ശ്രീകൃഷ്ണ ജയന്തി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -229,6 +254,7 @@
     {
       "date": "2026-09-17",
       "name": "Vishwakarma Day",
+      "name_ml": "വിശ്വകർമ്മ ദിനം",
       "category": "hindu",
       "kind": "restricted",
       "tentative": false,
@@ -238,6 +264,7 @@
     {
       "date": "2026-09-21",
       "name": "Sreenarayana Guru Samadhi",
+      "name_ml": "ശ്രീനാരായണ ഗുരു സമാധി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -246,6 +273,7 @@
     {
       "date": "2026-10-02",
       "name": "Gandhi Jayanthi",
+      "name_ml": "ഗാന്ധി ജയന്തി",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -254,6 +282,7 @@
     {
       "date": "2026-10-20",
       "name": "Mahanavami",
+      "name_ml": "മഹാനവമി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -263,6 +292,7 @@
     {
       "date": "2026-10-21",
       "name": "Vijayadasami",
+      "name_ml": "വിജയദശമി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -271,6 +301,7 @@
     {
       "date": "2026-11-08",
       "name": "Deepavali",
+      "name_ml": "ദീപാവലി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -280,6 +311,7 @@
     {
       "date": "2026-12-25",
       "name": "Christmas",
+      "name_ml": "ക്രിസ്മസ്",
       "category": "christian",
       "kind": "public",
       "tentative": false,

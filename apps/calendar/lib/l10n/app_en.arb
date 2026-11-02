@@ -929,5 +929,54 @@
   "categoriesHeading": "Show",
   "@categoriesHeading": {
     "description": "Heading of the festival category filter."
+  },
+  "festivalAbout": "About",
+  "@festivalAbout": {
+    "description": "Festival detail: heading of the description."
+  },
+  "festivalRule": "How the date is found",
+  "@festivalRule": {
+    "description": "Festival detail: heading of the date rule."
+  },
+  "festivalSource": "Source: {url}",
+  "@festivalSource": {
+    "description": "Festival detail: where a holiday entry comes from.",
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "festivalNotFound": "This festival is not in the calendar.",
+  "@festivalNotFound": {
+    "description": "Shown when a festival link has no dates."
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Button: share."
+  },
+  "shareFestivalText": "{name}: {date}\nMalayalam Calendar · calendar.armid.in",
+  "@shareFestivalText": {
+    "description": "Text shared for a festival.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "yearView": "Year",
+  "@yearView": {
+    "description": "Button and title: the year view with twelve small months."
+  },
+  "previousYear": "Previous year",
+  "@previousYear": {
+    "description": "Tooltip: previous year."
+  },
+  "nextYear": "Next year",
+  "@nextYear": {
+    "description": "Tooltip: next year."
   }
 }

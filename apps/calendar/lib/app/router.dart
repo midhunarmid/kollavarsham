@@ -1,11 +1,14 @@
 import 'package:go_router/go_router.dart';
+import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
 import '../features/agenda/agenda_screen.dart';
 import '../features/calendar/calendar_screen.dart';
+import '../features/calendar/year_screen.dart';
 import '../data/models.dart';
 import '../features/day/day_screen.dart';
 import '../features/events/event_editor.dart';
 import '../features/events/find_star_screen.dart';
+import '../features/festival/festival_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/people/people_screen.dart';
 import '../features/people/person_editor.dart';
@@ -23,6 +26,9 @@ abstract final class AppRoutes {
 
   /// Month calendar.
   static const calendar = '/calendar';
+
+  /// Year view, under the Calendar tab; pops with the month tapped.
+  static const year = '/calendar/year';
 
   /// Agenda, under the Calendar tab.
   static const agenda = '/calendar/agenda';
@@ -79,6 +85,15 @@ abstract final class AppRoutes {
 
   /// The editor path of the event with [id].
   static String editEventPath(int id) => '/event/$id/edit';
+
+  /// Festival detail; see [festivalPath].
+  static const festival = '/festival/:id';
+
+  /// The detail path of festival [id], showing its day on [date] if given.
+  static String festivalPath(String id, [DateTime? date]) => Uri(
+        path: '/festival/$id',
+        queryParameters: date == null ? null : {'date': _iso(date)},
+      ).toString();
 
   /// "Find my star"; pops with the BirthDetails taken.
   static const findStar = '/find-star';
@@ -142,6 +157,13 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
               EventEditor(eventId: int.parse(state.pathParameters['id']!)),
         ),
         GoRoute(
+          path: AppRoutes.festival,
+          builder: (_, state) => FestivalScreen(
+            id: state.pathParameters['id']!,
+            date: AppRoutes.parseDay(state.uri.queryParameters['date']),
+          ),
+        ),
+        GoRoute(
           path: AppRoutes.findStar,
           builder: (_, __) => const FindStarScreen(),
         ),
@@ -179,6 +201,13 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
                   GoRoute(
                     path: 'agenda',
                     builder: (_, __) => const AgendaScreen(),
+                  ),
+                  GoRoute(
+                    path: 'year',
+                    builder: (_, state) => YearScreen(
+                        initial: state.extra is MalayalamDate
+                            ? state.extra! as MalayalamDate
+                            : null),
                   ),
                 ],
               ),

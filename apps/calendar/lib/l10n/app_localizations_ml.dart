@@ -681,4 +681,35 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get categoriesHeading => 'കാണിക്കുക';
+
+  @override
+  String get festivalAbout => 'വിവരണം';
+
+  @override
+  String get festivalRule => 'തീയതി കണ്ടെത്തുന്ന വിധം';
+
+  @override
+  String festivalSource(String url) {
+    return 'ഉറവിടം: $url';
+  }
+
+  @override
+  String get festivalNotFound => 'ഈ വിശേഷം കലണ്ടറിൽ ഇല്ല.';
+
+  @override
+  String get share => 'പങ്കിടുക';
+
+  @override
+  String shareFestivalText(String name, String date) {
+    return '$name: $date\nമലയാളം കലണ്ടർ · calendar.armid.in';
+  }
+
+  @override
+  String get yearView => 'വർഷം';
+
+  @override
+  String get previousYear => 'മുൻ വർഷം';
+
+  @override
+  String get nextYear => 'അടുത്ത വർഷം';
 }

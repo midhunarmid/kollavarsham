@@ -86,3 +86,26 @@ final festivalIndexProvider = Provider<FestivalIndex>((ref) => FestivalIndex(
       ref.watch(holidaysProvider),
       ref.watch(settingsProvider.select((s) => s.categories)),
     ));
+
+/// The next [count] days of the festival with [id] after [after]
+/// (exclusive), looking up to [years] years ahead.
+List<FestivalDay> festivalDates(
+  String id,
+  MalayalamDate after,
+  HolidayData holidays, {
+  int count = 5,
+  int years = 12,
+}) {
+  final calendar = after.calendar;
+  final result = <FestivalDay>[];
+  var from = after.addDays(1);
+  for (var i = 0; i < years && result.length < count; i++) {
+    final to = from.addDays(365);
+    for (final f
+        in festivalDaysBetween(calendar, from, to, holidays: holidays)) {
+      if (f.id == id && result.length < count) result.add(f);
+    }
+    from = to.addDays(1);
+  }
+  return result;
+}

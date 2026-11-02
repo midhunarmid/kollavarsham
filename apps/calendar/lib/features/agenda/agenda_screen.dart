@@ -67,7 +67,6 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
           day: f,
           script: script,
           subtitlePrefix: dateText(f.date),
-          onTap: () => context.push(AppRoutes.dayPath(f.date.toGregorian())),
         ),
       ));
     }

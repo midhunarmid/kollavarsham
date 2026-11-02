@@ -17,6 +17,7 @@
     {
       "date": "2027-01-02",
       "name": "Mannam Jayanthi",
+      "name_ml": "മന്നം ജയന്തി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -26,6 +27,7 @@
     {
       "date": "2027-01-26",
       "name": "Republic Day",
+      "name_ml": "റിപ്പബ്ലിക് ദിനം",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -35,6 +37,7 @@
     {
       "date": "2027-03-06",
       "name": "Maha Sivarathri",
+      "name_ml": "മഹാശിവരാത്രി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -44,6 +47,7 @@
     {
       "date": "2027-03-10",
       "name": "Id-ul-Fitr",
+      "name_ml": "ഈദുൽ ഫിത്ർ",
       "category": "muslim",
       "kind": "public",
       "tentative": true,
@@ -53,6 +57,7 @@
     {
       "date": "2027-03-25",
       "name": "Maundy Thursday",
+      "name_ml": "പെസഹ വ്യാഴം",
       "category": "christian",
       "kind": "public",
       "tentative": false,
@@ -62,6 +67,7 @@
     {
       "date": "2027-03-26",
       "name": "Good Friday",
+      "name_ml": "ദുഃഖ വെള്ളി",
       "category": "christian",
       "kind": "public",
       "tentative": false,
@@ -71,6 +77,7 @@
     {
       "date": "2027-04-01",
       "name": "Annual closing of accounts (banks)",
+      "name_ml": "ബാങ്കുകളുടെ വാർഷിക കണക്കെടുപ്പ്",
       "category": "bank",
       "kind": "bank",
       "tentative": false,
@@ -80,6 +87,7 @@
     {
       "date": "2027-04-14",
       "name": "Dr BR Ambedkar Jayanthi",
+      "name_ml": "ഡോ. ബി.ആർ. അംബേദ്കർ ജയന്തി",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -89,6 +97,7 @@
     {
       "date": "2027-04-15",
       "name": "Vishu",
+      "name_ml": "വിഷു",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -98,6 +107,7 @@
     {
       "date": "2027-05-01",
       "name": "May Day",
+      "name_ml": "മേയ് ദിനം",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -107,6 +117,7 @@
     {
       "date": "2027-05-17",
       "name": "Id-ul-Ad'ha (Bakrid)",
+      "name_ml": "ബക്രീദ്",
       "category": "muslim",
       "kind": "public",
       "tentative": true,
@@ -116,6 +127,7 @@
     {
       "date": "2027-08-24",
       "name": "Sreekrishna Jayanthi",
+      "name_ml": "ശ്രീകൃഷ്ണ ജയന്തി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -125,6 +137,7 @@
     {
       "date": "2027-08-28",
       "name": "Ayyan Kali Jayanthi",
+      "name_ml": "അയ്യങ്കാളി ജയന്തി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -134,6 +147,7 @@
     {
       "date": "2027-09-15",
       "name": "Sree Narayana Guru Jayanthi",
+      "name_ml": "ശ്രീനാരായണ ഗുരു ജയന്തി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -143,6 +157,7 @@
     {
       "date": "2027-09-22",
       "name": "Sree Narayana Guru Samadhi",
+      "name_ml": "ശ്രീനാരായണ ഗുരു സമാധി",
       "category": "government",
       "kind": "public",
       "tentative": false,
@@ -152,6 +167,7 @@
     {
       "date": "2027-10-02",
       "name": "Gandhi Jayanthi",
+      "name_ml": "ഗാന്ധി ജയന്തി",
       "category": "national",
       "kind": "public",
       "tentative": false,
@@ -161,6 +177,7 @@
     {
       "date": "2027-10-28",
       "name": "Deepavali",
+      "name_ml": "ദീപാവലി",
       "category": "hindu",
       "kind": "public",
       "tentative": false,
@@ -170,6 +187,7 @@
     {
       "date": "2027-12-25",
       "name": "Christmas",
+      "name_ml": "ക്രിസ്മസ്",
       "category": "christian",
       "kind": "public",
       "tentative": false,

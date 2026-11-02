@@ -194,5 +194,14 @@
   "searchHint": "വിശേഷങ്ങളും ദിവസങ്ങളും തിരയുക",
   "agendaEmpty": "അടുത്ത ഒരു വർഷത്തിൽ ഒന്നും കണ്ടെത്തിയില്ല.",
   "yourEvents": "നിങ്ങളുടെ ദിവസങ്ങൾ",
-  "categoriesHeading": "കാണിക്കുക"
+  "categoriesHeading": "കാണിക്കുക",
+  "festivalAbout": "വിവരണം",
+  "festivalRule": "തീയതി കണ്ടെത്തുന്ന വിധം",
+  "festivalSource": "ഉറവിടം: {url}",
+  "festivalNotFound": "ഈ വിശേഷം കലണ്ടറിൽ ഇല്ല.",
+  "share": "പങ്കിടുക",
+  "shareFestivalText": "{name}: {date}\nമലയാളം കലണ്ടർ · calendar.armid.in",
+  "yearView": "വർഷം",
+  "previousYear": "മുൻ വർഷം",
+  "nextYear": "അടുത്ത വർഷം"
 }

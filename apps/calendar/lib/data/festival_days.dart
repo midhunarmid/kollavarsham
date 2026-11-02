@@ -47,6 +47,7 @@ class HolidayEntry {
     required this.kind,
     required this.tentative,
     required this.source,
+    this.nameMl,
     this.sourceNote,
   });
 
@@ -73,6 +74,7 @@ class HolidayEntry {
       kind: byName(HolidayKind.values, 'kind'),
       tentative: json['tentative'] == true,
       source: source,
+      nameMl: json['name_ml'] as String?,
       sourceNote: json['sourceNote'] as String?,
     );
   }
@@ -82,6 +84,12 @@ class HolidayEntry {
 
   /// English name as the source gives it.
   final String name;
+
+  /// Malayalam name, if the file has one.
+  final String? nameMl;
+
+  /// Stable id across years, e.g. `holiday.gandhijayanthi`.
+  String get id => 'holiday.${_normal(name)}';
 
   /// Category.
   final FestivalCategory category;
@@ -140,6 +148,7 @@ class HolidayData {
 class FestivalDay {
   /// Creates a festival day.
   const FestivalDay(
+    this.id,
     this.category,
     this.date,
     this.malayalam,
@@ -148,6 +157,10 @@ class FestivalDay {
     this.holiday,
     this.source,
   });
+
+  /// Stable id across years: `hindu.onam`, `christian.easter`,
+  /// `muslim.bakrid` or `holiday.<name>`.
+  final String id;
 
   /// Its category.
   final FestivalCategory category;
@@ -177,7 +190,7 @@ class FestivalDay {
 
   /// A copy marked as a holiday of [entry].
   FestivalDay withHoliday(HolidayEntry entry) =>
-      FestivalDay(category, date, malayalam, english,
+      FestivalDay(id, category, date, malayalam, english,
           tentative: tentative && entry.tentative,
           holiday: entry.kind,
           source: entry.source);
@@ -242,8 +255,8 @@ List<FestivalDay> festivalDaysBetween(
       for (final (f, d) in calendar.festivalsIn(y)) {
         // Atham can be listed under two years; keep each day once.
         if (!inRange(d) || !seen.add('${f.english}|${d.dayNumber}')) continue;
-        var day =
-            FestivalDay(FestivalCategory.hindu, d, f.malayalam, f.english);
+        var day = FestivalDay('hindu.${EnumName(f).name}',
+            FestivalCategory.hindu, d, f.malayalam, f.english);
         final aliases = _keralaAliases[f];
         for (final e in entries) {
           if (aliases != null &&
@@ -264,8 +277,8 @@ List<FestivalDay> festivalDaysBetween(
       for (final (f, g) in christianFeastsIn(y)) {
         final d = calendar.fromGregorian(g);
         if (!inRange(d)) continue;
-        var day =
-            FestivalDay(FestivalCategory.christian, d, f.malayalam, f.english);
+        var day = FestivalDay('christian.${EnumName(f).name}',
+            FestivalCategory.christian, d, f.malayalam, f.english);
         for (final e in entries) {
           if (e.category == FestivalCategory.christian &&
               calendar.fromGregorian(e.date).isAtSameDayAs(d) &&
@@ -292,7 +305,7 @@ List<FestivalDay> festivalDaysBetween(
         final d = calendar.fromGregorian(announced?.date ?? g);
         if (announced != null) used.add(announced);
         if (!inRange(d)) continue;
-        final day = FestivalDay(
+        final day = FestivalDay('muslim.${EnumName(f).name}',
             FestivalCategory.muslim, d, f.malayalam, f.english,
             tentative: true);
         days.add(announced == null ? day : day.withHoliday(announced));
@@ -305,7 +318,7 @@ List<FestivalDay> festivalDaysBetween(
     if (used.contains(e) || !categories.contains(e.category)) continue;
     final d = calendar.fromGregorian(e.date);
     if (!inRange(d)) continue;
-    days.add(FestivalDay(e.category, d, e.name, e.name,
+    days.add(FestivalDay(e.id, e.category, d, e.nameMl ?? e.name, e.name,
         tentative: e.tentative, holiday: e.kind, source: e.source));
   }
 

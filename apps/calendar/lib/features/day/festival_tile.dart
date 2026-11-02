@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
+import '../../app/router.dart';
 import '../../data/festival_days.dart';
 import '../../l10n/app_localizations.dart';
 import '../people/labels.dart';
@@ -25,6 +27,7 @@ class FestivalTile extends StatelessWidget {
     required this.script,
     this.subtitlePrefix,
     this.onTap,
+    this.interactive = true,
   });
 
   /// The festival day.
@@ -36,8 +39,11 @@ class FestivalTile extends StatelessWidget {
   /// Text before the category, e.g. the date.
   final String? subtitlePrefix;
 
-  /// Called when tapped.
+  /// Called when tapped; by default opens the festival's detail.
   final VoidCallback? onTap;
+
+  /// Whether the tile reacts to taps at all.
+  final bool interactive;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +63,11 @@ class FestivalTile extends StatelessWidget {
         if (day.tentative) l10n.tentativeDate,
       ].join(' · ')),
       subtitleTextStyle: theme.textTheme.bodySmall,
-      onTap: onTap,
+      onTap: !interactive
+          ? null
+          : onTap ??
+              () => context
+                  .push(AppRoutes.festivalPath(day.id, day.date.toGregorian())),
     );
   }
 }
