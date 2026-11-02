@@ -122,11 +122,15 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] People list, person editor (name, relation, colour, optional photo) and person detail.
   - The photo is left out: it needs `image_picker` and file storage, and adds little to a list of initials in colour. Events on the detail screen are listed only by type until Day 10's editor.
 
-### Day 10: Sprint 4b, events and pirannal (status: todo)
-- [ ] Event editor with presets: pirannal (star + Malayalam month), monthly nakshatram, Gregorian birthday, shraddham (tithi or star in a month), anniversary, custom (any recurrence); duplicate-rule picker with an explanation.
-- [ ] "Find my star" flow (birth date, time, place → `BirthDetails`) that pre-fills a pirannal.
-- [ ] Upcoming list with countdowns; person colours as markers on the calendar.
-- [ ] Widget tests: create "Midhun: Pooradam, Dhanu" and check the next 5 pirannals and 12 nakshatram days.
+### Day 10: Sprint 4b, events and pirannal (status: done)
+- [x] Event editor with presets: pirannal (star + Malayalam month), monthly nakshatram, Gregorian birthday, shraddham (tithi or star in a month), anniversary, custom (any recurrence); duplicate-rule picker with an explanation.
+  - Custom offers Malayalam date (yearly or monthly), English date (yearly) and tithi every paksha. Shraddham by star defaults to the first day (rules doc, R4 section); the rest to the second. A preview shows the next three dates. New events get a same-day 07:00 reminder; the reminder editor is Day 12. The absent-star rule (R2) keeps its default and has no picker.
+- [x] "Find my star" flow (birth date, time, place → `BirthDetails`) that pre-fills a pirannal.
+  - The place is the location in Settings; the screen says so. It fills the star, Malayalam month and birth year.
+- [x] Upcoming list with countdowns; person colours as markers on the calendar.
+  - Today lists the next 30 days of events; the person detail lists each event's next date. An `EventIndex` computes event days a Gregorian year at a time.
+- [x] Widget tests: create "Midhun: Pooradam, Dhanu" and check the next 5 pirannals and 12 nakshatram days.
+  - The checks are structural (each date in Dhanu of successive years, each a Pooradam day at sunrise + 6 nazhika, monthly gaps), not almanac values. The monthly rule gives both days when the star is read on two days running, so "12 nakshatram days" can be fewer than 12 lunar months.
 
 ### Day 11: Sprint 5a, reminder scheduler (status: todo)
 - [ ] Pure-Dart scheduler: from events and reminder settings, compute the notifications for the next 60 days, with stable IDs per (event, date, offset). Unit tests with a fake clock.
@@ -202,3 +206,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 7 | Five-tab go_router shell, persisted settings (language, name script, digits, 14 Kerala cities or manual location, year start, calendar mode, theme), three-step onboarding, ml/en strings with a parity test; 21 app tests pass, web build OK |
 | 2026-11-02 | Day 8 | Today panchangam summary and next festival, Day detail screen (/day/yyyy-mm-dd) with every span to the next sunrise, Calendar tab opens days, 12 Windows-only goldens; 44 app tests pass, web build OK |
 | 2026-11-02 | Day 9 | Versioned JSON database in shared_preferences (people, events, reminders; migrations; drift deferred, see Needs you), Riverpod repository with cascading deletes, People list, editor and detail; 57 app tests pass |
+| 2026-11-02 | Day 10 | Event editor with six presets and duplicate-rule picker, Find my star, upcoming events on Today and person detail, person-colour calendar markers; Midhun/Pooradam/Dhanu test; 63 app tests pass |
