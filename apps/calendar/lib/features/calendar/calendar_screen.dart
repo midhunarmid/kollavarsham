@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
+import '../../app/settings.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Calendar tab: a month view and the selected day's festivals.
-class CalendarScreen extends StatefulWidget {
+class CalendarScreen extends ConsumerStatefulWidget {
   /// Creates the Calendar screen.
   const CalendarScreen({super.key});
 
   @override
-  State<CalendarScreen> createState() => _CalendarScreenState();
+  ConsumerState<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   final _controller = MalayalamMonthViewController();
-  final _today = MalayalamDate.today();
-  late MalayalamDate _selected = _today;
+  MalayalamDate? _selected;
 
   @override
   void dispose() {
@@ -23,17 +24,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.dispose();
   }
 
-  void _goToToday() {
-    setState(() => _selected = _today);
-    _controller.jumpTo(_today);
+  void _goToToday(MalayalamDate today) {
+    setState(() => _selected = today);
+    _controller.jumpTo(today);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final script = resolveScript(context, null);
-    final festivals = KollavarshamCalendar.standard.festivalsOn(_selected);
+    final settings = ref.watch(settingsProvider);
+    final calendar = ref.watch(calendarProvider);
+    final script = resolveScript(context, settings.nameScript.script);
+    final today = MalayalamDate.today(calendar: calendar);
+    // Re-read the selection in the current calendar, which changes with
+    // the location and year-start settings.
+    final selected = MalayalamDate.fromGregorian(
+        (_selected ?? today).toGregorian(),
+        calendar: calendar);
+    final festivals = calendar.festivalsOn(selected);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +51,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           IconButton(
             tooltip: l10n.today,
             icon: const Icon(Icons.today),
-            onPressed: _goToToday,
+            onPressed: () => _goToToday(today),
           ),
         ],
       ),
@@ -53,17 +62,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
             padding: const EdgeInsets.all(16),
             children: [
               MalayalamMonthView(
+                // A new calendar or mode needs a fresh month page.
+                key: ValueKey((calendar, settings.calendarMode)),
                 controller: _controller,
-                initialMonth: _selected,
-                selectedDate: _selected,
+                calendar: calendar,
+                mode: settings.calendarMode,
+                script: script,
+                malayalamDigits: settings.malayalamDigits,
+                initialMonth: selected,
+                selectedDate: selected,
                 showNakshatra: true,
-                eventLoader: festivalEventLoader(),
+                eventLoader: festivalEventLoader(calendar),
                 onDateSelected: (d) => setState(() => _selected = d),
               ),
               const Divider(height: 32),
               MalayalamDateText(
-                date: _selected,
+                date: selected,
                 pattern: 'EEEE, d MMMM y',
+                script: script,
+                malayalamDigits: settings.malayalamDigits,
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 8),

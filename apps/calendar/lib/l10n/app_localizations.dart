@@ -217,6 +217,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
+
+  /// Settings: script for month, star and festival names.
+  ///
+  /// In en, this message translates to:
+  /// **'Names of months and stars'**
+  String get settingsNameScript;
+
+  /// Name script option: follow the interface language.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get nameScriptAuto;
+
+  /// Name script option: Malayalam script.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam'**
+  String get nameScriptMalayalam;
+
+  /// Name script option: English transliteration in Latin letters.
+  ///
+  /// In en, this message translates to:
+  /// **'Latin'**
+  String get nameScriptLatin;
+
+  /// Settings switch: write Malayalam dates with Malayalam digits.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam digits'**
+  String get settingsMalayalamDigits;
+
+  /// Help text under the Malayalam digits switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Write Malayalam dates as ൧൨൦൨ instead of 1202'**
+  String get settingsMalayalamDigitsHelp;
+
+  /// Settings: the place used for sunrise and month starts; also the title of the location picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get settingsLocation;
+
+  /// Help text under the location setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Used for sunrise, month starts and the panchangam'**
+  String get settingsLocationHelp;
+
+  /// Location picker option and dialog title: type latitude, longitude and time zone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter coordinates'**
+  String get locationManual;
+
+  /// Field label: latitude in degrees.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude (north +)'**
+  String get latitude;
+
+  /// Field label: longitude in degrees.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude (east +)'**
+  String get longitude;
+
+  /// Field label: time zone as hours ahead of UTC.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone (hours from UTC)'**
+  String get utcOffsetHours;
+
+  /// Examples under the time zone field.
+  ///
+  /// In en, this message translates to:
+  /// **'India 5.5, UAE 4, Saudi Arabia 3'**
+  String get utcOffsetHelp;
+
+  /// Validation error for latitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a latitude from −66 to 66'**
+  String get invalidLatitude;
+
+  /// Validation error for longitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a longitude from −180 to 180'**
+  String get invalidLongitude;
+
+  /// Validation error for the time zone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter hours from −12 to 14, in quarter hours'**
+  String get invalidUtcOffset;
+
+  /// Dialog button: close without saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Dialog button: save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Settings: which month starts the Kollavarsham year.
+  ///
+  /// In en, this message translates to:
+  /// **'Year starts in'**
+  String get settingsYearStart;
+
+  /// Help text under the year start setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Kanni is the North Malabar custom; it changes only the year number'**
+  String get settingsYearStartHelp;
+
+  /// Settings: whether the month calendar shows Malayalam or English months.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar opens with'**
+  String get settingsCalendarMode;
+
+  /// Calendar mode option: Chingam, Kanni…
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam months'**
+  String get calendarModeMalayalam;
+
+  /// Calendar mode option: January, February…
+  ///
+  /// In en, this message translates to:
+  /// **'English months'**
+  String get calendarModeGregorian;
 }
 
 class _AppLocalizationsDelegate

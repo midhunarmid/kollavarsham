@@ -69,4 +69,76 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get themeDark => 'ഡാർക്ക്';
+
+  @override
+  String get settingsNameScript => 'മാസങ്ങളുടെയും നക്ഷത്രങ്ങളുടെയും പേരുകൾ';
+
+  @override
+  String get nameScriptAuto => 'സ്വയം';
+
+  @override
+  String get nameScriptMalayalam => 'മലയാളം';
+
+  @override
+  String get nameScriptLatin => 'ലാറ്റിൻ';
+
+  @override
+  String get settingsMalayalamDigits => 'മലയാള അക്കങ്ങൾ';
+
+  @override
+  String get settingsMalayalamDigitsHelp =>
+      'മലയാളം തീയതികൾ 1202 എന്നതിനു പകരം ൧൨൦൨ എന്ന് എഴുതുക';
+
+  @override
+  String get settingsLocation => 'സ്ഥലം';
+
+  @override
+  String get settingsLocationHelp =>
+      'സൂര്യോദയം, മാസാരംഭം, പഞ്ചാംഗം എന്നിവയ്ക്ക്';
+
+  @override
+  String get locationManual => 'അക്ഷാംശവും രേഖാംശവും നൽകുക';
+
+  @override
+  String get latitude => 'അക്ഷാംശം (വടക്ക് +)';
+
+  @override
+  String get longitude => 'രേഖാംശം (കിഴക്ക് +)';
+
+  @override
+  String get utcOffsetHours => 'സമയമേഖല (UTC-യിൽ നിന്നുള്ള മണിക്കൂർ)';
+
+  @override
+  String get utcOffsetHelp => 'ഇന്ത്യ 5.5, യുഎഇ 4, സൗദി അറേബ്യ 3';
+
+  @override
+  String get invalidLatitude => '−66 മുതൽ 66 വരെയുള്ള അക്ഷാംശം നൽകുക';
+
+  @override
+  String get invalidLongitude => '−180 മുതൽ 180 വരെയുള്ള രേഖാംശം നൽകുക';
+
+  @override
+  String get invalidUtcOffset => '−12 മുതൽ 14 വരെ, കാൽ മണിക്കൂർ കണക്കിൽ നൽകുക';
+
+  @override
+  String get cancel => 'റദ്ദാക്കുക';
+
+  @override
+  String get save => 'സേവ് ചെയ്യുക';
+
+  @override
+  String get settingsYearStart => 'വർഷാരംഭം';
+
+  @override
+  String get settingsYearStartHelp =>
+      'കന്നി വടക്കേ മലബാറിലെ രീതിയാണ്; വർഷസംഖ്യ മാത്രമേ മാറൂ';
+
+  @override
+  String get settingsCalendarMode => 'കലണ്ടർ തുറക്കുമ്പോൾ';
+
+  @override
+  String get calendarModeMalayalam => 'മലയാള മാസങ്ങൾ';
+
+  @override
+  String get calendarModeGregorian => 'ഇംഗ്ലീഷ് മാസങ്ങൾ';
 }

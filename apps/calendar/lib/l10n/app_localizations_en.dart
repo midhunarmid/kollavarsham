@@ -69,4 +69,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeDark => 'Dark';
+
+  @override
+  String get settingsNameScript => 'Names of months and stars';
+
+  @override
+  String get nameScriptAuto => 'Auto';
+
+  @override
+  String get nameScriptMalayalam => 'Malayalam';
+
+  @override
+  String get nameScriptLatin => 'Latin';
+
+  @override
+  String get settingsMalayalamDigits => 'Malayalam digits';
+
+  @override
+  String get settingsMalayalamDigitsHelp =>
+      'Write Malayalam dates as ൧൨൦൨ instead of 1202';
+
+  @override
+  String get settingsLocation => 'Location';
+
+  @override
+  String get settingsLocationHelp =>
+      'Used for sunrise, month starts and the panchangam';
+
+  @override
+  String get locationManual => 'Enter coordinates';
+
+  @override
+  String get latitude => 'Latitude (north +)';
+
+  @override
+  String get longitude => 'Longitude (east +)';
+
+  @override
+  String get utcOffsetHours => 'Time zone (hours from UTC)';
+
+  @override
+  String get utcOffsetHelp => 'India 5.5, UAE 4, Saudi Arabia 3';
+
+  @override
+  String get invalidLatitude => 'Enter a latitude from −66 to 66';
+
+  @override
+  String get invalidLongitude => 'Enter a longitude from −180 to 180';
+
+  @override
+  String get invalidUtcOffset => 'Enter hours from −12 to 14, in quarter hours';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get settingsYearStart => 'Year starts in';
+
+  @override
+  String get settingsYearStartHelp =>
+      'Kanni is the North Malabar custom; it changes only the year number';
+
+  @override
+  String get settingsCalendarMode => 'Calendar opens with';
+
+  @override
+  String get calendarModeMalayalam => 'Malayalam months';
+
+  @override
+  String get calendarModeGregorian => 'English months';
 }

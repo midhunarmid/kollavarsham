@@ -79,5 +79,97 @@
   "themeDark": "Dark",
   "@themeDark": {
     "description": "Theme option: dark."
+  },
+  "settingsNameScript": "Names of months and stars",
+  "@settingsNameScript": {
+    "description": "Settings: script for month, star and festival names."
+  },
+  "nameScriptAuto": "Auto",
+  "@nameScriptAuto": {
+    "description": "Name script option: follow the interface language."
+  },
+  "nameScriptMalayalam": "Malayalam",
+  "@nameScriptMalayalam": {
+    "description": "Name script option: Malayalam script."
+  },
+  "nameScriptLatin": "Latin",
+  "@nameScriptLatin": {
+    "description": "Name script option: English transliteration in Latin letters."
+  },
+  "settingsMalayalamDigits": "Malayalam digits",
+  "@settingsMalayalamDigits": {
+    "description": "Settings switch: write Malayalam dates with Malayalam digits."
+  },
+  "settingsMalayalamDigitsHelp": "Write Malayalam dates as ൧൨൦൨ instead of 1202",
+  "@settingsMalayalamDigitsHelp": {
+    "description": "Help text under the Malayalam digits switch."
+  },
+  "settingsLocation": "Location",
+  "@settingsLocation": {
+    "description": "Settings: the place used for sunrise and month starts; also the title of the location picker."
+  },
+  "settingsLocationHelp": "Used for sunrise, month starts and the panchangam",
+  "@settingsLocationHelp": {
+    "description": "Help text under the location setting."
+  },
+  "locationManual": "Enter coordinates",
+  "@locationManual": {
+    "description": "Location picker option and dialog title: type latitude, longitude and time zone."
+  },
+  "latitude": "Latitude (north +)",
+  "@latitude": {
+    "description": "Field label: latitude in degrees."
+  },
+  "longitude": "Longitude (east +)",
+  "@longitude": {
+    "description": "Field label: longitude in degrees."
+  },
+  "utcOffsetHours": "Time zone (hours from UTC)",
+  "@utcOffsetHours": {
+    "description": "Field label: time zone as hours ahead of UTC."
+  },
+  "utcOffsetHelp": "India 5.5, UAE 4, Saudi Arabia 3",
+  "@utcOffsetHelp": {
+    "description": "Examples under the time zone field."
+  },
+  "invalidLatitude": "Enter a latitude from −66 to 66",
+  "@invalidLatitude": {
+    "description": "Validation error for latitude."
+  },
+  "invalidLongitude": "Enter a longitude from −180 to 180",
+  "@invalidLongitude": {
+    "description": "Validation error for longitude."
+  },
+  "invalidUtcOffset": "Enter hours from −12 to 14, in quarter hours",
+  "@invalidUtcOffset": {
+    "description": "Validation error for the time zone."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Dialog button: close without saving."
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Dialog button: save."
+  },
+  "settingsYearStart": "Year starts in",
+  "@settingsYearStart": {
+    "description": "Settings: which month starts the Kollavarsham year."
+  },
+  "settingsYearStartHelp": "Kanni is the North Malabar custom; it changes only the year number",
+  "@settingsYearStartHelp": {
+    "description": "Help text under the year start setting."
+  },
+  "settingsCalendarMode": "Calendar opens with",
+  "@settingsCalendarMode": {
+    "description": "Settings: whether the month calendar shows Malayalam or English months."
+  },
+  "calendarModeMalayalam": "Malayalam months",
+  "@calendarModeMalayalam": {
+    "description": "Calendar mode option: Chingam, Kanni…"
+  },
+  "calendarModeGregorian": "English months",
+  "@calendarModeGregorian": {
+    "description": "Calendar mode option: January, February…"
   }
 }

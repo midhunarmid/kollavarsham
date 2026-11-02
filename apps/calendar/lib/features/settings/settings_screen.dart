@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
 import '../../app/settings.dart';
 import '../../l10n/app_localizations.dart';
+import 'location_picker.dart';
 
 /// Settings tab.
 class SettingsScreen extends ConsumerWidget {
@@ -14,6 +16,10 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final settings = ref.watch(settingsProvider);
     final controller = ref.read(settingsProvider.notifier);
+    final script = resolveScript(context, settings.nameScript.script);
+    // Read the latest state so quick successive changes all apply.
+    void edit(AppSettings Function(AppSettings) change) =>
+        controller.update(change(ref.read(settingsProvider)));
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.navSettings)),
@@ -22,21 +28,85 @@ class SettingsScreen extends ConsumerWidget {
         children: [
           _Section(
             title: l10n.settingsLanguage,
-            child: SegmentedButton<AppLanguage>(
-              key: const Key('settings-language'),
+            child: LanguageChooser(
+              value: settings.language,
+              onChanged: (v) => edit((cur) => cur.copyWith(language: v)),
+            ),
+          ),
+          _Section(
+            title: l10n.settingsNameScript,
+            child: SegmentedButton<NameScript>(
+              key: const Key('settings-name-script'),
               segments: [
                 ButtonSegment(
-                    value: AppLanguage.system,
-                    label: Text(l10n.languageSystem)),
-                // Language names are shown in their own script.
-                const ButtonSegment(
-                    value: AppLanguage.malayalam, label: Text('മലയാളം')),
-                const ButtonSegment(
-                    value: AppLanguage.english, label: Text('English')),
+                    value: NameScript.auto, label: Text(l10n.nameScriptAuto)),
+                ButtonSegment(
+                    value: NameScript.malayalam,
+                    label: Text(l10n.nameScriptMalayalam)),
+                ButtonSegment(
+                    value: NameScript.english,
+                    label: Text(l10n.nameScriptLatin)),
               ],
-              selected: {settings.language},
+              selected: {settings.nameScript},
               onSelectionChanged: (s) =>
-                  controller.update(settings.copyWith(language: s.single)),
+                  edit((cur) => cur.copyWith(nameScript: s.single)),
+            ),
+          ),
+          SwitchListTile(
+            key: const Key('settings-digits'),
+            title: Text(l10n.settingsMalayalamDigits),
+            subtitle: Text(l10n.settingsMalayalamDigitsHelp),
+            value: settings.malayalamDigits,
+            onChanged: (v) => edit((cur) => cur.copyWith(malayalamDigits: v)),
+          ),
+          ListTile(
+            key: const Key('settings-location'),
+            title: Text(l10n.settingsLocation),
+            subtitle: Text('${locationLabel(settings.location, script)}\n'
+                '${l10n.settingsLocationHelp}'),
+            isThreeLine: true,
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () async {
+              final picked = await showLocationPicker(context,
+                  current: settings.location, script: script);
+              if (picked != null) {
+                edit((cur) => cur.copyWith(location: picked));
+              }
+            },
+          ),
+          _Section(
+            title: l10n.settingsYearStart,
+            help: l10n.settingsYearStartHelp,
+            child: SegmentedButton<YearStart>(
+              key: const Key('settings-year-start'),
+              segments: [
+                ButtonSegment(
+                    value: YearStart.chingam,
+                    label: Text(MalayalamMonth.chingam.name(script))),
+                ButtonSegment(
+                    value: YearStart.kanni,
+                    label: Text(MalayalamMonth.kanni.name(script))),
+              ],
+              selected: {settings.yearStart},
+              onSelectionChanged: (s) =>
+                  edit((cur) => cur.copyWith(yearStart: s.single)),
+            ),
+          ),
+          _Section(
+            title: l10n.settingsCalendarMode,
+            child: SegmentedButton<CalendarMode>(
+              key: const Key('settings-calendar-mode'),
+              segments: [
+                ButtonSegment(
+                    value: CalendarMode.malayalam,
+                    label: Text(l10n.calendarModeMalayalam)),
+                ButtonSegment(
+                    value: CalendarMode.gregorian,
+                    label: Text(l10n.calendarModeGregorian)),
+              ],
+              selected: {settings.calendarMode},
+              onSelectionChanged: (s) =>
+                  edit((cur) => cur.copyWith(calendarMode: s.single)),
             ),
           ),
           _Section(
@@ -53,7 +123,7 @@ class SettingsScreen extends ConsumerWidget {
               ],
               selected: {settings.themeMode},
               onSelectionChanged: (s) =>
-                  controller.update(settings.copyWith(themeMode: s.single)),
+                  edit((cur) => cur.copyWith(themeMode: s.single)),
             ),
           ),
         ],
@@ -62,22 +132,60 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
+/// Segmented buttons for the interface language; each language is named
+/// in its own script.
+class LanguageChooser extends StatelessWidget {
+  /// Creates a chooser showing [value].
+  const LanguageChooser(
+      {super.key, required this.value, required this.onChanged});
+
+  /// The selected language.
+  final AppLanguage value;
+
+  /// Called with the newly selected language.
+  final ValueChanged<AppLanguage> onChanged;
+
+  @override
+  Widget build(BuildContext context) => SegmentedButton<AppLanguage>(
+        key: const Key('settings-language'),
+        segments: [
+          ButtonSegment(
+              value: AppLanguage.system,
+              label: Text(AppLocalizations.of(context).languageSystem)),
+          const ButtonSegment(
+              value: AppLanguage.malayalam, label: Text('മലയാളം')),
+          const ButtonSegment(
+              value: AppLanguage.english, label: Text('English')),
+        ],
+        selected: {value},
+        onSelectionChanged: (s) => onChanged(s.single),
+      );
+}
+
 class _Section extends StatelessWidget {
-  const _Section({required this.title, required this.child});
+  const _Section({required this.title, required this.child, this.help});
 
   final String title;
   final Widget child;
+  final String? help;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleSmall),
-            const SizedBox(height: 8),
-            child,
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: theme.textTheme.titleSmall),
+          const SizedBox(height: 8),
+          child,
+          if (help != null) ...[
+            const SizedBox(height: 4),
+            Text(help!, style: theme.textTheme.bodySmall),
           ],
-        ),
-      );
+        ],
+      ),
+    );
+  }
 }

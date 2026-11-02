@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
+import '../../app/settings.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Today tab: today's Malayalam and Gregorian dates, star and festivals.
-class TodayScreen extends StatelessWidget {
+class TodayScreen extends ConsumerWidget {
   /// Creates the Today screen.
   const TodayScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final script = resolveScript(context, null);
-    final today = MalayalamDate.today();
-    final festivals = KollavarshamCalendar.standard.festivalsOn(today);
+    final settings = ref.watch(settingsProvider);
+    final calendar = ref.watch(calendarProvider);
+    final script = resolveScript(context, settings.nameScript.script);
+    final today = MalayalamDate.today(calendar: calendar);
+    final festivals = calendar.festivalsOn(today);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appTitle)),
@@ -37,6 +41,8 @@ class TodayScreen extends StatelessWidget {
                         key: const Key('today-date'),
                         date: today,
                         pattern: 'EEEE, d MMMM y',
+                        script: script,
+                        malayalamDigits: settings.malayalamDigits,
                         style: theme.textTheme.headlineSmall,
                       ),
                       Text(
