@@ -144,5 +144,16 @@
   "upcoming": "വരാനിരിക്കുന്നവ",
   "noUpcoming": "അടുത്ത 30 ദിവസത്തിൽ ഒന്നുമില്ല.",
   "personEvent": "{name} – {event}",
-  "pirannalAndEvents": "പിറന്നാളും മറ്റു ദിവസങ്ങളും"
+  "pirannalAndEvents": "പിറന്നാളും മറ്റു ദിവസങ്ങളും",
+  "notifyPirannal": "{name} – പിറന്നാൾ ({star})",
+  "notifyNakshatram": "{name} – നക്ഷത്രം ({star})",
+  "notifyBirthday": "{name} – ജന്മദിനം",
+  "notifyShraddham": "{name} – ശ്രാദ്ധം",
+  "notifyAnniversary": "{name} – വാർഷികം",
+  "notifyWhen": "{count, plural, =0{ഇന്ന്} =1{നാളെ} other{{count} ദിവസം കഴിഞ്ഞ്}}, {date}",
+  "notifyAge": "{age} വയസ്സ്",
+  "notifyYears": "{age} വർഷം",
+  "notifyMonthStart": "നാളെ {month} 1",
+  "notifyYearStart": "നാളെ {month} 1: പുതുവർഷം {year}",
+  "notifyMonthStartBody": "സംക്രമം {time}-ന്"
 }

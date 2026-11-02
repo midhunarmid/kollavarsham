@@ -644,5 +644,116 @@
   "pirannalAndEvents": "Pirannal and events",
   "@pirannalAndEvents": {
     "description": "Today tab: heading of upcoming personal events."
+  },
+  "notifyPirannal": "{name}'s pirannal ({star})",
+  "@notifyPirannal": {
+    "description": "Reminder title for a star birthday. {star} is the nakshatra.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "star": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyNakshatram": "{name}'s nakshatram ({star})",
+  "@notifyNakshatram": {
+    "description": "Reminder title for the monthly birth star day.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "star": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyBirthday": "{name}'s birthday",
+  "@notifyBirthday": {
+    "description": "Reminder title for a Gregorian birthday.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyShraddham": "{name}'s shraddham",
+  "@notifyShraddham": {
+    "description": "Reminder title for a death anniversary.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyAnniversary": "{name}'s anniversary",
+  "@notifyAnniversary": {
+    "description": "Reminder title for an anniversary.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyWhen": "{count, plural, =0{Today} =1{Tomorrow} other{In {count} days}}, {date}",
+  "@notifyWhen": {
+    "description": "Reminder text: when the day is, and its date ({date}, e.g. '14 Dhanu').",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyAge": "turns {age}",
+  "@notifyAge": {
+    "description": "Added to a birthday reminder when the birth year is known.",
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyYears": "{age} years",
+  "@notifyYears": {
+    "description": "Added to an anniversary reminder when the year is known.",
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyMonthStart": "{month} 1 tomorrow",
+  "@notifyMonthStart": {
+    "description": "Reminder the day before a Malayalam month starts. {month} is e.g. Thulam.",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyYearStart": "{month} 1 tomorrow: Malayalam New Year {year}",
+  "@notifyYearStart": {
+    "description": "Reminder the day before the Kollavarsham year starts, e.g. 'Chingam 1 tomorrow: Malayalam New Year 1202'.",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyMonthStartBody": "Sankranti at {time}",
+  "@notifyMonthStartBody": {
+    "description": "Text of a month start reminder: the time of the sun's entry into the sign.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -486,4 +486,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pirannalAndEvents => 'Pirannal and events';
+
+  @override
+  String notifyPirannal(String name, String star) {
+    return '$name\'s pirannal ($star)';
+  }
+
+  @override
+  String notifyNakshatram(String name, String star) {
+    return '$name\'s nakshatram ($star)';
+  }
+
+  @override
+  String notifyBirthday(String name) {
+    return '$name\'s birthday';
+  }
+
+  @override
+  String notifyShraddham(String name) {
+    return '$name\'s shraddham';
+  }
+
+  @override
+  String notifyAnniversary(String name) {
+    return '$name\'s anniversary';
+  }
+
+  @override
+  String notifyWhen(int count, String date) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'In $count days',
+      one: 'Tomorrow',
+      zero: 'Today',
+    );
+    return '$_temp0, $date';
+  }
+
+  @override
+  String notifyAge(int age) {
+    return 'turns $age';
+  }
+
+  @override
+  String notifyYears(int age) {
+    return '$age years';
+  }
+
+  @override
+  String notifyMonthStart(String month) {
+    return '$month 1 tomorrow';
+  }
+
+  @override
+  String notifyYearStart(String month, String year) {
+    return '$month 1 tomorrow: Malayalam New Year $year';
+  }
+
+  @override
+  String notifyMonthStartBody(String time) {
+    return 'Sankranti at $time';
+  }
 }

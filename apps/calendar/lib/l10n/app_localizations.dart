@@ -967,6 +967,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pirannal and events'**
   String get pirannalAndEvents;
+
+  /// Reminder title for a star birthday. {star} is the nakshatra.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s pirannal ({star})'**
+  String notifyPirannal(String name, String star);
+
+  /// Reminder title for the monthly birth star day.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s nakshatram ({star})'**
+  String notifyNakshatram(String name, String star);
+
+  /// Reminder title for a Gregorian birthday.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s birthday'**
+  String notifyBirthday(String name);
+
+  /// Reminder title for a death anniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s shraddham'**
+  String notifyShraddham(String name);
+
+  /// Reminder title for an anniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s anniversary'**
+  String notifyAnniversary(String name);
+
+  /// Reminder text: when the day is, and its date ({date}, e.g. '14 Dhanu').
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Today} =1{Tomorrow} other{In {count} days}}, {date}'**
+  String notifyWhen(int count, String date);
+
+  /// Added to a birthday reminder when the birth year is known.
+  ///
+  /// In en, this message translates to:
+  /// **'turns {age}'**
+  String notifyAge(int age);
+
+  /// Added to an anniversary reminder when the year is known.
+  ///
+  /// In en, this message translates to:
+  /// **'{age} years'**
+  String notifyYears(int age);
+
+  /// Reminder the day before a Malayalam month starts. {month} is e.g. Thulam.
+  ///
+  /// In en, this message translates to:
+  /// **'{month} 1 tomorrow'**
+  String notifyMonthStart(String month);
+
+  /// Reminder the day before the Kollavarsham year starts, e.g. 'Chingam 1 tomorrow: Malayalam New Year 1202'.
+  ///
+  /// In en, this message translates to:
+  /// **'{month} 1 tomorrow: Malayalam New Year {year}'**
+  String notifyYearStart(String month, String year);
+
+  /// Text of a month start reminder: the time of the sun's entry into the sign.
+  ///
+  /// In en, this message translates to:
+  /// **'Sankranti at {time}'**
+  String notifyMonthStartBody(String time);
 }
 
 class _AppLocalizationsDelegate
