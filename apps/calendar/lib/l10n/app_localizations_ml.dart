@@ -194,4 +194,84 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get getStarted => 'തുടങ്ങാം';
+
+  @override
+  String get panchangam => 'പഞ്ചാംഗം';
+
+  @override
+  String get nakshatra => 'നക്ഷത്രം';
+
+  @override
+  String get tithi => 'തിഥി';
+
+  @override
+  String get paksha => 'പക്ഷം';
+
+  @override
+  String get yoga => 'യോഗം';
+
+  @override
+  String get karana => 'കരണം';
+
+  @override
+  String get sunrise => 'സൂര്യോദയം';
+
+  @override
+  String get sunset => 'സൂര്യാസ്തമയം';
+
+  @override
+  String get moonrise => 'ചന്ദ്രോദയം';
+
+  @override
+  String get moonset => 'ചന്ദ്രാസ്തമയം';
+
+  @override
+  String get noTime => 'ഇല്ല';
+
+  @override
+  String untilTime(String name, String time) {
+    return '$name $time വരെ';
+  }
+
+  @override
+  String timeNextDay(String time) {
+    return '$time (പിറ്റേന്ന്)';
+  }
+
+  @override
+  String timeRange(String start, String end) {
+    return '$start–$end';
+  }
+
+  @override
+  String get nextFestival => 'അടുത്ത വിശേഷം';
+
+  @override
+  String inDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ദിവസം കഴിഞ്ഞ്',
+      one: 'നാളെ',
+      zero: 'ഇന്ന്',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dayDetails => 'ദിവസ വിവരങ്ങൾ';
+
+  @override
+  String get previousDay => 'മുൻ ദിവസം';
+
+  @override
+  String get nextDay => 'അടുത്ത ദിവസം';
+
+  @override
+  String get monthStartClose =>
+      'സംക്രമം അതിർത്തി സമയത്തോട് വളരെ അടുത്തായതിനാൽ ചില പഞ്ചാംഗങ്ങളിൽ മാസാരംഭം മറ്റൊരു ദിവസമാകാം.';
+
+  @override
+  String get timesForLocation =>
+      'സമയങ്ങൾ ക്രമീകരണങ്ങളിൽ തിരഞ്ഞെടുത്ത സ്ഥലത്തേതാണ്.';
 }

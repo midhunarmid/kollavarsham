@@ -1,4 +1,5 @@
 import 'package:calendar/app/app.dart';
+import 'package:calendar/app/clock.dart';
 import 'package:calendar/app/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,14 +26,19 @@ Future<SharedPreferences> testPrefs([AppSettings? settings]) async {
 }
 
 /// Pumps the whole app on a tall phone-sized surface; returns its
-/// preferences.
+/// preferences. With [now], the app's clock is fixed at that instant.
 Future<SharedPreferences> pumpApp(WidgetTester tester,
-    {AppSettings? settings = doneSettings}) async {
-  await tester.binding.setSurfaceSize(const Size(480, 1400));
+    {AppSettings? settings = doneSettings,
+    DateTime? now,
+    Size size = const Size(480, 1400)}) async {
+  await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
   final prefs = await testPrefs(settings);
   await tester.pumpWidget(ProviderScope(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(prefs),
+      if (now != null) clockProvider.overrideWithValue(() => now),
+    ],
     child: const CalendarApp(),
   ));
   await tester.pumpAndSettle();

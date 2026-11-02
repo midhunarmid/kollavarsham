@@ -195,4 +195,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get getStarted => 'Get started';
+
+  @override
+  String get panchangam => 'Panchangam';
+
+  @override
+  String get nakshatra => 'Star';
+
+  @override
+  String get tithi => 'Tithi';
+
+  @override
+  String get paksha => 'Paksha';
+
+  @override
+  String get yoga => 'Yoga';
+
+  @override
+  String get karana => 'Karana';
+
+  @override
+  String get sunrise => 'Sunrise';
+
+  @override
+  String get sunset => 'Sunset';
+
+  @override
+  String get moonrise => 'Moonrise';
+
+  @override
+  String get moonset => 'Moonset';
+
+  @override
+  String get noTime => 'None';
+
+  @override
+  String untilTime(String name, String time) {
+    return '$name until $time';
+  }
+
+  @override
+  String timeNextDay(String time) {
+    return '$time (next day)';
+  }
+
+  @override
+  String timeRange(String start, String end) {
+    return '$start–$end';
+  }
+
+  @override
+  String get nextFestival => 'Next festival';
+
+  @override
+  String inDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count days',
+      one: 'tomorrow',
+      zero: 'today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dayDetails => 'Day details';
+
+  @override
+  String get previousDay => 'Previous day';
+
+  @override
+  String get nextDay => 'Next day';
+
+  @override
+  String get monthStartClose =>
+      'The month starts within minutes of the cut-off, so some almanacs may give a different first day.';
+
+  @override
+  String get timesForLocation =>
+      'Times are for the location chosen in Settings.';
 }

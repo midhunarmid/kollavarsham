@@ -239,5 +239,115 @@
   "getStarted": "Get started",
   "@getStarted": {
     "description": "Onboarding button on the last page: finish and open the app."
+  },
+  "panchangam": "Panchangam",
+  "@panchangam": {
+    "description": "Heading of the day's almanac details (star, tithi, sunrise, kalams)."
+  },
+  "nakshatra": "Star",
+  "@nakshatra": {
+    "description": "Panchangam row: the nakshatra (lunar mansion) of the day."
+  },
+  "tithi": "Tithi",
+  "@tithi": {
+    "description": "Panchangam row: the lunar day."
+  },
+  "paksha": "Paksha",
+  "@paksha": {
+    "description": "Panchangam row: waxing or waning fortnight."
+  },
+  "yoga": "Yoga",
+  "@yoga": {
+    "description": "Panchangam row: the yoga of the day."
+  },
+  "karana": "Karana",
+  "@karana": {
+    "description": "Panchangam row: the karana (half tithi)."
+  },
+  "sunrise": "Sunrise",
+  "@sunrise": {
+    "description": "Panchangam row: time of sunrise."
+  },
+  "sunset": "Sunset",
+  "@sunset": {
+    "description": "Panchangam row: time of sunset."
+  },
+  "moonrise": "Moonrise",
+  "@moonrise": {
+    "description": "Panchangam row: time of moonrise."
+  },
+  "moonset": "Moonset",
+  "@moonset": {
+    "description": "Panchangam row: time of moonset."
+  },
+  "noTime": "None",
+  "@noTime": {
+    "description": "Shown instead of a time when the event (e.g. moonrise) does not happen that day."
+  },
+  "untilTime": "{name} until {time}",
+  "@untilTime": {
+    "description": "A star, tithi etc. and the time it ends, e.g. 'Pooradam until 14:20'.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "timeNextDay": "{time} (next day)",
+  "@timeNextDay": {
+    "description": "A time that falls on the following calendar day.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "timeRange": "{start}–{end}",
+  "@timeRange": {
+    "description": "A time range, e.g. Rahu kalam 13:30–15:00.",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "nextFestival": "Next festival",
+  "@nextFestival": {
+    "description": "Heading on the Today tab for the next upcoming festival."
+  },
+  "inDays": "{count, plural, =0{today} =1{tomorrow} other{in {count} days}}",
+  "@inDays": {
+    "description": "Countdown to a date.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dayDetails": "Day details",
+  "@dayDetails": {
+    "description": "Button and title for the full panchangam of a day."
+  },
+  "previousDay": "Previous day",
+  "@previousDay": {
+    "description": "Tooltip: go to the previous day."
+  },
+  "nextDay": "Next day",
+  "@nextDay": {
+    "description": "Tooltip: go to the next day."
+  },
+  "monthStartClose": "The month starts within minutes of the cut-off, so some almanacs may give a different first day.",
+  "@monthStartClose": {
+    "description": "Note on a month's first day when the sankranti is close to the cut-off time."
+  },
+  "timesForLocation": "Times are for the location chosen in Settings.",
+  "@timesForLocation": {
+    "description": "Footnote under the panchangam times."
   }
 }

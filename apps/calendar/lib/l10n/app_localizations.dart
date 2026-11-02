@@ -445,6 +445,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get started'**
   String get getStarted;
+
+  /// Heading of the day's almanac details (star, tithi, sunrise, kalams).
+  ///
+  /// In en, this message translates to:
+  /// **'Panchangam'**
+  String get panchangam;
+
+  /// Panchangam row: the nakshatra (lunar mansion) of the day.
+  ///
+  /// In en, this message translates to:
+  /// **'Star'**
+  String get nakshatra;
+
+  /// Panchangam row: the lunar day.
+  ///
+  /// In en, this message translates to:
+  /// **'Tithi'**
+  String get tithi;
+
+  /// Panchangam row: waxing or waning fortnight.
+  ///
+  /// In en, this message translates to:
+  /// **'Paksha'**
+  String get paksha;
+
+  /// Panchangam row: the yoga of the day.
+  ///
+  /// In en, this message translates to:
+  /// **'Yoga'**
+  String get yoga;
+
+  /// Panchangam row: the karana (half tithi).
+  ///
+  /// In en, this message translates to:
+  /// **'Karana'**
+  String get karana;
+
+  /// Panchangam row: time of sunrise.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise'**
+  String get sunrise;
+
+  /// Panchangam row: time of sunset.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunset'**
+  String get sunset;
+
+  /// Panchangam row: time of moonrise.
+  ///
+  /// In en, this message translates to:
+  /// **'Moonrise'**
+  String get moonrise;
+
+  /// Panchangam row: time of moonset.
+  ///
+  /// In en, this message translates to:
+  /// **'Moonset'**
+  String get moonset;
+
+  /// Shown instead of a time when the event (e.g. moonrise) does not happen that day.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get noTime;
+
+  /// A star, tithi etc. and the time it ends, e.g. 'Pooradam until 14:20'.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} until {time}'**
+  String untilTime(String name, String time);
+
+  /// A time that falls on the following calendar day.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} (next day)'**
+  String timeNextDay(String time);
+
+  /// A time range, e.g. Rahu kalam 13:30–15:00.
+  ///
+  /// In en, this message translates to:
+  /// **'{start}–{end}'**
+  String timeRange(String start, String end);
+
+  /// Heading on the Today tab for the next upcoming festival.
+  ///
+  /// In en, this message translates to:
+  /// **'Next festival'**
+  String get nextFestival;
+
+  /// Countdown to a date.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{today} =1{tomorrow} other{in {count} days}}'**
+  String inDays(int count);
+
+  /// Button and title for the full panchangam of a day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day details'**
+  String get dayDetails;
+
+  /// Tooltip: go to the previous day.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous day'**
+  String get previousDay;
+
+  /// Tooltip: go to the next day.
+  ///
+  /// In en, this message translates to:
+  /// **'Next day'**
+  String get nextDay;
+
+  /// Note on a month's first day when the sankranti is close to the cut-off time.
+  ///
+  /// In en, this message translates to:
+  /// **'The month starts within minutes of the cut-off, so some almanacs may give a different first day.'**
+  String get monthStartClose;
+
+  /// Footnote under the panchangam times.
+  ///
+  /// In en, this message translates to:
+  /// **'Times are for the location chosen in Settings.'**
+  String get timesForLocation;
 }
 
 class _AppLocalizationsDelegate
