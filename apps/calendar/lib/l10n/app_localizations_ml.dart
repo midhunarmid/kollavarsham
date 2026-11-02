@@ -548,4 +548,101 @@ class AppLocalizationsMl extends AppLocalizations {
   String notifyMonthStartBody(String time) {
     return 'സംക്രമം $time-ന്';
   }
+
+  @override
+  String notifyFestival(String name) {
+    return 'നാളെ $name';
+  }
+
+  @override
+  String notifyDailyBody(String star, String tithi) {
+    return 'നക്ഷത്രം $star · തിഥി $tithi';
+  }
+
+  @override
+  String get channelEvents => 'പിറന്നാളും വ്യക്തിപരമായ ഓർമ്മപ്പെടുത്തലുകളും';
+
+  @override
+  String get channelCalendar => 'മാസാരംഭവും വിശേഷങ്ങളും';
+
+  @override
+  String get channelDaily => 'ദിവസേനയുള്ള പഞ്ചാംഗം';
+
+  @override
+  String get actionOpen => 'തുറക്കുക';
+
+  @override
+  String get actionSnooze => '1 മണിക്കൂർ കഴിഞ്ഞ് ഓർമ്മിപ്പിക്കുക';
+
+  @override
+  String get settingsReminders => 'ഓർമ്മപ്പെടുത്തലുകൾ';
+
+  @override
+  String get settingsRemindersHelp =>
+      'പിറന്നാൾ, വിശേഷങ്ങൾ, മാസാരംഭം, ദിവസേനയുള്ള പഞ്ചാംഗം';
+
+  @override
+  String get remindersEnabled => 'അറിയിപ്പുകൾ';
+
+  @override
+  String get remindersNotifyFor => 'ഇവ ഓർമ്മിപ്പിക്കുക';
+
+  @override
+  String get remindersMonthStarts => 'എല്ലാ മാസാരംഭവും';
+
+  @override
+  String get remindersYearStart => 'മലയാള പുതുവർഷം';
+
+  @override
+  String get remindersEveningTime => 'തലേന്നത്തെ ഓർമ്മപ്പെടുത്തൽ സമയം';
+
+  @override
+  String get remindersFestivals => 'വിശേഷങ്ങൾ, തലേന്ന്';
+
+  @override
+  String get categoryHindu => 'ഹിന്ദു';
+
+  @override
+  String get categoryChristian => 'ക്രിസ്ത്യൻ';
+
+  @override
+  String get categoryMuslim => 'മുസ്ലിം';
+
+  @override
+  String get muslimTentative =>
+      'ചന്ദ്രനെ കാണുന്നതുവരെ മുസ്ലിം വിശേഷ തീയതികൾ താൽക്കാലികമാണ്.';
+
+  @override
+  String get remindersDaily => 'ദിവസേനയുള്ള പഞ്ചാംഗം';
+
+  @override
+  String get remindersDailyTime => 'പഞ്ചാംഗം അറിയിക്കുന്ന സമയം';
+
+  @override
+  String get remindersPermission => 'അറിയിപ്പുകൾ അനുവദിക്കുക';
+
+  @override
+  String get remindersExact => 'കൃത്യ സമയം';
+
+  @override
+  String get remindersExactOn => 'ഓർമ്മപ്പെടുത്തലുകൾ കൃത്യസമയത്ത് വരും.';
+
+  @override
+  String get remindersExactOff =>
+      'ഓർമ്മപ്പെടുത്തലുകൾ കുറച്ചു മിനിറ്റ് വൈകിയേക്കാം. കൃത്യസമയം അനുവദിക്കാൻ തൊടുക.';
+
+  @override
+  String remindersScheduled(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'അടുത്ത 60 ദിവസത്തിൽ $count ഓർമ്മപ്പെടുത്തലുകൾ',
+      zero: 'അടുത്ത 60 ദിവസത്തിൽ ഓർമ്മപ്പെടുത്തലുകളില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get remindersWeb =>
+      'ബ്രൗസറിൽ ഓർമ്മപ്പെടുത്തലുകൾ \'ഇന്ന്\' ടാബിൽ കാണാം. അറിയിപ്പുകൾ ആൻഡ്രോയിഡ് ആപ്പിലാണ്.';
 }

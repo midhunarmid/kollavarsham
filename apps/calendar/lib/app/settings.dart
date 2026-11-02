@@ -237,13 +237,19 @@ final settingsProvider = NotifierProvider<SettingsController, AppSettings>(
   SettingsController.new,
 );
 
-/// The calendar for the chosen location and year start.
-final calendarProvider = Provider<KollavarshamCalendar>((ref) {
-  final (location, yearStart) =
-      ref.watch(settingsProvider.select((s) => (s.location, s.yearStart)));
+/// The calendar for a [location] and [yearStart].
+KollavarshamCalendar calendarFor(
+    ObserverLocation location, YearStart yearStart) {
   if (location == ObserverLocation.thiruvananthapuram &&
       yearStart == YearStart.chingam) {
     return KollavarshamCalendar.standard;
   }
   return KollavarshamCalendar(location: location, yearStart: yearStart);
+}
+
+/// The calendar for the chosen location and year start.
+final calendarProvider = Provider<KollavarshamCalendar>((ref) {
+  final (location, yearStart) =
+      ref.watch(settingsProvider.select((s) => (s.location, s.yearStart)));
+  return calendarFor(location, yearStart);
 });

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
+import '../reminders/reminder_service.dart';
 import 'router.dart';
 import 'settings.dart';
 import 'theme.dart';
@@ -22,7 +23,26 @@ class _CalendarAppState extends ConsumerState<CalendarApp> {
       needsOnboarding: () => !ref.read(settingsProvider).onboardingDone);
 
   @override
+  void initState() {
+    super.initState();
+    // Keep the system's notifications in step with events and settings.
+    ref.read(reminderSyncProvider);
+    notificationRoute.addListener(_openNotification);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _openNotification());
+  }
+
+  void _openNotification() {
+    final route = notificationRoute.value;
+    if (route == null || ref.read(settingsProvider).onboardingDone == false) {
+      return;
+    }
+    notificationRoute.value = null;
+    _router.push(route);
+  }
+
+  @override
   void dispose() {
+    notificationRoute.removeListener(_openNotification);
     _router.dispose();
     super.dispose();
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
+import '../../app/router.dart';
 import '../../app/settings.dart';
 import '../../l10n/app_localizations.dart';
 import 'location_picker.dart';
@@ -26,6 +28,14 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
+          ListTile(
+            key: const Key('settings-reminders'),
+            leading: const Icon(Icons.notifications_outlined),
+            title: Text(l10n.settingsReminders),
+            subtitle: Text(l10n.settingsRemindersHelp),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(AppRoutes.reminders),
+          ),
           _Section(
             title: l10n.settingsLanguage,
             child: LanguageChooser(

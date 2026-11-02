@@ -548,4 +548,102 @@ class AppLocalizationsEn extends AppLocalizations {
   String notifyMonthStartBody(String time) {
     return 'Sankranti at $time';
   }
+
+  @override
+  String notifyFestival(String name) {
+    return '$name tomorrow';
+  }
+
+  @override
+  String notifyDailyBody(String star, String tithi) {
+    return 'Star $star · Tithi $tithi';
+  }
+
+  @override
+  String get channelEvents => 'Pirannal and personal reminders';
+
+  @override
+  String get channelCalendar => 'Month starts and festivals';
+
+  @override
+  String get channelDaily => 'Daily panchangam';
+
+  @override
+  String get actionOpen => 'Open';
+
+  @override
+  String get actionSnooze => 'Remind in 1 hour';
+
+  @override
+  String get settingsReminders => 'Reminders';
+
+  @override
+  String get settingsRemindersHelp =>
+      'Pirannal, festivals, month starts and the daily panchangam';
+
+  @override
+  String get remindersEnabled => 'Notifications';
+
+  @override
+  String get remindersNotifyFor => 'Remind me of';
+
+  @override
+  String get remindersMonthStarts => 'Every month start';
+
+  @override
+  String get remindersYearStart => 'Malayalam New Year';
+
+  @override
+  String get remindersEveningTime => 'Evening-before reminders at';
+
+  @override
+  String get remindersFestivals => 'Festivals, the evening before';
+
+  @override
+  String get categoryHindu => 'Hindu';
+
+  @override
+  String get categoryChristian => 'Christian';
+
+  @override
+  String get categoryMuslim => 'Muslim';
+
+  @override
+  String get muslimTentative =>
+      'Muslim festival dates are tentative until the moon is sighted.';
+
+  @override
+  String get remindersDaily => 'Daily panchangam';
+
+  @override
+  String get remindersDailyTime => 'Daily panchangam at';
+
+  @override
+  String get remindersPermission => 'Allow notifications';
+
+  @override
+  String get remindersExact => 'Exact times';
+
+  @override
+  String get remindersExactOn => 'Reminders arrive on time.';
+
+  @override
+  String get remindersExactOff =>
+      'Android may deliver reminders a few minutes late. Tap to allow exact times.';
+
+  @override
+  String remindersScheduled(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminders in the next 60 days',
+      one: '1 reminder in the next 60 days',
+      zero: 'No reminders in the next 60 days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get remindersWeb =>
+      'In the browser, reminders show in the Today tab. Notifications come with the Android app.';
 }

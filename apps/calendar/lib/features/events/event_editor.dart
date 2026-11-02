@@ -10,6 +10,7 @@ import '../../data/models.dart';
 import '../../data/occurrences.dart';
 import '../../data/repository.dart';
 import '../../l10n/app_localizations.dart';
+import '../../reminders/reminder_service.dart';
 import '../people/labels.dart';
 import 'event_draft.dart';
 
@@ -81,6 +82,8 @@ class _EventEditorState extends ConsumerState<EventEditor> {
     // A new event is reminded of on the day, at 07:00 (design.md §3.6).
     if (widget.eventId == null) {
       await repo.saveReminder(Reminder(id: 0, eventId: saved.id));
+      // Android 13+ asks once; this is where a reminder first matters.
+      await ref.read(notificationSinkProvider).requestPermission();
     }
     if (mounted) context.pop();
   }

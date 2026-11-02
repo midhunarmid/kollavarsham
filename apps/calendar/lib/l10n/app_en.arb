@@ -755,5 +755,131 @@
         "type": "String"
       }
     }
+  },
+  "notifyFestival": "{name} tomorrow",
+  "@notifyFestival": {
+    "description": "Festival reminder on the evening before.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyDailyBody": "Star {star} · Tithi {tithi}",
+  "@notifyDailyBody": {
+    "description": "Text of the morning panchangam notification.",
+    "placeholders": {
+      "star": {
+        "type": "String"
+      },
+      "tithi": {
+        "type": "String"
+      }
+    }
+  },
+  "channelEvents": "Pirannal and personal reminders",
+  "@channelEvents": {
+    "description": "Android notification channel name for personal event reminders."
+  },
+  "channelCalendar": "Month starts and festivals",
+  "@channelCalendar": {
+    "description": "Android notification channel name for month start and festival reminders."
+  },
+  "channelDaily": "Daily panchangam",
+  "@channelDaily": {
+    "description": "Android notification channel name for the morning panchangam."
+  },
+  "actionOpen": "Open",
+  "@actionOpen": {
+    "description": "Notification button: open the day in the app."
+  },
+  "actionSnooze": "Remind in 1 hour",
+  "@actionSnooze": {
+    "description": "Notification button: snooze for an hour."
+  },
+  "settingsReminders": "Reminders",
+  "@settingsReminders": {
+    "description": "Settings entry and title of the reminder settings screen."
+  },
+  "settingsRemindersHelp": "Pirannal, festivals, month starts and the daily panchangam",
+  "@settingsRemindersHelp": {
+    "description": "Subtitle of the Reminders entry in Settings."
+  },
+  "remindersEnabled": "Notifications",
+  "@remindersEnabled": {
+    "description": "Reminder settings: master switch."
+  },
+  "remindersNotifyFor": "Remind me of",
+  "@remindersNotifyFor": {
+    "description": "Reminder settings: heading of the event type choices."
+  },
+  "remindersMonthStarts": "Every month start",
+  "@remindersMonthStarts": {
+    "description": "Reminder settings: remind the evening before each Malayalam month starts."
+  },
+  "remindersYearStart": "Malayalam New Year",
+  "@remindersYearStart": {
+    "description": "Reminder settings: remind the evening before the year starts."
+  },
+  "remindersEveningTime": "Evening-before reminders at",
+  "@remindersEveningTime": {
+    "description": "Reminder settings: time of month start and festival reminders on the evening before."
+  },
+  "remindersFestivals": "Festivals, the evening before",
+  "@remindersFestivals": {
+    "description": "Reminder settings: heading of festival categories."
+  },
+  "categoryHindu": "Hindu",
+  "@categoryHindu": {
+    "description": "Festival category."
+  },
+  "categoryChristian": "Christian",
+  "@categoryChristian": {
+    "description": "Festival category."
+  },
+  "categoryMuslim": "Muslim",
+  "@categoryMuslim": {
+    "description": "Festival category."
+  },
+  "muslimTentative": "Muslim festival dates are tentative until the moon is sighted.",
+  "@muslimTentative": {
+    "description": "Note under the festival categories."
+  },
+  "remindersDaily": "Daily panchangam",
+  "@remindersDaily": {
+    "description": "Reminder settings: a morning notification with the day's star and tithi."
+  },
+  "remindersDailyTime": "Daily panchangam at",
+  "@remindersDailyTime": {
+    "description": "Reminder settings: time of the morning panchangam."
+  },
+  "remindersPermission": "Allow notifications",
+  "@remindersPermission": {
+    "description": "Button: ask Android for permission to show notifications."
+  },
+  "remindersExact": "Exact times",
+  "@remindersExact": {
+    "description": "Reminder settings: whether Android allows exact alarm times."
+  },
+  "remindersExactOn": "Reminders arrive on time.",
+  "@remindersExactOn": {
+    "description": "Exact alarms are allowed."
+  },
+  "remindersExactOff": "Android may deliver reminders a few minutes late. Tap to allow exact times.",
+  "@remindersExactOff": {
+    "description": "Exact alarms are not allowed; tapping opens the system setting."
+  },
+  "remindersScheduled": "{count, plural, =0{No reminders in the next 60 days} =1{1 reminder in the next 60 days} other{{count} reminders in the next 60 days}}",
+  "@remindersScheduled": {
+    "description": "Reminder settings: how many notifications are scheduled.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "remindersWeb": "In the browser, reminders show in the Today tab. Notifications come with the Android app.",
+  "@remindersWeb": {
+    "description": "Reminder settings note on the web."
   }
 }

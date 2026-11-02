@@ -1033,6 +1033,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sankranti at {time}'**
   String notifyMonthStartBody(String time);
+
+  /// Festival reminder on the evening before.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} tomorrow'**
+  String notifyFestival(String name);
+
+  /// Text of the morning panchangam notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Star {star} · Tithi {tithi}'**
+  String notifyDailyBody(String star, String tithi);
+
+  /// Android notification channel name for personal event reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Pirannal and personal reminders'**
+  String get channelEvents;
+
+  /// Android notification channel name for month start and festival reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Month starts and festivals'**
+  String get channelCalendar;
+
+  /// Android notification channel name for the morning panchangam.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily panchangam'**
+  String get channelDaily;
+
+  /// Notification button: open the day in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get actionOpen;
+
+  /// Notification button: snooze for an hour.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind in 1 hour'**
+  String get actionSnooze;
+
+  /// Settings entry and title of the reminder settings screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get settingsReminders;
+
+  /// Subtitle of the Reminders entry in Settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Pirannal, festivals, month starts and the daily panchangam'**
+  String get settingsRemindersHelp;
+
+  /// Reminder settings: master switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get remindersEnabled;
+
+  /// Reminder settings: heading of the event type choices.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me of'**
+  String get remindersNotifyFor;
+
+  /// Reminder settings: remind the evening before each Malayalam month starts.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month start'**
+  String get remindersMonthStarts;
+
+  /// Reminder settings: remind the evening before the year starts.
+  ///
+  /// In en, this message translates to:
+  /// **'Malayalam New Year'**
+  String get remindersYearStart;
+
+  /// Reminder settings: time of month start and festival reminders on the evening before.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening-before reminders at'**
+  String get remindersEveningTime;
+
+  /// Reminder settings: heading of festival categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Festivals, the evening before'**
+  String get remindersFestivals;
+
+  /// Festival category.
+  ///
+  /// In en, this message translates to:
+  /// **'Hindu'**
+  String get categoryHindu;
+
+  /// Festival category.
+  ///
+  /// In en, this message translates to:
+  /// **'Christian'**
+  String get categoryChristian;
+
+  /// Festival category.
+  ///
+  /// In en, this message translates to:
+  /// **'Muslim'**
+  String get categoryMuslim;
+
+  /// Note under the festival categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Muslim festival dates are tentative until the moon is sighted.'**
+  String get muslimTentative;
+
+  /// Reminder settings: a morning notification with the day's star and tithi.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily panchangam'**
+  String get remindersDaily;
+
+  /// Reminder settings: time of the morning panchangam.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily panchangam at'**
+  String get remindersDailyTime;
+
+  /// Button: ask Android for permission to show notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow notifications'**
+  String get remindersPermission;
+
+  /// Reminder settings: whether Android allows exact alarm times.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact times'**
+  String get remindersExact;
+
+  /// Exact alarms are allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders arrive on time.'**
+  String get remindersExactOn;
+
+  /// Exact alarms are not allowed; tapping opens the system setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Android may deliver reminders a few minutes late. Tap to allow exact times.'**
+  String get remindersExactOff;
+
+  /// Reminder settings: how many notifications are scheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No reminders in the next 60 days} =1{1 reminder in the next 60 days} other{{count} reminders in the next 60 days}}'**
+  String remindersScheduled(int count);
+
+  /// Reminder settings note on the web.
+  ///
+  /// In en, this message translates to:
+  /// **'In the browser, reminders show in the Today tab. Notifications come with the Android app.'**
+  String get remindersWeb;
 }
 
 class _AppLocalizationsDelegate

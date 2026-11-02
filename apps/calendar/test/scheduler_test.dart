@@ -1,10 +1,14 @@
 import 'package:calendar/data/database.dart';
 import 'package:calendar/data/models.dart';
 import 'package:calendar/l10n/app_localizations.dart';
+import 'package:calendar/data/festival_days.dart';
+import 'package:calendar/reminders/reminder_options.dart';
 import 'package:calendar/reminders/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
+
+import 'helpers.dart';
 
 final _cal = KollavarshamCalendar.standard;
 final _en = lookupAppLocalizations(const Locale('en'));
@@ -177,6 +181,71 @@ void main() {
       final list = _scheduler(options: const ReminderOptions())
           .schedule(const DbSnapshot(), _now);
       expect(list, isEmpty);
+    });
+  });
+
+  group('options', () {
+    test('the master switch and event types filter reminders', () {
+      expect(
+          _scheduler(options: const ReminderOptions(enabled: false))
+              .schedule(_db, _now),
+          isEmpty);
+      final noBirthdays = _scheduler(
+              options: const ReminderOptions(
+                  yearStart: false,
+                  eventTypes: {EventType.pirannal, EventType.nakshatram}))
+          .schedule(_db, _now);
+      expect(noBirthdays.where((n) => n.eventId == 4), isEmpty);
+      expect(noBirthdays.where((n) => n.eventId == 3), isNotEmpty);
+    });
+
+    test('festivals by category, the evening before', () {
+      final list = _scheduler(
+              options: const ReminderOptions(
+                  yearStart: false, festivals: {FestivalCategory.christian}))
+          .schedule(const DbSnapshot(), _now);
+      final christmas =
+          list.singleWhere((n) => n.title == 'Christmas tomorrow');
+      expect(christmas.kind, NotificationKind.festival);
+      expect(christmas.time, DateTime.utc(2026, 12, 24, 14, 30));
+      // Only the chosen category.
+      expect(list.where((n) => n.title.contains('Deepavali')), isEmpty);
+      final hindu = _scheduler(
+              options: const ReminderOptions(
+                  yearStart: false, festivals: {FestivalCategory.hindu}))
+          .schedule(const DbSnapshot(), _now);
+      expect(
+          hindu.map((n) => n.title), contains('Mandala Kalam begins tomorrow'));
+    });
+
+    test('daily panchangam for the next 7 mornings', () {
+      final list = _scheduler(
+              options: const ReminderOptions(
+                  yearStart: false, dailyPanchangam: true))
+          .schedule(const DbSnapshot(), _now);
+      // 09:00 today is past 06:00, so tomorrow onwards.
+      expect(list, hasLength(6));
+      expect(list.first.time, DateTime.utc(2026, 11, 3, 0, 30));
+      final day = _cal.fromGregorian(DateTime(2026, 11, 3));
+      expect(list.first.body,
+          'Star ${day.nakshatra.english} · Tithi ${day.tithi.name(MalayalamScript.english)}');
+    });
+
+    test('are saved and read back', () async {
+      final prefs = await testPrefs();
+      const o = ReminderOptions(
+          enabled: false,
+          eventTypes: {EventType.shraddham},
+          monthStarts: true,
+          yearStart: false,
+          minuteOfDay: 19 * 60,
+          festivals: {FestivalCategory.muslim},
+          dailyPanchangam: true,
+          dailyMinute: 5 * 60 + 30);
+      await ReminderOptionsStore(prefs).save(o);
+      expect(ReminderOptionsStore(prefs).load(), o);
+      await prefs.setInt('reminders.minuteOfDay', 5000);
+      expect(ReminderOptionsStore(prefs).load().minuteOfDay, 20 * 60);
     });
   });
 }

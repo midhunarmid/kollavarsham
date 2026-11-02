@@ -9,6 +9,7 @@ import '../features/onboarding/onboarding_screen.dart';
 import '../features/people/people_screen.dart';
 import '../features/people/person_editor.dart';
 import '../features/people/person_screen.dart';
+import '../features/settings/reminders_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/today/today_screen.dart';
 import '../features/tools/tools_screen.dart';
@@ -30,6 +31,9 @@ abstract final class AppRoutes {
 
   /// Settings.
   static const settings = '/settings';
+
+  /// Settings → Reminders.
+  static const reminders = '/settings/reminders';
 
   /// First-run onboarding (outside the tabs).
   static const onboarding = '/onboarding';
@@ -173,7 +177,16 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
               _tab(AppRoutes.tools, (_, __) => const ToolsScreen()),
             ]),
             StatefulShellBranch(routes: [
-              _tab(AppRoutes.settings, (_, __) => const SettingsScreen()),
+              GoRoute(
+                path: AppRoutes.settings,
+                builder: (_, __) => const SettingsScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'reminders',
+                    builder: (_, __) => const RemindersScreen(),
+                  ),
+                ],
+              ),
             ]),
           ],
         ),

@@ -2,8 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:kollavarsham_flutter/kollavarsham_flutter.dart';
 
 import '../data/database.dart';
+import '../data/festival_days.dart';
 import '../data/models.dart';
 import '../l10n/app_localizations.dart';
+import 'reminder_options.dart';
+
+export 'reminder_options.dart' show ReminderOptions;
 
 /// What a scheduled notification is about.
 enum NotificationKind {
@@ -15,28 +19,12 @@ enum NotificationKind {
 
   /// The day before the Kollavarsham year starts.
   yearStart,
-}
 
-/// Reminders that are not tied to an event.
-@immutable
-class ReminderOptions {
-  /// Creates the options; by default month and year starts are reminded of
-  /// at 20:00 the evening before.
-  const ReminderOptions({
-    this.monthStarts = false,
-    this.yearStart = true,
-    this.minuteOfDay = 20 * 60,
-  });
+  /// The day before a festival.
+  festival,
 
-  /// Remind the day before each Malayalam month starts.
-  final bool monthStarts;
-
-  /// Remind the day before the year starts (also when [monthStarts] is off).
-  final bool yearStart;
-
-  /// Local time of month and year start reminders, in minutes after
-  /// midnight.
-  final int minuteOfDay;
+  /// The morning panchangam.
+  daily,
 }
 
 /// One notification to show at [time].
@@ -103,6 +91,7 @@ class ReminderScheduler {
     this.malayalamDigits = false,
     this.options = const ReminderOptions(),
     this.days = 60,
+    this.dailyDays = 7,
   });
 
   /// Calendar (location) of the dates and of the reminder times.
@@ -123,6 +112,10 @@ class ReminderScheduler {
   /// How far ahead to schedule.
   final int days;
 
+  /// How many mornings of daily panchangam to schedule; the daily job
+  /// tops them up.
+  final int dailyDays;
+
   /// The instant of [minuteOfDay] on [date] at the calendar's location.
   DateTime _at(DateTime date, int minuteOfDay) => DateTime.utc(
           date.year, date.month, date.day, minuteOfDay ~/ 60, minuteOfDay % 60)
@@ -137,10 +130,14 @@ class ReminderScheduler {
     final people = {for (final p in db.people) p.id: p};
     final events = {for (final e in db.events) e.id: e};
     final result = <ScheduledNotification>[];
+    if (!options.enabled) return result;
 
     final remindersByEvent = <int, List<Reminder>>{};
     for (final r in db.reminders) {
-      if (r.enabled && events.containsKey(r.eventId)) {
+      final event = events[r.eventId];
+      if (r.enabled &&
+          event != null &&
+          options.eventTypes.contains(event.type)) {
         (remindersByEvent[r.eventId] ??= []).add(r);
       }
     }
@@ -183,6 +180,43 @@ class ReminderScheduler {
         final time = _at(eve.toGregorian(), options.minuteOfDay);
         if (!time.isAfter(now) || eve.isAfter(end)) continue;
         result.add(_monthStart(d, time, isYearStart));
+      }
+    }
+
+    if (options.festivals.isNotEmpty) {
+      for (final f in festivalDaysBetween(calendar, today, end.addDays(1),
+          categories: options.festivals)) {
+        final eve = f.date.addDays(-1);
+        final time = _at(eve.toGregorian(), options.minuteOfDay);
+        if (!time.isAfter(now)) continue;
+        result.add(ScheduledNotification(
+          id: stableNotificationId('festival|${f.english}|${f.date.dayNumber}'),
+          time: time,
+          kind: NotificationKind.festival,
+          date: f.date,
+          title: l10n.notifyFestival(f.name(script)),
+          body: f.date.format('d MMMM y',
+              script: script, malayalamDigits: malayalamDigits),
+        ));
+      }
+    }
+
+    if (options.dailyPanchangam) {
+      for (var i = 0; i < dailyDays; i++) {
+        final day = today.addDays(i);
+        final g = day.toGregorian();
+        final time = _at(g, options.dailyMinute);
+        if (!time.isAfter(now)) continue;
+        result.add(ScheduledNotification(
+          id: stableNotificationId('daily|${day.dayNumber}'),
+          time: time,
+          kind: NotificationKind.daily,
+          date: day,
+          title: day.format('EEEE, d MMMM y',
+              script: script, malayalamDigits: malayalamDigits),
+          body: l10n.notifyDailyBody(calendar.nakshatraOn(g).name(script),
+              calendar.tithiOn(g).name(script)),
+        ));
       }
     }
 
