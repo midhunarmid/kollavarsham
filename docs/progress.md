@@ -191,8 +191,9 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - The report opens `github.com/midhunarmid/kollavarsham/issues/new` (url_launcher) with the date, the app's Malayalam date, star, tithi, festivals, city and year start. A manual location is reported only as "manual" with its UTC offset. Needs you: create the `wrong-date` label on GitHub.
   - North Malabar (Kanni 1) was already a setting; tests now check year info, the year view and the new-year reminder with it.
 
-### Day 18: Sprint 8b, release readiness (status: todo)
+### Day 18: Sprint 8b, release readiness (status: in progress)
 - [ ] Accessibility pass (semantics, large text, contrast) and performance (R8/minify, startup, size).
+  - Accessibility done: `test/a11y_test.dart` checks 15 screens (light and dark) against the tap-target, label and text-contrast guidelines, and 200% text in English and Malayalam. Fixed the holiday colour contrast (now #BF360C light, #FF8A65 dark) and year-view semantics and overflow. Still open: the Malayalam bottom-bar labels wrap on narrow phones, and the performance half (R8/minify, startup, size).
 - [ ] Release signing config reading `key.properties` (not committed) and `docs/release.md`; mark the keystore as **Needs you**.
 - [ ] `docs/store-listing.md`: Play listing text (ml/en), screenshot list, data-safety answers.
 
@@ -240,3 +241,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 15 | Tools tab (converter, Find my star, age, days between, year info), panchangam and greeting share cards as PNG; 109 app tests pass, web build OK |
 | 2026-11-02 | Day 16 | .ics export (explicit dates, N years), versioned JSON backup and restore with file_picker, Auto Backup rules; 116 app tests pass, debug APK and web build OK |
 | 2026-11-02 | Day 17 | Today and Next pirannal home-screen widgets (week of text ahead), static launcher shortcuts via deep links, Report a wrong date, North Malabar checks; 124 app tests pass, debug APK and web build OK |
+| 2026-11-02 | Day 18 (part) | Accessibility pass: guideline tests on 15 screens, holiday colour contrast, year-view semantics and large-text fixes; 156 app tests pass. Stopped here at the owner's request; performance, release signing and store listing remain |
