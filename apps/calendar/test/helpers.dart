@@ -84,14 +84,23 @@ Future<void> _loadFont(String family, List<String> paths) async {
   await loader.load();
 }
 
+String get _materialFonts {
+  final sdk = Platform.environment['FLUTTER_ROOT'] ??
+      File(Platform.resolvedExecutable).parent.parent.parent.parent.parent.path;
+  return '$sdk/bin/cache/artifacts/material_fonts';
+}
+
+/// Whether [loadRealFonts] can run: the Flutter SDK's Material fonts are
+/// downloaded on some machines only (not on the Linux CI runner).
+bool get realFontsAvailable =>
+    File('$_materialFonts/roboto-regular.ttf').existsSync();
+
 /// Loads the real fonts, since tests otherwise draw every glyph as a box.
 ///
 /// Noto Sans Malayalam has no Latin letters; on devices the system font
 /// supplies them, so Roboto from the Flutter SDK stands in here.
 Future<void> loadRealFonts() async {
-  final sdk = Platform.environment['FLUTTER_ROOT'] ??
-      File(Platform.resolvedExecutable).parent.parent.parent.parent.parent.path;
-  final material = '$sdk/bin/cache/artifacts/material_fonts';
+  final material = _materialFonts;
   await _loadFont(appFontFamily, [
     'assets/fonts/NotoSansMalayalam-Regular.ttf',
     'assets/fonts/NotoSansMalayalam-Bold.ttf',
