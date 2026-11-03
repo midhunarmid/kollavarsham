@@ -228,6 +228,30 @@ bool _matches(String holiday, List<String> aliases) {
   return aliases.any(n.contains);
 }
 
+/// The id of the computed festival that holiday-list [entry] names (e.g.
+/// "Sreekrishna Jayanthi" -> `hindu.ashtamiRohini`), or null.
+String? computedFestivalIdOf(HolidayEntry entry) {
+  switch (entry.category) {
+    case FestivalCategory.hindu:
+      for (final MapEntry(key: f, value: aliases) in _keralaAliases.entries) {
+        if (_matches(entry.name, aliases)) return 'hindu.${EnumName(f).name}';
+      }
+    case FestivalCategory.christian:
+      for (final f in ChristianFeast.values) {
+        if (_normal(entry.name) == _normal(f.english)) {
+          return 'christian.${EnumName(f).name}';
+        }
+      }
+    case FestivalCategory.muslim:
+      for (final MapEntry(key: f, value: aliases) in _hijriAliases.entries) {
+        if (_matches(entry.name, aliases)) return 'muslim.${EnumName(f).name}';
+      }
+    default:
+      break;
+  }
+  return null;
+}
+
 /// The festivals and holidays of [categories] from [from] to [to]
 /// (inclusive), in date order.
 ///

@@ -230,9 +230,12 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Privacy, "how dates are computed" and contact pages; Play Store link placeholder.
   - `/privacy/`, `/how-dates-are-computed/`, `/contact/` in both languages, linked from every page's footer. The home page has an "Android app" card with "Google Play: coming soon" (`#play-link`) to replace with the listing URL. The privacy page mirrors `docs/privacy.md` and is still marked draft (Needs you: review, contact email).
 
-### Day 23: Sprint 11a, accuracy campaign (status: todo)
-- [ ] `docs/accuracy-checklist.md`: every 2026–2027 month start, festival and pirannal example with a column for the almanac value (filling it is **Needs you**); a script that prints the app's values.
-- [ ] Fix anything found from sources available online.
+### Day 23: Sprint 11a, accuracy campaign (status: done)
+- [x] `docs/accuracy-checklist.md`: every 2026–2027 month start, festival and pirannal example with a column for the almanac value (filling it is **Needs you**); a script that prints the app's values.
+  - `dart run site_data:accuracy_checklist --from 2026 --to 2027` (in `apps/site_data`) prints all of it: 24 month starts with the sankranti time and its margin to the cut-off (⚠ under 30 minutes), every Hindu, Christian and Muslim festival with its holiday-list kind, the rules doc's worked examples (Pooradam in Dhanu, Ekadashi shraddham in Karkidakam), and every star that falls on two days of a month (94, R1) or none (16, R2) with the day the app picks. Tested in `apps/site_data/test/accuracy_test.dart`.
+- [x] Fix anything found from sources available online.
+  - The checklist compares the Kerala holiday lists with the computed festivals. One difference: Vishu, listed on 15 April 2026, computed 14 April (Medam 1). Vishu is the first sunrise after the Mesha sankranti (09:39 on 14 April 2026); the engine now follows that, checked against six published years (2021–2026). `kollavarsham` CHANGELOG has it under Unreleased. After the fix, every listed festival falls on its computed day.
+  - Almanac columns stay empty: no printed almanac or Kerala panchangam with minute-level month starts was reachable online.
 
 ### Day 24: Sprint 11b, launch preparation (status: todo)
 - [ ] `docs/runbook.md`: yearly holiday data, almanac checks, dependency updates, release steps for the app, packages and site.
@@ -265,3 +268,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-03 | Day 20 | Astro site (10,701 pages, en/ml with hreflang, JSON-LD, sitemap, OG image, browser-side today/star/converter), link checker, CI site job, deploy of site at / and app at /app/ |
 | 2026-11-03 | Day 21 | Flutter web app at /app/ (verified locally), web reminder list with .ics export link; 159 app tests pass |
 | 2026-11-03 | Day 22 | Offline PWA at /app/ (own service worker, local CanvasKit, headless-Chrome offline check), site→app deep links surviving onboarding, privacy/how-computed/contact pages, Play placeholder; 161 app tests pass, 10,707 site pages with all links resolving |
+| 2026-11-03 | Day 23 | Accuracy checklist generator and docs/accuracy-checklist.md (24 month starts, festivals, 110 pirannal edge cases, shraddham), holiday list vs computed check; fixed Vishu (first sunrise after the Mesha sankranti; 2026 is 15 April); 437 core, 161 app tests pass |
