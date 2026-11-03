@@ -1,0 +1,20 @@
+name: site_data
+description: >-
+  Writes the JSON the calendar.armid.in site is built from: days with their
+  panchangam, Malayalam months, and festivals with descriptions and dates.
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+resolution: workspace
+
+dependencies:
+  calendar_data: ^0.0.0
+  kollavarsham: ^1.2.0
+
+dev_dependencies:
+  lints: ^5.1.0
+  test: ^1.25.6
+
+executables:
+  site_data:

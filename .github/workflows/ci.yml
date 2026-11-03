@@ -23,7 +23,7 @@ jobs:
       - run: flutter pub get
       - name: Format
         if: matrix.flutter == 'stable'
-        run: dart format --output=none --set-exit-if-changed packages
+        run: dart format --output=none --set-exit-if-changed packages apps/site_data
       - name: Analyze core
         working-directory: packages/kollavarsham
         run: dart analyze --fatal-infos
@@ -42,6 +42,9 @@ jobs:
         run: flutter test
       - name: Analyze and test calendar data
         working-directory: packages/calendar_data
+        run: dart analyze --fatal-infos && dart test
+      - name: Analyze and test site data
+        working-directory: apps/site_data
         run: dart analyze --fatal-infos && dart test
 
   app:

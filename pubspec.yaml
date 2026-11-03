@@ -10,3 +10,4 @@ workspace:
   - packages/kollavarsham_flutter/example
   - packages/calendar_data
   - apps/calendar
+  - apps/site_data
