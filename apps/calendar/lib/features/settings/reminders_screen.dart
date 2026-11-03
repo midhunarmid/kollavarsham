@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../app/router.dart';
 import '../../data/festival_days.dart';
 import '../../data/models.dart';
 import '../../l10n/app_localizations.dart';
@@ -54,7 +55,8 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final o = ref.watch(reminderOptionsProvider);
-    final count = ref.watch(scheduledNotificationsProvider).length;
+    final scheduled = ref.watch(scheduledNotificationsProvider);
+    final count = scheduled.length;
     final android = notificationsPlugin != null;
 
     Widget heading(String text) => Padding(
@@ -74,11 +76,38 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
             value: o.enabled,
             onChanged: (v) => _edit((o) => o.copyWith(enabled: v)),
           ),
-          if (kIsWeb)
+          // Without system notifications (the web), show what would be
+          // sent, and offer the dates to a calendar app that can remind.
+          if (!android) ...[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(l10n.remindersWeb, style: theme.textTheme.bodySmall),
             ),
+            heading(l10n.remindersComing),
+            for (final n in o.enabled ? scheduled.take(15) : scheduled.take(0))
+              ListTile(
+                dense: true,
+                leading: const Icon(Icons.notifications_none),
+                title: Text(n.title),
+                subtitle: Text(
+                    '${MaterialLocalizations.of(context).formatMediumDate(n.time.toLocal())}'
+                    ' · ${n.body}'),
+                onTap: () =>
+                    context.push(AppRoutes.dayPath(n.date.toGregorian())),
+              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: OutlinedButton.icon(
+                  key: const Key('reminders-ics'),
+                  icon: const Icon(Icons.event_available),
+                  label: Text(l10n.remindersAddToCalendar),
+                  onPressed: () => context.push(AppRoutes.backup),
+                ),
+              ),
+            ),
+          ],
           if (android) ...[
             ListTile(
               leading: const Icon(Icons.notifications_active_outlined),

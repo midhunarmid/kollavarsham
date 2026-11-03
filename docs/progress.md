@@ -217,8 +217,11 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] GitHub Pages deployment workflow (`.github/workflows/deploy-web.yml`, domain `calendar.armid.in`).
   - Now deploys the site at the root and the Flutter web app at `/app/` (`--base-href /app/`; hash URLs, so no rewrites). Checked locally: the app loads at `/app/` with no failed requests.
 
-### Day 21: Sprint 10a, Flutter web app (status: todo)
-- [ ] Web build of `apps/calendar` served at `/app` of the site; drift on IndexedDB; web-specific reminder UI (upcoming list + .ics instead of notifications).
+### Day 21: Sprint 10a, Flutter web app (status: done)
+- [x] Web build of `apps/calendar` served at `/app` of the site; drift on IndexedDB; web-specific reminder UI (upcoming list + .ics instead of notifications).
+  - Served at `/app/` by the Day 20 deploy (`--base-href /app/`, hash URLs); checked locally that it loads and opens onboarding with no failed requests.
+  - Not drift (see Day 9): the data is in shared_preferences, which is `localStorage` on the web. That's per browser and origin; the backup file moves it between browsers and phones.
+  - Without system notifications (the web), Settings → Reminders lists the next 15 reminders the app would send and links to the `.ics` export, so a calendar app can do the reminding. Sharing files on the web goes through `share_plus`'s Web Share, or a download where that's unsupported.
 
 ### Day 22: Sprint 10b, PWA and site pages (status: todo)
 - [ ] PWA manifest and offline caching for `/app`; deep links from site pages to the app.
@@ -257,3 +260,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-03 | Day 18 | Bottom-bar labels on one line, R8 release build (arm64 19.9 MB), key.properties signing, docs/release.md and docs/store-listing.md, privacy draft corrected |
 | 2026-11-03 | Day 19 | calendar_data package (shared festival/holiday model), site_data CLI (13 years of days, months, festivals as JSON), converter_js (115 KB JS converter and star finder, checked in Node) |
 | 2026-11-03 | Day 20 | Astro site (10,701 pages, en/ml with hreflang, JSON-LD, sitemap, OG image, browser-side today/star/converter), link checker, CI site job, deploy of site at / and app at /app/ |
+| 2026-11-03 | Day 21 | Flutter web app at /app/ (verified locally), web reminder list with .ics export link; 159 app tests pass |

@@ -244,5 +244,7 @@
   "restoreAction": "തിരികെ ചേർക്കുക",
   "restoreDone": "ബാക്കപ്പ് തിരികെ ചേർത്തു.",
   "restoreFailed": "ആ ഫയൽ ഈ ആപ്പിന്റെ ബാക്കപ്പ് അല്ല.",
-  "reportWrongDate": "തെറ്റായ തീയതി അറിയിക്കുക"
+  "reportWrongDate": "തെറ്റായ തീയതി അറിയിക്കുക",
+  "remindersComing": "വരാനിരിക്കുന്ന ഓർമ്മപ്പെടുത്തലുകൾ",
+  "remindersAddToCalendar": "ഇവ നിങ്ങളുടെ കലണ്ടറിൽ ചേർക്കുക (.ics)"
 }

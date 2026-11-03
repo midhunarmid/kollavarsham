@@ -176,4 +176,15 @@ void main() {
         DateTime(2026, 12, 1));
     expect(notificationRoute.value, isNull);
   });
+
+  testWidgets('without system notifications, reminders are listed with .ics',
+      (tester) async {
+    await _pump(tester, db: _db);
+    await pushRoute(tester, '/settings/reminders');
+    expect(find.text('Coming reminders'), findsOneWidget);
+    expect(find.text("Midhun's birthday"), findsOneWidget);
+    await tester.tap(find.byKey(const Key('reminders-ics')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('export-ics')), findsOneWidget);
+  });
 }

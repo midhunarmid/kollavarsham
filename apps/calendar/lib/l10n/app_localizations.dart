@@ -1567,6 +1567,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report a wrong date'**
   String get reportWrongDate;
+
+  /// Reminder settings on the web: heading of the list of reminders the app would send.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming reminders'**
+  String get remindersComing;
+
+  /// Button on the web: export events as an .ics file so another calendar app reminds you.
+  ///
+  /// In en, this message translates to:
+  /// **'Add them to your calendar (.ics)'**
+  String get remindersAddToCalendar;
 }
 
 class _AppLocalizationsDelegate

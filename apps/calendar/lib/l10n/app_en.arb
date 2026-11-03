@@ -1229,5 +1229,13 @@
   "reportWrongDate": "Report a wrong date",
   "@reportWrongDate": {
     "description": "Menu item: open a pre-filled issue on GitHub about this day."
+  },
+  "remindersComing": "Coming reminders",
+  "@remindersComing": {
+    "description": "Reminder settings on the web: heading of the list of reminders the app would send."
+  },
+  "remindersAddToCalendar": "Add them to your calendar (.ics)",
+  "@remindersAddToCalendar": {
+    "description": "Button on the web: export events as an .ics file so another calendar app reminds you."
   }
 }

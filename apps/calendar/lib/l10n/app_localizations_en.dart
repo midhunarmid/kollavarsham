@@ -884,4 +884,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportWrongDate => 'Report a wrong date';
+
+  @override
+  String get remindersComing => 'Coming reminders';
+
+  @override
+  String get remindersAddToCalendar => 'Add them to your calendar (.ics)';
 }

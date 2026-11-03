@@ -862,4 +862,10 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get reportWrongDate => 'തെറ്റായ തീയതി അറിയിക്കുക';
+
+  @override
+  String get remindersComing => 'വരാനിരിക്കുന്ന ഓർമ്മപ്പെടുത്തലുകൾ';
+
+  @override
+  String get remindersAddToCalendar => 'ഇവ നിങ്ങളുടെ കലണ്ടറിൽ ചേർക്കുക (.ics)';
 }
