@@ -42,7 +42,7 @@ Uri wrongDateReport(
 ''';
   return Uri.parse(issuesUrl).replace(queryParameters: {
     'title': 'Wrong date: $iso',
-    'labels': 'wrong-date',
+    'labels': 'accuracy',
     'body': body,
   });
 }

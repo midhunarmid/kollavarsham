@@ -17,7 +17,7 @@ const repo = 'https://github.com/midhunarmid/kollavarsham';
   <h1>{title}</h1>
   <ul class="list">
     <li>
-      <a href={`${repo}/issues/new?labels=wrong-date&title=Wrong%20date%3A%20`}>{ml ? 'തെറ്റായ തീയതി അറിയിക്കുക' : 'Report a wrong date'}</a>
+      <a href={`${repo}/issues/new?template=wrong_date.yml`}>{ml ? 'തെറ്റായ തീയതി അറിയിക്കുക' : 'Report a wrong date'}</a>
       <p class="sub">{ml ? 'തീയതി, നിങ്ങളുടെ പഞ്ചാംഗത്തിൽ കാണുന്നത്, പഞ്ചാംഗത്തിന്റെ പേരും വർഷവും.' : 'The date, what your almanac says, and the almanac’s name and year.'}</p>
     </li>
     <li>

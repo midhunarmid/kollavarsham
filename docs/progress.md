@@ -37,7 +37,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [ ] Check 2026–2027 dates against printed almanacs (Day 23). Include the Day 6 rules with the weakest evidence: Ashtami Rohini, Thaipooyam, Vinayaka Chathurthi and the vrat reading times, none of which has a Kerala almanac behind it.
 - [ ] Malayalam copy review by a native editor (Day 24).
 - [ ] Design the app icon (launcher, 512 px Play icon) and feature graphic; the app still has Flutter's default icon (Day 18, `docs/store-listing.md`).
-- [ ] Create a `wrong-date` label in the GitHub repository, used by the app's "Report a wrong date" link (Day 17).
+- [ ] Create an `accuracy` label in the GitHub repository: the wrong-date issue template and the app's "Report a wrong date" link use it (Day 17, aligned on Day 24).
 - [ ] Confirm the Day 9 storage choice: a versioned JSON document in shared_preferences instead of drift (drift now needs Dart 3.10, and a sqlite3.wasm download for the web). Moving to drift later means a one-time import of that document.
 
 ## Days
@@ -189,7 +189,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - `home_widget ^0.9.2` (newest on Dart 3.6), with the same AGP 9 Kotlin hook as file_picker. Dart writes a week of widget text ahead, keyed `today.<date>.*` / `next.<date>.*`, on every app sync and in the daily workmanager job; the Kotlin providers read the device's date, and `updatePeriodMillis` redraws them hourly. Debug APK builds; the widgets haven't been seen on a device (no emulator here).
 - [x] App shortcuts; "Report a wrong date" (pre-filled GitHub issue URL); North Malabar year setting wired through.
   - Shortcuts are static (`res/xml/shortcuts.xml`, Today / Add event / Date converter) and open routes through Flutter deep linking (`kollavarsham://app/<route>`), so no plugin. Widget taps use the same.
-  - The report opens `github.com/midhunarmid/kollavarsham/issues/new` (url_launcher) with the date, the app's Malayalam date, star, tithi, festivals, city and year start. A manual location is reported only as "manual" with its UTC offset. Needs you: create the `wrong-date` label on GitHub.
+  - The report opens `github.com/midhunarmid/kollavarsham/issues/new` (url_launcher) with the date, the app's Malayalam date, star, tithi, festivals, city and year start. A manual location is reported only as "manual" with its UTC offset. Needs you: create the `accuracy` label on GitHub (the label of the existing wrong-date issue template).
   - North Malabar (Kanni 1) was already a setting; tests now check year info, the year view and the new-year reminder with it.
 
 ### Day 18: Sprint 8b, release readiness (status: done)
@@ -237,9 +237,13 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - The checklist compares the Kerala holiday lists with the computed festivals. One difference: Vishu, listed on 15 April 2026, computed 14 April (Medam 1). Vishu is the first sunrise after the Mesha sankranti (09:39 on 14 April 2026); the engine now follows that, checked against six published years (2021–2026). `kollavarsham` CHANGELOG has it under Unreleased. After the fix, every listed festival falls on its computed day.
   - Almanac columns stay empty: no printed almanac or Kerala panchangam with minute-level month starts was reachable online.
 
-### Day 24: Sprint 11b, launch preparation (status: todo)
-- [ ] `docs/runbook.md`: yearly holiday data, almanac checks, dependency updates, release steps for the app, packages and site.
-- [ ] Final polish: README for `apps/`, top-level README update, CHANGELOGs; all CI green.
+### Day 24: Sprint 11b, launch preparation (status: done)
+- [x] `docs/runbook.md`: yearly holiday data, almanac checks, dependency updates, release steps for the app, packages and site.
+  - Also wrong-date triage, the full test and check commands, and a "when something breaks" table.
+- [x] Final polish: README for `apps/`, top-level README update, CHANGELOGs; all CI green.
+  - `apps/README.md`, `apps/calendar/README.md`, `packages/calendar_data/README.md` and the top-level README describe the app, site and generators; `apps/calendar/CHANGELOG.md` lists 0.1.0; the `kollavarsham` CHANGELOG has the Vishu fix under Unreleased (no version bump or tag: publishing is the owner's).
+  - The app's and site's wrong-date links now use the repository's existing issue template and its `accuracy` label.
+  - CI: see the log line below for the last run checked.
 
 ## Log
 
@@ -269,3 +273,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-03 | Day 21 | Flutter web app at /app/ (verified locally), web reminder list with .ics export link; 159 app tests pass |
 | 2026-11-03 | Day 22 | Offline PWA at /app/ (own service worker, local CanvasKit, headless-Chrome offline check), site→app deep links surviving onboarding, privacy/how-computed/contact pages, Play placeholder; 161 app tests pass, 10,707 site pages with all links resolving |
 | 2026-11-03 | Day 23 | Accuracy checklist generator and docs/accuracy-checklist.md (24 month starts, festivals, 110 pirannal edge cases, shraddham), holiday list vs computed check; fixed Vishu (first sunrise after the Mesha sankranti; 2026 is 15 April); 437 core, 161 app tests pass |
+| 2026-11-03 | Day 24 | Runbook, READMEs for the repo, apps and calendar_data, app CHANGELOG, wrong-date links aligned with the issue template; 161 app tests, 10,707 site pages, all checks pass locally. All 24 days done; owner actions remain under Needs you |

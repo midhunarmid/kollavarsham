@@ -96,7 +96,7 @@ void main() {
       expect(uri.toString(), startsWith(issuesUrl));
       final q = uri.queryParameters;
       expect(q['title'], 'Wrong date: 2026-11-08');
-      expect(q['labels'], 'wrong-date');
+      expect(q['labels'], 'accuracy');
       expect(q['body'], contains('Thulam'));
       expect(q['body'], contains('Deepavali'));
       expect(q['body'], contains('Thiruvananthapuram'));
