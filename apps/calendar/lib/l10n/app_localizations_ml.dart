@@ -39,10 +39,10 @@ class AppLocalizationsMl extends AppLocalizations {
   String get navPeople => 'ആളുകൾ';
 
   @override
-  String get navTools => 'ഉപകരണങ്ങൾ';
+  String get navTools => 'ടൂളുകൾ';
 
   @override
-  String get navSettings => 'ക്രമീകരണങ്ങൾ';
+  String get navSettings => 'സെറ്റിങ്സ്';
 
   @override
   String get settingsLanguage => 'ഭാഷ';

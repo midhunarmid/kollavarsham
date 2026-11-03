@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:calendar/app/app.dart';
 import 'package:calendar/app/clock.dart';
+import 'package:calendar/app/fonts.dart';
 import 'package:calendar/app/settings.dart';
 import 'package:calendar/data/festival_days.dart';
 import 'package:calendar/data/festival_index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -72,3 +74,32 @@ final bundledHolidays = HolidayData.parse([
   for (final f in Directory('assets/holidays').listSync().whereType<File>())
     if (f.path.endsWith('.json')) f.readAsStringSync(),
 ]);
+
+Future<void> _loadFont(String family, List<String> paths) async {
+  final loader = FontLoader(family);
+  for (final p in paths) {
+    loader
+        .addFont(Future.value(ByteData.sublistView(File(p).readAsBytesSync())));
+  }
+  await loader.load();
+}
+
+/// Loads the real fonts, since tests otherwise draw every glyph as a box.
+///
+/// Noto Sans Malayalam has no Latin letters; on devices the system font
+/// supplies them, so Roboto from the Flutter SDK stands in here.
+Future<void> loadRealFonts() async {
+  final sdk = Platform.environment['FLUTTER_ROOT'] ??
+      File(Platform.resolvedExecutable).parent.parent.parent.parent.parent.path;
+  final material = '$sdk/bin/cache/artifacts/material_fonts';
+  await _loadFont(appFontFamily, [
+    'assets/fonts/NotoSansMalayalam-Regular.ttf',
+    'assets/fonts/NotoSansMalayalam-Bold.ttf',
+  ]);
+  await _loadFont('Roboto', [
+    '$material/roboto-regular.ttf',
+    '$material/roboto-medium.ttf',
+    '$material/roboto-bold.ttf',
+  ]);
+  await _loadFont('MaterialIcons', ['$material/materialicons-regular.otf']);
+}

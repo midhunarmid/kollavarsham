@@ -104,7 +104,7 @@ void main() {
 
     await tester.tap(find.text('മലയാളം').first);
     await tester.pumpAndSettle();
-    expect(find.text('ക്രമീകരണങ്ങൾ'), findsWidgets);
+    expect(find.text('സെറ്റിങ്സ്'), findsWidgets);
     expect(SettingsStore(prefs).load().language, AppLanguage.malayalam);
   });
 
