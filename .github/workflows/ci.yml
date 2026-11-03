@@ -40,6 +40,9 @@ jobs:
       - name: Test Flutter widgets
         working-directory: packages/kollavarsham_flutter
         run: flutter test
+      - name: Analyze and test calendar data
+        working-directory: packages/calendar_data
+        run: dart analyze --fatal-infos && dart test
 
   app:
     name: Calendar app

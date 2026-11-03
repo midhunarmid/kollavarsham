@@ -9,6 +9,7 @@ environment:
 resolution: workspace
 
 dependencies:
+  calendar_data: ^0.0.0
   file_picker: ^11.0.3
   flutter:
     sdk: flutter
