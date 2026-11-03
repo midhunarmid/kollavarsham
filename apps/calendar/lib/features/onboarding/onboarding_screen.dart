@@ -14,8 +14,11 @@ import '../settings/settings_screen.dart';
 /// It only explains notifications; Android asks for the permission when
 /// the first reminder is set up.
 class OnboardingScreen extends ConsumerStatefulWidget {
-  /// Creates the onboarding flow.
-  const OnboardingScreen({super.key});
+  /// Creates the onboarding flow; afterwards it opens [from] if given.
+  const OnboardingScreen({super.key, this.from});
+
+  /// The app path that was asked for before onboarding, e.g. a day.
+  final String? from;
 
   @override
   ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -33,7 +36,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _finish() async {
     await _controller
         .update(ref.read(settingsProvider).copyWith(onboardingDone: true));
-    if (mounted) context.go(AppRoutes.today);
+    // Only an in-app path: `from` comes from a URL.
+    final from = widget.from;
+    final next = from != null && from.startsWith('/') && !from.startsWith('//')
+        ? from
+        : AppRoutes.today;
+    if (mounted) context.go(next);
   }
 
   @override

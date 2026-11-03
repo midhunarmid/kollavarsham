@@ -6,7 +6,7 @@ import {
 } from '../../../lib/data';
 import {
   gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate,
-  nameOf, spanText, t, timeOf, weekdayOf,
+  appLink, nameOf, spanText, t, timeOf, weekdayOf,
 } from '../../../lib/i18n';
 
 export function getStaticPaths() {
@@ -51,6 +51,7 @@ const kalamOrder = ['rahu', 'gulika', 'yamagandam'];
     <li class="chip">{t(lang, 'star')}: {star}</li>
     <li class="chip">{t(lang, 'tithi')}: {tithi}</li>
   </ul>
+  <a class="app-cta" href={appLink(`/day/${iso}`)}>{t(lang, 'openInApp')} →</a>
 
   <h2>{t(lang, 'festivals')}</h2>
   {fests.length === 0 ? <p>{t(lang, 'noFestival')}</p> : (

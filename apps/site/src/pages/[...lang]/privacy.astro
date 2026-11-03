@@ -1,0 +1,73 @@
+---
+// Privacy policy; the source of truth is docs/privacy.md.
+import Base from '../../layouts/Base.astro';
+import { langOf, langParam, langs } from '../../lib/i18n';
+import type { Lang } from '../../lib/data';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const ml = lang === 'ml';
+const title = ml ? 'സ്വകാര്യതാ നയം' : 'Privacy policy';
+---
+<Base lang={lang} path="/privacy/" title={title}
+  description={ml ? 'മലയാളം കലണ്ടർ ഒരു വിവരവും ശേഖരിക്കുന്നില്ല. എല്ലാം നിങ്ങളുടെ ഉപകരണത്തിൽ മാത്രം.' : 'Malayalam Calendar collects no data. Everything stays on your device.'}>
+  <h1>{title}</h1>
+  {ml ? (
+    <>
+      <p class="lede">ആൻഡ്രോയിഡ് ആപ്പ് (in.armid.calendar), calendar.armid.in വെബ്സൈറ്റ്, /app എന്ന വെബ് ആപ്പ് എന്നിവയ്ക്ക് ബാധകം. ഡെവലപ്പർ: മിഥുൻ മോഹനൻ.</p>
+      <h2>ചുരുക്കത്തിൽ</h2>
+      <ul>
+        <li><strong>ഞങ്ങൾ ഒരു വിവരവും ശേഖരിക്കുന്നില്ല.</strong> അക്കൗണ്ടില്ല, ഞങ്ങളുടെ സെർവറുകളില്ല, അനലിറ്റിക്സില്ല, പരസ്യമില്ല.</li>
+        <li><strong>എല്ലാം നിങ്ങളുടെ ഉപകരണത്തിൽ.</strong> ആളുകൾ, ദിവസങ്ങൾ, ഓർമ്മപ്പെടുത്തലുകൾ, ക്രമീകരണങ്ങൾ എന്നിവ ഫോണിലോ ബ്രൗസറിലോ മാത്രം സൂക്ഷിക്കുന്നു.</li>
+        <li><strong>ഓഫ്‌ലൈനായി പ്രവർത്തിക്കും.</strong> തീയതികളും പഞ്ചാംഗവും കാണാൻ ഇന്റർനെറ്റ് വേണ്ട.</li>
+      </ul>
+      <h2>സ്ഥലം</h2>
+      <p>ആപ്പ് ഉപകരണത്തിന്റെ ലൊക്കേഷൻ വായിക്കുന്നില്ല. പട്ടികയിൽ നിന്ന് ഒരു നഗരം തിരഞ്ഞെടുക്കുകയോ അക്ഷാംശവും രേഖാംശവും സമയമേഖലയും നൽകുകയോ ചെയ്യാം; സൂര്യോദയം കണക്കാക്കാൻ മാത്രം, ഉപകരണത്തിൽ തന്നെ.</p>
+      <h2>അനുമതികൾ</h2>
+      <ul>
+        <li><strong>അറിയിപ്പുകൾ:</strong> ഓർമ്മപ്പെടുത്തലുകൾക്ക്. നിരസിച്ചാലും ആപ്പ് പ്രവർത്തിക്കും.</li>
+        <li><strong>കൃത്യസമയ അലാറം:</strong> തിരഞ്ഞെടുത്ത സമയത്ത് ഓർമ്മിപ്പിക്കാൻ. നിരസിച്ചാൽ കുറച്ചു മിനിറ്റ് വൈകിയേക്കാം.</li>
+        <li><strong>ഫയലുകൾ:</strong> ബാക്കപ്പ് തിരികെ ചേർക്കുമ്പോൾ നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ഫയൽ മാത്രം.</li>
+      </ul>
+      <h2>ബാക്കപ്പ്</h2>
+      <p>ബാക്കപ്പ് (JSON), .ics ഫയലുകൾ ഉപകരണത്തിൽ ഉണ്ടാക്കി നിങ്ങൾ തിരഞ്ഞെടുക്കുന്നിടത്തേക്ക് മാത്രം പങ്കിടുന്നു. ആൻഡ്രോയിഡിന്റെ ഓട്ടോ ബാക്കപ്പ് ഗൂഗിൾ അക്കൗണ്ടിലേക്ക് പകർത്തിയേക്കാം; അത് ഞങ്ങൾക്ക് ലഭിക്കില്ല.</p>
+      <h2>ഈ വെബ്സൈറ്റ്</h2>
+      <p>സൈറ്റിൽ കുക്കികളോ ട്രാക്കിംഗോ ഇല്ല. അക്ഷരങ്ങൾക്കായി ഗൂഗിൾ ഫോണ്ട്സ് ഉപയോഗിക്കുന്നു; അതിനായി ബ്രൗസർ ഗൂഗിളിന്റെ സെർവറുമായി ബന്ധപ്പെടും. സൈറ്റ് GitHub Pages-ൽ നിന്നാണ്.</p>
+      <h2>ബന്ധപ്പെടാൻ</h2>
+      <p><a href="https://github.com/midhunarmid/kollavarsham/issues">GitHub issues</a>.</p>
+    </>
+  ) : (
+    <>
+      <p class="lede">For the Android app (in.armid.calendar), this website calendar.armid.in, and the web app at /app. Made by Midhun Mohanan.</p>
+      <h2>Summary</h2>
+      <ul>
+        <li><strong>We collect no data.</strong> No accounts, no servers of ours, no analytics, no crash reporting, no advertising.</li>
+        <li><strong>Everything stays on your device.</strong> People, events, reminders and settings are stored only on your phone or in your browser.</li>
+        <li><strong>It works offline.</strong> Dates, panchangam and festivals need no internet connection.</li>
+      </ul>
+      <h2>Location</h2>
+      <p>The app never reads your device’s location. You choose a Kerala city from a list, or type a latitude, longitude and time zone; they are used on the device to compute sunrise, sunset and month starts.</p>
+      <h2>Permissions</h2>
+      <ul>
+        <li><strong>Notifications</strong> (Android 13 and later): for your reminders. You can refuse; the app keeps working.</li>
+        <li><strong>Exact alarms:</strong> to remind you at the time you chose. If refused, reminders may come a few minutes late.</li>
+        <li><strong>Files:</strong> only the backup file you pick when restoring.</li>
+      </ul>
+      <p>The Android app does not ask for internet access. Links you tap, such as “Report a wrong date” (a pre-filled GitHub issue, sent only if you submit it there), open in your browser.</p>
+      <h2>Backups</h2>
+      <p>Backup (JSON) and .ics files are made on your device and shared only where you choose. Android Auto Backup may copy the app’s data to your Google account under Android’s settings; we don’t control or receive it.</p>
+      <h2>This website</h2>
+      <p>The site sets no cookies and has no tracking. It loads fonts from Google Fonts, so your browser contacts Google’s servers for them. It is hosted on GitHub Pages.</p>
+      <h2>Children</h2>
+      <p>The app does not knowingly collect information from anyone, including children.</p>
+      <h2>Changes</h2>
+      <p>If the app ever starts to collect data, this policy will change before that release and say so at the top.</p>
+      <h2>Contact</h2>
+      <p><a href="https://github.com/midhunarmid/kollavarsham/issues">GitHub issues</a>.</p>
+    </>
+  )}
+  <p class="sub">{ml ? 'അവസാനം പുതുക്കിയത്: 2026 നവംബർ 3 (കരട്)' : 'Last updated: 3 November 2026 (draft)'}</p>
+</Base>

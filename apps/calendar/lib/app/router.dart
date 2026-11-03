@@ -136,14 +136,24 @@ GoRouter createRouter({required bool Function() needsOnboarding}) => GoRouter(
       initialLocation: AppRoutes.today,
       redirect: (context, state) {
         final onboarding = state.matchedLocation == AppRoutes.onboarding;
-        if (needsOnboarding()) return onboarding ? null : AppRoutes.onboarding;
+        if (needsOnboarding()) {
+          if (onboarding) return null;
+          // Keep a deep link (from a notification, a shortcut or the
+          // website) to open once onboarding is done.
+          final from = state.uri.toString();
+          return from == AppRoutes.today || from == '/'
+              ? AppRoutes.onboarding
+              : Uri(path: AppRoutes.onboarding, queryParameters: {'from': from})
+                  .toString();
+        }
         return onboarding ? AppRoutes.today : null;
       },
       routes: [
         GoRoute(path: '/', redirect: (_, __) => AppRoutes.today),
         GoRoute(
           path: AppRoutes.onboarding,
-          builder: (_, __) => const OnboardingScreen(),
+          builder: (_, state) =>
+              OnboardingScreen(from: state.uri.queryParameters['from']),
         ),
         GoRoute(
           path: AppRoutes.day,

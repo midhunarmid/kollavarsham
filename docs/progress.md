@@ -223,9 +223,12 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - Not drift (see Day 9): the data is in shared_preferences, which is `localStorage` on the web. That's per browser and origin; the backup file moves it between browsers and phones.
   - Without system notifications (the web), Settings → Reminders lists the next 15 reminders the app would send and links to the `.ics` export, so a calendar app can do the reminding. Sharing files on the web goes through `share_plus`'s Web Share, or a download where that's unsupported.
 
-### Day 22: Sprint 10b, PWA and site pages (status: todo)
-- [ ] PWA manifest and offline caching for `/app`; deep links from site pages to the app.
-- [ ] Privacy, "how dates are computed" and contact pages; Play Store link placeholder.
+### Day 22: Sprint 10b, PWA and site pages (status: done)
+- [x] PWA manifest and offline caching for `/app`; deep links from site pages to the app.
+  - Flutter's service worker is now a self-unregistering stub, so the app has its own (`web/app_sw.js`: network-first for the page, stale-while-revalidate for app files and Google font files) and a custom `web/flutter_bootstrap.js` that doesn't register Flutter's. Built with `--no-web-resources-cdn` so CanvasKit is local. `apps/site/scripts/check-offline.mjs` checks, in headless Chrome, that the app renders with the server stopped after two online visits; it passes locally and runs in the deploy workflow.
+  - Day, festival and converter pages link into the app (`/app/#/day/…`, `/app/#/festival/<id>?date=…`, `/app/#/tools/converter`). A first visit keeps the link through onboarding and opens it afterwards (only in-app paths).
+- [x] Privacy, "how dates are computed" and contact pages; Play Store link placeholder.
+  - `/privacy/`, `/how-dates-are-computed/`, `/contact/` in both languages, linked from every page's footer. The home page has an "Android app" card with "Google Play: coming soon" (`#play-link`) to replace with the listing URL. The privacy page mirrors `docs/privacy.md` and is still marked draft (Needs you: review, contact email).
 
 ### Day 23: Sprint 11a, accuracy campaign (status: todo)
 - [ ] `docs/accuracy-checklist.md`: every 2026–2027 month start, festival and pirannal example with a column for the almanac value (filling it is **Needs you**); a script that prints the app's values.
@@ -261,3 +264,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-03 | Day 19 | calendar_data package (shared festival/holiday model), site_data CLI (13 years of days, months, festivals as JSON), converter_js (115 KB JS converter and star finder, checked in Node) |
 | 2026-11-03 | Day 20 | Astro site (10,701 pages, en/ml with hreflang, JSON-LD, sitemap, OG image, browser-side today/star/converter), link checker, CI site job, deploy of site at / and app at /app/ |
 | 2026-11-03 | Day 21 | Flutter web app at /app/ (verified locally), web reminder list with .ics export link; 159 app tests pass |
+| 2026-11-03 | Day 22 | Offline PWA at /app/ (own service worker, local CanvasKit, headless-Chrome offline check), site→app deep links surviving onboarding, privacy/how-computed/contact pages, Play placeholder; 161 app tests pass, 10,707 site pages with all links resolving |

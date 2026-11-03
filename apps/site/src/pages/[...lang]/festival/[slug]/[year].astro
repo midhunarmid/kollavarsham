@@ -4,7 +4,7 @@
 import Base from '../../../../layouts/Base.astro';
 import { festivals, festivalSlug, type Festival, type FestivalDate, type Lang } from '../../../../lib/data';
 import {
-  gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate, t, weekdayOf,
+  appLink, gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate, t, weekdayOf,
 } from '../../../../lib/i18n';
 import { dayOf } from '../../../../lib/data';
 
@@ -59,6 +59,7 @@ const years = [...new Set(festival.dates.map((d) => Number(d.date.slice(0, 4))))
       {date.holiday && <li class="chip holiday">{holidayLabel(lang, date.holiday)}</li>}
       {date.tentative && <li class="chip">{t(lang, 'tentative')}</li>}
     </ul>
+    <a class="app-cta" href={appLink(`/festival/${festival.id}?date=${date.date}`)}>{t(lang, 'openInApp')} →</a>
   </div>
   {festival.about[lang] && (<><h2>{t(lang, 'about')}</h2><p>{festival.about[lang]}</p></>)}
   {festival.rule[lang] && (<><h2>{t(lang, 'rule')}</h2><p>{festival.rule[lang]}</p></>)}

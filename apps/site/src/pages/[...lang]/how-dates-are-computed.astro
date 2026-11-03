@@ -1,0 +1,53 @@
+---
+// How the calendar computes dates, in plain words.
+import Base from '../../layouts/Base.astro';
+import { href, langOf, langParam, langs } from '../../lib/i18n';
+import type { Lang } from '../../lib/data';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const ml = lang === 'ml';
+const title = ml ? 'തീയതികൾ കണക്കാക്കുന്ന വിധം' : 'How dates are computed';
+const repo = 'https://github.com/midhunarmid/kollavarsham';
+---
+<Base lang={lang} path="/how-dates-are-computed/" title={title}
+  description={ml ? 'മാസാരംഭം, നക്ഷത്രം, തിഥി, വിശേഷങ്ങൾ, പിറന്നാൾ എന്നിവ കണക്കാക്കുന്നത് എങ്ങനെ.' : 'How the calendar finds month starts, stars, tithis, festivals and star birthdays.'}>
+  <h1>{title}</h1>
+  {ml ? (
+    <>
+      <p class="lede">എല്ലാ തീയതികളും ഒരു പട്ടികയിൽ നിന്നല്ല, സൂര്യന്റെയും ചന്ദ്രന്റെയും സ്ഥാനം കണക്കാക്കി കണ്ടെത്തുന്നതാണ്. അതിനാൽ ഏതു വർഷത്തിനും ഏതു സ്ഥലത്തിനും പ്രവർത്തിക്കും.</p>
+      <h2>മാസാരംഭം</h2>
+      <p>സൂര്യൻ ഒരു രാശിയിൽ കടക്കുന്ന നിമിഷമാണ് സംക്രമം (ലാഹിരി അയനാംശം). കേരളത്തിലെ രീതിയനുസരിച്ച്, സംക്രമം പകലിന്റെ ആദ്യ അഞ്ചിൽ മൂന്ന് ഭാഗത്തിനുള്ളിലാണെങ്കിൽ അന്ന് മാസം ഒന്ന്; അല്ലെങ്കിൽ പിറ്റേന്ന്. സംക്രമം ഈ അതിർത്തിയോട് ഏതാനും മിനിറ്റ് അടുത്താണെങ്കിൽ പഞ്ചാംഗങ്ങൾ തമ്മിൽ വ്യത്യാസം വരാം; ആപ്പ് അത്തരം ദിവസങ്ങളിൽ ഒരു കുറിപ്പ് കാണിക്കും.</p>
+      <h2>നക്ഷത്രവും തിഥിയും</h2>
+      <p>ഒരു ദിവസത്തെ നക്ഷത്രവും തിഥിയും സൂര്യോദയത്തിൽ നിലവിലുള്ളതാണ്. ദിവസത്തെ പേജുകളിൽ അടുത്ത സൂര്യോദയം വരെയുള്ള എല്ലാ നക്ഷത്രങ്ങളും തിഥികളും അവസാനിക്കുന്ന സമയത്തോടെ കാണാം.</p>
+      <h2>പിറന്നാൾ</h2>
+      <p>ജന്മമാസത്തിൽ ജന്മനക്ഷത്രം വരുന്ന ദിവസം. സൂര്യോദയം കഴിഞ്ഞ് 6 നാഴിക (ഏകദേശം 2 മണിക്കൂർ 24 മിനിറ്റ്) സമയത്തെ നക്ഷത്രമാണ് നോക്കുന്നത്. മാസത്തിൽ രണ്ടു തവണ വന്നാൽ രണ്ടാമത്തേത് (മാറ്റാം).</p>
+      <h2>വിശേഷങ്ങൾ</h2>
+      <p>ഓരോ വിശേഷത്തിന്റെയും നിയമം അതിന്റെ പേജിൽ കാണാം; ഓരോന്നും കുറഞ്ഞത് അഞ്ചു വർഷത്തെ പ്രസിദ്ധീകരിച്ച തീയതികളുമായി ഒത്തുനോക്കിയതാണ്. മുസ്ലിം വിശേഷങ്ങൾ ചന്ദ്രനെ കാണുന്നതനുസരിച്ചാണ്; സർക്കാർ പ്രഖ്യാപിക്കുംവരെ താൽക്കാലികം. സർക്കാർ അവധികൾ ഔദ്യോഗിക പട്ടികയിൽ നിന്ന്.</p>
+      <h2>സമയങ്ങൾ</h2>
+      <p>ഈ സൈറ്റിലെ സമയങ്ങൾ തിരുവനന്തപുരത്തേതാണ് (IST). ആപ്പിൽ നിങ്ങളുടെ നഗരമോ സ്ഥലമോ തിരഞ്ഞെടുക്കാം.</p>
+      <h2>തെറ്റ് കണ്ടാൽ</h2>
+      <p>ഒരു തീയതി നിങ്ങളുടെ പഞ്ചാംഗവുമായി യോജിക്കുന്നില്ലെങ്കിൽ, പഞ്ചാംഗത്തിന്റെ പേരും വർഷവും സഹിതം <a href={`${repo}/issues`}>GitHub-ൽ അറിയിക്കുക</a>. ആപ്പിലെ ദിവസ വിവരങ്ങളിൽ “തെറ്റായ തീയതി അറിയിക്കുക” ഉണ്ട്.</p>
+    </>
+  ) : (
+    <>
+      <p class="lede">Dates are not looked up in a table: they are computed from the positions of the Sun and Moon, so they work for any year and any place.</p>
+      <h2>Month starts</h2>
+      <p>A Malayalam month begins at the <em>sankranti</em>, the moment the Sun enters a sign of the zodiac (sidereal, Lahiri ayanamsa). Following the Kerala rule, if the sankranti falls within the first three-fifths of the daytime, that day is the 1st of the month; otherwise the next day is. When the sankranti is within a few minutes of that cut-off, almanacs can disagree; the app notes such days.</p>
+      <h2>Star and tithi</h2>
+      <p>A day’s nakshatra and tithi are the ones prevailing at sunrise. Each day page lists every star and tithi until the next sunrise, with the times they end.</p>
+      <h2>Star birthdays (pirannal)</h2>
+      <p>The day in the birth Malayalam month when the birth star falls, read at 6 nazhika (about 2 h 24 min) after sunrise. When the star falls twice in the month, the second day is used by default; the app lets you choose. The rules and their sources are in <a href={`${repo}/blob/main/docs/pirannal-rules.md`}>pirannal-rules.md</a>.</p>
+      <h2>Festivals</h2>
+      <p>Each festival’s rule is on its page, and each was checked against at least five years of published dates. Muslim festivals follow the sighting of the moon and stay tentative until announced. Government holidays come from the published Kerala holiday list. How closely the computed values match published ones is recorded in <a href={`${repo}/blob/main/docs/accuracy.md`}>accuracy.md</a>.</p>
+      <h2>Times</h2>
+      <p>Times on this site are for Thiruvananthapuram (IST). In the app, choose your own city or place.</p>
+      <h2>Found a difference?</h2>
+      <p>If a date doesn’t match your almanac, please <a href={`${repo}/issues`}>open an issue on GitHub</a> with the almanac’s name and year. In the app, each day has “Report a wrong date”.</p>
+    </>
+  )}
+  <p><a href={href(lang, '/converter/')}>{ml ? 'തീയതി മാറ്റൽ' : 'Date converter'} →</a></p>
+</Base>

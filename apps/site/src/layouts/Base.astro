@@ -88,9 +88,12 @@ const nav = [
     <footer class="site-footer">
       <div class="wrap">
         <p>{t(lang, 'footer')}</p>
-        <p>
+        <nav class="footer-links" aria-label={t(lang, 'contact')}>
+          <a href={href(lang, '/how-dates-are-computed/')}>{t(lang, 'howComputed')}</a>
+          <a href={href(lang, '/privacy/')}>{t(lang, 'privacy')}</a>
+          <a href={href(lang, '/contact/')}>{t(lang, 'contact')}</a>
           <a href="https://github.com/midhunarmid/kollavarsham">GitHub</a>
-        </p>
+        </nav>
       </div>
     </footer>
   </body>

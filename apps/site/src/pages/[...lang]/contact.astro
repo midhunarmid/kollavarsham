@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { href, langOf, langParam, langs } from '../../lib/i18n';
+import type { Lang } from '../../lib/data';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const ml = lang === 'ml';
+const title = ml ? 'ബന്ധപ്പെടുക' : 'Contact';
+const repo = 'https://github.com/midhunarmid/kollavarsham';
+---
+<Base lang={lang} path="/contact/" title={title}
+  description={ml ? 'തെറ്റായ തീയതികൾ, നിർദ്ദേശങ്ങൾ, ചോദ്യങ്ങൾ.' : 'Wrong dates, suggestions and questions.'}>
+  <h1>{title}</h1>
+  <ul class="list">
+    <li>
+      <a href={`${repo}/issues/new?labels=wrong-date&title=Wrong%20date%3A%20`}>{ml ? 'തെറ്റായ തീയതി അറിയിക്കുക' : 'Report a wrong date'}</a>
+      <p class="sub">{ml ? 'തീയതി, നിങ്ങളുടെ പഞ്ചാംഗത്തിൽ കാണുന്നത്, പഞ്ചാംഗത്തിന്റെ പേരും വർഷവും.' : 'The date, what your almanac says, and the almanac’s name and year.'}</p>
+    </li>
+    <li>
+      <a href={`${repo}/issues`}>{ml ? 'നിർദ്ദേശങ്ങളും ചോദ്യങ്ങളും' : 'Suggestions and questions'}</a>
+      <p class="sub">{ml ? 'GitHub-ൽ ഒരു issue തുറക്കുക.' : 'Open an issue on GitHub.'}</p>
+    </li>
+    <li>
+      <a href={repo}>{ml ? 'സോഴ്സ് കോഡ്' : 'Source code'}</a>
+      <p class="sub">{ml ? 'കലണ്ടർ എഞ്ചിൻ (kollavarsham) pub.dev-ൽ ലഭ്യമാണ്.' : 'The calendar engine (kollavarsham) is a Dart package on pub.dev.'}</p>
+    </li>
+  </ul>
+  <p><a href={href(lang, '/privacy/')}>{ml ? 'സ്വകാര്യതാ നയം' : 'Privacy policy'}</a></p>
+</Base>

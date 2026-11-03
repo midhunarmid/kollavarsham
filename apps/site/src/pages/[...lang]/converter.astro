@@ -3,7 +3,7 @@
 // (apps/converter_js, compiled to /kollavarsham.js).
 import Base from '../../layouts/Base.astro';
 import { names, type Lang } from '../../lib/data';
-import { href, langOf, langParam, langs, t } from '../../lib/i18n';
+import { appLink, href, langOf, langParam, langs, t } from '../../lib/i18n';
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
@@ -55,6 +55,7 @@ const today = new Date().toISOString().slice(0, 10);
       <output id="star-out" aria-live="polite"></output>
     </form>
     <p class="sub">{t(lang, 'placeNote')}</p>
+    <a class="app-cta" href={appLink('/tools/converter')}>{t(lang, 'openInApp')} →</a>
   </section>
 
   <script is:inline src="/kollavarsham.js" defer></script>

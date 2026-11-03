@@ -75,6 +75,16 @@ const strings = {
   },
   notFound: { en: 'Page not found', ml: 'പേജ് കണ്ടെത്തിയില്ല' },
   kalams: { en: 'Kalams', ml: 'കാലങ്ങൾ' },
+  openInApp: { en: 'Open in the app', ml: 'ആപ്പിൽ തുറക്കുക' },
+  privacy: { en: 'Privacy', ml: 'സ്വകാര്യത' },
+  howComputed: { en: 'How dates are computed', ml: 'തീയതികൾ കണക്കാക്കുന്ന വിധം' },
+  contact: { en: 'Contact', ml: 'ബന്ധപ്പെടുക' },
+  androidApp: { en: 'Android app', ml: 'ആൻഡ്രോയിഡ് ആപ്പ്' },
+  androidAppBody: {
+    en: 'Pirannal and nakshatram reminders, widgets and your own city’s times. Coming soon to Google Play; meanwhile, the web app works in your browser and offline.',
+    ml: 'പിറന്നാൾ, നക്ഷത്ര ഓർമ്മപ്പെടുത്തലുകൾ, വിജറ്റുകൾ, നിങ്ങളുടെ നഗരത്തിലെ സമയങ്ങൾ. ഉടൻ ഗൂഗിൾ പ്ലേയിൽ; അതുവരെ വെബ് ആപ്പ് ബ്രൗസറിലും ഓഫ്‌ലൈനായും പ്രവർത്തിക്കും.',
+  },
+  playSoon: { en: 'Google Play: coming soon', ml: 'ഗൂഗിൾ പ്ലേ: ഉടൻ' },
   footer: {
     en: 'Free, no ads, no tracking. Dates are computed; almanacs can differ by a day.',
     ml: 'സൗജന്യം, പരസ്യമില്ല, നിരീക്ഷണമില്ല. തീയതികൾ കണക്കാക്കുന്നതാണ്; പഞ്ചാംഗങ്ങളുമായി ഒരു ദിവസം വ്യത്യാസം വരാം.',
@@ -150,3 +160,6 @@ export function spanText(lang: Lang, name: string, until: string, iso: string): 
   const time = timeOf(lang, until, iso);
   return lang === 'ml' ? `${name} ${time} ${t(lang, 'until')}` : `${name} ${t(lang, 'until')} ${time}`;
 }
+
+/** A link into the web app (hash routes), e.g. appLink('/day/2026-11-02'). */
+export const appLink = (route: string) => `/app/#${route}`;

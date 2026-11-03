@@ -41,6 +41,15 @@ const currentMonths = completeMonths.filter((m) => m.start >= `${thisYear - 1}-1
     <p><a id="today-link" href={href(lang, `/day/${buildDay}/`)}>{t(lang, 'panchangam')} →</a></p>
   </section>
 
+  <section class="card">
+    <h2 style="margin-top:0">{t(lang, 'androidApp')}</h2>
+    <p>{t(lang, 'androidAppBody')}</p>
+    <ul class="chips">
+      <li><a class="chip" href="/app/">{t(lang, 'openApp')}</a></li>
+      <li><span class="chip" id="play-link">{t(lang, 'playSoon')}</span></li>
+    </ul>
+  </section>
+
   <h2>{t(lang, 'upcomingFestivals')}</h2>
   <ul class="list" id="upcoming">
     {upcoming.map(({ f, d }, i) => (

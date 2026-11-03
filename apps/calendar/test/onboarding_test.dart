@@ -1,8 +1,10 @@
 import 'package:calendar/app/locations.dart';
 import 'package:calendar/app/settings.dart';
+import 'package:calendar/features/day/day_screen.dart';
 import 'package:calendar/features/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
 import 'helpers.dart';
 
@@ -68,5 +70,35 @@ void main() {
     await pumpApp(tester, settings: enSettings);
     expect(find.byType(OnboardingScreen), findsNothing);
     expect(find.byType(NavigationBar), findsOneWidget);
+  });
+
+  testWidgets('a deep link opens after onboarding', (tester) async {
+    await pumpApp(tester, settings: null);
+    GoRouter.of(tester.element(find.byType(OnboardingScreen)))
+        .go('/day/2026-11-08');
+    await tester.pumpAndSettle();
+    final screen =
+        tester.widget<OnboardingScreen>(find.byType(OnboardingScreen));
+    expect(screen.from, '/day/2026-11-08');
+    await tester.tap(find.text('English'));
+    await tester.pumpAndSettle();
+    for (var i = 0; i < 3; i++) {
+      await _next(tester);
+    }
+    expect(tester.widget<DayScreen>(find.byType(DayScreen)).date,
+        DateTime(2026, 11, 8));
+  });
+
+  testWidgets('an outside URL in from is ignored', (tester) async {
+    await pumpApp(tester, settings: null);
+    GoRouter.of(tester.element(find.byType(OnboardingScreen)))
+        .go('/onboarding?from=//evil.example/x');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('English'));
+    await tester.pumpAndSettle();
+    for (var i = 0; i < 3; i++) {
+      await _next(tester);
+    }
+    expect(find.byKey(const Key('today-date')), findsOneWidget);
   });
 }

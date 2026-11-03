@@ -154,6 +154,10 @@ input, select, button {
 button { background: var(--primary); color: var(--on-primary); border: 0; font-weight: 600; cursor: pointer; padding: 8px 18px; }
 output { display: block; }
 
+.footer-links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.footer-links a { padding: 6px 0; }
+.app-cta { display: inline-block; margin-top: 4px; font-weight: 600; }
+
 .site-footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; padding: 20px 0 32px; }
 
 @media (max-width: 520px) {
