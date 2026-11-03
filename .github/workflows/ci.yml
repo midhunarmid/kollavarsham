@@ -88,6 +88,28 @@ jobs:
           name: calendar-debug-apk
           path: apps/calendar/build/app/outputs/flutter-apk/app-debug.apk
 
+  site:
+    name: Site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/site/package-lock.json
+      - run: flutter pub get
+      - name: Build and check the site
+        working-directory: apps/site
+        run: |
+          npm run prepare-data
+          npm ci
+          npm run build
+          npm run check
+
   coverage:
     runs-on: ubuntu-latest
     steps:

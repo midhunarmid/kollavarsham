@@ -1,0 +1,22 @@
+{
+  "name": "kollavarsham-site",
+  "private": true,
+  "type": "module",
+  "description": "calendar.armid.in: the Malayalam calendar site, built from apps/site_data's JSON.",
+  "scripts": {
+    "data": "cd ../site_data && dart run site_data --out ../site/src/data",
+    "converter": "cd ../converter_js && dart compile js -O2 -o ../site/public/kollavarsham.js web/converter.dart",
+    "prepare-data": "npm run data && npm run converter",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "node scripts/check-dist.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.3.8"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

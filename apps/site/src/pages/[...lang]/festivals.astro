@@ -1,0 +1,45 @@
+---
+// All festivals by category, each with its next date after the build.
+import Base from '../../layouts/Base.astro';
+import { festivals, festivalSlug, type Lang } from '../../lib/data';
+import { gregorianDate, href, langOf, langParam, langs, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const today = new Date().toISOString().slice(0, 10);
+const categories = ['hindu', 'christian', 'muslim', 'national', 'government', 'bank'];
+const labels: Record<string, Record<Lang, string>> = {
+  hindu: { en: 'Hindu', ml: 'ഹിന്ദു' },
+  christian: { en: 'Christian', ml: 'ക്രിസ്ത്യൻ' },
+  muslim: { en: 'Muslim', ml: 'മുസ്ലിം' },
+  national: { en: 'National', ml: 'ദേശീയം' },
+  government: { en: 'Government', ml: 'സർക്കാർ' },
+  bank: { en: 'Bank', ml: 'ബാങ്ക്' },
+};
+const withNext = festivals
+  .map((f) => ({ f, next: f.dates.find((d) => d.date >= today) ?? f.dates.at(-1)! }))
+  .sort((a, b) => a.next.date.localeCompare(b.next.date));
+---
+<Base lang={lang} path="/festivals/" title={t(lang, 'allFestivals')}
+  description={withNext.slice(0, 15).map(({ f }) => f[lang]).join(', ')}>
+  <h1>{t(lang, 'allFestivals')}</h1>
+  {categories.map((c) => {
+    const list = withNext.filter(({ f }) => f.category === c);
+    return list.length > 0 && (
+      <section>
+        <h2>{labels[c][lang]}</h2>
+        <ul class="list">
+          {list.map(({ f, next }) => (
+            <li>
+              <a href={href(lang, `/festival/${festivalSlug(f.id)}/${next.date.slice(0, 4)}/`)}>{f[lang]}</a>
+              <span class="sub"> · {gregorianDate(lang, next.date)}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  })}
+</Base>

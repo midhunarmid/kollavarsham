@@ -1,0 +1,100 @@
+---
+// Date converter and star finder, running the engine in the browser
+// (apps/converter_js, compiled to /kollavarsham.js).
+import Base from '../../layouts/Base.astro';
+import { names, type Lang } from '../../lib/data';
+import { href, langOf, langParam, langs, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const title = t(lang, 'converter');
+const description = lang === 'ml'
+  ? 'ഇംഗ്ലീഷ് തീയതിയും മലയാള (കൊല്ലവർഷ) തീയതിയും തമ്മിൽ മാറ്റുക; ജനനസമയത്തു നിന്ന് നക്ഷത്രം കണ്ടെത്തുക.'
+  : 'Convert between English and Malayalam (Kollavarsham) dates, and find a birth star from the time of birth.';
+const monthIds = Object.keys(names.months);
+const today = new Date().toISOString().slice(0, 10);
+---
+<Base lang={lang} path="/converter/" title={title} description={description}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+
+  <section class="card" data-lang={lang} data-prefix={href(lang, '')} id="tools">
+    <h2>{t(lang, 'englishDate')} → {t(lang, 'malayalamDate')}</h2>
+    <form class="tool" id="to-ml">
+      <div class="row">
+        <label>{t(lang, 'englishDate')}<input type="date" name="date" value={today} required /></label>
+        <button type="submit">{t(lang, 'convert')}</button>
+      </div>
+      <output id="to-ml-out" aria-live="polite"></output>
+    </form>
+
+    <h2>{t(lang, 'malayalamDate')} → {t(lang, 'englishDate')}</h2>
+    <form class="tool" id="to-g">
+      <div class="row">
+        <label>{t(lang, 'year')}<input type="number" name="year" value="1202" min="1" max="2000" required /></label>
+        <label>{t(lang, 'month')}
+          <select name="month">
+            {monthIds.map((id) => <option value={id}>{names.months[id][lang]}</option>)}
+          </select>
+        </label>
+        <label>{t(lang, 'day')}<input type="number" name="day" value="1" min="1" max="32" required /></label>
+        <button type="submit">{t(lang, 'convert')}</button>
+      </div>
+      <output id="to-g-out" aria-live="polite"></output>
+    </form>
+
+    <h2>{t(lang, 'findStar')}</h2>
+    <form class="tool" id="star">
+      <div class="row">
+        <label>{t(lang, 'birthDateTime')}<input type="datetime-local" name="time" value="1990-01-01T06:00" required /></label>
+        <button type="submit">{t(lang, 'find')}</button>
+      </div>
+      <output id="star-out" aria-live="polite"></output>
+    </form>
+    <p class="sub">{t(lang, 'placeNote')}</p>
+  </section>
+
+  <script is:inline src="/kollavarsham.js" defer></script>
+  <script is:inline define:vars={{ invalid: t(lang, 'invalid'), padaWord: t(lang, 'pada'), rashiWord: t(lang, 'rashi') }}>
+    window.addEventListener('load', function () {
+      var box = document.getElementById('tools');
+      var ml = box.dataset.lang === 'ml';
+      var k = window.kollavarsham;
+      function link(r) {
+        var a = document.createElement('a');
+        a.href = box.dataset.prefix + '/day/' + r.gregorian + '/';
+        a.textContent = (ml ? r.textMl : r.textEn) + ' · ' + r.gregorian;
+        return a;
+      }
+      function show(id, r, extra) {
+        var out = document.getElementById(id);
+        out.textContent = '';
+        if (!r) { out.textContent = invalid; return; }
+        out.appendChild(link(r));
+        var p = document.createElement('p');
+        p.textContent = extra || ((ml ? r.starMl : r.starEn) + ' · ' + (ml ? r.tithiMl : r.tithiEn));
+        out.appendChild(p);
+      }
+      document.getElementById('to-ml').addEventListener('submit', function (e) {
+        e.preventDefault();
+        show('to-ml-out', k.toMalayalam(e.target.date.value));
+      });
+      document.getElementById('to-g').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var f = e.target;
+        show('to-g-out', k.toGregorian(Number(f.year.value), f.month.value, Number(f.day.value)));
+      });
+      document.getElementById('star').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var s = k.findStar(e.target.time.value);
+        if (!s) { show('star-out', null); return; }
+        show('star-out', s.date,
+          (ml ? s.starMl : s.starEn) + ', ' + s.pada + ' ' + padaWord + ' · ' +
+          (ml ? s.rashiMl : s.rashiEn) + ' ' + rashiWord);
+      });
+    });
+  </script>
+</Base>

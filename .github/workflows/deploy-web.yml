@@ -1,12 +1,10 @@
-# Deploys the calendar web app (apps/calendar) to GitHub Pages on every
-# push to main: https://calendar.armid.in/
+# Deploys calendar.armid.in to GitHub Pages on every push to main: the
+# static site (apps/site) at the root and the Flutter web app
+# (apps/calendar) at /app/.
 #
 # One-time setup: repository Settings > Pages > Build and deployment >
 # Source: "GitHub Actions", and Custom domain: calendar.armid.in (DNS: a
 # CNAME record pointing to midhunarmid.github.io).
-#
-# The custom domain serves the app from the root, so --base-href is /.
-# Change it to /app/ when the Astro site takes over the root.
 name: Deploy web
 
 on:
@@ -26,7 +24,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build calendar web
+    name: Build site and web app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,23 +32,34 @@ jobs:
         with:
           channel: stable
           cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/site/package-lock.json
       - run: flutter pub get
-      - name: Test
+      - name: Test the app
         working-directory: apps/calendar
         run: flutter test
-      - name: Build web
-        working-directory: apps/calendar
-        run: flutter build web --release --base-href /
-      - name: Prepare for Pages
-        working-directory: apps/calendar/build/web
-        # 404.html lets go_router deep links survive a page refresh.
+      - name: Site data and JS converter
+        working-directory: apps/site
+        run: npm run prepare-data
+      - name: Build the site
+        working-directory: apps/site
         run: |
-          cp index.html 404.html
-          touch .nojekyll
+          npm ci
+          npm run build
+          npm run check
+      - name: Build the web app at /app/
+        working-directory: apps/calendar
+        run: |
+          flutter build web --release --base-href /app/
+          cp -r build/web ../site/dist/app
+          touch ../site/dist/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/calendar/build/web
+          path: apps/site/dist
 
   deploy:
     name: Deploy to GitHub Pages

@@ -208,9 +208,14 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] `apps/converter_js`: the engine compiled with `dart compile js`, exposing a converter and star finder for the site.
   - `globalThis.kollavarsham.toMalayalam(iso)`, `.toGregorian(year, monthId, day)`, `.findStar(localDateTime)`, each with an optional latitude, longitude and UTC offset. 115 KB with `-O2`; checked from Node. The logic is plain Dart (`lib/converter.dart`) with VM tests; CI also compiles it.
 
-### Day 20: Sprint 9b, static site (status: todo)
-- [ ] `apps/site` (Astro): home/today, day pages, month pages, festival-per-year pages, "nakshatra today", "Malayalam calendar YYYY"; ml/en with `hreflang`; structured data; sitemap; OG images.
+### Day 20: Sprint 9b, static site (status: done)
+- [x] `apps/site` (Astro): home/today, day pages, month pages, festival-per-year pages, "nakshatra today", "Malayalam calendar YYYY"; ml/en with `hreflang`; structured data; sitemap; OG images.
+  - Astro 7.3.8 (the newest release over two weeks old), English at `/`, Malayalam at `/ml/`, 10,701 pages built in about 10 s: a page per day (13 years), per complete Malayalam month, per Gregorian year, per festival and year, plus a festival index, home, "nakshatra today" and a converter. Home, nakshatra-today and the converter compute in the browser with `kollavarsham.js` (Day 19), so they're right on any day, not only the build day.
+  - `hreflang` alternates (en-IN, ml-IN, x-default) and canonical links on every page, JSON-LD (`WebSite`, `WebPage`, `Event` for festival pages), `@astrojs/sitemap` with i18n, `robots.txt`. One shared OG image (`public/og.png`, rendered by headless Chrome from `scripts/og.html` because Pillow here can't shape Malayalam); per-page images are left for later.
+  - `npm run check` checks that all internal links resolve (158,886) and every page has canonical and hreflang links. Checked in the browser at desktop and 390 px widths (no horizontal scroll on any page type), and the converter and nakshatra-today scripts.
+  - Site data and `kollavarsham.js` are generated at build time (`npm run prepare-data`), not committed. CI builds and checks the site on every push.
 - [x] GitHub Pages deployment workflow (`.github/workflows/deploy-web.yml`, domain `calendar.armid.in`).
+  - Now deploys the site at the root and the Flutter web app at `/app/` (`--base-href /app/`; hash URLs, so no rewrites). Checked locally: the app loads at `/app/` with no failed requests.
 
 ### Day 21: Sprint 10a, Flutter web app (status: todo)
 - [ ] Web build of `apps/calendar` served at `/app` of the site; drift on IndexedDB; web-specific reminder UI (upcoming list + .ics instead of notifications).
@@ -251,3 +256,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 18 (part) | Accessibility pass: guideline tests on 15 screens, holiday colour contrast, year-view semantics and large-text fixes; 156 app tests pass. Stopped here at the owner's request |
 | 2026-11-03 | Day 18 | Bottom-bar labels on one line, R8 release build (arm64 19.9 MB), key.properties signing, docs/release.md and docs/store-listing.md, privacy draft corrected |
 | 2026-11-03 | Day 19 | calendar_data package (shared festival/holiday model), site_data CLI (13 years of days, months, festivals as JSON), converter_js (115 KB JS converter and star finder, checked in Node) |
+| 2026-11-03 | Day 20 | Astro site (10,701 pages, en/ml with hreflang, JSON-LD, sitemap, OG image, browser-side today/star/converter), link checker, CI site job, deploy of site at / and app at /app/ |

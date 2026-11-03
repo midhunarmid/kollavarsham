@@ -1,0 +1,97 @@
+---
+// Every page: head (title, description, canonical, hreflang, Open Graph,
+// JSON-LD), header with navigation and language switch, and footer.
+import '../styles/site.css';
+import { href, t } from '../lib/i18n';
+import type { Lang } from '../lib/data';
+
+interface Props {
+  lang: Lang;
+  /** Path without the language prefix, e.g. "/day/2026-11-02/". */
+  path: string;
+  title: string;
+  description: string;
+  /** Structured data (schema.org) for this page. */
+  jsonLd?: object;
+  /** False for pages that exist in one language only. */
+  alternates?: boolean;
+}
+
+const { lang, path, title, description, jsonLd, alternates = true } = Astro.props;
+const site = 'https://calendar.armid.in';
+const canonical = `${site}${href(lang, path)}`;
+const other: Lang = lang === 'en' ? 'ml' : 'en';
+const fullTitle = path === '/' ? title : `${title} · ${t(lang, 'siteName')}`;
+const nav = [
+  ['/', t(lang, 'today')],
+  ['/calendar/' + new Date().getFullYear() + '/', t(lang, 'calendar')],
+  ['/festivals/', t(lang, 'festivals')],
+  ['/nakshatra-today/', t(lang, 'nakshatraToday')],
+  ['/converter/', t(lang, 'converter')],
+];
+---
+<!doctype html>
+<html lang={lang === 'ml' ? 'ml-IN' : 'en-IN'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates && (
+      <>
+        <link rel="alternate" hreflang="en-IN" href={`${site}${href('en', path)}`} />
+        <link rel="alternate" hreflang="ml-IN" href={`${site}${href('ml', path)}`} />
+        <link rel="alternate" hreflang="x-default" href={`${site}${href('en', path)}`} />
+      </>
+    )}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t(lang, 'siteName')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site}/og.png`} />
+    <meta property="og:locale" content={lang === 'ml' ? 'ml_IN' : 'en_IN'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#00796b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans:wght@400;600;700&display=swap"
+    />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href={href(lang, '/')}>
+          <span class="brand-mark" aria-hidden="true">൧</span>
+          <span>{t(lang, 'siteName')}</span>
+        </a>
+        {alternates && (
+          <a class="lang-switch" href={href(other, path)} hreflang={other} lang={other}>
+            {t(lang, 'language')}
+          </a>
+        )}
+      </div>
+      <nav class="wrap site-nav" aria-label={t(lang, 'calendar')}>
+        {nav.map(([p, label]) => <a href={href(lang, p)}>{label}</a>)}
+        <a class="app-link" href="/app/">{t(lang, 'openApp')}</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>{t(lang, 'footer')}</p>
+        <p>
+          <a href="https://github.com/midhunarmid/kollavarsham">GitHub</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

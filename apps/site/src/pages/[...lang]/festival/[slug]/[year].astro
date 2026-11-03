@@ -1,0 +1,79 @@
+---
+// One page per festival and year: the date, what it is, how the date is
+// found, and the other years.
+import Base from '../../../../layouts/Base.astro';
+import { festivals, festivalSlug, type Festival, type FestivalDate, type Lang } from '../../../../lib/data';
+import {
+  gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate, t, weekdayOf,
+} from '../../../../lib/i18n';
+import { dayOf } from '../../../../lib/data';
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) =>
+    festivals.flatMap((f) => {
+      // One page per year; a festival listed twice in a year (Atham can
+      // be) keeps its first date.
+      const byYear = new Map<number, FestivalDate>();
+      for (const d of f.dates) {
+        const y = Number(d.date.slice(0, 4));
+        if (!byYear.has(y)) byYear.set(y, d);
+      }
+      return [...byYear].map(([year, date]) => ({
+        params: { lang: langParam(lang), slug: festivalSlug(f.id), year: String(year) },
+        props: { festival: f, date },
+      }));
+    }),
+  );
+}
+
+const { festival, date } = Astro.props as { festival: Festival; date: FestivalDate };
+const lang: Lang = langOf(Astro.params.lang);
+const year = Number(Astro.params.year);
+const slug = festivalSlug(festival.id);
+const name = festival[lang];
+const day = dayOf(date.date);
+const when = `${day ? weekdayOf(lang, day.weekday) + ', ' : ''}${gregorianDate(lang, date.date)}`;
+const title = `${name} ${year}`;
+const description = `${name} ${year}: ${when} (${malayalamDate(lang, date.ml)}). ${festival.about[lang]}`;
+const years = [...new Set(festival.dates.map((d) => Number(d.date.slice(0, 4))))];
+---
+<Base lang={lang} path={`/festival/${slug}/${year}/`} title={title} description={description}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: title,
+    description: festival.about[lang],
+    startDate: date.date,
+    endDate: date.date,
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: { '@type': 'Place', name: 'Kerala', address: { '@type': 'PostalAddress', addressRegion: 'Kerala', addressCountry: 'IN' } },
+    inLanguage: lang === 'ml' ? 'ml-IN' : 'en-IN',
+  }}>
+  <p class="lede"><a href={href(lang, '/festivals/')}>{t(lang, 'festivals')}</a></p>
+  <h1>{title}</h1>
+  <div class="card">
+    <p class="big-date"><a href={href(lang, `/day/${date.date}/`)}>{when}</a></p>
+    <p>{malayalamDate(lang, date.ml)}</p>
+    <ul class="chips">
+      {date.holiday && <li class="chip holiday">{holidayLabel(lang, date.holiday)}</li>}
+      {date.tentative && <li class="chip">{t(lang, 'tentative')}</li>}
+    </ul>
+  </div>
+  {festival.about[lang] && (<><h2>{t(lang, 'about')}</h2><p>{festival.about[lang]}</p></>)}
+  {festival.rule[lang] && (<><h2>{t(lang, 'rule')}</h2><p>{festival.rule[lang]}</p></>)}
+  {date.source && <p class="sub">{t(lang, 'source')}: <a href={date.source} rel="nofollow">{new URL(date.source).hostname}</a></p>}
+
+  <h2>{t(lang, 'otherYears')}</h2>
+  <ul class="list">
+    {years.filter((y) => y !== year).map((y) => {
+      const d = festival.dates.find((x) => x.date.startsWith(`${y}-`))!;
+      return (
+        <li>
+          <a href={href(lang, `/festival/${slug}/${y}/`)}>{y}</a>
+          <span class="sub"> · {gregorianDate(lang, d.date)} · {malayalamDate(lang, d.ml)}</span>
+        </li>
+      );
+    })}
+  </ul>
+</Base>

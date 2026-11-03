@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- The default Open Graph image. Render with scripts/og_image.mjs. -->
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: ML; src: url('../../calendar/assets/fonts/NotoSansMalayalam-Bold.ttf'); font-weight: 700; }
+  @font-face { font-family: ML; src: url('../../calendar/assets/fonts/NotoSansMalayalam-Regular.ttf'); font-weight: 400; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #00695c; color: #fff; font-family: 'Segoe UI', Arial, ML, sans-serif; position: relative; }
+  .ml { font-family: ML, sans-serif; }
+  h1 { position: absolute; left: 70px; top: 120px; margin: 0; font: 700 76px/1.3 ML, sans-serif; }
+  h2 { position: absolute; left: 70px; top: 255px; margin: 0; font-size: 60px; font-weight: 700; }
+  .tag { position: absolute; left: 70px; top: 350px; font-size: 34px; color: #d6f2ee; }
+  .tag-ml { position: absolute; left: 70px; top: 400px; font: 400 34px ML, sans-serif; color: #d6f2ee; }
+  .url { position: absolute; left: 70px; top: 530px; font-size: 34px; }
+  .grid { position: absolute; left: 700px; top: 120px; display: grid; grid-template-columns: repeat(7, 56px); gap: 12px 10px; }
+  .grid i { display: block; height: 64px; border-radius: 10px; background: #0b7d6f; }
+  .grid i.on { background: #ffb74d; }
+</style></head>
+<body>
+  <div class="grid" id="grid"></div>
+  <h1>മലയാളം കലണ്ടർ</h1>
+  <h2>Malayalam Calendar</h2>
+  <div class="tag">Kollavarsham · Panchangam · Festivals</div>
+  <div class="tag-ml">പിറന്നാൾ · പഞ്ചാംഗം · വിശേഷങ്ങൾ</div>
+  <div class="url">calendar.armid.in</div>
+  <script>
+    for (let i = 0; i < 35; i++) {
+      const c = document.createElement('i');
+      if (i === 17) c.className = 'on';
+      document.getElementById('grid').appendChild(c);
+    }
+  </script>
+</body></html>

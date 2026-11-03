@@ -1,0 +1,81 @@
+---
+// "Malayalam calendar YYYY": every day of a Gregorian year with its
+// Malayalam date, star and festivals, month by month.
+import Base from '../../../layouts/Base.astro';
+import { completeMonths, daysOf, festivalById, festivalSlug, years, type Lang } from '../../../lib/data';
+import {
+  gregorianMonth, href, langOf, langParam, langs, malayalamDate, nameOf, t, weekdayOf,
+} from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) =>
+    years.map((year) => ({ params: { lang: langParam(lang), year: String(year) } })),
+  );
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const year = Number(Astro.params.year);
+const days = daysOf(year);
+const byMonth = Array.from({ length: 12 }, (_, i) =>
+  days.filter((d) => Number(d.date.slice(5, 7)) === i + 1),
+);
+const mlMonths = completeMonths.filter((m) => m.start.startsWith(`${year}-`));
+const title = t(lang, 'malayalamCalendarYear', { year });
+const festivalsOfYear = days.flatMap((d) => d.festivals.map((id) => ({ d, f: festivalById.get(id)! })));
+---
+<Base lang={lang} path={`/calendar/${year}/`} title={title}
+  description={`${title}: ${malayalamDate(lang, days[0].ml)} – ${malayalamDate(lang, days.at(-1)!.ml)}. ${festivalsOfYear.slice(0, 12).map(({ f }) => f[lang]).join(', ')}…`}>
+  <h1>{title}</h1>
+  <nav class="pager" aria-label={t(lang, 'year')}>
+    {years.includes(year - 1) ? <a href={href(lang, `/calendar/${year - 1}/`)} rel="prev">← {year - 1}</a> : <span />}
+    {years.includes(year + 1) ? <a href={href(lang, `/calendar/${year + 1}/`)} rel="next">{year + 1} →</a> : <span />}
+  </nav>
+
+  <h2>{t(lang, 'months')}</h2>
+  <div class="months">
+    {mlMonths.map((m) => (
+      <a href={href(lang, `/month/${m.ml.y}/${m.ml.m}/`)}>
+        <strong>{nameOf('months', m.ml.m, lang)} {m.ml.y}</strong>
+        <span class="sub">{m.start} · {m.days}</span>
+      </a>
+    ))}
+  </div>
+
+  <h2>{t(lang, 'festivals')}</h2>
+  <ul class="list">
+    {festivalsOfYear.map(({ d, f }) => (
+      <li>
+        <a href={href(lang, `/festival/${festivalSlug(f.id)}/${year}/`)}>{f[lang]}</a>
+        <span class="sub"> · {Number(d.date.slice(8, 10))} {gregorianMonth(lang, Number(d.date.slice(5, 7)))} · {malayalamDate(lang, d.ml)}</span>
+      </li>
+    ))}
+  </ul>
+
+  {byMonth.map((list, i) => (
+    <section>
+      <h2 id={`m${i + 1}`}>{gregorianMonth(lang, i + 1)} {year}</h2>
+      <div class="table-scroll">
+        <table class="days">
+          <thead>
+            <tr>
+              <th>{t(lang, 'date')}</th>
+              <th>{t(lang, 'malayalamDate')}</th>
+              <th>{t(lang, 'star')}</th>
+              <th>{t(lang, 'festivals')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list.map((d) => (
+              <tr class={d.weekday === 'njayar' ? 'sunday' : ''}>
+                <td><a href={href(lang, `/day/${d.date}/`)}>{Number(d.date.slice(8, 10))}</a> {weekdayOf(lang, d.weekday).slice(0, lang === 'ml' ? 99 : 3)}</td>
+                <td>{d.ml.d} {nameOf('months', d.ml.m, lang)}</td>
+                <td>{nameOf('stars', d.stars[0].id, lang)}</td>
+                <td>{d.festivals.map((id) => festivalById.get(id)![lang]).join(', ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+</Base>

@@ -1,0 +1,98 @@
+---
+// Home: today's date (computed in the browser with the JS converter, so
+// it is right on any day, not only the build day), upcoming festivals and
+// links into the calendar.
+import Base from '../../layouts/Base.astro';
+import { completeMonths, festivals, festivalSlug, years, type Lang } from '../../lib/data';
+import { gregorianDate, gregorianMonth, href, langOf, langParam, langs, malayalamDate, nameOf, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const buildDay = new Date().toISOString().slice(0, 10);
+// Upcoming festival dates from the build day; the page script hides the
+// ones that have passed since.
+const upcoming = festivals
+  .flatMap((f) => f.dates.filter((d) => d.date >= buildDay).map((d) => ({ f, d })))
+  .sort((a, b) => a.d.date.localeCompare(b.d.date))
+  .slice(0, 40);
+const thisYear = Number(buildDay.slice(0, 4));
+const currentMonths = completeMonths.filter((m) => m.start >= `${thisYear - 1}-12-01` && m.start <= `${thisYear}-12-31`);
+---
+<Base lang={lang} path="/" title={`${t(lang, 'siteName')}: ${t(lang, 'tagline')}`}
+  description={t(lang, 'tagline')}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: t(lang, 'siteName'),
+    url: 'https://calendar.armid.in/',
+    inLanguage: lang === 'ml' ? 'ml-IN' : 'en-IN',
+  }}>
+  <h1>{t(lang, 'siteName')}</h1>
+  <p class="lede">{t(lang, 'tagline')}</p>
+
+  <section class="card" id="today" data-lang={lang} data-prefix={href(lang, '')}
+    data-months={JSON.stringify(Array.from({ length: 12 }, (_, i) => gregorianMonth(lang, i + 1)))}>
+    <p class="sub" id="today-gregorian">{t(lang, 'today')}</p>
+    <p class="big-date" id="today-ml">{t(lang, 'needsJs')}</p>
+    <p id="today-panchangam"></p>
+    <p><a id="today-link" href={href(lang, `/day/${buildDay}/`)}>{t(lang, 'panchangam')} →</a></p>
+  </section>
+
+  <h2>{t(lang, 'upcomingFestivals')}</h2>
+  <ul class="list" id="upcoming">
+    {upcoming.map(({ f, d }, i) => (
+      <li data-date={d.date} hidden={i >= 12}>
+        <a href={href(lang, `/festival/${festivalSlug(f.id)}/${d.date.slice(0, 4)}/`)}>{f[lang]}</a>
+        <span class="sub"> · {gregorianDate(lang, d.date)} · {malayalamDate(lang, d.ml)}</span>
+      </li>
+    ))}
+  </ul>
+  <p><a href={href(lang, '/festivals/')}>{t(lang, 'allFestivals')} →</a></p>
+
+  <h2>{t(lang, 'months')}</h2>
+  <div class="months">
+    {currentMonths.map((m) => (
+      <a href={href(lang, `/month/${m.ml.y}/${m.ml.m}/`)}>
+        <strong>{nameOf('months', m.ml.m, lang)} {m.ml.y}</strong>
+        <span class="sub">{gregorianDate(lang, m.start)}</span>
+      </a>
+    ))}
+  </div>
+
+  <h2>{t(lang, 'calendar')}</h2>
+  <ul class="chips">
+    {years.map((y) => <li><a class="chip" href={href(lang, `/calendar/${y}/`)}>{t(lang, 'malayalamCalendarYear', { year: y })}</a></li>)}
+  </ul>
+
+  <script is:inline src="/kollavarsham.js" defer></script>
+  <script is:inline>
+    window.addEventListener('load', function () {
+      var box = document.getElementById('today');
+      var lang = box.dataset.lang;
+      var k = window.kollavarsham;
+      // Today in Kerala (IST), whatever the visitor's time zone.
+      var now = new Date(Date.now() + 330 * 60000).toISOString().slice(0, 10);
+      document.querySelectorAll('#upcoming li').forEach(function (li, i, all) {
+        li.hidden = li.dataset.date < now;
+      });
+      var shown = 0;
+      document.querySelectorAll('#upcoming li').forEach(function (li) {
+        if (!li.hidden) { shown++; if (shown > 12) li.hidden = true; }
+      });
+      if (!k) return;
+      var r = k.toMalayalam(now);
+      var ml = lang === 'ml';
+      document.getElementById('today-ml').textContent = ml ? r.textMl : r.textEn;
+      var monthNames = JSON.parse(box.dataset.months);
+      document.getElementById('today-gregorian').textContent =
+        Number(now.slice(8, 10)) + ' ' + monthNames[Number(now.slice(5, 7)) - 1] + ' ' + now.slice(0, 4);
+      document.getElementById('today-panchangam').textContent =
+        (ml ? 'നക്ഷത്രം: ' + r.starMl + ' · തിഥി: ' + r.tithiMl
+            : 'Star: ' + r.starEn + ' · Tithi: ' + r.tithiEn);
+      document.getElementById('today-link').href = box.dataset.prefix + '/day/' + now + '/';
+    });
+  </script>
+</Base>

@@ -1,0 +1,98 @@
+---
+// One page per day: both dates, the full panchangam and festivals.
+import Base from '../../../layouts/Base.astro';
+import {
+  allDays, festivalById, festivalSlug, hasMonthPage, type Day, type Lang,
+} from '../../../lib/data';
+import {
+  gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate,
+  nameOf, spanText, t, timeOf, weekdayOf,
+} from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  const days = allDays();
+  return langs.flatMap((lang) =>
+    days.map((day, i) => ({
+      params: { lang: langParam(lang), date: day.date },
+      props: { day, prev: days[i - 1]?.date, next: days[i + 1]?.date },
+    })),
+  );
+}
+
+const { day, prev, next } = Astro.props as { day: Day; prev?: string; next?: string };
+const lang: Lang = langOf(Astro.params.lang);
+const iso = day.date;
+const year = Number(iso.slice(0, 4));
+const ml = malayalamDate(lang, day.ml);
+const star = nameOf('stars', day.stars[0].id, lang);
+const tithi = nameOf('tithis', day.tithis[0].id, lang);
+const fests = day.festivals.map((id) => {
+  const f = festivalById.get(id)!;
+  const date = f.dates.find((d) => d.date === iso);
+  return { f, date };
+});
+const title = `${gregorianDate(lang, iso)} · ${ml}`;
+const description =
+  `${weekdayOf(lang, day.weekday)}, ${ml}. ${t(lang, 'star')}: ${star}, ${t(lang, 'tithi')}: ${tithi}.` +
+  (fests.length ? ' ' + fests.map(({ f }) => f[lang]).join(', ') + '.' : '');
+const kalamOrder = ['rahu', 'gulika', 'yamagandam'];
+---
+<Base lang={lang} path={`/day/${iso}/`} title={title} description={description}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: title,
+    description,
+    inLanguage: lang === 'ml' ? 'ml-IN' : 'en-IN',
+  }}>
+  <p class="lede">{weekdayOf(lang, day.weekday)}, {gregorianDate(lang, iso)}</p>
+  <h1>{ml}</h1>
+  <ul class="chips">
+    <li class="chip">{t(lang, 'star')}: {star}</li>
+    <li class="chip">{t(lang, 'tithi')}: {tithi}</li>
+  </ul>
+
+  <h2>{t(lang, 'festivals')}</h2>
+  {fests.length === 0 ? <p>{t(lang, 'noFestival')}</p> : (
+    <ul class="list">
+      {fests.map(({ f, date }) => (
+        <li>
+          <a href={href(lang, `/festival/${festivalSlug(f.id)}/${year}/`)}>{f[lang]}</a>
+          {date?.holiday && <span class="chip holiday">{holidayLabel(lang, date.holiday)}</span>}
+          {date?.tentative && <span class="chip">{t(lang, 'tentative')}</span>}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <h2>{t(lang, 'panchangam')}</h2>
+  <div class="card">
+    <dl class="rows">
+      <dt>{t(lang, 'star')}</dt>
+      <dd>{day.stars.map((s) => <div>{spanText(lang, nameOf('stars', s.id, lang), s.until, iso)}</div>)}</dd>
+      <dt>{t(lang, 'tithi')}</dt>
+      <dd>{day.tithis.map((s) => <div>{spanText(lang, nameOf('tithis', s.id, lang), s.until, iso)}</div>)}</dd>
+      <dt>{t(lang, 'paksha')}</dt>
+      <dd>{nameOf('pakshas', day.paksha, lang)}</dd>
+      <dt>{t(lang, 'sunrise')}</dt><dd>{timeOf(lang, day.sunrise, iso)}</dd>
+      <dt>{t(lang, 'sunset')}</dt><dd>{timeOf(lang, day.sunset, iso)}</dd>
+      <dt>{t(lang, 'moonrise')}</dt><dd>{timeOf(lang, day.moonrise, iso)}</dd>
+      <dt>{t(lang, 'moonset')}</dt><dd>{timeOf(lang, day.moonset, iso)}</dd>
+      {kalamOrder.filter((k) => day.kalams[k]).map((k) => (
+        <>
+          <dt>{nameOf('kalams', k, lang)}</dt>
+          <dd>{timeOf(lang, day.kalams[k][0], iso)}–{timeOf(lang, day.kalams[k][1], iso)}</dd>
+        </>
+      ))}
+    </dl>
+    <p class="sub">{t(lang, 'timesNote')}</p>
+  </div>
+
+  <nav class="pager" aria-label={t(lang, 'calendar')}>
+    {prev ? <a href={href(lang, `/day/${prev}/`)} rel="prev">← {t(lang, 'previousDay')}</a> : <span />}
+    {hasMonthPage(day.ml)
+      ? <a href={href(lang, `/month/${day.ml.y}/${day.ml.m}/`)}>{nameOf('months', day.ml.m, lang)} {day.ml.y}</a>
+      : <span>{nameOf('months', day.ml.m, lang)} {day.ml.y}</span>}
+    {next ? <a href={href(lang, `/day/${next}/`)} rel="next">{t(lang, 'nextDayLink')} →</a> : <span />}
+  </nav>
+</Base>

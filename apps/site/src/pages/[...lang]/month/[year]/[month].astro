@@ -1,0 +1,76 @@
+---
+// One page per Malayalam month: a Sunday-first grid of its days with the
+// English date, star and festival marks.
+import Base from '../../../../layouts/Base.astro';
+import { completeMonths, dayOf, festivalById, type Day, type Lang, type Month } from '../../../../lib/data';
+import {
+  gregorianDate, href, langOf, langParam, langs, nameOf, t,
+} from '../../../../lib/i18n';
+
+export function getStaticPaths() {
+  const complete = completeMonths;
+  return langs.flatMap((lang) =>
+    complete.map((m, i) => ({
+      params: { lang: langParam(lang), year: String(m.ml.y), month: m.ml.m },
+      props: { month: m, prev: complete[i - 1], next: complete[i + 1] },
+    })),
+  );
+}
+
+const { month, prev, next } = Astro.props as { month: Month; prev?: Month; next?: Month };
+const lang: Lang = langOf(Astro.params.lang);
+const start = new Date(`${month.start}T00:00:00Z`);
+const days: Day[] = Array.from({ length: month.days }, (_, i) =>
+  dayOf(new Date(start.getTime() + i * 86400000).toISOString().slice(0, 10))!,
+);
+const lead = start.getUTCDay();
+const name = `${nameOf('months', month.ml.m, lang)} ${month.ml.y}`;
+const span = `${gregorianDate(lang, days[0].date)} – ${gregorianDate(lang, days.at(-1)!.date)}`;
+const weekdays = lang === 'ml'
+  ? ['ഞാ', 'തി', 'ചൊ', 'ബു', 'വ്യാ', 'വെ', 'ശ']
+  : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const festivalDays = days.filter((d) => d.festivals.length);
+const isHoliday = (d: Day) =>
+  d.festivals.some((id) => festivalById.get(id)!.dates.find((x) => x.date === d.date)?.holiday === 'public');
+---
+<Base lang={lang} path={`/month/${month.ml.y}/${month.ml.m}/`} title={name}
+  description={`${name}: ${span}. ${festivalDays.map((d) => d.festivals.map((id) => festivalById.get(id)![lang]).join(', ')).join(', ')}`}>
+  <h1>{name}</h1>
+  <p class="lede">{span} · {month.days} {t(lang, 'day')}</p>
+  <div class="month-grid" role="grid">
+    {weekdays.map((w) => <div class="wd" role="columnheader">{w}</div>)}
+    {Array.from({ length: lead }, () => <div />)}
+    {days.map((d) => {
+      const g = Number(d.date.slice(8, 10));
+      const classes = ['cell', new Date(`${d.date}T00:00:00Z`).getUTCDay() === 0 ? 'sun' : '', isHoliday(d) ? 'hol' : ''].join(' ');
+      return (
+        <a class={classes} href={href(lang, `/day/${d.date}/`)}
+          aria-label={`${d.ml.d} ${nameOf('months', d.ml.m, lang)}, ${gregorianDate(lang, d.date)}, ${nameOf('stars', d.stars[0].id, lang)}`}>
+          <span class="n">{d.ml.d}</span>
+          <span class="g">{g}</span>
+          <span class="s">{nameOf('stars', d.stars[0].id, lang)}</span>
+          {d.festivals.length > 0 && <span class="dot" />}
+        </a>
+      );
+    })}
+  </div>
+
+  {festivalDays.length > 0 && (
+    <>
+      <h2>{t(lang, 'festivals')}</h2>
+      <ul class="list">
+        {festivalDays.flatMap((d) => d.festivals.map((id) => (
+          <li>
+            <a href={href(lang, `/day/${d.date}/`)}>{festivalById.get(id)![lang]}</a>
+            <span class="sub"> · {d.ml.d} {nameOf('months', d.ml.m, lang)} · {gregorianDate(lang, d.date)}</span>
+          </li>
+        )))}
+      </ul>
+    </>
+  )}
+
+  <nav class="pager" aria-label={t(lang, 'months')}>
+    {prev ? <a href={href(lang, `/month/${prev.ml.y}/${prev.ml.m}/`)} rel="prev">← {nameOf('months', prev.ml.m, lang)} {prev.ml.y}</a> : <span />}
+    {next ? <a href={href(lang, `/month/${next.ml.y}/${next.ml.m}/`)} rel="next">{nameOf('months', next.ml.m, lang)} {next.ml.y} →</a> : <span />}
+  </nav>
+</Base>

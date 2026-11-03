@@ -1,0 +1,72 @@
+---
+// "Nakshatra today": the star now and its end time, picked in the browser
+// from two years of star spans embedded in the page.
+import Base from '../../layouts/Base.astro';
+import { daysOf, names, years, type Lang } from '../../lib/data';
+import { href, langOf, langParam, langs, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const now = new Date().getFullYear();
+const spanYears = [now, now + 1].filter((y) => years.includes(y));
+// Each star span once: [star id, ends at local yyyy-mm-ddThh:mm].
+const spans: [string, string][] = [];
+for (const y of spanYears) {
+  for (const d of daysOf(y)) {
+    for (const s of d.stars) {
+      if (!spans.length || spans.at(-1)![1] !== s.until) spans.push([String(s.id), s.until]);
+    }
+  }
+}
+spans.sort((a, b) => a[1].localeCompare(b[1]));
+const starNames = Object.fromEntries(Object.entries(names.stars).map(([id, n]) => [id, n[lang]]));
+const title = t(lang, 'nakshatraToday');
+const description = lang === 'ml'
+  ? 'ഇപ്പോഴത്തെ നക്ഷത്രവും അത് അവസാനിക്കുന്ന സമയവും, അടുത്ത നക്ഷത്രങ്ങളും (തിരുവനന്തപുരം).'
+  : 'The nakshatra (birth star) now, when it ends, and the next stars, for Thiruvananthapuram.';
+---
+<Base lang={lang} path="/nakshatra-today/" title={title} description={description}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <section class="card" id="star" data-lang={lang} data-prefix={href(lang, '')}>
+    <p class="big-date" id="star-now">{t(lang, 'needsJs')}</p>
+    <p id="star-until"></p>
+    <ul class="list" id="star-next"></ul>
+  </section>
+  <p class="sub">{t(lang, 'timesNote')}</p>
+  <script is:inline id="star-data" type="application/json" set:html={JSON.stringify({ spans, names: starNames })}></script>
+  <script is:inline>
+    (function () {
+      var data = JSON.parse(document.getElementById('star-data').textContent);
+      var box = document.getElementById('star');
+      var ml = box.dataset.lang === 'ml';
+      // Kerala wall-clock time as yyyy-mm-ddThh:mm, comparable with the data.
+      var now = new Date(Date.now() + 330 * 60000).toISOString().slice(0, 16);
+      var i = data.spans.findIndex(function (s) { return s[1] > now; });
+      if (i < 0) return;
+      function addDays(iso, n) {
+        return new Date(Date.parse(iso + 'T00:00:00Z') + n * 86400000).toISOString().slice(0, 10);
+      }
+      function when(local) {
+        var date = local.slice(0, 10), time = local.slice(11, 16);
+        var today = now.slice(0, 10);
+        if (date === today) return time;
+        if (date === addDays(today, 1)) return time + (ml ? ' (നാളെ)' : ' (tomorrow)');
+        return time + ' (' + Number(date.slice(8, 10)) + '/' + Number(date.slice(5, 7)) + ')';
+      }
+      var s = data.spans[i];
+      document.getElementById('star-now').textContent = data.names[s[0]];
+      document.getElementById('star-until').textContent =
+        ml ? when(s[1]) + ' വരെ' : 'until ' + when(s[1]);
+      var list = document.getElementById('star-next');
+      data.spans.slice(i + 1, i + 4).forEach(function (n) {
+        var li = document.createElement('li');
+        li.textContent = data.names[n[0]] + (ml ? ' · ' + when(n[1]) + ' വരെ' : ' · until ' + when(n[1]));
+        list.appendChild(li);
+      });
+    })();
+  </script>
+</Base>
