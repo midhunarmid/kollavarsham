@@ -10,7 +10,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  kollavarsham: ^1.2.0
+  kollavarsham: ^1.2.1
   meta: ^1.15.0
 
 dev_dependencies:
