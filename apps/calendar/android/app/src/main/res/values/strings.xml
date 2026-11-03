@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Malayalam Calendar</string>
     <string name="widget_today_description">Today’s Malayalam date, star and festivals</string>
     <string name="widget_next_description">Your next pirannal or event</string>
     <string name="widget_next_heading">Coming up</string>

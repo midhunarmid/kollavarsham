@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">മലയാളം കലണ്ടർ</string>
     <string name="widget_today_description">ഇന്നത്തെ മലയാള തീയതി, നക്ഷത്രം, വിശേഷങ്ങൾ</string>
     <string name="widget_next_description">അടുത്ത പിറന്നാളോ ദിവസമോ</string>
     <string name="widget_next_heading">വരാനിരിക്കുന്നത്</string>
