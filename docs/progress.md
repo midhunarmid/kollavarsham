@@ -36,6 +36,7 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] Choose the website domain and DNS (Day 20): `calendar.armid.in`, a CNAME to `midhunarmid.github.io`.
 - [ ] Check 2026–2027 dates against printed almanacs (Day 23). Include the Day 6 rules with the weakest evidence: Ashtami Rohini, Thaipooyam, Vinayaka Chathurthi and the vrat reading times, none of which has a Kerala almanac behind it.
 - [ ] Malayalam copy review by a native editor (Day 24).
+- [ ] Design the app icon (launcher, 512 px Play icon) and feature graphic; the app still has Flutter's default icon (Day 18, `docs/store-listing.md`).
 - [ ] Create a `wrong-date` label in the GitHub repository, used by the app's "Report a wrong date" link (Day 17).
 - [ ] Confirm the Day 9 storage choice: a versioned JSON document in shared_preferences instead of drift (drift now needs Dart 3.10, and a sqlite3.wasm download for the web). Moving to drift later means a one-time import of that document.
 
@@ -191,11 +192,14 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
   - The report opens `github.com/midhunarmid/kollavarsham/issues/new` (url_launcher) with the date, the app's Malayalam date, star, tithi, festivals, city and year start. A manual location is reported only as "manual" with its UTC offset. Needs you: create the `wrong-date` label on GitHub.
   - North Malabar (Kanni 1) was already a setting; tests now check year info, the year view and the new-year reminder with it.
 
-### Day 18: Sprint 8b, release readiness (status: in progress)
-- [ ] Accessibility pass (semantics, large text, contrast) and performance (R8/minify, startup, size).
-  - Accessibility done: `test/a11y_test.dart` checks 15 screens (light and dark) against the tap-target, label and text-contrast guidelines, and 200% text in English and Malayalam. Fixed the holiday colour contrast (now #BF360C light, #FF8A65 dark) and year-view semantics and overflow. Still open: the Malayalam bottom-bar labels wrap on narrow phones, and the performance half (R8/minify, startup, size).
-- [ ] Release signing config reading `key.properties` (not committed) and `docs/release.md`; mark the keystore as **Needs you**.
-- [ ] `docs/store-listing.md`: Play listing text (ml/en), screenshot list, data-safety answers.
+### Day 18: Sprint 8b, release readiness (status: done)
+- [x] Accessibility pass (semantics, large text, contrast) and performance (R8/minify, startup, size).
+  - `test/a11y_test.dart` checks 15 screens (light and dark) against the tap-target, label and text-contrast guidelines, and 200% text in English and Malayalam; `test/nav_bar_test.dart` checks the bottom-bar labels at 320 dp with real fonts. Fixed: holiday colour contrast (#BF360C light, #FF8A65 dark), year-view semantics and overflow, and bottom-bar labels wrapping (one line, shorter Malayalam ടൂളുകൾ and സെറ്റിങ്സ്).
+  - Release builds use R8 and resource shrinking (`proguard-rules.pro` keeps the notification plugin's Gson types and the widget providers). arm64 APK: 19.9 MB, mostly the Flutter engine (11.3 MB) and Dart code (7.5 MB). Startup does two small reads before the first frame (preferences, holiday files); not measured on a device.
+- [x] Release signing config reading `key.properties` (not committed) and `docs/release.md`; mark the keystore as **Needs you**.
+  - Without `key.properties` the release build falls back to the debug key with a warning. The launcher label is now "Malayalam Calendar" / "മലയാളം കലണ്ടർ".
+- [x] `docs/store-listing.md`: Play listing text (ml/en), screenshot list, data-safety answers.
+  - Release builds declare no INTERNET permission. `docs/privacy.md` was corrected to match the app (no photos, no device location). The launcher icon is still Flutter's default: Needs you.
 
 ### Day 19: Sprint 9a, site data and converter (status: todo)
 - [ ] `apps/site_data`: a Dart CLI writing JSON for the current year −2 to +10 (days, months, festivals, panchangam) into `apps/site/src/data/`.
@@ -241,4 +245,5 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 15 | Tools tab (converter, Find my star, age, days between, year info), panchangam and greeting share cards as PNG; 109 app tests pass, web build OK |
 | 2026-11-02 | Day 16 | .ics export (explicit dates, N years), versioned JSON backup and restore with file_picker, Auto Backup rules; 116 app tests pass, debug APK and web build OK |
 | 2026-11-02 | Day 17 | Today and Next pirannal home-screen widgets (week of text ahead), static launcher shortcuts via deep links, Report a wrong date, North Malabar checks; 124 app tests pass, debug APK and web build OK |
-| 2026-11-02 | Day 18 (part) | Accessibility pass: guideline tests on 15 screens, holiday colour contrast, year-view semantics and large-text fixes; 156 app tests pass. Stopped here at the owner's request; performance, release signing and store listing remain |
+| 2026-11-02 | Day 18 (part) | Accessibility pass: guideline tests on 15 screens, holiday colour contrast, year-view semantics and large-text fixes; 156 app tests pass. Stopped here at the owner's request |
+| 2026-11-03 | Day 18 | Bottom-bar labels on one line, R8 release build (arm64 19.9 MB), key.properties signing, docs/release.md and docs/store-listing.md, privacy draft corrected |
