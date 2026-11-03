@@ -1,3 +1,12 @@
+## Unreleased
+
+**Fixed**
+
+- `vishu` is the day of the first sunrise after the Mesha sankranti, not
+  always Medam 1: when the sankranti falls after sunrise but before the
+  month-start cut-off (14 April 2026, 09:39), Vishu is the next day (15
+  April 2026, as in Kerala's holiday list). Checked against 2021–2026.
+
 ## 1.2.0
 
 **Added**

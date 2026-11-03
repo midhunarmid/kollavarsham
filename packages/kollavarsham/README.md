@@ -12,8 +12,8 @@ print(today.format('d MMMM y', script: MalayalamScript.english)); // 11 Thulam 1
 final chingam1 = DateTime(2025, 8, 17).toMalayalamDate();
 print(chingam1); // 1201 Chingam 1
 
-final vishu = MalayalamDate(1201, MalayalamMonth.medam, 1).toGregorian();
-print(vishu); // 2026-04-14
+final medam1 = MalayalamDate(1201, MalayalamMonth.medam, 1).toGregorian();
+print(medam1); // 2026-04-14 (Vishu is the next day this year)
 ```
 
 ## Features

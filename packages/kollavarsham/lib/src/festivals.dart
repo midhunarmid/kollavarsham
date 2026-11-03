@@ -56,7 +56,7 @@ enum KeralaFestival {
   /// Attukal Pongala: Pooram nakshatra in Kumbham.
   attukalPongala('ആറ്റുകാൽ പൊങ്കാല', 'Attukal Pongala'),
 
-  /// Vishu: Medam 1.
+  /// Vishu: the first sunrise after the Mesha sankranti (usually Medam 1).
   vishu('വിഷു', 'Vishu'),
 
   /// Thrissur Pooram: Pooram nakshatra in Medam.
@@ -133,11 +133,24 @@ extension KeralaFestivals on KollavarshamCalendar {
             if (day.isAtSameDayAs(date)) festival,
       ];
 
-  /// Vishu: Medam 1, the astronomical new year, of Kollavarsham [year].
+  /// Vishu, the astronomical new year, in Medam of Kollavarsham [year]: the
+  /// day of the first sunrise after the Mesha sankranti, when the
+  /// Vishukkani is seen.
   ///
-  /// Medam of year 1200 falls in April 2025.
-  MalayalamDate vishu(int year) =>
-      MalayalamDate(year, MalayalamMonth.medam, 1, calendar: this);
+  /// That is Medam 1, except when the sankranti falls after sunrise but
+  /// early enough in the day for Medam to start that day (as on 14 April
+  /// 2026): Vishu is then Medam 2. Checked against 2021–2026, including
+  /// 2022, 2023 and 2026 (15 April). Medam of year 1200 falls in April 2025.
+  MalayalamDate vishu(int year) {
+    final sankranti = this.sankranti(year, MalayalamMonth.medam);
+    final local = sankranti.toUtc().add(location.utcOffset);
+    final day = DateTime(local.year, local.month, local.day);
+    final rise = sunrise(day);
+    final morning = rise == null || sankranti.isBefore(rise)
+        ? day
+        : day.add(const Duration(days: 1));
+    return fromGregorian(morning);
+  }
 
   /// Thiruvonam (Onam) of Kollavarsham [year]: the day in Chingam with the
   /// Thiruvonam nakshatra at sunrise.

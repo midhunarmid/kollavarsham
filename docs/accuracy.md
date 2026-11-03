@@ -61,6 +61,7 @@ Festivals tied to a nakshatra or tithi depend on the time of day they are observ
 
 | Festival | Rule | Verified |
 |---|---|---|
+| Vishu | The first sunrise after the Mesha sankranti (Medam 2 when the sankranti falls between sunrise and the month-start cut-off) | 2021–2026 (news reports and the 2026 Kerala list); fixed on Day 23, before which Vishu was Medam 1 and 2026 was a day early |
 | Onam (Thiruvonam) | Thiruvonam at sunrise in Chingam; the later day if it occurs twice | 2009–2025 except 2016 |
 | Attukal Pongala | Pooram at sunset in Kumbham; the later occurrence | 2015–2025 |
 | Thrissur Pooram | Pooram at midnight in Medam; the later occurrence | 2016–2025 |

@@ -301,6 +301,25 @@ void main() {
 
     test('Vishu, Mandala and Makaravilakku', () {
       expect(cal.vishu(1200).toGregorian(), DateTime(2025, 4, 14));
+    });
+
+    test('Vishu is the first sunrise after the Mesha sankranti', () {
+      // Published Kerala dates; 2022, 2023 and 2026 have the sankranti
+      // after sunrise. In 2026 it was at 09:39, early enough for Medam 1 to
+      // be 14 April, so Vishu is Medam 2 (Kerala holiday list, 15 April).
+      final published = {
+        1196: DateTime(2021, 4, 14),
+        1197: DateTime(2022, 4, 15),
+        1198: DateTime(2023, 4, 15),
+        1199: DateTime(2024, 4, 14),
+        1200: DateTime(2025, 4, 14),
+        1201: DateTime(2026, 4, 15),
+      };
+      for (final MapEntry(key: year, value: date) in published.entries) {
+        expect(cal.vishu(year).toGregorian(), date, reason: '$year');
+      }
+      expect(cal.vishu(1201).day, 2);
+      expect(cal.vishu(1200).day, 1);
       expect(cal.mandalaKalamStart(1200).toGregorian(), DateTime(2024, 11, 16));
       expect(cal.mandalaPooja(1200).toGregorian(), DateTime(2024, 12, 26));
       expect(cal.makaravilakku(1200).toGregorian(), DateTime(2025, 1, 14));
