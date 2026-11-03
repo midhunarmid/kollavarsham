@@ -52,10 +52,14 @@ jobs:
           npm run check
       - name: Build the web app at /app/
         working-directory: apps/calendar
+        # Local CanvasKit (no CDN), so the app can work offline.
         run: |
-          flutter build web --release --base-href /app/
+          flutter build web --release --base-href /app/ --no-web-resources-cdn
           cp -r build/web ../site/dist/app
           touch ../site/dist/.nojekyll
+      - name: Check the app opens offline
+        working-directory: apps/site
+        run: node scripts/check-offline.mjs /usr/bin/google-chrome
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

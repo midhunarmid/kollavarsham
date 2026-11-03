@@ -18,18 +18,19 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Malayalam calendar with panchangam, festivals and star-birthday (pirannal) reminders. Works offline; your data stays in this browser.">
+  <meta name="theme-color" content="#00796b">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="calendar">
+  <meta name="apple-mobile-web-app-title" content="Malayalam Calendar">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>calendar</title>
+  <title>Malayalam Calendar</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -42,5 +43,15 @@
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
   <script src="flutter_bootstrap.js" async></script>
+  <!-- Offline support: our own service worker (Flutter's is retired). -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('app_sw.js').catch(function (e) {
+          console.warn('Service worker not registered:', e);
+        });
+      });
+    }
+  </script>
 </body>
 </html>

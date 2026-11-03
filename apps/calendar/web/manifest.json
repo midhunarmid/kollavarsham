@@ -1,12 +1,12 @@
 {
-    "name": "calendar",
-    "short_name": "calendar",
+    "name": "Malayalam Calendar",
+    "short_name": "Malayalam Calendar",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "background_color": "#F6FAF9",
+    "theme_color": "#00796B",
+    "description": "Kollavarsham dates, panchangam, festivals and pirannal reminders.",
+    "orientation": "any",
     "prefer_related_applications": false,
     "icons": [
         {
@@ -31,5 +31,11 @@
             "type": "image/png",
             "purpose": "maskable"
         }
+    ],
+    "lang": "en",
+    "id": "/app/",
+    "categories": [
+        "lifestyle",
+        "utilities"
     ]
 }
