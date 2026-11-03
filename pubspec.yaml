@@ -11,3 +11,4 @@ workspace:
   - packages/calendar_data
   - apps/calendar
   - apps/site_data
+  - apps/converter_js

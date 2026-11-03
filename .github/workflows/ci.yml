@@ -23,7 +23,7 @@ jobs:
       - run: flutter pub get
       - name: Format
         if: matrix.flutter == 'stable'
-        run: dart format --output=none --set-exit-if-changed packages apps/site_data
+        run: dart format --output=none --set-exit-if-changed packages apps/site_data apps/converter_js
       - name: Analyze core
         working-directory: packages/kollavarsham
         run: dart analyze --fatal-infos
@@ -46,6 +46,11 @@ jobs:
       - name: Analyze and test site data
         working-directory: apps/site_data
         run: dart analyze --fatal-infos && dart test
+      - name: Analyze, test and compile the JS converter
+        working-directory: apps/converter_js
+        run: |
+          dart analyze --fatal-infos && dart test
+          dart compile js -O2 -o build/kollavarsham.js web/converter.dart
 
   app:
     name: Calendar app

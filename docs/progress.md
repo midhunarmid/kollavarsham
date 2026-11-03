@@ -201,9 +201,12 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 - [x] `docs/store-listing.md`: Play listing text (ml/en), screenshot list, data-safety answers.
   - Release builds declare no INTERNET permission. `docs/privacy.md` was corrected to match the app (no photos, no device location). The launcher icon is still Flutter's default: Needs you.
 
-### Day 19: Sprint 9a, site data and converter (status: todo)
-- [ ] `apps/site_data`: a Dart CLI writing JSON for the current year −2 to +10 (days, months, festivals, panchangam) into `apps/site/src/data/`.
-- [ ] `apps/converter_js`: the engine compiled with `dart compile js`, exposing a converter and star finder for the site.
+### Day 19: Sprint 9a, site data and converter (status: done)
+- [x] `apps/site_data`: a Dart CLI writing JSON for the current year −2 to +10 (days, months, festivals, panchangam) into `apps/site/src/data/`.
+  - `dart run site_data` (from `apps/site_data`): `meta.json`, `names.json` (ids → Malayalam/English), `months.json` (start, length, sankranti), `festivals.json` (names, description, rule, every date with holiday kind, tentative flag and source) and `days/YYYY.json` (every star and tithi to the next sunrise with end times, paksha, sun and moon times, kalams, festival ids). Thiruvananthapuram, local times. 13 years: 3.5 s, 2.8 MB; generated at site build time, not committed.
+  - To share the festival/holiday merge and descriptions with the app, they moved into a new pure-Dart package, `packages/calendar_data`; the app re-exports it.
+- [x] `apps/converter_js`: the engine compiled with `dart compile js`, exposing a converter and star finder for the site.
+  - `globalThis.kollavarsham.toMalayalam(iso)`, `.toGregorian(year, monthId, day)`, `.findStar(localDateTime)`, each with an optional latitude, longitude and UTC offset. 115 KB with `-O2`; checked from Node. The logic is plain Dart (`lib/converter.dart`) with VM tests; CI also compiles it.
 
 ### Day 20: Sprint 9b, static site (status: todo)
 - [ ] `apps/site` (Astro): home/today, day pages, month pages, festival-per-year pages, "nakshatra today", "Malayalam calendar YYYY"; ml/en with `hreflang`; structured data; sitemap; OG images.
@@ -247,3 +250,4 @@ This file drives the daily automated build of the plan in [app-roadmap.md](app-r
 | 2026-11-02 | Day 17 | Today and Next pirannal home-screen widgets (week of text ahead), static launcher shortcuts via deep links, Report a wrong date, North Malabar checks; 124 app tests pass, debug APK and web build OK |
 | 2026-11-02 | Day 18 (part) | Accessibility pass: guideline tests on 15 screens, holiday colour contrast, year-view semantics and large-text fixes; 156 app tests pass. Stopped here at the owner's request |
 | 2026-11-03 | Day 18 | Bottom-bar labels on one line, R8 release build (arm64 19.9 MB), key.properties signing, docs/release.md and docs/store-listing.md, privacy draft corrected |
+| 2026-11-03 | Day 19 | calendar_data package (shared festival/holiday model), site_data CLI (13 years of days, months, festivals as JSON), converter_js (115 KB JS converter and star finder, checked in Node) |
