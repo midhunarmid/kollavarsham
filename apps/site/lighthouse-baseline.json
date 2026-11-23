@@ -1,7 +1,7 @@
 {
   "app": {
-    "measured": "2026-11-23, Lighthouse 13.6 via @lhci/cli 0.16.0, default mobile profile (simulated slow 4G), median of 3 runs on a local build served with gzip as GitHub Pages does, after M3 (HTML splash, bundled Roboto)",
-    "totalByteWeight": 3829937,
-    "interactiveMs": 13640
+    "measured": "2026-11-23 on the GitHub Actions runner (Deploy web run for 9c5d0ff), Lighthouse 13.6 via @lhci/cli 0.16.0, default mobile profile (simulated slow 4G), median of 3 runs. A local Windows run measured 13.6 s; the gate runs on the runner, so its numbers are the baseline.",
+    "totalByteWeight": 3744457,
+    "interactiveMs": 15397
   }
 }
