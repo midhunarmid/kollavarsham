@@ -44,6 +44,15 @@ void main() {
         months.firstWhere((m) => (m['ml']! as Map)['m'] == 'chingam');
     expect(chingam['start'],
         isoDate(_cal.monthStart(1202, MalayalamMonth.chingam)));
+    expect(chingam['marginMinutes'],
+        _cal.monthStartMargin(1202, MalayalamMonth.chingam).inMinutes);
+  });
+
+  test('Kerala today is the IST date', () {
+    // 20:00 UTC on 31 December is 01:30 on 1 January in Kerala.
+    expect(keralaToday(DateTime.utc(2026, 12, 31, 20)), DateTime.utc(2027));
+    expect(keralaToday(DateTime.utc(2026, 12, 31, 18)),
+        DateTime.utc(2026, 12, 31));
   });
 
   test('festivals carry descriptions and every date', () {

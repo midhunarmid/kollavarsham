@@ -3,7 +3,7 @@
 // it is right on any day, not only the build day), upcoming festivals and
 // links into the calendar.
 import Base from '../../layouts/Base.astro';
-import { completeMonths, festivals, festivalSlug, years, type Lang } from '../../lib/data';
+import { completeMonths, festivals, festivalSlug, keralaToday, years, type Lang } from '../../lib/data';
 import { gregorianDate, gregorianMonth, href, langOf, langParam, langs, malayalamDate, nameOf, t } from '../../lib/i18n';
 
 export function getStaticPaths() {
@@ -11,7 +11,7 @@ export function getStaticPaths() {
 }
 
 const lang: Lang = langOf(Astro.params.lang);
-const buildDay = new Date().toISOString().slice(0, 10);
+const buildDay = keralaToday();
 // Upcoming festival dates from the build day; the page script hides the
 // ones that have passed since.
 const upcoming = festivals

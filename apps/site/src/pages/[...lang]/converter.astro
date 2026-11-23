@@ -2,7 +2,7 @@
 // Date converter and star finder, running the engine in the browser
 // (apps/converter_js, compiled to /kollavarsham.js).
 import Base from '../../layouts/Base.astro';
-import { names, type Lang } from '../../lib/data';
+import { keralaToday, names, type Lang } from '../../lib/data';
 import { appLink, href, langOf, langParam, langs, t } from '../../lib/i18n';
 
 export function getStaticPaths() {
@@ -15,7 +15,7 @@ const description = lang === 'ml'
   ? 'ഇംഗ്ലീഷ് തീയതിയും മലയാള (കൊല്ലവർഷ) തീയതിയും തമ്മിൽ മാറ്റുക; ജനനസമയത്തു നിന്ന് നക്ഷത്രം കണ്ടെത്തുക.'
   : 'Convert between English and Malayalam (Kollavarsham) dates, and find a birth star from the time of birth.';
 const monthIds = Object.keys(names.months);
-const today = new Date().toISOString().slice(0, 10);
+const today = keralaToday();
 ---
 <Base lang={lang} path="/converter/" title={title} description={description}>
   <h1>{title}</h1>

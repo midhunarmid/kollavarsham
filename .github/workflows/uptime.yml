@@ -1,0 +1,59 @@
+# Checks calendar.armid.in once a day: the main pages answer, and the
+# last deploy is recent (the daily deploy runs at 01:00 IST). On a failure
+# it opens an issue labelled "uptime", or comments on the open one.
+name: Uptime
+
+on:
+  schedule:
+    # 06:30 IST, five and a half hours after the daily deploy.
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  deployments: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check pages and the last deploy
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          problems=""
+          for path in / /ml/ /app/ /app/main.dart.js /kollavarsham.js /sitemap-index.xml; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "https://calendar.armid.in$path" || echo 000)
+            echo "$path $code"
+            [ "$code" = "200" ] || problems="$problems\n- \`$path\` answered $code"
+          done
+          last=$(gh api "repos/$GITHUB_REPOSITORY/deployments?environment=github-pages&per_page=1" --jq '.[0].created_at // ""')
+          echo "last deploy: $last"
+          if [ -z "$last" ]; then
+            problems="$problems\n- no GitHub Pages deployment found"
+          else
+            age=$(( ( $(date +%s) - $(date -d "$last" +%s) ) / 3600 ))
+            [ "$age" -le 48 ] || problems="$problems\n- the last deploy was $age hours ago ($last); check the Deploy web workflow and whether its schedule was paused"
+          fi
+          {
+            echo 'problems<<EOF'
+            printf "%b\n" "$problems"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+          [ -z "$problems" ]
+      - name: Report
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROBLEMS: ${{ steps.check.outputs.problems }}
+        run: |
+          body=$(printf "The daily check of calendar.armid.in found:\n%s\n\nRun: %s" "$PROBLEMS" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")
+          gh label create uptime --repo "$GITHUB_REPOSITORY" --color B60205 --description "Site availability" 2>/dev/null || true
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --label uptime --state open --json number --jq '.[0].number // ""')
+          if [ -n "$open" ]; then
+            gh issue comment "$open" --repo "$GITHUB_REPOSITORY" --body "$body"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "calendar.armid.in check failed" --label uptime --body "$body"
+          fi

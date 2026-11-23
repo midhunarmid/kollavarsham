@@ -31,7 +31,16 @@ export interface Month {
   start: string;
   days: number;
   sankranti: string;
+  /** Minutes from the sankranti to the cut-off that decides day 1. */
+  marginMinutes: number;
 }
+
+/**
+ * Today's date in Kerala (IST) as `yyyy-mm-dd`. The build runs at 01:00
+ * IST, while the runner's clock (UTC) still shows the day before.
+ */
+export const keralaToday = (now = Date.now()) =>
+  new Date(now + 330 * 60000).toISOString().slice(0, 10);
 
 export interface FestivalDate {
   date: string;
@@ -120,6 +129,11 @@ const addDays = (iso: string, n: number) =>
 export const completeMonths: Month[] = months.filter(
   (m) => dayOf(m.start) && dayOf(addDays(m.start, m.days - 1)),
 );
+
+const monthByStart = new Map(months.map((m) => [m.start, m]));
+
+/** The Malayalam month that starts on `iso`, if one does. */
+export const monthStartingOn = (iso: string) => monthByStart.get(iso);
 
 const monthPages = new Set(completeMonths.map((m) => `${m.ml.y}/${m.ml.m}`));
 

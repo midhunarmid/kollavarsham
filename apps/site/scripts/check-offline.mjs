@@ -8,9 +8,9 @@
 // the app loads), stop the server, reload, and check that Flutter renders.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
-import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
+import { staticServer } from './serve.mjs';
 
 const dist = path.resolve('dist');
 if (!fs.existsSync(path.join(dist, 'app', 'index.html'))) {
@@ -25,18 +25,7 @@ const chrome = [
 ].find((p) => p && fs.existsSync(p));
 if (!chrome) throw new Error('No Chrome found; pass its path.');
 
-const types = {
-  '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json',
-  '.wasm': 'application/wasm', '.png': 'image/png', '.otf': 'font/otf',
-  '.ttf': 'font/ttf', '.svg': 'image/svg+xml', '.css': 'text/css',
-};
-const server = http.createServer((req, res) => {
-  let file = path.join(dist, decodeURIComponent(new URL(req.url, 'http://x').pathname));
-  if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
-  if (!fs.existsSync(file)) { res.writeHead(404); res.end(); return; }
-  res.writeHead(200, { 'content-type': types[path.extname(file)] ?? 'application/octet-stream' });
-  fs.createReadStream(file).pipe(res);
-});
+const server = staticServer(dist);
 await new Promise((r) => server.listen(8791, r));
 
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'offline-check-'));

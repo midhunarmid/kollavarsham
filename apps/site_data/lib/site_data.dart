@@ -15,6 +15,14 @@ String _id(Enum e) => EnumName(e).name;
 
 String _two(int n) => n.toString().padLeft(2, '0');
 
+/// Today's date in Kerala (IST, UTC+05:30), at midnight UTC.
+DateTime keralaToday([DateTime? now]) {
+  final t = (now ?? DateTime.now()).toUtc().add(
+        const Duration(hours: 5, minutes: 30),
+      );
+  return DateTime.utc(t.year, t.month, t.day);
+}
+
 /// `yyyy-mm-dd` of a date.
 String isoDate(DateTime d) =>
     '${d.year.toString().padLeft(4, '0')}-${_two(d.month)}-${_two(d.day)}';
@@ -146,6 +154,9 @@ List<Map<String, Object>> monthsJson(
       'start': isoDate(m.toGregorian()),
       'days': m.monthLength,
       'sankranti': localTime(calendar.sankranti(m.year, m.month), calendar),
+      // Minutes from the sankranti to the cut-off that decides day 1;
+      // under 10 either way, almanacs may start the month a day apart.
+      'marginMinutes': calendar.monthStartMargin(m.year, m.month).inMinutes,
     });
     m = m.lastDayOfMonth.addDays(1);
   }

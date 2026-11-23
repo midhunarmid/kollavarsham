@@ -10,6 +10,12 @@ name: Deploy web
 on:
   push:
     branches: [main]
+  # Every day at 01:00 IST (19:30 UTC), so the build-day lists (upcoming
+  # festivals, the current year's links) and the data range stay current
+  # without a push. GitHub pauses schedules after 60 days without commits;
+  # the uptime workflow reports a stale deploy.
+  schedule:
+    - cron: '30 19 * * *'
   workflow_dispatch:
 
 permissions:
@@ -60,6 +66,18 @@ jobs:
       - name: Check the app opens offline
         working-directory: apps/site
         run: node scripts/check-offline.mjs /usr/bin/google-chrome
+      - name: Lighthouse (site scores, web app size and load time)
+        working-directory: apps/site
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npx --yes @lhci/cli@0.16.0 autorun
+      - name: Keep the Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: apps/site/.lighthouseci/reports
+          if-no-files-found: ignore
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

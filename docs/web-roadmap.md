@@ -76,6 +76,7 @@ The aim is to keep the static pages for search engines (Thiruvananthapuram) and 
 - **Backup nudges.** Track when the last backup was made. On the web, show a banner on Today when there are events and no backup in 30 days: "Your data lives only in this browser. Save a backup." Offer to make a backup right after the first pirannal is added.
 - **Update flow.** When `app_sw.js` finds a new version, show a "New version: reload" snackbar, so users aren't left on an old build until a second visit.
 - **Install prompt.** Catch `beforeinstallprompt` and offer "Install" in Settings and once on Today, which can be dismissed. On iOS, show the Share → Add to Home Screen steps, since installing also exempts the app from Safari's seven-day clearing.
+- **No Google font requests from the app.** Flutter web fetches Roboto from `fonts.gstatic.com` for Latin text, since Noto Sans Malayalam has no Latin letters. Bundle a Latin font as an app asset and use it as the fallback. Then the privacy page can drop its `/app` caveat, and `app_sw.js` can stop caching Google's font files.
 - **Load time.** Using the M1 baseline:
   - try `--wasm` (skwasm) with the CanvasKit fallback;
   - defer rarely used screens (Find my star, backup, share cards) with Dart deferred imports;
@@ -161,7 +162,13 @@ Search is how most people will find the calendar. New pages must come from compu
 - **Feeds and the "tentative" Muslim dates** (M4). Feed events must carry "(tentative)" until the holiday data confirms them. Each UID must stay stable when a date moves, so subscribers' calendars update rather than duplicate.
 - **SEO thin-content risk** (M5). Pages that differ only in their dates, such as the 27 nakshatra pages × 13 years, can be treated as thin content. Give each family real explanatory text, and start with 3 years per family, not 13.
 
-## 5. Verification (every milestone)
+## 5. Progress
+
+| Milestone | Status | Notes |
+|---|---|---|
+| M1 | done (2026-11-23) | Daily 01:00 IST deploy; IST build day in `site_data` and the site; fonts bundled with the site (no third-party requests, checked in the browser); Lighthouse CI in the deploy (all 8 site pages scored 100 in every category locally, 98–160 KB); "Report a wrong date" and the borderline note on day pages (2 days in 2024–2036); `uptime.yml`. Measured `/app/` baseline: **7.2 MB, interactive at 37.7 s** on simulated slow 4G, far from the 3 s target, which is M3's job. Web icons are still waiting on the owner's icon. |
+
+## 6. Verification (every milestone)
 
 - `npm run build && npm run check` (links, canonical, hreflang) and Lighthouse CI in CI.
 - `flutter test` for app changes. A web build plus `check-offline.mjs` for anything that touches `/app/`.

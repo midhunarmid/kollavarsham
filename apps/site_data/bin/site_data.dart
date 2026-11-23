@@ -17,7 +17,9 @@ void main(List<String> args) {
   for (var i = 0; i + 1 < args.length; i += 2) {
     options[args[i].replaceFirst('--', '')] = args[i + 1];
   }
-  final now = DateTime.now().year;
+  // The year in Kerala (IST), not on the build machine's clock: the
+  // daily deploy runs at 01:00 IST, which is still the day before in UTC.
+  final now = keralaToday().year;
   final from = int.parse(options['from'] ?? '${now - 2}');
   final to = int.parse(options['to'] ?? '${now + 10}');
   final out = Directory(options['out'] ?? '../site/src/data');

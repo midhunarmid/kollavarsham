@@ -1,0 +1,7 @@
+{
+  "app": {
+    "measured": "2026-11-23, Lighthouse 13.6 via @lhci/cli 0.16.0, default mobile profile (simulated slow 4G), median of 3 runs on a local build",
+    "totalByteWeight": 7221028,
+    "interactiveMs": 37688
+  }
+}

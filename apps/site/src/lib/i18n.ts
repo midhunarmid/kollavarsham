@@ -1,5 +1,5 @@
 // Site strings and formatting in English and Malayalam.
-import { names, type Lang, type MlDate } from './data';
+import { names, type Day, type Lang, type MlDate } from './data';
 
 export const langs: Lang[] = ['en', 'ml'];
 
@@ -85,6 +85,11 @@ const strings = {
     ml: 'പിറന്നാൾ, നക്ഷത്ര ഓർമ്മപ്പെടുത്തലുകൾ, വിജറ്റുകൾ, നിങ്ങളുടെ നഗരത്തിലെ സമയങ്ങൾ. ഉടൻ ഗൂഗിൾ പ്ലേയിൽ; അതുവരെ വെബ് ആപ്പ് ബ്രൗസറിലും ഓഫ്‌ലൈനായും പ്രവർത്തിക്കും.',
   },
   playSoon: { en: 'Google Play: coming soon', ml: 'ഗൂഗിൾ പ്ലേ: ഉടൻ' },
+  reportWrongDate: { en: 'Report a wrong date', ml: 'തെറ്റായ തീയതി അറിയിക്കുക' },
+  monthStartClose: {
+    en: 'The sankranti falls only {minutes} min from the cut-off that decides the first day, so some almanacs may start this month a day earlier or later.',
+    ml: 'ആദ്യ ദിവസം നിശ്ചയിക്കുന്ന സമയപരിധിയിൽ നിന്ന് സംക്രമം {minutes} മിനിറ്റ് മാത്രം അകലെയാണ്; അതിനാൽ ചില പഞ്ചാംഗങ്ങൾ ഈ മാസം ഒരു ദിവസം മുമ്പോ ശേഷമോ തുടങ്ങിയേക്കാം.',
+  },
   footer: {
     en: 'Free, no ads, no tracking. Dates are computed; almanacs can differ by a day.',
     ml: 'സൗജന്യം, പരസ്യമില്ല, നിരീക്ഷണമില്ല. തീയതികൾ കണക്കാക്കുന്നതാണ്; പഞ്ചാംഗങ്ങളുമായി ഒരു ദിവസം വ്യത്യാസം വരാം.',
@@ -163,3 +168,26 @@ export function spanText(lang: Lang, name: string, until: string, iso: string): 
 
 /** A link into the web app (hash routes), e.g. appLink('/day/2026-11-02'). */
 export const appLink = (route: string) => `/app/#${route}`;
+
+/**
+ * A GitHub issue for a wrong date on a day page, pre-filling the fields of
+ * `.github/ISSUE_TEMPLATE/wrong_date.yml` with what the site shows. In
+ * English, the issue tracker's language.
+ */
+export function wrongDateLink(day: Day, festivalNames: string[]): string {
+  const shown = [
+    malayalamDate('en', day.ml),
+    `star ${nameOf('stars', day.stars[0].id, 'en')}`,
+    `tithi ${nameOf('tithis', day.tithis[0].id, 'en')}`,
+    `festivals: ${festivalNames.length ? festivalNames.join(', ') : 'none'}`,
+  ].join(' · ');
+  const query = new URLSearchParams({
+    template: 'wrong_date.yml',
+    title: `[Wrong date] ${day.date}`,
+    gregorian: day.date,
+    actual: shown,
+    location: 'calendar.armid.in site: Thiruvananthapuram, IST, Chingam year start',
+    version: 'calendar.armid.in',
+  });
+  return `https://github.com/midhunarmid/kollavarsham/issues/new?${query}`;
+}

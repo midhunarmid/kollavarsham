@@ -1,7 +1,7 @@
 ---
 // All festivals by category, each with its next date after the build.
 import Base from '../../layouts/Base.astro';
-import { festivals, festivalSlug, type Lang } from '../../lib/data';
+import { festivals, festivalSlug, keralaToday, type Lang } from '../../lib/data';
 import { gregorianDate, href, langOf, langParam, langs, t } from '../../lib/i18n';
 
 export function getStaticPaths() {
@@ -9,7 +9,7 @@ export function getStaticPaths() {
 }
 
 const lang: Lang = langOf(Astro.params.lang);
-const today = new Date().toISOString().slice(0, 10);
+const today = keralaToday();
 const categories = ['hindu', 'christian', 'muslim', 'national', 'government', 'bank'];
 const labels: Record<string, Record<Lang, string>> = {
   hindu: { en: 'Hindu', ml: 'ഹിന്ദു' },

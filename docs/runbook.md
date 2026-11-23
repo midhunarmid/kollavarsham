@@ -12,7 +12,7 @@ Kerala publishes the next year's public holiday list (a GAD government order) la
 4. When a Muslim festival's date is announced, set its entry's date and leave `tentative: true` only if it may still move.
 5. Push: the site rebuilds with the new year's holidays, and the app picks them up in its next release.
 
-The site's data range is "two years back to ten ahead" of the build date, so it moves forward by itself on the first build of each year.
+The site's data range is "two years back to ten ahead" of the build date in Kerala (IST). The deploy runs every day at 01:00 IST, so the range moves forward by itself on 1 January.
 
 ## Every year: almanac check (before Chingam, and before Medam)
 
@@ -53,7 +53,9 @@ Golden images (`apps/calendar/test/goldens/`) are made on Windows; refresh with 
 
 - **Android app:** `docs/release.md` (version in `pubspec.yaml` and `lib/app/version.dart`, signing, R8, Play tracks).
 - **Packages (`kollavarsham`, `kollavarsham_flutter`):** move the CHANGELOG's Unreleased section under a version, bump `version` in the pubspec and the dependents' constraints, then push a tag `kollavarsham-vX.Y.Z` (or `kollavarsham_flutter-vX.Y.Z`): `.github/workflows/publish.yml` publishes to pub.dev. Only the owner creates these tags.
-- **Site and web app:** every push to `main` deploys both (`.github/workflows/deploy-web.yml`): site data, the JS converter, the Astro build and link check, the Flutter web build at `/app/`, and the offline check. Watch the run; a failed check stops the deploy and the previous version stays up.
+- **Site and web app:** every push to `main`, and a schedule every day at 01:00 IST, deploy both (`.github/workflows/deploy-web.yml`): site data, the JS converter, the Astro build and link check, the Flutter web build at `/app/`, the offline check and Lighthouse CI. Watch the run; a failed check stops the deploy and the previous version stays up.
+  - Lighthouse (`apps/site/lighthouserc.cjs`): eight site pages must score at least 95 (SEO 100) and stay under 250 KB; `/app/` may not grow more than 10% over `apps/site/lighthouse-baseline.json` in bytes or time to interactive. After a deliberate change to the app's size, run it locally (`npm run build`, copy the Flutter build to `dist/app`, then `npx @lhci/cli@0.16.0 autorun`) and update the baseline from the `/app/` report. The reports are kept as the run's `lighthouse` artifact.
+  - `.github/workflows/uptime.yml` checks the live site every morning (06:30 IST) and opens or comments on an issue labelled `uptime` when a page fails or the last deploy is more than 48 hours old. GitHub pauses scheduled workflows after 60 days without a commit; re-enable them from the Actions tab.
 
 ## When something breaks
 
@@ -62,5 +64,7 @@ Golden images (`apps/calendar/test/goldens/`) are made on Windows; refresh with 
 | A festival on the wrong day | `docs/accuracy.md` (its rule and evidence), `packages/kollavarsham/lib/src/festivals.dart` |
 | A month starts a day off | the checklist margin; `verifiedMonthStarts` in `calendar.dart` |
 | Notifications missing on a phone | Settings → Reminders (exact alarms, permission); `docs/release.md` smoke test |
+| Lighthouse fails in the deploy | the run's `lighthouse` artifact (open the HTML report for the failing URL); `apps/site/lighthouserc.cjs` |
+| An `uptime` issue opened | the failing URL or the Deploy web run history; GitHub Pages settings (custom domain, DNS) |
 | The web app doesn't open offline | `apps/site/scripts/check-offline.mjs`; `apps/calendar/web/app_sw.js` and `flutter_bootstrap.js` |
 | Site build fails on data | `npm run prepare-data` output; a malformed holiday file is reported by name |

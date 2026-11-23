@@ -2,7 +2,7 @@
 // "Nakshatra today": the star now and its end time, picked in the browser
 // from two years of star spans embedded in the page.
 import Base from '../../layouts/Base.astro';
-import { daysOf, names, years, type Lang } from '../../lib/data';
+import { daysOf, keralaToday, names, years, type Lang } from '../../lib/data';
 import { href, langOf, langParam, langs, t } from '../../lib/i18n';
 
 export function getStaticPaths() {
@@ -10,7 +10,7 @@ export function getStaticPaths() {
 }
 
 const lang: Lang = langOf(Astro.params.lang);
-const now = new Date().getFullYear();
+const now = Number(keralaToday().slice(0, 4));
 const spanYears = [now, now + 1].filter((y) => years.includes(y));
 // Each star span once: [star id, ends at local yyyy-mm-ddThh:mm].
 const spans: [string, string][] = [];

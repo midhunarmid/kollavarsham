@@ -1,9 +1,19 @@
 ---
 // Every page: head (title, description, canonical, hreflang, Open Graph,
 // JSON-LD), header with navigation and language switch, and footer.
+// Fonts are bundled with the site (no third-party requests): Noto Sans for
+// Latin text and Noto Sans Malayalam for Malayalam, in the weights used.
+import '@fontsource/noto-sans/latin-400.css';
+import '@fontsource/noto-sans/latin-600.css';
+import '@fontsource/noto-sans/latin-700.css';
+import '@fontsource/noto-sans-malayalam/malayalam-400.css';
+import '@fontsource/noto-sans-malayalam/malayalam-600.css';
+import '@fontsource/noto-sans-malayalam/malayalam-700.css';
+import latinRegular from '@fontsource/noto-sans/files/noto-sans-latin-400-normal.woff2?url';
+import malayalamRegular from '@fontsource/noto-sans-malayalam/files/noto-sans-malayalam-malayalam-400-normal.woff2?url';
 import '../styles/site.css';
 import { href, t } from '../lib/i18n';
-import type { Lang } from '../lib/data';
+import { keralaToday, type Lang } from '../lib/data';
 
 interface Props {
   lang: Lang;
@@ -24,7 +34,7 @@ const other: Lang = lang === 'en' ? 'ml' : 'en';
 const fullTitle = path === '/' ? title : `${title} · ${t(lang, 'siteName')}`;
 const nav = [
   ['/', t(lang, 'today')],
-  ['/calendar/' + new Date().getFullYear() + '/', t(lang, 'calendar')],
+  ['/calendar/' + keralaToday().slice(0, 4) + '/', t(lang, 'calendar')],
   ['/festivals/', t(lang, 'festivals')],
   ['/nakshatra-today/', t(lang, 'nakshatraToday')],
   ['/converter/', t(lang, 'converter')],
@@ -55,12 +65,8 @@ const nav = [
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#00796b" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans:wght@400;600;700&display=swap"
-    />
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href={lang === 'ml' ? malayalamRegular : latinRegular} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
