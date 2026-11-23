@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app/settings.dart';
+import '../web/browser.dart';
 import 'database.dart';
 import 'models.dart';
 
@@ -17,7 +20,16 @@ class Repository extends Notifier<DbSnapshot> {
   DbSnapshot build() => ref.watch(databaseProvider).load();
 
   Future<void> _commit(DbSnapshot next) {
+    final wasEmpty = state.people.isEmpty && state.events.isEmpty;
     state = next;
+    if (wasEmpty && (next.people.isNotEmpty || next.events.isNotEmpty)) {
+      // The first person or event: ask the browser to keep this site's
+      // storage from automatic clearing (nothing happens on Android).
+      unawaited(ref
+          .read(browserProvider)
+          .requestPersistentStorage()
+          .then((_) {}, onError: (_) {}));
+    }
     return ref.read(databaseProvider).save(next);
   }
 

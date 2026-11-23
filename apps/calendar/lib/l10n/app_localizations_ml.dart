@@ -868,4 +868,53 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get remindersAddToCalendar => 'ഇവ നിങ്ങളുടെ കലണ്ടറിൽ ചേർക്കുക (.ics)';
+
+  @override
+  String get notNow => 'ഇപ്പോൾ വേണ്ട';
+
+  @override
+  String lastBackup(String date) {
+    return 'അവസാന ബാക്കപ്പ്: $date';
+  }
+
+  @override
+  String get lastBackupNever => 'ഇതുവരെ ബാക്കപ്പ് എടുത്തിട്ടില്ല.';
+
+  @override
+  String get webStorageHeading => 'ഈ ബ്രൗസർ';
+
+  @override
+  String get webStoragePersisted =>
+      'നിങ്ങളുടെ വിവരങ്ങൾ ഈ ബ്രൗസറിലാണ്; ബ്രൗസർ അവ തനിയെ മായ്ക്കില്ല. ബ്രൗസർ മായ്ച്ചാലോ ഉപകരണം മാറിയാലോ ബാക്കപ്പ് ഫയൽ സഹായിക്കും.';
+
+  @override
+  String get webStorageNotPersisted =>
+      'നിങ്ങളുടെ വിവരങ്ങൾ ഈ ബ്രൗസറിൽ മാത്രമാണ്; സ്ഥലം കുറയുമ്പോഴോ ആഴ്ചകളോളം ഉപയോഗിക്കാതിരുന്നാലോ ബ്രൗസർ അവ മായ്ച്ചേക്കാം. ഇടയ്ക്ക് ബാക്കപ്പ് ഫയൽ എടുക്കുക; ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്യുന്നതും സഹായിക്കും.';
+
+  @override
+  String get backupNudgeTitle => 'നിങ്ങളുടെ വിവരങ്ങൾ ഈ ബ്രൗസറിൽ മാത്രം';
+
+  @override
+  String get backupNudgeBody =>
+      'ബ്രൗസർ സംഭരണം മായ്ച്ചാലും ആളുകളെയും ദിവസങ്ങളെയും തിരികെ കൊണ്ടുവരാൻ ഒരു ബാക്കപ്പ് ഫയൽ എടുക്കുക.';
+
+  @override
+  String get installTitle => 'ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്യുക';
+
+  @override
+  String get installBody =>
+      'ആപ്പ് പോലെ തുറക്കും, ഓഫ്‌ലൈനായും പ്രവർത്തിക്കും, ബ്രൗസർ വിവരങ്ങൾ കൂടുതൽ സുരക്ഷിതമായി സൂക്ഷിക്കും.';
+
+  @override
+  String get installIosBody =>
+      'Safari-യിൽ Share, തുടർന്ന് Add to Home Screen തൊടുക. ആപ്പ് പോലെ തുറക്കും, ഓഫ്‌ലൈനായും പ്രവർത്തിക്കും, Safari വിവരങ്ങൾ കൂടുതൽ സുരക്ഷിതമായി സൂക്ഷിക്കും.';
+
+  @override
+  String get installAction => 'ഇൻസ്റ്റാൾ ചെയ്യുക';
+
+  @override
+  String get updateReady => 'പുതിയ പതിപ്പ് തയ്യാർ.';
+
+  @override
+  String get updateReload => 'വീണ്ടും തുറക്കുക';
 }

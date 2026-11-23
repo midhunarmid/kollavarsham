@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
+import '../web/web_cards.dart';
 
 /// The bottom navigation bar around the five tabs.
 class AppShell extends StatelessWidget {
@@ -14,7 +15,8 @@ class AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
+    return UpdateListener(
+        child: Scaffold(
       body: shell,
       bottomNavigationBar: NavigationBar(
         selectedIndex: shell.currentIndex,
@@ -60,6 +62,6 @@ class AppShell extends StatelessWidget {
             ),
         ],
       ),
-    );
+    ));
   }
 }

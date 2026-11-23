@@ -30,7 +30,7 @@ export function staticServer(dist) {
     }
     const type = types[path.extname(file)] ?? 'application/octet-stream';
     // Compress text as GitHub Pages does, so Lighthouse sees real sizes.
-    const gzip = /text|javascript|json|xml|svg|calendar/.test(type) &&
+    const gzip = /text|javascript|json|xml|svg|calendar|wasm/.test(type) &&
       /\bgzip\b/.test(req.headers['accept-encoding'] ?? '');
     res.writeHead(200, { 'content-type': type, ...(gzip ? { 'content-encoding': 'gzip' } : {}) });
     const body = fs.createReadStream(file);

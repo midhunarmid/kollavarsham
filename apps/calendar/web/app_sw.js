@@ -6,7 +6,27 @@
 // served from the cache and refreshed in the background. After one online
 // visit the app opens offline.
 const CACHE = 'malayalam-calendar-app-v1';
-const SHELL = ['./', 'index.html', 'flutter_bootstrap.js', 'main.dart.js', 'manifest.json'];
+const SHELL = ['./', 'index.html', 'browser.js', 'flutter_bootstrap.js', 'main.dart.js', 'manifest.json'];
+
+// The app's code: when the background refresh brings a different copy,
+// the open pages are told a reload will show the new version.
+function isAppCode(url) {
+  return url.origin === self.location.origin && /\/(main\.dart\.js|main\.dart\.wasm|main\.dart\.mjs)$/.test(url.pathname);
+}
+
+function sameVersion(a, b) {
+  for (const header of ['etag', 'last-modified', 'content-length']) {
+    const x = a.headers.get(header);
+    const y = b.headers.get(header);
+    if (x && y) return x === y;
+  }
+  return true; // Nothing to compare: don't claim an update.
+}
+
+async function announceUpdate() {
+  const clients = await self.clients.matchAll({ type: 'window' });
+  for (const client of clients) client.postMessage({ type: 'update-ready' });
+}
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -47,16 +67,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.open(CACHE).then(async (cache) => {
-      const cached = await cache.match(request);
-      const network = fetch(request)
-        .then((response) => {
-          if (response.ok || response.type === 'opaque') cache.put(request, response.clone());
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    }),
-  );
+  // Stale-while-revalidate: answer from the cache when possible, and keep
+  // the worker alive until the refreshed copy is stored.
+  const lookup = caches.open(CACHE).then(async (cache) => {
+    const cached = await cache.match(request);
+    const network = fetch(request)
+      .then(async (response) => {
+        if (response.ok || response.type === 'opaque') {
+          const updated = cached && response.ok && isAppCode(new URL(request.url)) &&
+            !sameVersion(cached, response);
+          await cache.put(request, response.clone());
+          if (updated) await announceUpdate();
+        }
+        return response;
+      })
+      .catch(() => cached);
+    return { cached, network };
+  });
+  event.respondWith(lookup.then(({ cached, network }) => cached || network));
+  event.waitUntil(lookup.then(({ network }) => network).catch(() => undefined));
 });

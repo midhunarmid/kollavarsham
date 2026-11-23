@@ -37,6 +37,7 @@ flutter:
   generate: true
   assets:
     - assets/fonts/OFL.txt
+    - assets/fonts/Roboto-LICENSE.txt
     # Copies of data/holidays/*.json; refresh with tool/sync_holidays.dart.
     - assets/holidays/
   fonts:
@@ -44,4 +45,13 @@ flutter:
       fonts:
         - asset: assets/fonts/NotoSansMalayalam-Regular.ttf
         - asset: assets/fonts/NotoSansMalayalam-Bold.ttf
+          weight: 700
+    # Latin letters, which Noto Sans Malayalam lacks. Android has Roboto
+    # already; bundling it keeps the web app from fetching it from Google.
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-Bold.ttf
           weight: 700

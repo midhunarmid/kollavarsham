@@ -14,6 +14,7 @@ import '../day/day_info.dart';
 import '../day/festival_tile.dart';
 import '../day/panchangam_view.dart';
 import '../share/share_card.dart';
+import '../../web/web_cards.dart';
 
 /// Today tab: today's Malayalam and Gregorian dates, the panchangam
 /// summary, today's festivals and the next festival.
@@ -63,6 +64,7 @@ class TodayScreen extends ConsumerWidget {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
+              const WebSuggestions(),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),

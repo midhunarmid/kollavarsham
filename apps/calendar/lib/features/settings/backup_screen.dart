@@ -11,6 +11,8 @@ import '../../app/clock.dart';
 import '../../app/settings.dart';
 import '../../app/share.dart';
 import '../../backup/backup.dart';
+import '../../backup/backup_status.dart';
+import '../../web/browser.dart';
 import '../../backup/ics.dart';
 import '../../data/database.dart';
 import '../../data/models.dart';
@@ -101,7 +103,12 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       ],
       fileNames: [name],
     );
+    await ref.read(backupStatusProvider.notifier).backupSaved();
   }
+
+  /// Whether the browser keeps this site's storage, asked once.
+  late final Future<bool?> _persisted =
+      ref.read(browserProvider).storagePersisted();
 
   Future<void> _restore() async {
     final l10n = AppLocalizations.of(context);
@@ -155,6 +162,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     final settings = ref.watch(settingsProvider);
     final script = resolveScript(context, settings.nameScript.script);
     final db = ref.watch(repositoryProvider);
+    final browser = ref.watch(browserProvider);
     final people = {for (final p in db.people) p.id: p};
     final selected = _selected ?? {for (final e in db.events) e.id};
     final ics = icsEventsFor(
@@ -211,6 +219,16 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
               Text(l10n.backupHeading, style: theme.textTheme.titleSmall),
               const SizedBox(height: 4),
               Text(l10n.backupHelp, style: theme.textTheme.bodySmall),
+              const SizedBox(height: 4),
+              Text(
+                key: const Key('last-backup'),
+                switch (ref.watch(backupStatusProvider).lastBackup) {
+                  final t? => l10n.lastBackup(MaterialLocalizations.of(context)
+                      .formatMediumDate(t.toLocal())),
+                  null => l10n.lastBackupNever,
+                },
+                style: theme.textTheme.bodySmall,
+              ),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -230,6 +248,44 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                   ),
                 ],
               ),
+              if (browser.isWeb) ...[
+                const Divider(height: 40),
+                Text(l10n.webStorageHeading, style: theme.textTheme.titleSmall),
+                const SizedBox(height: 4),
+                FutureBuilder<bool?>(
+                  future: _persisted,
+                  builder: (context, snapshot) => Text(
+                    key: const Key('web-storage'),
+                    snapshot.data == true
+                        ? l10n.webStoragePersisted
+                        : l10n.webStorageNotPersisted,
+                    style: theme.textTheme.bodySmall,
+                  ),
+                ),
+                ListenableBuilder(
+                  listenable: browser.changes,
+                  builder: (context, _) => browser.canInstall
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: FilledButton.tonalIcon(
+                              key: const Key('install-from-backup'),
+                              icon: const Icon(Icons.install_mobile),
+                              label: Text(l10n.installAction),
+                              onPressed: browser.install,
+                            ),
+                          ),
+                        )
+                      : browser.isIos && !browser.isInstalled
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(l10n.installIosBody,
+                                  style: theme.textTheme.bodySmall),
+                            )
+                          : const SizedBox.shrink(),
+                ),
+              ],
             ],
           ),
         ),

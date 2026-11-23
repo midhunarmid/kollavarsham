@@ -39,6 +39,7 @@ Future<SharedPreferences> pumpApp(WidgetTester tester,
     {AppSettings? settings = doneSettings,
     DateTime? now,
     SharedPreferences? prefs,
+    List<Override> overrides = const [],
     Size size = const Size(480, 1400)}) async {
   await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -48,6 +49,7 @@ Future<SharedPreferences> pumpApp(WidgetTester tester,
       sharedPreferencesProvider.overrideWithValue(prefs),
       holidaysProvider.overrideWithValue(bundledHolidays),
       if (now != null) clockProvider.overrideWithValue(() => now),
+      ...overrides,
     ],
     child: const CalendarApp(),
   ));

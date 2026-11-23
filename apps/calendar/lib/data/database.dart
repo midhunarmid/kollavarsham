@@ -4,6 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models.dart';
+import 'store.dart';
+
+export 'store.dart' show DocumentStore;
 
 /// The contents of the database: the `people`, `events` and `reminders`
 /// tables, each in id order.
@@ -48,19 +51,24 @@ class DbSnapshot {
 typedef Migration = Map<String, Object?> Function(Map<String, Object?> json);
 
 /// The local database: three tables kept as one versioned JSON document in
-/// [SharedPreferences], which is a file on Android and `localStorage` on
-/// the web.
+/// a [DocumentStore]: [SharedPreferences] (a file) on Android, IndexedDB on
+/// the web ([platformDocumentStore]).
 ///
 /// The tables hold a few hundred rows at most, so the whole document is
 /// rewritten on every change. Each schema change bumps [schemaVersion] and
 /// adds a step to [migrations].
 class AppDatabase {
-  /// Opens the database in [prefs].
-  AppDatabase(this.prefs, {List<Migration>? migrations})
-      : migrations = migrations ?? defaultMigrations;
+  /// Opens the database in [store], else [platformDocumentStore], else
+  /// [prefs].
+  AppDatabase(this.prefs, {List<Migration>? migrations, DocumentStore? store})
+      : migrations = migrations ?? defaultMigrations,
+        store = store ?? platformDocumentStore ?? PrefsDocumentStore(prefs);
 
-  /// Preferences holding the database.
+  /// Preferences of the app.
   final SharedPreferences prefs;
+
+  /// Where the document is kept.
+  final DocumentStore store;
 
   /// Steps from schema version `i + 1` to `i + 2`; version 1 is the first.
   final List<Migration> migrations;
@@ -79,7 +87,7 @@ class AppDatabase {
   /// Throws a [FormatException] for a document newer than this app, so it
   /// is never overwritten by an older version.
   DbSnapshot load() {
-    final text = prefs.getString(key);
+    final text = store.read(key);
     if (text == null) return const DbSnapshot();
     var json = (jsonDecode(text) as Map).cast<String, Object?>();
     var version = json['schema'] as int? ?? 1;
@@ -95,8 +103,7 @@ class AppDatabase {
   }
 
   /// Writes [db].
-  Future<void> save(DbSnapshot db) =>
-      prefs.setString(key, jsonEncode(toJson(db)));
+  Future<void> save(DbSnapshot db) => store.write(key, jsonEncode(toJson(db)));
 
   /// Reads the tables of a document at [schemaVersion].
   static DbSnapshot fromJson(Map<String, Object?> json) {

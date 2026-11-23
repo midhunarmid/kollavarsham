@@ -1579,6 +1579,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add them to your calendar (.ics)'**
   String get remindersAddToCalendar;
+
+  /// Button: hide a suggestion for now.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
+  /// Backup screen: when the last backup file was saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {date}'**
+  String lastBackup(String date);
+
+  /// Backup screen: no backup file has been saved.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup saved yet.'**
+  String get lastBackupNever;
+
+  /// Backup screen on the web: heading about where the data is kept.
+  ///
+  /// In en, this message translates to:
+  /// **'This browser'**
+  String get webStorageHeading;
+
+  /// Web: the browser granted persistent storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is saved in this browser, which keeps it from automatic clearing. A backup file still protects it if you clear the browser or change devices.'**
+  String get webStoragePersisted;
+
+  /// Web: the browser did not grant persistent storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is saved only in this browser, which may clear it when space runs low or after weeks unused. Save a backup file now and then; installing the app also helps.'**
+  String get webStorageNotPersisted;
+
+  /// Web, Today: title of the reminder to save a backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data lives only in this browser'**
+  String get backupNudgeTitle;
+
+  /// Web, Today: body of the reminder to save a backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a backup file so you can bring back your people and events if the browser clears its storage.'**
+  String get backupNudgeBody;
+
+  /// Web: title of the suggestion to install the web app.
+  ///
+  /// In en, this message translates to:
+  /// **'Install the app'**
+  String get installTitle;
+
+  /// Web: why to install the web app.
+  ///
+  /// In en, this message translates to:
+  /// **'It opens like an app, works offline, and the browser keeps its data safer.'**
+  String get installBody;
+
+  /// Web on iPhone and iPad: how to install the web app.
+  ///
+  /// In en, this message translates to:
+  /// **'In Safari, tap Share, then Add to Home Screen. It opens like an app, works offline, and Safari keeps its data safer.'**
+  String get installIosBody;
+
+  /// Button: show the browser's install prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Install'**
+  String get installAction;
+
+  /// Web snackbar: a newer version of the app was downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version is ready.'**
+  String get updateReady;
+
+  /// Snackbar action: reload the web app to use the new version.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload'**
+  String get updateReload;
 }
 
 class _AppLocalizationsDelegate

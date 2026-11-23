@@ -1237,5 +1237,66 @@
   "remindersAddToCalendar": "Add them to your calendar (.ics)",
   "@remindersAddToCalendar": {
     "description": "Button on the web: export events as an .ics file so another calendar app reminds you."
+  },
+  "notNow": "Not now",
+  "@notNow": {
+    "description": "Button: hide a suggestion for now."
+  },
+  "lastBackup": "Last backup: {date}",
+  "@lastBackup": {
+    "description": "Backup screen: when the last backup file was saved.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "lastBackupNever": "No backup saved yet.",
+  "@lastBackupNever": {
+    "description": "Backup screen: no backup file has been saved."
+  },
+  "webStorageHeading": "This browser",
+  "@webStorageHeading": {
+    "description": "Backup screen on the web: heading about where the data is kept."
+  },
+  "webStoragePersisted": "Your data is saved in this browser, which keeps it from automatic clearing. A backup file still protects it if you clear the browser or change devices.",
+  "@webStoragePersisted": {
+    "description": "Web: the browser granted persistent storage."
+  },
+  "webStorageNotPersisted": "Your data is saved only in this browser, which may clear it when space runs low or after weeks unused. Save a backup file now and then; installing the app also helps.",
+  "@webStorageNotPersisted": {
+    "description": "Web: the browser did not grant persistent storage."
+  },
+  "backupNudgeTitle": "Your data lives only in this browser",
+  "@backupNudgeTitle": {
+    "description": "Web, Today: title of the reminder to save a backup."
+  },
+  "backupNudgeBody": "Save a backup file so you can bring back your people and events if the browser clears its storage.",
+  "@backupNudgeBody": {
+    "description": "Web, Today: body of the reminder to save a backup."
+  },
+  "installTitle": "Install the app",
+  "@installTitle": {
+    "description": "Web: title of the suggestion to install the web app."
+  },
+  "installBody": "It opens like an app, works offline, and the browser keeps its data safer.",
+  "@installBody": {
+    "description": "Web: why to install the web app."
+  },
+  "installIosBody": "In Safari, tap Share, then Add to Home Screen. It opens like an app, works offline, and Safari keeps its data safer.",
+  "@installIosBody": {
+    "description": "Web on iPhone and iPad: how to install the web app."
+  },
+  "installAction": "Install",
+  "@installAction": {
+    "description": "Button: show the browser's install prompt."
+  },
+  "updateReady": "A new version is ready.",
+  "@updateReady": {
+    "description": "Web snackbar: a newer version of the app was downloaded."
+  },
+  "updateReload": "Reload",
+  "@updateReload": {
+    "description": "Snackbar action: reload the web app to use the new version."
   }
 }

@@ -7,7 +7,7 @@ The Malayalam calendar for Android (`in.armid.calendar`) and the web (`calendar.
 - **Reminders:** local notifications on Android (exact when allowed), a daily panchangam, festival and month-start reminders; on the web, a list and `.ics` export.
 - **Tools:** date converter, age, days between dates, Kollavarsham year; share cards.
 - **Android extras:** two home-screen widgets, launcher shortcuts, Auto Backup.
-- **Private:** everything stays on the device (shared_preferences; `localStorage` on the web). JSON backup and restore.
+- **Private:** everything stays on the device (shared_preferences on Android; on the web the database is in IndexedDB through `web/browser.js`, settings in `localStorage`). JSON backup and restore, with a reminder on the web when no backup was saved in 30 days.
 
 ```bash
 flutter run                      # a phone or emulator

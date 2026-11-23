@@ -890,4 +890,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get remindersAddToCalendar => 'Add them to your calendar (.ics)';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String lastBackup(String date) {
+    return 'Last backup: $date';
+  }
+
+  @override
+  String get lastBackupNever => 'No backup saved yet.';
+
+  @override
+  String get webStorageHeading => 'This browser';
+
+  @override
+  String get webStoragePersisted =>
+      'Your data is saved in this browser, which keeps it from automatic clearing. A backup file still protects it if you clear the browser or change devices.';
+
+  @override
+  String get webStorageNotPersisted =>
+      'Your data is saved only in this browser, which may clear it when space runs low or after weeks unused. Save a backup file now and then; installing the app also helps.';
+
+  @override
+  String get backupNudgeTitle => 'Your data lives only in this browser';
+
+  @override
+  String get backupNudgeBody =>
+      'Save a backup file so you can bring back your people and events if the browser clears its storage.';
+
+  @override
+  String get installTitle => 'Install the app';
+
+  @override
+  String get installBody =>
+      'It opens like an app, works offline, and the browser keeps its data safer.';
+
+  @override
+  String get installIosBody =>
+      'In Safari, tap Share, then Add to Home Screen. It opens like an app, works offline, and Safari keeps its data safer.';
+
+  @override
+  String get installAction => 'Install';
+
+  @override
+  String get updateReady => 'A new version is ready.';
+
+  @override
+  String get updateReload => 'Reload';
 }
