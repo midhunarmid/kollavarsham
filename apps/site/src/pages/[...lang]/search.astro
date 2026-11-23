@@ -1,0 +1,56 @@
+---
+// Site search: Pagefind's static index of festival and month pages, built
+// with the site (`pagefind --site dist`), searched in the browser.
+import Base from '../../layouts/Base.astro';
+import type { Lang } from '../../lib/data';
+import { langOf, langParam, langs, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const title = t(lang, 'search');
+const description = lang === 'ml'
+  ? 'വിശേഷങ്ങളും മലയാള മാസങ്ങളും തിരയുക: ഓണം 2027, വിഷു, കർക്കിടക വാവ്…'
+  : 'Search festivals and Malayalam months: Onam 2027, Vishu, Karkidaka Vavu…';
+const ui = lang === 'ml'
+  ? {
+      placeholder: 'വിശേഷം അല്ലെങ്കിൽ മാസം തിരയുക',
+      clear_search: 'മായ്ക്കുക',
+      load_more: 'കൂടുതൽ',
+      search_label: 'ഈ സൈറ്റിൽ തിരയുക',
+      zero_results: '[SEARCH_TERM] എന്നതിന് ഫലങ്ങളില്ല',
+      many_results: '[SEARCH_TERM]: [COUNT] ഫലങ്ങൾ',
+      one_result: '[SEARCH_TERM]: [COUNT] ഫലം',
+      searching: '[SEARCH_TERM] തിരയുന്നു…',
+    }
+  : {};
+---
+<Base lang={lang} path="/search/" title={title} description={description}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <div id="search" data-ui={JSON.stringify(ui)}></div>
+  <noscript><p>{t(lang, 'needsJs')}</p></noscript>
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    (function () {
+      var box = document.getElementById('search');
+      var ui = new PagefindUI({
+        element: '#search',
+        showSubResults: false,
+        showImages: false,
+        resetStyles: false,
+        translations: JSON.parse(box.dataset.ui),
+      });
+      var q = new URLSearchParams(location.search).get('q');
+      if (q) ui.triggerSearch(q);
+    })();
+  </script>
+</Base>
+<style is:global>
+  #search { --pagefind-ui-primary: var(--primary); --pagefind-ui-text: var(--text);
+    --pagefind-ui-background: var(--surface); --pagefind-ui-border: var(--line);
+    --pagefind-ui-tag: var(--surface-2); --pagefind-ui-font: inherit; }
+</style>

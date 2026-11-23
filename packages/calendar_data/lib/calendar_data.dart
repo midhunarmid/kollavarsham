@@ -5,5 +5,6 @@ library;
 
 export 'src/festival_days.dart';
 export 'src/festival_info.dart';
+export 'src/ics.dart';
 export 'src/panchangam_json.dart';
 export 'src/places.dart';

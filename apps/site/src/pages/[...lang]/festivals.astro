@@ -19,6 +19,18 @@ const labels: Record<string, Record<Lang, string>> = {
   government: { en: 'Government', ml: 'സർക്കാർ' },
   bank: { en: 'Bank', ml: 'ബാങ്ക്' },
 };
+// Subscription feeds written by site_data into public/ics/.
+const feeds: [string, Record<Lang, string>][] = [
+  ['all', { en: 'All festivals and holidays', ml: 'എല്ലാ വിശേഷങ്ങളും അവധികളും' }],
+  ['hindu', { en: 'Hindu festivals', ml: 'ഹിന്ദു വിശേഷങ്ങൾ' }],
+  ['christian', { en: 'Christian feasts', ml: 'ക്രിസ്ത്യൻ പെരുന്നാളുകൾ' }],
+  ['muslim', { en: 'Muslim festivals (tentative dates)', ml: 'മുസ്ലിം വിശേഷങ്ങൾ (തീയതി മാറിയേക്കാം)' }],
+  ['holidays', { en: 'Kerala holidays', ml: 'കേരളത്തിലെ അവധികൾ' }],
+];
+const feedPath = (id: string) => `/ics/${lang}/${id}.ics`;
+const webcal = (id: string) => `webcal://calendar.armid.in${feedPath(id)}`;
+const google = (id: string) =>
+  `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal(id))}`;
 const withNext = festivals
   .map((f) => ({ f, next: f.dates.find((d) => d.date >= today) ?? f.dates.at(-1)! }))
   .sort((a, b) => a.next.date.localeCompare(b.next.date));
@@ -42,4 +54,21 @@ const withNext = festivals
       </section>
     );
   })}
+
+  <section class="card" id="subscribe">
+    <h2 style="margin-top:0">{t(lang, 'subscribe')}</h2>
+    <p class="sub">{t(lang, 'subscribeHelp')}</p>
+    <ul class="list feeds">
+      {feeds.map(([id, label]) => (
+        <li>
+          <strong>{label[lang]}</strong>
+          <span class="feed-links">
+            <a href={google(id)} rel="nofollow">Google Calendar</a>
+            <a href={webcal(id)} rel="nofollow">{t(lang, 'appleCalendar')}</a>
+            <a href={feedPath(id)} download>.ics</a>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </section>
 </Base>

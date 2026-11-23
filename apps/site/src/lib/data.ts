@@ -132,6 +132,40 @@ for (const f of festivals) {
 /** The slug of the festival with `id`. */
 export const festivalSlug = (id: string) => slugs.get(id)!;
 
+/**
+ * Other names and spellings people search for, by festival slug; shown on
+ * the festival pages ("Also written") so search finds them.
+ */
+const aliases: Record<string, string[]> = {
+  'thiruvonam': ['Thiruonam', 'Onam'],
+  'first-onam': ['Uthradam', 'Uthradom'],
+  'third-onam': ['Avittam'],
+  'fourth-onam': ['Chathayam'],
+  'karkidaka-vavu': ['Karkataka Vavu', 'Vavu Bali', 'Karkidaka Vavubali'],
+  'vishu': ['Vishukkani', 'Medam 1'],
+  'malayalam-new-year': ['Chingam 1', 'Kerala New Year'],
+  'ashtami-rohini': ['Sreekrishna Jayanthi', 'Krishna Janmashtami', 'Janmashtami'],
+  'vinayaka-chathurthi': ['Ganesh Chaturthi', 'Vinayaka Chaturthi'],
+  'deepavali': ['Diwali'],
+  'sivaratri': ['Shivaratri', 'Maha Shivaratri'],
+  'thaipooyam': ['Thaipusam'],
+  'durgashtami': ['Durga Ashtami'],
+  'mahanavami': ['Maha Navami'],
+  'vijayadasami': ['Dussehra', 'Vidyarambham'],
+  'makaravilakku': ['Makara Jyothi', 'Makara Sankranti'],
+  'attukal-pongala': ['Attukal Pongal'],
+  'bakrid': ['Eid al-Adha', 'Bakrid Perunnal', 'Valiya Perunnal'],
+  'eid-ul-fitr': ['Eid al-Fitr', 'Ramzan', 'Cheriya Perunnal'],
+  'milad-i-sherif': ['Milad-un-Nabi', 'Nabidinam'],
+  'ramadan-begins': ['Ramzan begins'],
+  'christmas': ['Xmas'],
+  'easter': ['Easter Sunday'],
+  'maundy-thursday': ['Pesaha'],
+};
+
+/** Other names of the festival with slug `slug`. */
+export const aliasesOf = (slug: string) => aliases[slug] ?? [];
+
 /** The festival with `id`. */
 export const festivalById = new Map(festivals.map((f) => [f.id, f]));
 

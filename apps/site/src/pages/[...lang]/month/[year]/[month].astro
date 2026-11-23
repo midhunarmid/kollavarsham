@@ -33,11 +33,12 @@ const festivalDays = days.filter((d) => d.festivals.length);
 const isHoliday = (d: Day) =>
   d.festivals.some((id) => festivalById.get(id)!.dates.find((x) => x.date === d.date)?.holiday === 'public');
 ---
-<Base lang={lang} path={`/month/${month.ml.y}/${month.ml.m}/`} title={name}
+<Base lang={lang} path={`/month/${month.ml.y}/${month.ml.m}/`} title={name} searchable
   description={`${name}: ${span}. ${festivalDays.map((d) => d.festivals.map((id) => festivalById.get(id)![lang]).join(', ')).join(', ')}`}>
   <h1>{name}</h1>
   <p class="lede">{span} · {month.days} {t(lang, 'day')}</p>
-  <div class="month-grid" role="grid">
+  <p class="no-print"><button type="button" class="print-btn" onclick="window.print()">{t(lang, 'print')}</button></p>
+  <div class="month-grid" role="grid" data-pagefind-ignore>
     {weekdays.map((w) => <div class="wd" role="columnheader">{w}</div>)}
     {Array.from({ length: lead }, () => <div />)}
     {days.map((d) => {

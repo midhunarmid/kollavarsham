@@ -25,9 +25,11 @@ interface Props {
   jsonLd?: object;
   /** False for pages that exist in one language only. */
   alternates?: boolean;
+  /** Whether site search (Pagefind) indexes this page. */
+  searchable?: boolean;
 }
 
-const { lang, path, title, description, jsonLd, alternates = true } = Astro.props;
+const { lang, path, title, description, jsonLd, alternates = true, searchable = false } = Astro.props;
 const site = 'https://calendar.armid.in';
 const canonical = `${site}${href(lang, path)}`;
 const other: Lang = lang === 'en' ? 'ml' : 'en';
@@ -38,6 +40,7 @@ const nav = [
   ['/festivals/', t(lang, 'festivals')],
   ['/nakshatra-today/', t(lang, 'nakshatraToday')],
   ['/converter/', t(lang, 'converter')],
+  ['/search/', t(lang, 'search')],
 ];
 ---
 <!doctype html>
@@ -94,8 +97,9 @@ const nav = [
         <a class="app-link" href="/app/">{t(lang, 'openApp')}</a>
       </nav>
     </header>
-    <main id="main" class="wrap">
+    <main id="main" class="wrap" data-pagefind-body={searchable ? '' : undefined}>
       <slot />
+      <p class="print-only print-source" data-pagefind-ignore>{t(lang, 'siteName')} · calendar.armid.in · {t(lang, 'timesNote')}</p>
     </main>
     <footer class="site-footer">
       <div class="wrap">

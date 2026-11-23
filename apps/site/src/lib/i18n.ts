@@ -93,6 +93,15 @@ const strings = {
     en: 'Times are for {place} ({offset}), computed in your browser. Malayalam dates follow Kerala.',
     ml: '{place} ({offset}) അനുസരിച്ചുള്ള സമയങ്ങൾ, നിങ്ങളുടെ ബ്രൗസറിൽ കണക്കാക്കിയത്. മലയാള തീയതികൾ കേരളത്തിലേതാണ്.',
   },
+  subscribe: { en: 'Add festivals to your calendar', ml: 'വിശേഷങ്ങൾ നിങ്ങളുടെ കലണ്ടറിൽ ചേർക്കുക' },
+  subscribeHelp: {
+    en: 'Subscribe once and your calendar app keeps the dates current, with reminders set there. These feeds hold festivals and holidays only; pirannals and your own events stay in the app.',
+    ml: 'ഒരിക്കൽ സബ്സ്ക്രൈബ് ചെയ്താൽ കലണ്ടർ ആപ്പ് തീയതികൾ പുതുക്കിക്കൊള്ളും; ഓർമ്മപ്പെടുത്തലുകൾ അവിടെ ക്രമീകരിക്കാം. ഇവയിൽ വിശേഷങ്ങളും അവധികളും മാത്രം; പിറന്നാളുകളും നിങ്ങളുടെ ദിവസങ്ങളും ആപ്പിൽ തന്നെ.',
+  },
+  appleCalendar: { en: 'Apple / Outlook', ml: 'Apple / Outlook' },
+  print: { en: 'Print or save as PDF', ml: 'പ്രിന്റ് / PDF ആയി സേവ് ചെയ്യുക' },
+  search: { en: 'Search', ml: 'തിരയുക' },
+  alsoSpelt: { en: 'Also written', ml: 'മറ്റു രൂപങ്ങൾ' },
   reportWrongDate: { en: 'Report a wrong date', ml: 'തെറ്റായ തീയതി അറിയിക്കുക' },
   monthStartClose: {
     en: 'The sankranti falls only {minutes} min from the cut-off that decides the first day, so some almanacs may start this month a day earlier or later.',

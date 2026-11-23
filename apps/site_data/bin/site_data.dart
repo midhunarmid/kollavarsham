@@ -1,15 +1,17 @@
 // Writes the site's data files.
 //
-//   dart run site_data [--from YEAR] [--to YEAR] [--out DIR]
+//   dart run site_data [--from YEAR] [--to YEAR] [--out DIR] [--ics-out DIR]
 //
 // Defaults: two years back to ten years ahead of the current year, into
-// ../site/src/data (run from apps/site_data). Holiday lists are read from
+// ../site/src/data (run from apps/site_data); the .ics feeds (last year
+// on) into ../site/public/ics. Holiday lists are read from
 // ../../data/holidays.
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:calendar_data/calendar_data.dart';
 import 'package:kollavarsham/kollavarsham.dart';
+import 'package:site_data/feeds.dart';
 import 'package:site_data/site_data.dart';
 
 void main(List<String> args) {
@@ -50,5 +52,13 @@ void main(List<String> args) {
   for (var y = from; y <= to; y++) {
     write('days/$y.json', daysJson(y, calendar, holidays));
   }
+  // Subscription feeds, from last year on: published as they are.
+  final icsOut = Directory(options['ics-out'] ?? '../site/public/ics');
+  icsFeeds(now - 1, to, calendar, holidays, now: DateTime.now())
+      .forEach((path, text) {
+    File('${icsOut.path}/$path')
+      ..createSync(recursive: true)
+      ..writeAsStringSync(text);
+  });
   stdout.writeln('Wrote ${to - from + 1} years of site data to ${out.path}');
 }

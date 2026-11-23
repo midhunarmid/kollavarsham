@@ -6,7 +6,7 @@ import { festivals, festivalSlug, type Festival, type FestivalDate, type Lang } 
 import {
   appLink, gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate, t, weekdayOf,
 } from '../../../../lib/i18n';
-import { dayOf } from '../../../../lib/data';
+import { aliasesOf, dayOf } from '../../../../lib/data';
 
 export function getStaticPaths() {
   return langs.flatMap((lang) =>
@@ -36,8 +36,11 @@ const when = `${day ? weekdayOf(lang, day.weekday) + ', ' : ''}${gregorianDate(l
 const title = `${name} ${year}`;
 const description = `${name} ${year}: ${when} (${malayalamDate(lang, date.ml)}). ${festival.about[lang]}`;
 const years = [...new Set(festival.dates.map((d) => Number(d.date.slice(0, 4))))];
+// Other names, with the festival's name in the other script too.
+const other = lang === 'ml' ? festival.en : festival.ml;
+const aka = [...new Set([...(other !== name ? [other] : []), ...aliasesOf(slug)])].filter((a) => a !== name);
 ---
-<Base lang={lang} path={`/festival/${slug}/${year}/`} title={title} description={description}
+<Base lang={lang} path={`/festival/${slug}/${year}/`} title={title} description={description} searchable
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'Event',
@@ -52,6 +55,7 @@ const years = [...new Set(festival.dates.map((d) => Number(d.date.slice(0, 4))))
   }}>
   <p class="lede"><a href={href(lang, '/festivals/')}>{t(lang, 'festivals')}</a></p>
   <h1>{title}</h1>
+  {aka.length > 0 && <p class="sub">{t(lang, 'alsoSpelt')}: {aka.join(', ')}</p>}
   <div class="card">
     <p class="big-date"><a href={href(lang, `/day/${date.date}/`)}>{when}</a></p>
     <p>{malayalamDate(lang, date.ml)}</p>
@@ -65,8 +69,8 @@ const years = [...new Set(festival.dates.map((d) => Number(d.date.slice(0, 4))))
   {festival.rule[lang] && (<><h2>{t(lang, 'rule')}</h2><p>{festival.rule[lang]}</p></>)}
   {date.source && <p class="sub">{t(lang, 'source')}: <a href={date.source} rel="nofollow">{new URL(date.source).hostname}</a></p>}
 
-  <h2>{t(lang, 'otherYears')}</h2>
-  <ul class="list">
+  <h2 data-pagefind-ignore>{t(lang, 'otherYears')}</h2>
+  <ul class="list" data-pagefind-ignore>
     {years.filter((y) => y !== year).map((y) => {
       const d = festival.dates.find((x) => x.date.startsWith(`${y}-`))!;
       return (

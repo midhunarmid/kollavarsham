@@ -26,6 +26,7 @@ const festivalsOfYear = days.flatMap((d) => d.festivals.map((id) => ({ d, f: fes
 <Base lang={lang} path={`/calendar/${year}/`} title={title}
   description={`${title}: ${malayalamDate(lang, days[0].ml)} – ${malayalamDate(lang, days.at(-1)!.ml)}. ${festivalsOfYear.slice(0, 12).map(({ f }) => f[lang]).join(', ')}…`}>
   <h1>{title}</h1>
+  <p class="no-print"><button type="button" class="print-btn" onclick="window.print()">{t(lang, 'print')}</button></p>
   <nav class="pager" aria-label={t(lang, 'year')}>
     {years.includes(year - 1) ? <a href={href(lang, `/calendar/${year - 1}/`)} rel="prev">← {year - 1}</a> : <span />}
     {years.includes(year + 1) ? <a href={href(lang, `/calendar/${year + 1}/`)} rel="next">{year + 1} →</a> : <span />}
