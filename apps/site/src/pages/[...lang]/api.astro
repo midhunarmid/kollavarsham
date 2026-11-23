@@ -1,0 +1,78 @@
+---
+// Documentation of the public data files (/api/v1/) and the embed script.
+// The text is in English on both language pages: it is for developers.
+import Base from '../../layouts/Base.astro';
+import { meta, type Lang } from '../../lib/data';
+import { breadcrumbs, href, langOf, langParam, langs } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const title = 'Data and embed';
+const description = 'The Malayalam calendar as static JSON files (days with panchangam, months, festivals, vrats, nakshatra days) and an embeddable "today" card. Free, no key, no tracking.';
+const site = 'https://calendar.armid.in';
+const files: [string, string][] = [
+  ['meta.json', 'The years covered (from, to), the place the times are computed for, and the year start.'],
+  ['names.json', 'Names in Malayalam and English for every id used elsewhere: months, weekdays, stars, tithis (1–30), pakshas, kalams.'],
+  [`days/${meta.from + 2}.json`, 'Every day of a Gregorian year: date, weekday, Malayalam date, each star and tithi to the next sunrise with its end time, paksha, sun and moon times, rahu/gulika/yamagandam, festival ids. One file per year.'],
+  ['months.json', 'Each Malayalam month: its first day, length, sankranti time and marginMinutes (sankranti to the cut-off; under 10 either way, almanacs may differ).'],
+  ['festivals.json', 'Every festival and holiday: id, category, names, description, date rule, and every date with its Malayalam date, holiday kind, tentative flag and source.'],
+  ['vrats.json', 'Ekadashi, Pradosham, Shashti, Pournami and Amavasya dates by Gregorian year.'],
+  ['nakshatra_days.json', 'Each star’s monthly days (read at 6 nazhika after sunrise) by Gregorian year.'],
+  ['places.json', 'The places the site’s picker offers, with coordinates and IANA time zones.'],
+];
+const example = `fetch('${site}/api/v1/days/2027.json')
+  .then((r) => r.json())
+  .then((days) => {
+    const day = days.find((d) => d.date === '2027-01-01');
+    console.log(day.ml, day.stars[0].id, day.festivals);
+  });`;
+const embed = `<script src="${site}/embed.js" data-lang="ml" async></script>`;
+---
+<Base lang={lang} path="/api/" title={title} description={description}
+  jsonLd={breadcrumbs(lang, [[title, '/api/']])}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+
+  <h2>Static JSON files</h2>
+  <p>
+    Fetch them from <code>{site}/api/v1/</code>. They are plain files on GitHub Pages: no key, no rate limit of ours, CORS open to any site.
+    They are rebuilt every day at 01:00 IST and cover {meta.from}–{meta.to} (two years back to ten ahead). Times are local wall-clock
+    times in Thiruvananthapuram (<code>yyyy-mm-ddThh:mm</code>, IST); ids are explained in <code>names.json</code>.
+  </p>
+  <ul class="list">
+    {files.map(([file, what]) => (
+      <li><a href={`/api/v1/${file}`}><code>/api/v1/{file}</code></a><br /><span class="sub">{what}</span></li>
+    ))}
+  </ul>
+  <pre class="card"><code>{example}</code></pre>
+
+  <h2>Stability</h2>
+  <p>
+    Within <code>v1</code>, files and fields keep their names and meaning; new fields and files may be added, so ignore what you don’t know.
+    A change that would break readers gets a new version (<code>/api/v2/</code>), with <code>v1</code> kept for at least a year.
+    Dates are computed (see <a href={href(lang, '/how-dates-are-computed/')}>how</a>), and corrections to a computed date are not breaking changes.
+  </p>
+
+  <h2>Calendar feeds</h2>
+  <p>For festivals in a calendar app, subscribe to the <a href={href(lang, '/festivals/#subscribe')}>.ics feeds</a> instead.</p>
+
+  <h2>Embed “today” on your site</h2>
+  <p>Paste this where the card should appear. Use <code>data-lang="en"</code> for English.</p>
+  <pre class="card"><code>{embed}</code></pre>
+  <p class="sub">It draws today’s Malayalam date, star, tithi and festivals in its own shadow root, so your styles and its don’t mix. The next 400 days are inside the script: it makes no other request, sets no cookies and tracks no one.</p>
+  <script is:inline src="/embed.js" data-lang={lang}></script>
+
+  <h2>Licence and sources</h2>
+  <p>
+    The code is MIT-licensed (<a href="https://github.com/midhunarmid/kollavarsham">GitHub</a>); use the data freely, with a link back when you can.
+    Holiday entries carry the source they come from. To compute dates yourself, the engine is the
+    <code>kollavarsham</code> Dart package in the same repository.
+  </p>
+</Base>
+<style>
+  pre.card { overflow-x: auto; font-size: 0.85rem; }
+  code { overflow-wrap: anywhere; }
+</style>
