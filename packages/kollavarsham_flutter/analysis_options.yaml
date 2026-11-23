@@ -7,3 +7,10 @@ linter:
 analyzer:
   exclude:
     - example/**
+  errors:
+    # Flutter 3.47 deprecated package:flutter/material.dart in favour of the
+    # material_ui package. The package still supports Flutter 3.27, which has
+    # no material_ui, so the imports stay until the minimum SDK moves; this
+    # also hides other deprecations, so check `flutter analyze` with this
+    # line removed when raising dependencies.
+    deprecated_member_use: ignore

@@ -24,5 +24,14 @@ linter:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
+analyzer:
+  errors:
+    # Flutter 3.47 deprecated package:flutter/material.dart in favour of the
+    # material_ui package. The workspace still resolves on Flutter 3.27,
+    # which has no material_ui, so the imports stay until the minimum SDK
+    # moves; this also hides other deprecations, so check `flutter analyze`
+    # with this line removed when raising dependencies (docs/runbook.md).
+    deprecated_member_use: ignore
+
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
