@@ -45,6 +45,7 @@ void main(List<String> args) {
   write('meta.json', metaJson(from, to, calendar));
   write('names.json', namesJson());
   write('months.json', monthsJson(from, to, calendar));
+  write('places.json', [for (final p in places) p.toJson()]);
   write('festivals.json', festivalsJson(from, to, calendar, holidays));
   for (var y = from; y <= to; y++) {
     write('days/$y.json', daysJson(y, calendar, holidays));

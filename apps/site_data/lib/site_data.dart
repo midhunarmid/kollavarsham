@@ -9,11 +9,12 @@ library;
 import 'package:calendar_data/calendar_data.dart';
 import 'package:kollavarsham/kollavarsham.dart';
 
+export 'package:calendar_data/calendar_data.dart'
+    show isoDate, localTime, panchangamJson;
+
 /// The identifier of an enum value; several engine enums shadow `name`
 /// with a method that takes a script.
 String _id(Enum e) => EnumName(e).name;
-
-String _two(int n) => n.toString().padLeft(2, '0');
 
 /// Today's date in Kerala (IST, UTC+05:30), at midnight UTC.
 DateTime keralaToday([DateTime? now]) {
@@ -21,17 +22,6 @@ DateTime keralaToday([DateTime? now]) {
         const Duration(hours: 5, minutes: 30),
       );
   return DateTime.utc(t.year, t.month, t.day);
-}
-
-/// `yyyy-mm-dd` of a date.
-String isoDate(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-${_two(d.month)}-${_two(d.day)}';
-
-/// The local wall-clock time of [instant] at [calendar]'s location, as
-/// `yyyy-mm-ddThh:mm`.
-String localTime(DateTime instant, KollavarshamCalendar calendar) {
-  final t = instant.toUtc().add(calendar.location.utcOffset);
-  return '${isoDate(t)}T${_two(t.hour)}:${_two(t.minute)}';
 }
 
 /// A Malayalam date as `{y, m, d}`, `m` the month id (e.g. `thulam`).
@@ -74,23 +64,6 @@ Map<String, Object> namesJson() {
   };
 }
 
-List<Map<String, Object>> _spans<T>(
-  PanchangaSpan<T> Function(DateTime) spanAt,
-  DateTime from,
-  DateTime to,
-  Object Function(T) id,
-  KollavarshamCalendar calendar,
-) {
-  final spans = [spanAt(from)];
-  while (spans.last.end.isBefore(to)) {
-    spans.add(spanAt(spans.last.end.add(const Duration(seconds: 1))));
-  }
-  return [
-    for (final s in spans)
-      {'id': id(s.value), 'until': localTime(s.end, calendar)},
-  ];
-}
-
 /// The days of Gregorian [year]: dates, panchangam and festival ids.
 List<Map<String, Object?>> daysJson(
   int year,
@@ -107,33 +80,11 @@ List<Map<String, Object?>> daysJson(
   final days = <Map<String, Object?>>[];
   for (var d = first; !d.isAfter(last); d = d.addDays(1)) {
     final g = d.toGregorian();
-    final next = g.add(const Duration(days: 1));
-    DateTime start(DateTime day) =>
-        calendar.sunrise(day) ??
-        DateTime.utc(day.year, day.month, day.day, 6)
-            .subtract(calendar.location.utcOffset);
-    final from = start(g);
-    final to = start(next);
-    String? time(DateTime? t) => t == null ? null : localTime(t, calendar);
-    final sunrise = calendar.sunrise(g);
     days.add({
       'date': isoDate(g),
       'weekday': _id(d.weekday),
       'ml': malayalamJson(d),
-      'stars': _spans(calendar.nakshatraSpanAt, from, to,
-          (Nakshatra n) => _id(n), calendar),
-      'tithis': _spans(
-          calendar.tithiSpanAt, from, to, (Tithi t) => t.number, calendar),
-      'paksha': _id(calendar.tithiAt(from).paksha),
-      'sunrise': time(sunrise),
-      'sunset': time(calendar.sunset(g)),
-      'moonrise': time(calendar.moonrise(g)),
-      'moonset': time(calendar.moonset(g)),
-      'kalams': {
-        for (final k in Kalam.values)
-          if (calendar.kalamOn(g, k) case final span?)
-            _id(k): [time(span.start), time(span.end)],
-      },
+      ...panchangamJson(g, calendar),
       'festivals': [
         for (final f in festivals[d.dayNumber] ?? const <FestivalDay>[]) f.id,
       ],

@@ -52,8 +52,8 @@ const report = wrongDateLink(day, fests.map(({ f }) => f.en));
   <p class="lede">{weekdayOf(lang, day.weekday)}, {gregorianDate(lang, iso)}</p>
   <h1>{ml}</h1>
   <ul class="chips">
-    <li class="chip">{t(lang, 'star')}: {star}</li>
-    <li class="chip">{t(lang, 'tithi')}: {tithi}</li>
+    <li class="chip" id="chip-star">{t(lang, 'star')}: {star}</li>
+    <li class="chip" id="chip-tithi">{t(lang, 'tithi')}: {tithi}</li>
   </ul>
   <a class="app-cta" href={appLink(`/day/${iso}`)}>{t(lang, 'openInApp')} →</a>
   {closeStart && (
@@ -76,7 +76,13 @@ const report = wrongDateLink(day, fests.map(({ f }) => f.en));
   )}
 
   <h2>{t(lang, 'panchangam')}</h2>
-  <div class="card">
+  <div class="card" id="panchangam" data-iso={iso} data-lang={lang}
+    data-strings={JSON.stringify({
+      star: t(lang, 'star'), tithi: t(lang, 'tithi'), paksha: t(lang, 'paksha'),
+      sunrise: t(lang, 'sunrise'), sunset: t(lang, 'sunset'), moonrise: t(lang, 'moonrise'),
+      moonset: t(lang, 'moonset'), until: t(lang, 'until'), nextDay: t(lang, 'nextDay'),
+      none: t(lang, 'none'), timesFor: t(lang, 'timesFor'),
+    })}>
     <dl class="rows">
       <dt>{t(lang, 'star')}</dt>
       <dd>{day.stars.map((s) => <div>{spanText(lang, nameOf('stars', s.id, lang), s.until, iso)}</div>)}</dd>
@@ -95,8 +101,12 @@ const report = wrongDateLink(day, fests.map(({ f }) => f.en));
         </>
       ))}
     </dl>
-    <p class="sub">{t(lang, 'timesNote')}</p>
+    <p class="sub" id="times-note">{t(lang, 'timesNote')}</p>
   </div>
+  <script>
+    import { showDayAtPlace } from '../../../client/day';
+    showDayAtPlace();
+  </script>
   <p class="sub"><a href={report} rel="nofollow">{t(lang, 'reportWrongDate')}</a></p>
 
   <nav class="pager" aria-label={t(lang, 'calendar')}>

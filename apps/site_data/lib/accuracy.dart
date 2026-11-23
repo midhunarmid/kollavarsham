@@ -7,8 +7,6 @@ library;
 import 'package:calendar_data/calendar_data.dart';
 import 'package:kollavarsham/kollavarsham.dart';
 
-import 'site_data.dart';
-
 /// 6 nazhika: the time after sunrise at which a day's star is read (R3).
 const _sixNazhika = Duration(minutes: 144);
 

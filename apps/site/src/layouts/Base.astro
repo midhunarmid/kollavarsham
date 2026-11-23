@@ -77,6 +77,12 @@ const nav = [
           <span class="brand-mark" aria-hidden="true">൧</span>
           <span>{t(lang, 'siteName')}</span>
         </a>
+        <label class="place" hidden
+          data-lang={lang}
+          data-groups={JSON.stringify([t(lang, 'placesKerala'), t(lang, 'placesIndia'), t(lang, 'placesAbroad')])}>
+          <span>{t(lang, 'place')}</span>
+          <select id="place"></select>
+        </label>
         {alternates && (
           <a class="lang-switch" href={href(other, path)} hreflang={other} lang={other}>
             {t(lang, 'language')}
@@ -102,5 +108,9 @@ const nav = [
         </nav>
       </div>
     </footer>
+    <script>
+      import { initPicker } from '../client/place';
+      initPicker();
+    </script>
   </body>
 </html>

@@ -85,6 +85,14 @@ const strings = {
     ml: 'പിറന്നാൾ, നക്ഷത്ര ഓർമ്മപ്പെടുത്തലുകൾ, വിജറ്റുകൾ, നിങ്ങളുടെ നഗരത്തിലെ സമയങ്ങൾ. ഉടൻ ഗൂഗിൾ പ്ലേയിൽ; അതുവരെ വെബ് ആപ്പ് ബ്രൗസറിലും ഓഫ്‌ലൈനായും പ്രവർത്തിക്കും.',
   },
   playSoon: { en: 'Google Play: coming soon', ml: 'ഗൂഗിൾ പ്ലേ: ഉടൻ' },
+  place: { en: 'Place', ml: 'സ്ഥലം' },
+  placesKerala: { en: 'Kerala', ml: 'കേരളം' },
+  placesIndia: { en: 'India', ml: 'ഇന്ത്യ' },
+  placesAbroad: { en: 'Abroad', ml: 'വിദേശം' },
+  timesFor: {
+    en: 'Times are for {place} ({offset}), computed in your browser. Malayalam dates follow Kerala.',
+    ml: '{place} ({offset}) അനുസരിച്ചുള്ള സമയങ്ങൾ, നിങ്ങളുടെ ബ്രൗസറിൽ കണക്കാക്കിയത്. മലയാള തീയതികൾ കേരളത്തിലേതാണ്.',
+  },
   reportWrongDate: { en: 'Report a wrong date', ml: 'തെറ്റായ തീയതി അറിയിക്കുക' },
   monthStartClose: {
     en: 'The sankranti falls only {minutes} min from the cut-off that decides the first day, so some almanacs may start this month a day earlier or later.',

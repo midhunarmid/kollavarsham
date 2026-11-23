@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "node scripts/check-dist.mjs"
+    "check": "node scripts/check-dist.mjs && node scripts/check-js-days.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

@@ -104,4 +104,32 @@ const currentMonths = completeMonths.filter((m) => m.start >= `${thisYear - 1}-1
       document.getElementById('today-link').href = box.dataset.prefix + '/day/' + now + '/';
     });
   </script>
+  <script>
+    // Another place: the star and tithi at that place's sunrise today.
+    import { dayAt, nowAt, onPlace } from '../../client/place';
+    const out = document.getElementById('today-panchangam')!;
+    const ml = document.getElementById('today')!.dataset.lang === 'ml';
+    let built: string | null = null;
+    let latest = 0;
+    onPlace(async (place) => {
+      const request = ++latest;
+      if (document.readyState !== 'complete') {
+        await new Promise((r) => addEventListener('load', r, { once: true }));
+      }
+      built ??= out.textContent;
+      if (!place) {
+        out.textContent = built;
+        return;
+      }
+      try {
+        const day = await dayAt(nowAt(place).slice(0, 10), place);
+        if (!day || request !== latest) return;
+        out.textContent = ml
+          ? `നക്ഷത്രം: ${day.stars[0].ml} · തിഥി: ${day.tithis[0].ml} (${place.ml})`
+          : `Star: ${day.stars[0].en} · Tithi: ${day.tithis[0].en} (${place.en})`;
+      } catch {
+        // Engine unavailable: keep Thiruvananthapuram's.
+      }
+    });
+  </script>
 </Base>

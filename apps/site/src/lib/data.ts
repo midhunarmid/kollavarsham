@@ -70,6 +70,19 @@ export const names: {
   kalams: Record<string, Names>;
 } = read('names.json');
 export const months: Month[] = read('months.json');
+
+export interface Place {
+  id: string;
+  ml: string;
+  en: string;
+  lat: number;
+  lng: number;
+  tz: string;
+  kerala?: boolean;
+}
+
+/** Places for the header's picker; the first is the pages' own. */
+export const places: Place[] = read('places.json');
 export const festivals: Festival[] = read('festivals.json');
 
 /** Years with day data, oldest first. */

@@ -36,15 +36,24 @@ const description = lang === 'ml'
     <p id="star-until"></p>
     <ul class="list" id="star-next"></ul>
   </section>
-  <p class="sub">{t(lang, 'timesNote')}</p>
+  <p class="sub" id="times-note" data-times-for={t(lang, 'timesFor')}>{t(lang, 'timesNote')}</p>
   <script is:inline id="star-data" type="application/json" set:html={JSON.stringify({ spans, names: starNames })}></script>
   <script is:inline>
-    (function () {
+    // Draws the star now and the next ones on a clock `offset` minutes east
+    // of UTC (330: Kerala, as the data). The place script calls it again
+    // when the visitor picks another place.
+    window.renderStars = function (offset) {
       var data = JSON.parse(document.getElementById('star-data').textContent);
       var box = document.getElementById('star');
       var ml = box.dataset.lang === 'ml';
-      // Kerala wall-clock time as yyyy-mm-ddThh:mm, comparable with the data.
-      var now = new Date(Date.now() + 330 * 60000).toISOString().slice(0, 16);
+      function shift(local) {
+        if (offset === 330) return local;
+        var utc = Date.parse(local + ':00Z') - 330 * 60000;
+        return new Date(utc + offset * 60000).toISOString().slice(0, 16);
+      }
+      data.spans = data.spans.map(function (s) { return [s[0], shift(s[1])]; });
+      // Wall-clock time on that clock as yyyy-mm-ddThh:mm, comparable with the data.
+      var now = new Date(Date.now() + offset * 60000).toISOString().slice(0, 16);
       var i = data.spans.findIndex(function (s) { return s[1] > now; });
       if (i < 0) return;
       function addDays(iso, n) {
@@ -62,11 +71,26 @@ const description = lang === 'ml'
       document.getElementById('star-until').textContent =
         ml ? when(s[1]) + ' വരെ' : 'until ' + when(s[1]);
       var list = document.getElementById('star-next');
+      list.replaceChildren();
       data.spans.slice(i + 1, i + 4).forEach(function (n) {
         var li = document.createElement('li');
         li.textContent = data.names[n[0]] + (ml ? ' · ' + when(n[1]) + ' വരെ' : ' · until ' + when(n[1]));
         list.appendChild(li);
       });
-    })();
+    };
+    window.renderStars(330);
+  </script>
+  <script>
+    import { offsetLabel, offsetNow, onPlace } from '../../client/place';
+    const note = document.getElementById('times-note')!;
+    const built = note.textContent;
+    const lang = document.getElementById('star')!.dataset.lang === 'ml' ? 'ml' : 'en';
+    onPlace((place) => {
+      const offset = offsetNow(place);
+      (window as unknown as { renderStars(o: number): void }).renderStars(offset);
+      note.textContent = place
+        ? note.dataset.timesFor!.replace('{place}', place[lang]).replace('{offset}', offsetLabel(offset))
+        : built;
+    });
   </script>
 </Base>

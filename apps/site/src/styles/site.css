@@ -72,6 +72,13 @@ a:hover { text-decoration-thickness: 2px; }
   border-radius: 10px; background: var(--primary); color: var(--on-primary);
   font-family: 'Noto Sans Malayalam', sans-serif;
 }
+.header-row { flex-wrap: wrap; }
+.header-row .brand { margin-right: auto; }
+label.place {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem;
+}
+label.place[hidden] { display: none; }
+label.place select { min-height: 40px; padding: 6px 10px; border-radius: 999px; max-width: 12rem; }
 .lang-switch {
   font-size: 0.95rem; padding: 6px 12px; border: 1px solid var(--line);
   border-radius: 999px; text-decoration: none; min-height: 40px;

@@ -2,6 +2,7 @@
 /// plain Dart over JSON-like maps, so it is tested on the VM.
 library;
 
+import 'package:calendar_data/calendar_data.dart' show panchangamJson;
 import 'package:kollavarsham/kollavarsham.dart';
 
 /// The identifier of an enum value; several engine enums shadow `name`.
@@ -71,6 +72,43 @@ Map<String, Object>? toGregorian(int year, String month, int day,
   final cal = calendar ?? KollavarshamCalendar.standard;
   if (day < 1 || day > cal.monthLength(year, m)) return null;
   return describe(MalayalamDate(year, m, day, calendar: cal));
+}
+
+/// The panchangam of Gregorian `yyyy-mm-dd` at the calendar's place: the
+/// same fields the site's day pages are built from (`panchangamJson`), with
+/// each star, tithi, paksha and kalam also named in both scripts (`ml`,
+/// `en`). Null if malformed.
+Map<String, Object?>? dayOf(String isoDate, [KollavarshamCalendar? calendar]) {
+  final d = DateTime.tryParse(isoDate);
+  if (d == null) return null;
+  final cal = calendar ?? KollavarshamCalendar.standard;
+  // As the site's generator does: the Gregorian day of a Malayalam date.
+  final day = cal.fromGregorian(DateTime(d.year, d.month, d.day)).toGregorian();
+  final json = panchangamJson(day, cal);
+  Map<String, Object> named(Map<String, Object> span, String ml, String en) =>
+      {...span, 'ml': ml, 'en': en};
+  final stars = {for (final n in Nakshatra.values) _id(n): n};
+  final paksha =
+      Paksha.values.firstWhere((p) => _id(p) == json['paksha']! as String);
+  final kalams = {for (final k in Kalam.values) _id(k): k};
+  return {
+    ...json,
+    'stars': [
+      for (final s in json['stars']! as List<Map<String, Object>>)
+        named(s, stars[s['id']]!.malayalam, stars[s['id']]!.english),
+    ],
+    'tithis': [
+      for (final s in json['tithis']! as List<Map<String, Object>>)
+        named(s, Tithi(s['id']! as int).name(MalayalamScript.malayalam),
+            Tithi(s['id']! as int).name(MalayalamScript.english)),
+    ],
+    'pakshaMl': paksha.malayalam,
+    'pakshaEn': paksha.english,
+    'kalamNames': {
+      for (final id in (json['kalams']! as Map<String, Object?>).keys)
+        id: {'ml': kalams[id]!.malayalam, 'en': kalams[id]!.english},
+    },
+  };
 }
 
 /// Birth star, pada, rashi, tithi and Malayalam date for a local
