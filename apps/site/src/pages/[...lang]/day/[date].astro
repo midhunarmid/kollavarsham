@@ -6,7 +6,7 @@ import {
 } from '../../../lib/data';
 import {
   gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate,
-  appLink, nameOf, spanText, t, timeOf, weekdayOf, wrongDateLink,
+  appLink, breadcrumbs, nameOf, spanText, t, timeOf, weekdayOf, wrongDateLink,
 } from '../../../lib/i18n';
 
 export function getStaticPaths() {
@@ -42,13 +42,19 @@ const closeStart = startMargin !== undefined && Math.abs(startMargin) < 10;
 const report = wrongDateLink(day, fests.map(({ f }) => f.en));
 ---
 <Base lang={lang} path={`/day/${iso}/`} title={title} description={description}
-  jsonLd={{
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: title,
-    description,
-    inLanguage: lang === 'ml' ? 'ml-IN' : 'en-IN',
-  }}>
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: title,
+      description,
+      inLanguage: lang === 'ml' ? 'ml-IN' : 'en-IN',
+    },
+    breadcrumbs(lang, [
+      [t(lang, 'malayalamCalendarYear', { year }), `/calendar/${year}/`],
+      [title, `/day/${iso}/`],
+    ]),
+  ]}>
   <p class="lede">{weekdayOf(lang, day.weekday)}, {gregorianDate(lang, iso)}</p>
   <h1>{ml}</h1>
   <ul class="chips">

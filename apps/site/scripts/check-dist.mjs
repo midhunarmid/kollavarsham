@@ -36,8 +36,15 @@ for (const file of pages) {
   }
 }
 if (!fs.existsSync(path.join(dist, 'sitemap-index.xml'))) problems.push('no sitemap-index.xml');
+if (fs.existsSync(path.join(dist, 'og-manifest.json'))) problems.push('og-manifest.json left in dist (run scripts/og-pages.mjs)');
 
-console.log(`${pages.length} pages, ${links} internal links checked`);
+// GitHub Pages allows 1 GB; stay well under it (docs/web-roadmap.md, risks).
+const size = (dir) => fs.readdirSync(dir, { withFileTypes: true }).reduce(
+  (sum, e) => sum + (e.isDirectory() ? size(path.join(dir, e.name)) : fs.statSync(path.join(dir, e.name)).size), 0);
+const megabytes = size(dist) / 1024 / 1024;
+if (megabytes > 500) problems.push(`dist is ${megabytes.toFixed(0)} MB, over the 500 MB budget`);
+
+console.log(`${pages.length} pages, ${links} internal links checked, ${megabytes.toFixed(0)} MB`);
 if (problems.length) {
   console.error([...new Set(problems)].slice(0, 50).join('\n'));
   console.error(`${problems.length} problem(s)`);

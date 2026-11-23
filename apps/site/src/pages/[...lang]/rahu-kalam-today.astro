@@ -1,0 +1,117 @@
+---
+// Rahu kalam, Gulika kalam and Yamagandam today and for the week ahead,
+// computed in the browser for the chosen place (Thiruvananthapuram by
+// default); the build day's values are in the page for readers without JS.
+import Base from '../../layouts/Base.astro';
+import { dayOf, keralaToday, places, type Lang } from '../../lib/data';
+import { breadcrumbs, gregorianDate, href, langOf, langParam, langs, nameOf, t, timeOf, weekdayOf } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const ml = lang === 'ml';
+const title = t(lang, 'rahuKalamToday');
+const description = ml
+  ? 'ഇന്നത്തെയും ഈ ആഴ്ചയിലെയും രാഹുകാലം, ഗുളികകാലം, യമകണ്ടകം: നിങ്ങളുടെ സ്ഥലത്തെ സൂര്യോദയവും അസ്തമയവും അനുസരിച്ച്.'
+  : 'Rahu kalam, Gulika kalam and Yamagandam today and this week, from sunrise and sunset at your place.';
+const start = keralaToday();
+const addDays = (iso: string, n: number) =>
+  new Date(Date.parse(`${iso}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
+const week = Array.from({ length: 7 }, (_, i) => dayOf(addDays(start, i))).filter((d) => d !== undefined);
+const kalams = ['rahu', 'gulika', 'yamagandam'];
+const home = places[0];
+---
+<Base lang={lang} path="/rahu-kalam-today/" title={title} description={description}
+  jsonLd={[
+    { '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, inLanguage: ml ? 'ml-IN' : 'en-IN' },
+    breadcrumbs(lang, [[title, '/rahu-kalam-today/']]),
+  ]}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <div class="table-scroll">
+    <table class="days" id="kalam-table" data-lang={lang} data-start={start}
+      data-home={JSON.stringify(home)}
+      data-next-day={t(lang, 'nextDay')} data-none={t(lang, 'none')}>
+      <thead>
+        <tr><th>{t(lang, 'date')}</th>{kalams.map((k) => <th>{nameOf('kalams', k, lang)}</th>)}</tr>
+      </thead>
+      <tbody>
+        {week.map((d) => (
+          <tr>
+            <td><a href={href(lang, `/day/${d!.date}/`)}>{weekdayOf(lang, d!.weekday)}, {gregorianDate(lang, d!.date)}</a></td>
+            {kalams.map((k) => (
+              <td>{d!.kalams[k] ? `${timeOf(lang, d!.kalams[k][0], d!.date)}–${timeOf(lang, d!.kalams[k][1], d!.date)}` : t(lang, 'none')}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="sub" id="times-note" data-times-for={t(lang, 'timesFor')}>{t(lang, 'timesNote')}</p>
+  <p class="sub">
+    {ml
+      ? 'പകലിനെ (സൂര്യോദയം മുതൽ അസ്തമയം വരെ) എട്ടായി ഭാഗിച്ച്, ആഴ്ചയിലെ ദിവസം അനുസരിച്ച് ഓരോ കാലത്തിനും ഒരു ഭാഗം.'
+      : 'The daytime, sunrise to sunset, is divided into eight parts; the weekday decides which part each kalam takes.'}
+    {' '}<a href={href(lang, '/glossary/')}>{t(lang, 'glossary')}</a>
+  </p>
+  <script>
+    import { dayAt, nowAt, offsetLabel, offsetMinutes, onPlace, chosenPlace, type Place } from '../../client/place';
+
+    const table = document.getElementById('kalam-table')!;
+    const note = document.getElementById('times-note')!;
+    const ml = table.dataset.lang === 'ml';
+    const home: Place = JSON.parse(table.dataset.home!);
+    const kalams = ['rahu', 'gulika', 'yamagandam'];
+    const builtNote = note.textContent;
+    const prefix = ml ? '/ml' : '';
+    const weekdays = ml
+      ? ['ഞായർ', 'തിങ്കൾ', 'ചൊവ്വ', 'ബുധൻ', 'വ്യാഴം', 'വെള്ളി', 'ശനി']
+      : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const gmonths = ml
+      ? ['ജനുവരി', 'ഫെബ്രുവരി', 'മാർച്ച്', 'ഏപ്രിൽ', 'മേയ്', 'ജൂൺ', 'ജൂലൈ', 'ഓഗസ്റ്റ്', 'സെപ്റ്റംബർ', 'ഒക്ടോബർ', 'നവംബർ', 'ഡിസംബർ']
+      : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const addDays = (iso: string, n: number) =>
+      new Date(Date.parse(`${iso}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
+
+    let latest = 0;
+    async function render(place: Place | null) {
+      const request = ++latest;
+      const at = place ?? home;
+      const today = nowAt(place).slice(0, 10);
+      const rows: HTMLTableRowElement[] = [];
+      for (let i = 0; i < 7; i++) {
+        const iso = addDays(today, i);
+        const day = await dayAt(iso, at);
+        if (!day || request !== latest) return;
+        const time = (local: string) =>
+          local.slice(0, 10) === iso ? local.slice(11, 16) : `${local.slice(11, 16)} (${table.dataset.nextDay})`;
+        const tr = document.createElement('tr');
+        const first = document.createElement('td');
+        const a = document.createElement('a');
+        const [y, m, d] = iso.split('-').map(Number);
+        a.href = `${prefix}/day/${iso}/`;
+        a.textContent = `${weekdays[new Date(`${iso}T00:00:00Z`).getUTCDay()]}, ${d} ${gmonths[m - 1]} ${y}`;
+        first.appendChild(a);
+        tr.appendChild(first);
+        for (const k of kalams) {
+          const td = document.createElement('td');
+          const span = day.kalams[k];
+          td.textContent = span ? `${time(span[0])}–${time(span[1])}` : table.dataset.none!;
+          tr.appendChild(td);
+        }
+        rows.push(tr);
+      }
+      table.querySelector('tbody')!.replaceChildren(...rows);
+      note.textContent = place
+        ? note.dataset.timesFor!.replace('{place}', ml ? place.ml : place.en)
+            .replace('{offset}', offsetLabel(offsetMinutes(place.tz, today)))
+        : builtNote;
+    }
+    // Refresh today's rows (the page may have been built days ago), then
+    // follow the visitor's place.
+    if (!chosenPlace()) render(null).catch(() => {});
+    onPlace((place) => { render(place).catch(() => {}); });
+  </script>
+</Base>

@@ -76,6 +76,16 @@ const currentMonths = completeMonths.filter((m) => m.start >= `${thisYear - 1}-1
     {years.map((y) => <li><a class="chip" href={href(lang, `/calendar/${y}/`)}>{t(lang, 'malayalamCalendarYear', { year: y })}</a></li>)}
   </ul>
 
+  <h2>{t(lang, 'more')}</h2>
+  <ul class="chips">
+    <li><a class="chip" href={href(lang, '/rahu-kalam-today/')}>{t(lang, 'rahuKalamToday')}</a></li>
+    <li><a class="chip" href={href(lang, '/pirannal/')}>{t(lang, 'findPirannal')}</a></li>
+    <li><a class="chip" href={href(lang, '/nakshatra/')}>{t(lang, 'nakshatraPages')}</a></li>
+    <li><a class="chip" href={href(lang, '/vrat/')}>{t(lang, 'vratPages')}</a></li>
+    <li><a class="chip" href={href(lang, '/festivals/#subscribe')}>{t(lang, 'subscribe')}</a></li>
+    <li><a class="chip" href={href(lang, '/glossary/')}>{t(lang, 'glossary')}</a></li>
+  </ul>
+
   <script is:inline src="/kollavarsham.js" defer></script>
   <script is:inline>
     window.addEventListener('load', function () {

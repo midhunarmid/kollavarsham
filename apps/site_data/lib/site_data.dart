@@ -158,6 +158,54 @@ List<Map<String, Object?>> festivalsJson(
   ];
 }
 
+/// Fasting days (Ekadashi, Pradosham, Shashti, Pournami, Amavasya) in
+/// Gregorian years [from] to [to], as `{vrat: {year: [yyyy-mm-dd]}}`, by
+/// the engine's `vratDays`.
+Map<String, Object> vratsJson(int from, int to, KollavarshamCalendar calendar) {
+  final first = calendar.fromGregorian(DateTime(from)).year;
+  final last = calendar.fromGregorian(DateTime(to, 12, 31)).year;
+  return {
+    for (final v in Vrat.values)
+      _id(v): {
+        'ml': v.malayalam,
+        'en': v.english,
+        'days': () {
+          final byYear = <String, List<String>>{};
+          for (var y = first; y <= last; y++) {
+            for (final d in calendar.vratDays(v, y)) {
+              final g = d.toGregorian();
+              if (g.year < from || g.year > to) continue;
+              (byYear['${g.year}'] ??= []).add(isoDate(g));
+            }
+          }
+          for (final list in byYear.values) {
+            list.sort();
+          }
+          return byYear;
+        }(),
+      },
+  };
+}
+
+/// Each star's monthly nakshatram days (the app's monthly recurrence: the
+/// star read at sunrise + 6 nazhika) in Gregorian years [from] to [to], as
+/// `{year: {star: [yyyy-mm-dd]}}`.
+Map<String, Object> nakshatraDaysJson(
+    int from, int to, KollavarshamCalendar calendar) {
+  return {
+    for (var y = from; y <= to; y++)
+      '$y': {
+        for (final n in Nakshatra.values)
+          _id(n): [
+            for (final d in NakshatraMonthly(n).occurrencesBetween(
+                DateTime(y), DateTime(y, 12, 31),
+                calendar: calendar))
+              isoDate(d.toGregorian()),
+          ],
+      },
+  };
+}
+
 /// What the documents were computed for.
 Map<String, Object> metaJson(int from, int to, KollavarshamCalendar calendar) =>
     {

@@ -48,6 +48,8 @@ void main(List<String> args) {
   write('names.json', namesJson());
   write('months.json', monthsJson(from, to, calendar));
   write('places.json', [for (final p in places) p.toJson()]);
+  write('vrats.json', vratsJson(from, to, calendar));
+  write('nakshatra_days.json', nakshatraDaysJson(from, to, calendar));
   write('festivals.json', festivalsJson(from, to, calendar, holidays));
   for (var y = from; y <= to; y++) {
     write('days/$y.json', daysJson(y, calendar, holidays));

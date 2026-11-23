@@ -1,0 +1,71 @@
+---
+// One page per star and year: every day the star returns (the monthly
+// nakshatram days the app uses for "Midhun's nakshatram").
+import Base from '../../../../layouts/Base.astro';
+import { dayOf, featureYears, nakshatraDays, names, type Lang } from '../../../../lib/data';
+import {
+  breadcrumbs, gregorianDate, href, langOf, langParam, langs, malayalamDate, nameOf, t, weekdayOf,
+} from '../../../../lib/i18n';
+
+const starIds = Object.keys(names.stars);
+
+export function getStaticPaths() {
+  const ids = Object.keys(names.stars);
+  return langs.flatMap((lang) =>
+    ids.flatMap((star) =>
+      featureYears.map((year) => ({ params: { lang: langParam(lang), star, year: String(year) } })),
+    ),
+  );
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const star = Astro.params.star!;
+const year = Number(Astro.params.year);
+const ml = lang === 'ml';
+const name = nameOf('stars', star, lang);
+const dates = nakshatraDays[String(year)][star] ?? [];
+const title = ml ? `${name} നക്ഷത്രം വരുന്ന ദിവസങ്ങൾ ${year}` : `${name} nakshatra days in ${year}`;
+const description = ml
+  ? `${year}-ൽ ${name} നക്ഷത്രം വരുന്ന ${dates.length} ദിവസങ്ങൾ, മലയാള തീയതിയോടെ: ${dates.slice(0, 3).map((d) => gregorianDate(lang, d)).join(', ')}…`
+  : `The ${dates.length} days in ${year} when ${name} is the day's star, with Malayalam dates: ${dates.slice(0, 3).map((d) => gregorianDate(lang, d)).join(', ')}…`;
+const path = `/nakshatra/${star}/${year}/`;
+---
+<Base lang={lang} path={path} title={title} description={description} searchable
+  jsonLd={[
+    { '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, inLanguage: ml ? 'ml-IN' : 'en-IN' },
+    breadcrumbs(lang, [[t(lang, 'nakshatraPages'), '/nakshatra/'], [title, path]]),
+  ]}>
+  <p class="lede"><a href={href(lang, '/nakshatra/')}>{t(lang, 'nakshatraPages')}</a></p>
+  <h1>{title}</h1>
+  <p>
+    {ml
+      ? `ഓരോ ചാന്ദ്രമാസത്തിലും (ഏകദേശം 27⅓ ദിവസം) ${name} നക്ഷത്രം ഒരിക്കൽ വരും. സൂര്യോദയത്തിന് ശേഷം 6 നാഴിക (2 മണിക്കൂർ 24 മിനിറ്റ്) കഴിയുമ്പോഴുള്ള നക്ഷത്രമാണ് ആ ദിവസത്തേതായി എടുക്കുന്നത്; ആപ്പിലെ "നക്ഷത്രം" ഓർമ്മപ്പെടുത്തലുകളും ഇതേ നിയമമാണ് പിന്തുടരുന്നത്. സമയങ്ങൾ തിരുവനന്തപുരത്തേതാണ്.`
+      : `${name} returns once every lunar month (about 27⅓ days). A day's star is the one at 6 nazhika (2 hours 24 minutes) after sunrise, the rule the app's monthly nakshatram reminders use. Computed for Thiruvananthapuram.`}
+  </p>
+  <p><a class="app-cta" href={href(lang, `/pirannal/?star=${star}`)}>{t(lang, 'findPirannal')} →</a></p>
+
+  <ul class="list">
+    {dates.map((iso) => {
+      const day = dayOf(iso);
+      return (
+        <li>
+          <a href={href(lang, `/day/${iso}/`)}>{gregorianDate(lang, iso)}</a>
+          {day && <span class="sub"> · {weekdayOf(lang, day.weekday)} · {malayalamDate(lang, day.ml)}</span>}
+        </li>
+      );
+    })}
+  </ul>
+
+  <h2 data-pagefind-ignore>{t(lang, 'otherYears')}</h2>
+  <ul class="chips" data-pagefind-ignore>
+    {featureYears.filter((y) => y !== year).map((y) => (
+      <li><a class="chip" href={href(lang, `/nakshatra/${star}/${y}/`)}>{y}</a></li>
+    ))}
+  </ul>
+  <h2 data-pagefind-ignore>{t(lang, 'otherStars')}</h2>
+  <ul class="chips" data-pagefind-ignore>
+    {starIds.filter((s) => s !== star).map((s) => (
+      <li><a class="chip" href={href(lang, `/nakshatra/${s}/${year}/`)}>{nameOf('stars', s, lang)}</a></li>
+    ))}
+  </ul>
+</Base>

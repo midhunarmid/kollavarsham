@@ -102,6 +102,13 @@ const strings = {
   print: { en: 'Print or save as PDF', ml: 'പ്രിന്റ് / PDF ആയി സേവ് ചെയ്യുക' },
   search: { en: 'Search', ml: 'തിരയുക' },
   alsoSpelt: { en: 'Also written', ml: 'മറ്റു രൂപങ്ങൾ' },
+  nakshatraPages: { en: 'Nakshatra days', ml: 'നക്ഷത്ര ദിവസങ്ങൾ' },
+  otherStars: { en: 'Other stars', ml: 'മറ്റു നക്ഷത്രങ്ങൾ' },
+  vratPages: { en: 'Fasting days (vrats)', ml: 'വ്രത ദിവസങ്ങൾ' },
+  findPirannal: { en: 'Find your pirannal dates', ml: 'പിറന്നാൾ തീയതികൾ കണ്ടെത്തുക' },
+  rahuKalamToday: { en: 'Rahu kalam today', ml: 'ഇന്നത്തെ രാഹുകാലം' },
+  glossary: { en: 'Glossary', ml: 'പദാവലി' },
+  more: { en: 'More', ml: 'കൂടുതൽ' },
   reportWrongDate: { en: 'Report a wrong date', ml: 'തെറ്റായ തീയതി അറിയിക്കുക' },
   monthStartClose: {
     en: 'The sankranti falls only {minutes} min from the cut-off that decides the first day, so some almanacs may start this month a day earlier or later.',
@@ -181,6 +188,25 @@ export const langOf = (param: string | undefined): Lang => (param === 'ml' ? 'ml
 export function spanText(lang: Lang, name: string, until: string, iso: string): string {
   const time = timeOf(lang, until, iso);
   return lang === 'ml' ? `${name} ${time} ${t(lang, 'until')}` : `${name} ${t(lang, 'until')} ${time}`;
+}
+
+/**
+ * schema.org BreadcrumbList for a page: Home, then each [name, path]
+ * (paths without the language prefix).
+ */
+export function breadcrumbs(lang: Lang, items: [string, string][]): object {
+  const site = 'https://calendar.armid.in';
+  const all: [string, string][] = [[t(lang, 'siteName'), '/'], ...items];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: all.map(([name, path], i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name,
+      item: `${site}${href(lang, path)}`,
+    })),
+  };
 }
 
 /** A link into the web app (hash routes), e.g. appLink('/day/2026-11-02'). */

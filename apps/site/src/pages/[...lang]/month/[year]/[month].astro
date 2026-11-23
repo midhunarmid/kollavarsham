@@ -4,8 +4,9 @@
 import Base from '../../../../layouts/Base.astro';
 import { completeMonths, dayOf, festivalById, type Day, type Lang, type Month } from '../../../../lib/data';
 import {
-  gregorianDate, href, langOf, langParam, langs, nameOf, t,
+  breadcrumbs, gregorianDate, href, langOf, langParam, langs, nameOf, t,
 } from '../../../../lib/i18n';
+import { ogImageFor } from '../../../../lib/og';
 
 export function getStaticPaths() {
   const complete = completeMonths;
@@ -34,6 +35,11 @@ const isHoliday = (d: Day) =>
   d.festivals.some((id) => festivalById.get(id)!.dates.find((x) => x.date === d.date)?.holiday === 'public');
 ---
 <Base lang={lang} path={`/month/${month.ml.y}/${month.ml.m}/`} title={name} searchable
+  ogImage={ogImageFor(lang, `/month/${month.ml.y}/${month.ml.m}/`)}
+  jsonLd={breadcrumbs(lang, [
+    [t(lang, 'malayalamCalendarYear', { year: days[0].date.slice(0, 4) }), `/calendar/${days[0].date.slice(0, 4)}/`],
+    [name, `/month/${month.ml.y}/${month.ml.m}/`],
+  ])}
   description={`${name}: ${span}. ${festivalDays.map((d) => d.festivals.map((id) => festivalById.get(id)![lang]).join(', ')).join(', ')}`}>
   <h1>{name}</h1>
   <p class="lede">{span} · {month.days} {t(lang, 'day')}</p>

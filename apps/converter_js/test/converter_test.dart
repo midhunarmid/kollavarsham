@@ -42,6 +42,8 @@ void main() {
     expect(toMalayalam('2026-08-26', cal), isNotNull);
   });
 
+  _pirannalTests();
+
   group('dayOf', () {
     test('equals the site data for every day of 2026', () {
       final cal = KollavarshamCalendar.standard;
@@ -94,3 +96,20 @@ void main() {
 }
 
 const _day = Duration(days: 1);
+
+void _pirannalTests() {
+  test('pirannals: Pooradam in Dhanu, as the app computes them', () {
+    final r = pirannals('pooradam', 'dhanu', '2026-11-23', 5)!;
+    expect(r, hasLength(5));
+    final want =
+        const NakshatraInMonth(Nakshatra.pooradam, MalayalamMonth.dhanu)
+            .occurrencesBetween(DateTime(2026, 11, 23), DateTime(2031, 12, 31))
+            .take(5)
+            .map((d) => d.toGregorian().toIso8601String().substring(0, 10))
+            .toList();
+    expect(r.map((x) => x['gregorian']), want);
+    expect(r.map((x) => x['month']), everyElement('dhanu'));
+    expect(pirannals('nope', 'dhanu', '2026-11-23', 5), isNull);
+    expect(pirannals('pooradam', 'dhanu', '2026-11-23', 500), isNull);
+  });
+}

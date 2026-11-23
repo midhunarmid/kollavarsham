@@ -48,6 +48,29 @@ void main() {
         _cal.monthStartMargin(1202, MalayalamMonth.chingam).inMinutes);
   });
 
+  test('vrat days match the engine and stay in their Gregorian year', () {
+    final vrats = vratsJson(2026, 2026, _cal);
+    final ekadashi =
+        ((vrats['ekadashi']! as Map)['days'] as Map)['2026'] as List<String>;
+    expect(ekadashi.length, inInclusiveRange(23, 26));
+    expect(ekadashi, everyElement(startsWith('2026-')));
+    final fromEngine = [
+      for (final y in [1201, 1202])
+        for (final d in _cal.vratDays(Vrat.ekadashi, y))
+          if (d.toGregorian().year == 2026) isoDate(d.toGregorian()),
+    ]..sort();
+    expect(ekadashi, fromEngine);
+  });
+
+  test('nakshatram days: about one a lunar month, each a day of the star', () {
+    final days = (nakshatraDaysJson(2026, 2026, _cal)['2026']! as Map)
+        .cast<String, List<String>>();
+    expect(days.keys, hasLength(27));
+    for (final list in days.values) {
+      expect(list.length, inInclusiveRange(12, 16));
+    }
+  });
+
   test('Kerala today is the IST date', () {
     // 20:00 UTC on 31 December is 01:30 on 1 January in Kerala.
     expect(keralaToday(DateTime.utc(2026, 12, 31, 20)), DateTime.utc(2027));

@@ -83,6 +83,22 @@ export interface Place {
 
 /** Places for the header's picker; the first is the pages' own. */
 export const places: Place[] = read('places.json');
+
+/** Fasting days by vrat id and Gregorian year. */
+export const vrats: Record<string, Names & { days: Record<string, string[]> }> = read('vrats.json');
+
+/** Each star's monthly nakshatram days, by Gregorian year and star id. */
+export const nakshatraDays: Record<string, Record<string, string[]>> = read('nakshatra_days.json');
+
+/**
+ * Years that get the newer page families (nakshatra and vrat pages): last
+ * year, this year and next, as the roadmap starts them, to keep thin pages
+ * out of the index.
+ */
+export const featureYears = (() => {
+  const now = Number(new Date(Date.now() + 330 * 60000).toISOString().slice(0, 4));
+  return [now - 1, now, now + 1].filter((y) => meta.from <= y && y <= meta.to);
+})();
 export const festivals: Festival[] = read('festivals.json');
 
 /** Years with day data, oldest first. */

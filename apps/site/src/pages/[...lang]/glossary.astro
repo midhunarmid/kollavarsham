@@ -1,0 +1,88 @@
+---
+// The calendar's terms in plain words, as a schema.org DefinedTermSet.
+import Base from '../../layouts/Base.astro';
+import type { Lang } from '../../lib/data';
+import { breadcrumbs, href, langOf, langParam, langs, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const ml = lang === 'ml';
+const title = t(lang, 'glossary');
+const description = ml
+  ? 'കൊല്ലവർഷം, സംക്രമം, നക്ഷത്രം, തിഥി, നാഴിക, ഞാറ്റുവേല, രാഹുകാലം, പിറന്നാൾ: ലളിതമായ വിശദീകരണം.'
+  : 'Kollavarsham, sankranti, nakshatra, tithi, nazhika, njattuvela, rahu kalam, pirannal and more, in plain words.';
+
+// [id, term, definition].
+const terms: [string, string, string][] = ml
+  ? [
+      ['kollavarsham', 'കൊല്ലവർഷം', 'മലയാള വർഷം, ക്രി.വ. 825 മുതൽ എണ്ണുന്നത്. ചിങ്ങത്തിൽ തുടങ്ങും (വടക്കേ മലബാറിൽ കന്നിയിൽ). ഉദാഹരണം: 1202 തുടങ്ങിയത് 2026 ഓഗസ്റ്റിൽ.'],
+      ['sankranti', 'സംക്രമം', 'സൂര്യൻ ഒരു രാശിയിൽ (നിരയന രാശിചക്രം) കടക്കുന്ന നിമിഷം. ഓരോ മലയാള മാസവും ഒരു സംക്രമത്തോടെ തുടങ്ങുന്നു.'],
+      ['nakshatra', 'നക്ഷത്രം', 'ചന്ദ്രന്റെ പാതയിലെ 27 ഭാഗങ്ങൾ, ഓരോന്നും 13°20′. ഒരു നിമിഷത്തെ നക്ഷത്രം ചന്ദ്രൻ അപ്പോൾ നിൽക്കുന്ന ഭാഗം.'],
+      ['pada', 'പാദം', 'ഒരു നക്ഷത്രത്തിന്റെ നാലിലൊന്ന് (3°20′). ചില നക്ഷത്രങ്ങൾ രണ്ടു രാശികളിലായതിനാൽ രാശി അറിയാൻ പാദം വേണം.'],
+      ['rashi', 'രാശി', 'രാശിചക്രത്തിലെ 12 ഭാഗങ്ങൾ, ഓരോന്നും 30°; ഓരോന്നിലും രണ്ടേകാൽ നക്ഷത്രം.'],
+      ['tithi', 'തിഥി', 'ചാന്ദ്ര ദിവസം: ചന്ദ്രൻ സൂര്യനിൽ നിന്ന് 12° കൂടി അകലുന്ന സമയം. ഒരു ചാന്ദ്രമാസത്തിൽ 30 തിഥി.'],
+      ['paksha', 'പക്ഷം', 'പകുതി ചാന്ദ്രമാസം: വെളുത്ത പക്ഷം (ശുക്ലപക്ഷം, പൗർണ്ണമി വരെ), കറുത്ത പക്ഷം (കൃഷ്ണപക്ഷം, അമാവാസി വരെ).'],
+      ['yoga-karana', 'യോഗം, കരണം', 'പഞ്ചാംഗത്തിലെ മറ്റു രണ്ടു ഘടകങ്ങൾ: സൂര്യന്റെയും ചന്ദ്രന്റെയും സ്ഥാനങ്ങളുടെ തുകയിൽ നിന്ന് 27 യോഗങ്ങൾ; തിഥിയുടെ പകുതിയാണ് കരണം.'],
+      ['nazhika', 'നാഴിക', '24 മിനിറ്റ്; ഒരു ദിവസം 60 നാഴിക. പിറന്നാളിന് സൂര്യോദയത്തിന് 6 നാഴിക ശേഷമുള്ള നക്ഷത്രം നോക്കുന്നു.'],
+      ['njattuvela', 'ഞാറ്റുവേല', 'സൂര്യൻ ഓരോ നക്ഷത്രത്തിലും നിൽക്കുന്ന ഏകദേശം പതിമൂന്നര ദിവസം; കൃഷിക്കാലം കണക്കാക്കാൻ ഉപയോഗിക്കുന്നു (ഉദാ. തിരുവാതിര ഞാറ്റുവേല).'],
+      ['pirannal', 'പിറന്നാൾ', 'ജന്മമാസത്തിൽ ജന്മനക്ഷത്രം വരുന്ന ദിവസം: നക്ഷത്രം അനുസരിച്ചുള്ള ജന്മദിനം.'],
+      ['nakshatram', 'നക്ഷത്രം (മാസം തോറും)', 'ഓരോ ചാന്ദ്രമാസത്തിലും (ഏകദേശം 27⅓ ദിവസം) ജന്മനക്ഷത്രം വരുന്ന ദിവസം.'],
+      ['shraddham', 'ശ്രാദ്ധം (ആണ്ട്)', 'മരണ വാർഷികം: മരിച്ച മലയാള മാസത്തിൽ, മരിച്ച ദിവസത്തെ നക്ഷത്രമോ തിഥിയോ വരുന്ന ദിവസം.'],
+      ['rahu-kalam', 'രാഹുകാലം', 'പകലിന്റെ (സൂര്യോദയം മുതൽ അസ്തമയം വരെ) എട്ടിലൊന്ന്; ആഴ്ചയിലെ ദിവസം അനുസരിച്ച് ഏതു ഭാഗമെന്ന്. ശുഭകാര്യങ്ങൾക്ക് ഒഴിവാക്കുന്നു.'],
+      ['gulika', 'ഗുളികകാലം, യമകണ്ടകം', 'രാഹുകാലം പോലെ പകലിന്റെ എട്ടിലൊന്നു വീതമുള്ള മറ്റു രണ്ടു കാലങ്ങൾ.'],
+      ['chandrashtamam', 'ചന്ദ്രാഷ്ടമം', 'ജന്മരാശിയിൽ നിന്ന് എട്ടാം രാശിയിൽ ചന്ദ്രൻ നിൽക്കുന്ന ഏകദേശം രണ്ടേകാൽ ദിവസം.'],
+      ['vrat', 'വ്രതങ്ങൾ', 'ഏകാദശി (11-ാം തിഥി), പ്രദോഷം (13-ാം തിഥി), ഷഷ്ഠി (6-ാം തിഥി), പൗർണ്ണമി, അമാവാസി.'],
+    ]
+  : [
+      ['kollavarsham', 'Kollavarsham', 'The Malayalam Era, counting years from 825 CE. The year begins in Chingam (in Kanni in North Malabar); 1202 began in August 2026.'],
+      ['sankranti', 'Sankranti', 'The moment the Sun enters a sign of the sidereal zodiac. Each Malayalam month begins with one.'],
+      ['nakshatra', 'Nakshatra (star)', 'One of 27 equal parts of the Moon’s path, 13°20′ each. The star of a moment is the part the Moon is in.'],
+      ['pada', 'Pada', 'A quarter of a nakshatra (3°20′). Some stars span two rashis, so the pada tells which.'],
+      ['rashi', 'Rashi', 'One of the 12 signs of the zodiac, 30° each; each holds two and a quarter stars.'],
+      ['tithi', 'Tithi', 'A lunar day: the time the Moon takes to move 12° further from the Sun. A lunar month has 30.'],
+      ['paksha', 'Paksha', 'Half a lunar month: Shukla (waxing, up to Pournami, the full moon) and Krishna (waning, up to Amavasya, the new moon).'],
+      ['yoga-karana', 'Yoga and karana', 'The other two of the panchangam’s five parts: 27 yogas from the sum of the Sun’s and Moon’s positions, and karanas, each half a tithi.'],
+      ['nazhika', 'Nazhika', '24 minutes; a day has 60. For a pirannal the star is read 6 nazhika after sunrise.'],
+      ['njattuvela', 'Njattuvela', 'The roughly thirteen and a half days the Sun spends in each nakshatra, used for the farming calendar (for example, Thiruvathira njattuvela).'],
+      ['pirannal', 'Pirannal', 'A star birthday: the day in the birth Malayalam month when the birth star falls.'],
+      ['nakshatram', 'Nakshatram (monthly)', 'The day the birth star returns in each lunar month, about every 27⅓ days.'],
+      ['shraddham', 'Shraddham (aandu)', 'A death anniversary: in the Malayalam month of the death, on the day of its star or tithi.'],
+      ['rahu-kalam', 'Rahu kalam', 'One eighth of the daytime (sunrise to sunset), which eighth depending on the weekday; avoided for new undertakings.'],
+      ['gulika', 'Gulika kalam and Yamagandam', 'Two more eighths of the daytime, found the same way as rahu kalam.'],
+      ['chandrashtamam', 'Chandrashtamam', 'About two and a quarter days when the Moon is in the eighth rashi from one’s birth rashi.'],
+      ['vrat', 'Vrat days', 'Fasting days: Ekadashi (11th tithi), Pradosham (13th), Shashti (6th), Pournami and Amavasya.'],
+    ];
+const links: Record<string, string> = {
+  'nakshatra': '/nakshatra/', 'pirannal': '/pirannal/', 'rahu-kalam': '/rahu-kalam-today/', 'vrat': '/vrat/',
+  'sankranti': '/how-dates-are-computed/',
+};
+const site = 'https://calendar.armid.in';
+---
+<Base lang={lang} path="/glossary/" title={title} description={description} searchable
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'DefinedTermSet',
+      name: title,
+      url: `${site}${href(lang, '/glossary/')}`,
+      inLanguage: ml ? 'ml-IN' : 'en-IN',
+      hasDefinedTerm: terms.map(([id, term, def]) => ({
+        '@type': 'DefinedTerm', name: term, description: def, url: `${site}${href(lang, '/glossary/')}#${id}`,
+      })),
+    },
+    breadcrumbs(lang, [[title, '/glossary/']]),
+  ]}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <dl class="glossary">
+    {terms.map(([id, term, def]) => (
+      <>
+        <dt id={id}>{term}</dt>
+        <dd>{def}{links[id] && <> <a href={href(lang, links[id])}>{t(lang, 'more')} →</a></>}</dd>
+      </>
+    ))}
+  </dl>
+</Base>

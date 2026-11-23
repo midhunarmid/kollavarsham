@@ -8,7 +8,7 @@
     "converter": "cd ../converter_js && dart compile js -O2 -o ../site/public/kollavarsham.js web/converter.dart",
     "prepare-data": "npm run data && npm run converter",
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && node scripts/og-pages.mjs && pagefind --site dist",
     "preview": "astro preview",
     "check": "node scripts/check-dist.mjs && node scripts/check-js-days.mjs"
   },

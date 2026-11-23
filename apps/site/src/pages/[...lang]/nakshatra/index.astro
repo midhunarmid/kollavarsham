@@ -1,0 +1,33 @@
+---
+// The 27 stars, each linking to this year's days of that star.
+import Base from '../../../layouts/Base.astro';
+import { featureYears, keralaToday, names, type Lang } from '../../../lib/data';
+import { breadcrumbs, href, langOf, langParam, langs, nameOf, t } from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const ml = lang === 'ml';
+const thisYear = Number(keralaToday().slice(0, 4));
+const year = featureYears.includes(thisYear) ? thisYear : featureYears[0];
+const title = t(lang, 'nakshatraPages');
+const description = ml
+  ? 'ഇരുപത്തിയേഴ് നക്ഷത്രങ്ങളും ഓരോന്നും വരുന്ന ദിവസങ്ങളും, മലയാള തീയതിയോടെ.'
+  : 'The 27 nakshatras (birth stars) and the days each returns this year, with Malayalam dates.';
+---
+<Base lang={lang} path="/nakshatra/" title={title} description={description}
+  jsonLd={breadcrumbs(lang, [[title, '/nakshatra/']])}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <div class="months">
+    {Object.keys(names.stars).map((s, i) => (
+      <a href={href(lang, `/nakshatra/${s}/${year}/`)}>
+        <strong>{nameOf('stars', s, lang)}</strong>
+        <span class="sub">{i + 1} · {year}</span>
+      </a>
+    ))}
+  </div>
+  <p><a href={href(lang, '/pirannal/')}>{t(lang, 'findPirannal')} →</a> · <a href={href(lang, '/nakshatra-today/')}>{t(lang, 'nakshatraToday')} →</a></p>
+</Base>

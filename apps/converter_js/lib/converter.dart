@@ -111,6 +111,33 @@ Map<String, Object?>? dayOf(String isoDate, [KollavarshamCalendar? calendar]) {
   };
 }
 
+/// The next [count] pirannals (yearly star birthdays) of [star] in the
+/// Malayalam [month] (ids such as `pooradam`, `dhanu`), on or after
+/// Gregorian `yyyy-mm-dd` [fromIso], by the app's default rules
+/// (`NakshatraInMonth`). Null for bad input.
+List<Map<String, Object>>? pirannals(
+    String star, String month, String fromIso, int count,
+    [KollavarshamCalendar? calendar]) {
+  final n = Nakshatra.values.where((v) => _id(v) == star).firstOrNull;
+  final m = MalayalamMonth.values.where((v) => _id(v) == month).firstOrNull;
+  final from = DateTime.tryParse(fromIso);
+  if (n == null || m == null || from == null || count < 1 || count > 50) {
+    return null;
+  }
+  final cal = calendar ?? KollavarshamCalendar.standard;
+  final recurrence = NakshatraInMonth(n, m);
+  final found = <MalayalamDate>[];
+  var after = DateTime(from.year, from.month, from.day - 1);
+  while (found.length < count) {
+    final next = recurrence.next(after, calendar: cal);
+    if (next == null) break;
+    found.add(next);
+    final g = next.toGregorian();
+    after = DateTime(g.year, g.month, g.day);
+  }
+  return [for (final d in found) describe(d)];
+}
+
 /// Birth star, pada, rashi, tithi and Malayalam date for a local
 /// `yyyy-mm-ddThh:mm` at the calendar's place, or null if malformed.
 Map<String, Object>? findStar(String localDateTime,

@@ -7,6 +7,8 @@ import {
   appLink, gregorianDate, holidayLabel, href, langOf, langParam, langs, malayalamDate, t, weekdayOf,
 } from '../../../../lib/i18n';
 import { aliasesOf, dayOf } from '../../../../lib/data';
+import { breadcrumbs } from '../../../../lib/i18n';
+import { ogImageFor } from '../../../../lib/og';
 
 export function getStaticPaths() {
   return langs.flatMap((lang) =>
@@ -41,7 +43,8 @@ const other = lang === 'ml' ? festival.en : festival.ml;
 const aka = [...new Set([...(other !== name ? [other] : []), ...aliasesOf(slug)])].filter((a) => a !== name);
 ---
 <Base lang={lang} path={`/festival/${slug}/${year}/`} title={title} description={description} searchable
-  jsonLd={{
+  ogImage={ogImageFor(lang, `/festival/${slug}/${year}/`)}
+  jsonLd={[breadcrumbs(lang, [[t(lang, 'festivals'), '/festivals/'], [title, `/festival/${slug}/${year}/`]]), {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: title,
@@ -52,7 +55,8 @@ const aka = [...new Set([...(other !== name ? [other] : []), ...aliasesOf(slug)]
     eventStatus: 'https://schema.org/EventScheduled',
     location: { '@type': 'Place', name: 'Kerala', address: { '@type': 'PostalAddress', addressRegion: 'Kerala', addressCountry: 'IN' } },
     inLanguage: lang === 'ml' ? 'ml-IN' : 'en-IN',
-  }}>
+    image: `https://calendar.armid.in${ogImageFor(lang, `/festival/${slug}/${year}/`)}`,
+  }]}>
   <p class="lede"><a href={href(lang, '/festivals/')}>{t(lang, 'festivals')}</a></p>
   <h1>{title}</h1>
   {aka.length > 0 && <p class="sub">{t(lang, 'alsoSpelt')}: {aka.join(', ')}</p>}

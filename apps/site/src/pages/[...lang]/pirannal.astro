@@ -1,0 +1,115 @@
+---
+// Pirannal finder: a birth star and Malayalam month give the next ten star
+// birthdays, computed in the browser with the app's default rules.
+import Base from '../../layouts/Base.astro';
+import { names, type Lang } from '../../lib/data';
+import { breadcrumbs, href, langOf, langParam, langs, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const ml = lang === 'ml';
+const title = t(lang, 'findPirannal');
+const description = ml
+  ? 'ജന്മനക്ഷത്രവും മലയാള മാസവും നൽകിയാൽ അടുത്ത പത്ത് പിറന്നാൾ തീയതികൾ. ഉദാഹരണം: ധനുവിലെ പൂരാടം.'
+  : 'Give a birth star and Malayalam month, get the next ten star birthdays (pirannal). For example: Pooradam in Dhanu.';
+const strings = {
+  none: ml ? 'ഈ മാസങ്ങളിൽ ആ നക്ഷത്രം കണ്ടെത്താനായില്ല.' : 'No dates found.',
+  failed: ml ? 'കണക്കാക്കാനായില്ല; പേജ് വീണ്ടും തുറക്കുക.' : 'Could not compute; reload the page.',
+  place: ml ? 'സ്ഥലം' : 'Place',
+};
+---
+<Base lang={lang} path="/pirannal/" title={title} description={description}
+  jsonLd={[
+    { '@context': 'https://schema.org', '@type': 'WebApplication', name: title, description, applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' }, inLanguage: ml ? 'ml-IN' : 'en-IN' },
+    breadcrumbs(lang, [[title, '/pirannal/']]),
+  ]}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <form class="tool card" id="pirannal-form" data-lang={lang} data-strings={JSON.stringify(strings)}>
+    <div class="row">
+      <label>{t(lang, 'star')}
+        <select name="star" id="pirannal-star">
+          {Object.entries(names.stars).map(([id, n]) => <option value={id}>{n[lang]}</option>)}
+        </select>
+      </label>
+      <label>{t(lang, 'month')}
+        <select name="month" id="pirannal-month">
+          {Object.entries(names.months).map(([id, n]) => <option value={id}>{n[lang]}</option>)}
+        </select>
+      </label>
+      <button type="submit">{t(lang, 'find')}</button>
+    </div>
+    <p class="sub">
+      {ml
+        ? 'മാസത്തിൽ നക്ഷത്രം രണ്ടു ദിവസം വന്നാൽ രണ്ടാമത്തേത്; ഒരു ദിവസവും വന്നില്ലെങ്കിൽ മുൻ മാസത്തിലെ അവസാനത്തേത്. ഓരോ ദിവസത്തെയും നക്ഷത്രം സൂര്യോദയത്തിന് 6 നാഴിക ശേഷമുള്ളത്. ആപ്പിൽ ഈ നിയമങ്ങൾ മാറ്റാം.'
+        : 'When the star falls on two days of the month the second counts; when it falls on none, the last one in the month before does. A day’s star is the one 6 nazhika after sunrise. The app lets you change these rules.'}
+      {' '}<a href={href(lang, '/how-dates-are-computed/')}>{t(lang, 'howComputed')}</a>
+    </p>
+  </form>
+  <ol class="list" id="pirannal-out" aria-live="polite"></ol>
+  <p id="pirannal-note" class="sub"></p>
+  <p><a class="app-cta" href="/app/#/people">{ml ? 'ആപ്പിൽ സേവ് ചെയ്ത് ഓർമ്മപ്പെടുത്തൽ നേടുക' : 'Save it in the app for reminders'} →</a></p>
+  <noscript><p>{t(lang, 'needsJs')}</p></noscript>
+  <script>
+    import { chosenPlace, loadEngine, nowAt, offsetMinutes, onPlace } from '../../client/place';
+
+    interface Found { gregorian: string; day: number; monthMl: string; monthEn: string; year: number; weekdayMl: string; weekdayEn: string }
+    const form = document.getElementById('pirannal-form') as HTMLFormElement;
+    const out = document.getElementById('pirannal-out')!;
+    const note = document.getElementById('pirannal-note')!;
+    const star = document.getElementById('pirannal-star') as HTMLSelectElement;
+    const month = document.getElementById('pirannal-month') as HTMLSelectElement;
+    const ml = form.dataset.lang === 'ml';
+    const s = JSON.parse(form.dataset.strings!);
+    const prefix = ml ? '/ml' : '';
+    const params = new URLSearchParams(location.search);
+    if (params.get('star')) star.value = params.get('star')!;
+    if (params.get('month')) month.value = params.get('month')!;
+    const gmonths = ml
+      ? ['ജനുവരി', 'ഫെബ്രുവരി', 'മാർച്ച്', 'ഏപ്രിൽ', 'മേയ്', 'ജൂൺ', 'ജൂലൈ', 'ഓഗസ്റ്റ്', 'സെപ്റ്റംബർ', 'ഒക്ടോബർ', 'നവംബർ', 'ഡിസംബർ']
+      : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    const englishWeekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    async function run() {
+      const place = chosenPlace();
+      const k = (await loadEngine()) as unknown as {
+        pirannals(star: string, month: string, from: string, n: number, lat?: number, lng?: number, off?: number): Found[] | null;
+      };
+      const today = nowAt(place).slice(0, 10);
+      const found = place
+        ? k.pirannals(star.value, month.value, today, 10, place.lat, place.lng, offsetMinutes(place.tz, today))
+        : k.pirannals(star.value, month.value, today, 10);
+      out.replaceChildren();
+      for (const f of found ?? []) {
+        const [y, m, d] = f.gregorian.split('-').map(Number);
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `${prefix}/day/${f.gregorian}/`;
+        a.textContent = `${d} ${gmonths[m - 1]} ${y}`;
+        const sub = document.createElement('span');
+        sub.className = 'sub';
+        // English pages name weekdays the Gregorian way, as elsewhere on the site.
+        const weekday = ml ? f.weekdayMl : englishWeekdays[new Date(`${f.gregorian}T00:00:00Z`).getUTCDay()];
+        sub.textContent = ` · ${weekday} · ${f.day} ${ml ? f.monthMl : f.monthEn} ${f.year}`;
+        li.append(a, sub);
+        out.appendChild(li);
+      }
+      note.textContent = found?.length ? (place ? `${s.place}: ${ml ? place.ml : place.en}` : '') : s.none;
+      const url = new URL(location.href);
+      url.searchParams.set('star', star.value);
+      url.searchParams.set('month', month.value);
+      history.replaceState(null, '', url);
+    }
+
+    function go() {
+      run().catch(() => { note.textContent = s.failed; });
+    }
+    form.addEventListener('submit', (e) => { e.preventDefault(); go(); });
+    onPlace(() => { if (out.children.length) go(); });
+    if (params.get('star') && params.get('month')) go();
+  </script>
+</Base>

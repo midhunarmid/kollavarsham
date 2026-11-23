@@ -1,0 +1,79 @@
+---
+// One page per fasting day type and year: Ekadashi, Pradosham, Shashti,
+// Pournami and Amavasya, from the engine's vrat lists.
+import Base from '../../../../layouts/Base.astro';
+import { dayOf, featureYears, vrats, type Lang } from '../../../../lib/data';
+import {
+  breadcrumbs, gregorianDate, href, langOf, langParam, langs, malayalamDate, nameOf, t, weekdayOf,
+} from '../../../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) =>
+    Object.keys(vrats).flatMap((vrat) =>
+      featureYears.map((year) => ({ params: { lang: langParam(lang), vrat, year: String(year) } })),
+    ),
+  );
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const id = Astro.params.vrat!;
+const year = Number(Astro.params.year);
+const ml = lang === 'ml';
+const vrat = vrats[id];
+const name = vrat[lang];
+const dates = vrat.days[String(year)] ?? [];
+const title = ml ? `${name} ${year}: തീയതികൾ` : `${name} ${year}: all dates`;
+const description = ml
+  ? `${year}-ലെ ${dates.length} ${name} ദിവസങ്ങൾ, മലയാള തീയതിയും തിഥിയും സഹിതം.`
+  : `All ${dates.length} ${name} days in ${year}, with the Malayalam date and tithi.`;
+const path = `/vrat/${id}/${year}/`;
+const tithiIds: Record<string, number[]> = {
+  ekadashi: [11, 26], pradosham: [13, 28], shashti: [6], pournami: [15], amavasya: [30],
+};
+---
+<Base lang={lang} path={path} title={title} description={description} searchable
+  jsonLd={[
+    { '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, inLanguage: ml ? 'ml-IN' : 'en-IN' },
+    breadcrumbs(lang, [[t(lang, 'vratPages'), '/vrat/'], [title, path]]),
+  ]}>
+  <p class="lede"><a href={href(lang, '/vrat/')}>{t(lang, 'vratPages')}</a></p>
+  <h1>{title}</h1>
+  <p>
+    {ml
+      ? `${tithiIds[id].map((n) => nameOf('tithis', n, lang)).join(', ')} തിഥി വരുന്ന ദിവസം. ഒരു തിഥി രണ്ടു ദിവസങ്ങളിലുണ്ടെങ്കിൽ ആദ്യത്തെ ദിവസവും, രണ്ടു ദിവസങ്ങൾക്കിടയിൽ മാത്രമാണെങ്കിൽ മുമ്പത്തെ ദിവസവും എടുക്കുന്നു. തിരുവനന്തപുരത്തേക്ക് കണക്കാക്കിയത്.`
+      : `The day of the ${tithiIds[id].map((n) => nameOf('tithis', n, lang)).join(' or ')} tithi. When the tithi spans two days the first counts, and when it falls wholly between two days the earlier one does. Computed for Thiruvananthapuram.`}
+  </p>
+  <p class="sub">
+    {ml
+      ? 'കേരളത്തിലെ ഒരു വ്രത പട്ടികയുമായും ഇതുവരെ ഒത്തുനോക്കിയിട്ടില്ല; ക്ഷേത്രങ്ങളും പഞ്ചാംഗങ്ങളും ഒരു ദിവസം വ്യത്യാസപ്പെട്ടേക്കാം.'
+      : 'Not yet compared with a Kerala vrat list; temples and almanacs may differ by a day.'}
+    {' '}<a href={href(lang, '/how-dates-are-computed/')}>{t(lang, 'howComputed')}</a>
+  </p>
+
+  <ul class="list">
+    {dates.map((iso) => {
+      const day = dayOf(iso);
+      return (
+        <li>
+          <a href={href(lang, `/day/${iso}/`)}>{gregorianDate(lang, iso)}</a>
+          {day && (
+            <span class="sub"> · {weekdayOf(lang, day.weekday)} · {malayalamDate(lang, day.ml)} · {nameOf('pakshas', day.paksha, lang)}</span>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+
+  <h2 data-pagefind-ignore>{t(lang, 'otherYears')}</h2>
+  <ul class="chips" data-pagefind-ignore>
+    {featureYears.filter((y) => y !== year).map((y) => (
+      <li><a class="chip" href={href(lang, `/vrat/${id}/${y}/`)}>{y}</a></li>
+    ))}
+  </ul>
+  <h2 data-pagefind-ignore>{t(lang, 'vratPages')}</h2>
+  <ul class="chips" data-pagefind-ignore>
+    {Object.keys(vrats).filter((v) => v !== id).map((v) => (
+      <li><a class="chip" href={href(lang, `/vrat/${v}/${year}/`)}>{vrats[v][lang]}</a></li>
+    ))}
+  </ul>
+</Base>

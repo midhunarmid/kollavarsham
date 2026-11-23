@@ -1,0 +1,49 @@
+<!doctype html>
+<!-- The template of per-page preview images; scripts/og-pages.mjs calls
+     render({kicker, title, subtitle, lang}) and takes a 1200x630 screenshot. -->
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: Latin; font-weight: 400; src: url('../node_modules/@fontsource/noto-sans/files/noto-sans-latin-400-normal.woff2'); }
+  @font-face { font-family: Latin; font-weight: 700; src: url('../node_modules/@fontsource/noto-sans/files/noto-sans-latin-700-normal.woff2'); }
+  @font-face { font-family: ML; font-weight: 400; src: url('../node_modules/@fontsource/noto-sans-malayalam/files/noto-sans-malayalam-malayalam-400-normal.woff2'); }
+  @font-face { font-family: ML; font-weight: 700; src: url('../node_modules/@fontsource/noto-sans-malayalam/files/noto-sans-malayalam-malayalam-700-normal.woff2'); }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #00695c; color: #fff; font-family: Latin, ML, sans-serif; position: relative; }
+  .mark { position: absolute; left: 70px; top: 64px; width: 72px; height: 72px; border-radius: 20px;
+    background: #fff; color: #00695c; display: grid; place-items: center; font: 700 42px ML, sans-serif; }
+  .kicker { position: absolute; left: 166px; top: 82px; font-size: 32px; color: #d6f2ee; }
+  h1 { position: absolute; left: 70px; right: 70px; top: 190px; margin: 0; font-weight: 700; font-size: 84px; line-height: 1.2; }
+  .sub { position: absolute; left: 70px; right: 70px; top: 400px; font-size: 38px; line-height: 1.35; color: #e8f7f4; }
+  .url { position: absolute; left: 70px; bottom: 56px; font-size: 32px; }
+  .site { position: absolute; right: 70px; bottom: 56px; font-size: 32px; color: #d6f2ee; }
+  .dots { position: absolute; right: 70px; top: 78px; display: grid; grid-template-columns: repeat(7, 18px); gap: 8px; }
+  .dots i { display: block; width: 18px; height: 18px; border-radius: 5px; background: #0b7d6f; }
+  .dots i.on { background: #ffb74d; }
+</style></head>
+<body>
+  <div class="mark">൧</div>
+  <div class="kicker" id="kicker"></div>
+  <div class="dots" id="dots"></div>
+  <h1 id="title"></h1>
+  <div class="sub" id="sub"></div>
+  <div class="url">calendar.armid.in</div>
+  <div class="site" id="site"></div>
+  <script>
+    for (let i = 0; i < 14; i++) {
+      const c = document.createElement('i');
+      if (i === 9) c.className = 'on';
+      document.getElementById('dots').appendChild(c);
+    }
+    window.render = async function (data) {
+      document.getElementById('kicker').textContent = data.kicker;
+      const title = document.getElementById('title');
+      title.textContent = data.title;
+      title.style.fontSize = data.title.length > 22 ? '64px' : '84px';
+      document.getElementById('sub').textContent = data.subtitle;
+      document.getElementById('site').textContent = data.lang === 'ml' ? 'മലയാളം കലണ്ടർ' : 'Malayalam Calendar';
+      document.documentElement.lang = data.lang === 'ml' ? 'ml' : 'en';
+      await document.fonts.ready;
+      return true;
+    };
+  </script>
+</body></html>

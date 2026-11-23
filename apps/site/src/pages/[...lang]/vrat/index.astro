@@ -1,0 +1,31 @@
+---
+// Fasting days: links to this year's list of each.
+import Base from '../../../layouts/Base.astro';
+import { featureYears, keralaToday, vrats, type Lang } from '../../../lib/data';
+import { breadcrumbs, href, langOf, langParam, langs, t } from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang: langParam(lang) } }));
+}
+
+const lang: Lang = langOf(Astro.params.lang);
+const thisYear = Number(keralaToday().slice(0, 4));
+const year = featureYears.includes(thisYear) ? thisYear : featureYears[0];
+const title = t(lang, 'vratPages');
+const description = lang === 'ml'
+  ? 'ഏകാദശി, പ്രദോഷം, ഷഷ്ഠി, പൗർണ്ണമി, അമാവാസി ദിവസങ്ങൾ.'
+  : 'Ekadashi, Pradosham, Shashti, Pournami and Amavasya days.';
+---
+<Base lang={lang} path="/vrat/" title={title} description={description}
+  jsonLd={breadcrumbs(lang, [[title, '/vrat/']])}>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <div class="months">
+    {Object.keys(vrats).map((v) => (
+      <a href={href(lang, `/vrat/${v}/${year}/`)}>
+        <strong>{vrats[v][lang]}</strong>
+        <span class="sub">{year} · {vrats[v].days[String(year)]?.length ?? 0}</span>
+      </a>
+    ))}
+  </div>
+</Base>
